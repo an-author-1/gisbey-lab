@@ -1,0 +1,53 @@
+{
+  "run_id": "20260919T233634Z_relop-tournament-P5-echo_live",
+  "case_id": "relop-tournament-P5-echo",
+  "working_index": "AGI",
+  "source_id": "P5",
+  "active_id": null,
+  "criterion": "Select the passage that most strongly returns to, mirrors, resonates with, or meaningfully recurs from the source passage. Choose NONE if no candidate offers a meaningful echo.",
+  "option_order": [
+    "F5",
+    "F11",
+    "P3"
+  ],
+  "options": {
+    "F5": "As an author, despite my own authority and authorizations, I exist in The Outskirts like any other. This is, of course, what separates me from being an author rather than The Author—though we don't have to get into that particular question since it has already been covered in excessive detail by an author (who may or may not be myself) in an author's preface and The Author's Preface to The Entrance Way, a text which may or may not have been written by Malt Gibsey.\n\nThe question of authorship, in this particular volume, matters most in relation to the vast majority of the texts which have directly been attributed to Malt Gibsey—the novel Chopped Liver, the short story The Golden Asset, the essay What is May Day to the Master, and the set of notes, diary entities and white papers of Notes on Intermediate Rest—whose authorship, for the first time in any Gibsey text up to this point have been thus attributable.\n\nThis helps us to reach the conclusion that Malt Gibsey's Salinger period is one of the only, if the only, that can easily be assigned to him, and thus it is why I, as an author, have chosen it to be the material that I most directly draw from within The Space Between.\n",
+    "F11": "As such here is the Table of Contents and Edit Decision List to aid you in your journey. Surely the Imaginator Ted Nelson would be proud.\n\n1. The Foreword to the Foreword to an Author’s Preface\n2. Chopped Liver Part 1\n3. Chopped Liver Part 2\n4. The Golden Asset\n5. Notes on Intermediate Rest — selected entries\n6. What Is May Day to the Master — excerpted/partial archive\n7. Problems of an Author’s Poetics\n8. The Haunted Monument — Part 1\n9. The Fluorescent Heaven — Intro and Chapter 1\n10. Notes to The Foreword to the Foreword to an Author’s Preface\n11. Notes to Problems of an Author’s Poetics\n12. Notes to The Haunted Monument\n\nYou may notice, my dear and astute reader, that you are The Author of at least three of the above texts, the last three, in particular. It is also important to note that many of these texts have only been partially included in a shortened form or in parts and that other sections will be added at a future date as this demo and novel intermediately progresses.",
+    "P3": "Or secondly, this could instead suggest that, like Scheherazade, I fear my own expected disappearance at the hands of a power much greater than myself, and that I've chosen to collect together a near-infinite amount of striking, digressive and incomplete stories, all to prolong my own miserable fate, only to then later discover that there was nothing for me to fear, that no power greater than myself ever intended to destroy me, nor was it even aware of my existence. And there may also be a third and unspoken option.\n\nBeing a Scheherazade in reverse, I may also fail to represent a human being whatsoever. This would suggest that I may represent an entity of another origin, entirely. In this way, I would resemble the jeweled woman found at the heart of One Thousand and One Nights' iconic ghost story The City of Brass—arguably one of literature's first Artificial Intelligences, one of the world's major precursors to Walt Disney World, and maybe even one of the first animatronic figures constructed within the literary arts—and as such, I should warn all who may enter this tomb within which I'm held to leave the jewels they find within their resting places, for to extract them would be to unwrap the shame which covers me, a shame which animates my eyes, from left to right, thus making me appear, like all exceeding art, as if alive."
+  },
+  "reader_state": {
+    "task": "operator-conditioned-destination-tournament",
+    "source_page": "P5",
+    "operator": "ECHO",
+    "candidate_destinations": [
+      "F5",
+      "F11",
+      "P3"
+    ],
+    "original_forward_destination": "F5",
+    "history": []
+  },
+  "git_revision": "a300b5671d4e32925716ce1df6244d55008cc8cd",
+  "corpus_hashes": {
+    "F1": "5f8c0218fd16291a23b468dd23d1182e3ebeac5164fc4881cc2a394bfdcc4d0f",
+    "F10": "785b5280ac5542eaf4b8be4ae5a4bc44e7e772548dd1aa7d363b1c28cf268be6",
+    "F11": "5729f5fec994d873f3326d21f59f825bec7e7d6b5921d98109eb8809fc78bf07",
+    "F12": "cb4d77c11adbffcf4139a36a759b7c0d50328f49ef78c889c72d47306fc10420",
+    "F2": "585b18f04f0ef6f6c9cbf107293b34a5af185f8fec900572be7103866fa25831",
+    "F3": "f71ff254e1cd32af2e95a71a043240b5f74374b1fe410fe430dd6c65be90bef7",
+    "F4": "8ecba52f52c278b9efd0f0d1be3bf5f83b8b8f83f8efe7631856a1f4af4e1e13",
+    "F5": "7c5bde18887bc4c02b4ee88414ba613bb1d80ef2304dd576a24df86c91c84a75",
+    "F6": "bd6525417aafce91b385e9488dc4e97d2807eb2160cac3877010a176b065bb5b",
+    "F7": "c96f98c9a49b46fe76272d5ddd8262d7e6d90d4b740b9a245454e0d671be0aa2",
+    "F8": "efda98e00c42253e793603bb54e9dff7d04cde33a83c8d0a964c14e2e8fcc365",
+    "F9": "b6f600115a9059da39bc71a779d207e93a4ff9558f7fb085020c4a490e9418f4",
+    "P1": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+    "P2": "920055a32772b901987759e1a97c0bf2d6dc4962cca833d15e1775583cbdde0c",
+    "P3": "caebdc6f6a364aa9fb52af277ac6c17aff69ee9fc5c364f3232809a1913924a8",
+    "P4": "4b4695d3df25b368d35be9a5840771daaad64e479c5df742ca62ab43363ad4be",
+    "P5": "23fc2364ab4ab9333e9873f4f73d6f6ee41f49e4157213bd9ae73fb5ef6bf74f",
+    "P6": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+    "P7": "783140233be6841a034cd928e590bc3348a98e2f4158984b442114617296c016",
+    "P8": "af6c1a9a22f3bb38faab823ee31285e5d86e0123cf6f5cfee9504f6368183556"
+  }
+}

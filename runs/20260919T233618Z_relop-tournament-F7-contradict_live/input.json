@@ -1,0 +1,53 @@
+{
+  "run_id": "20260919T233618Z_relop-tournament-F7-contradict_live",
+  "case_id": "relop-tournament-F7-contradict",
+  "working_index": "AGI",
+  "source_id": "F7",
+  "active_id": null,
+  "criterion": "Select the passage that most meaningfully resists, reverses, destabilizes, challenges, or creates tension with the source passage. Choose NONE if no candidate creates meaningful tension.",
+  "option_order": [
+    "F5",
+    "F8",
+    "P1"
+  ],
+  "options": {
+    "F5": "As an author, despite my own authority and authorizations, I exist in The Outskirts like any other. This is, of course, what separates me from being an author rather than The Author—though we don't have to get into that particular question since it has already been covered in excessive detail by an author (who may or may not be myself) in an author's preface and The Author's Preface to The Entrance Way, a text which may or may not have been written by Malt Gibsey.\n\nThe question of authorship, in this particular volume, matters most in relation to the vast majority of the texts which have directly been attributed to Malt Gibsey—the novel Chopped Liver, the short story The Golden Asset, the essay What is May Day to the Master, and the set of notes, diary entities and white papers of Notes on Intermediate Rest—whose authorship, for the first time in any Gibsey text up to this point have been thus attributable.\n\nThis helps us to reach the conclusion that Malt Gibsey's Salinger period is one of the only, if the only, that can easily be assigned to him, and thus it is why I, as an author, have chosen it to be the material that I most directly draw from within The Space Between.\n",
+    "F8": "However, an important distinction should clearly be made. Salinger was reclusive by choice, and it would appear that Malt Gibsey most certainly was not.\n\nThough also, things are not always as they appear, and as we face this era outside of time—if time outside of time can even thus be called an “era”—one can’t help but wonder if Malt Gibsey is still with, even if only in spirit.\n\nWhat this spirit is exactly will be up to the reader to decide, and whether or not that itself is a subversive, or Subversionist, question to consider can instead be taken up by Jacklyn Variance in documents such as Problems of an author’s Poetics, a redundant, rambly, overblown, and needlessly digressive text if there ever was one.\n\nAnd as such, I thus turn to you, my dear and astute reader, and how you can join me in pursuing my exegetical objective\n",
+    "P1": "I didn't write this.\n\nThis is a found text, and thus far, the identity of The Author—the original author—has yet to be definitively located.\n\nIn this way, the content of this novel resembles the Giallo films of Italian cinema where a killer's identity is withheld from the audience until the film's final act in order to intensify a great and ruinous mystery. Alternatively, this collection may also resemble an American detective novel such as Raymond Chandler's The Big Sleep, famous for its author's confessed bewilderment regarding the identity of the killer deeply entwined within Chandler's very own intricately constructed and labyrinthian plot."
+  },
+  "reader_state": {
+    "task": "operator-conditioned-destination-tournament",
+    "source_page": "F7",
+    "operator": "CONTRADICT",
+    "candidate_destinations": [
+      "F5",
+      "F8",
+      "P1"
+    ],
+    "original_forward_destination": "F8",
+    "history": []
+  },
+  "git_revision": "a300b5671d4e32925716ce1df6244d55008cc8cd",
+  "corpus_hashes": {
+    "F1": "5f8c0218fd16291a23b468dd23d1182e3ebeac5164fc4881cc2a394bfdcc4d0f",
+    "F10": "785b5280ac5542eaf4b8be4ae5a4bc44e7e772548dd1aa7d363b1c28cf268be6",
+    "F11": "5729f5fec994d873f3326d21f59f825bec7e7d6b5921d98109eb8809fc78bf07",
+    "F12": "cb4d77c11adbffcf4139a36a759b7c0d50328f49ef78c889c72d47306fc10420",
+    "F2": "585b18f04f0ef6f6c9cbf107293b34a5af185f8fec900572be7103866fa25831",
+    "F3": "f71ff254e1cd32af2e95a71a043240b5f74374b1fe410fe430dd6c65be90bef7",
+    "F4": "8ecba52f52c278b9efd0f0d1be3bf5f83b8b8f83f8efe7631856a1f4af4e1e13",
+    "F5": "7c5bde18887bc4c02b4ee88414ba613bb1d80ef2304dd576a24df86c91c84a75",
+    "F6": "bd6525417aafce91b385e9488dc4e97d2807eb2160cac3877010a176b065bb5b",
+    "F7": "c96f98c9a49b46fe76272d5ddd8262d7e6d90d4b740b9a245454e0d671be0aa2",
+    "F8": "efda98e00c42253e793603bb54e9dff7d04cde33a83c8d0a964c14e2e8fcc365",
+    "F9": "b6f600115a9059da39bc71a779d207e93a4ff9558f7fb085020c4a490e9418f4",
+    "P1": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+    "P2": "920055a32772b901987759e1a97c0bf2d6dc4962cca833d15e1775583cbdde0c",
+    "P3": "caebdc6f6a364aa9fb52af277ac6c17aff69ee9fc5c364f3232809a1913924a8",
+    "P4": "4b4695d3df25b368d35be9a5840771daaad64e479c5df742ca62ab43363ad4be",
+    "P5": "23fc2364ab4ab9333e9873f4f73d6f6ee41f49e4157213bd9ae73fb5ef6bf74f",
+    "P6": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+    "P7": "783140233be6841a034cd928e590bc3348a98e2f4158984b442114617296c016",
+    "P8": "af6c1a9a22f3bb38faab823ee31285e5d86e0123cf6f5cfee9504f6368183556"
+  }
+}

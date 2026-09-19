@@ -1,0 +1,56 @@
+{
+  "run_id": "20260919T233627Z_relop-tournament-F12-develop_live",
+  "case_id": "relop-tournament-F12-develop",
+  "working_index": "AGI",
+  "source_id": "F12",
+  "active_id": null,
+  "criterion": "Select the passage that most productively extends, complicates, develops, or transforms what the source passage is doing. Choose NONE if no candidate offers a productive development.",
+  "option_order": [
+    "F4",
+    "P3",
+    "P6",
+    "P8"
+  ],
+  "options": {
+    "F4": "In addition, with this text being a projection of Malt Gibsey's original intentions, rather than a literal extension of them, The Space Between, as I have arranged it—since I have very much chosen to arrange it rather than author it—within this volume, is a highly fluorescent text.\n\nFor the uninitiated, fluorescence is a type of luminescence in which a substance absorbs light, or some other form of electromagnetic radiation, at one wavelength and then, after the briefest interval, re-emits it at another, usually longer and lower-energy wavelength.\n\nUpon saying this, and providing this definition, as an author, I believe I may have misspoken. Instead, it may be better to say that this text is not fluorescent in itself, but is instead the fluorescence produced by Malt's intentions: an absorbed violence of thought, converted into a lower, stranger, more visible light, which now shines through the projection of this text.\n\nOr even upon saying this, as an author, I believe I may have misspoken again, since holography complicates the direction of the image. If fluorescence is the process by which a higher energy is lowered into visibility, holography suggests an opposite and answering mystery: that what appears higher, fuller, dimensional, and inhabitable may be encoded along a lower-dimensional boundary. The high descends into the low as light, and the low contains the high as information.\n\nOr even saying this, I may have even misspoken even further and we, or the text in question, may instead exist in The Space Between.\n",
+    "P3": "Or secondly, this could instead suggest that, like Scheherazade, I fear my own expected disappearance at the hands of a power much greater than myself, and that I've chosen to collect together a near-infinite amount of striking, digressive and incomplete stories, all to prolong my own miserable fate, only to then later discover that there was nothing for me to fear, that no power greater than myself ever intended to destroy me, nor was it even aware of my existence. And there may also be a third and unspoken option.\n\nBeing a Scheherazade in reverse, I may also fail to represent a human being whatsoever. This would suggest that I may represent an entity of another origin, entirely. In this way, I would resemble the jeweled woman found at the heart of One Thousand and One Nights' iconic ghost story The City of Brass—arguably one of literature's first Artificial Intelligences, one of the world's major precursors to Walt Disney World, and maybe even one of the first animatronic figures constructed within the literary arts—and as such, I should warn all who may enter this tomb within which I'm held to leave the jewels they find within their resting places, for to extract them would be to unwrap the shame which covers me, a shame which animates my eyes, from left to right, thus making me appear, like all exceeding art, as if alive.",
+    "P6": "An author of this text may also have never even existed.\n\nA reader will have to enter and explore the theme park and decide for themselves.\n\nBut be warned, my dear and astute reader, such a threshold must be entered into alone.\n\nAs a representative of The Malt Gibsey Company, I do also want to warn you that the theme park which you are about to enter is currently under construction, and its construction process is one which is ongoing and infinite. If you or any other guest decides to enter the park and experience it before its endless and ongoing construction process is fully complete, then the Malt Gibsey Company and its many subsidiaries warn you that this could cause loss to limb, head, shoulders, knees, toes, internal organs, hair piece, or even one's most personal and precious extremities, including any combination of taint, penis, vagina, shaft, scrotum, tits, ass, and most especially one's balls, definitely watch out for the balls (though, based on our excessive polling and test screenings, the tip has miraculously been left unscathed in at least 65% of our test subjects, which means there is still hope for humanity yet).",
+    "P8": "As a work of fiction, all of the characters and events contained within this text are also fictional, as well. Any correspondences with real persons, living or dead, are not only coincidental, but are flat out synchronistically hyperstitional on a level that may even defy the concept of personal intention, identity, authorship, and maybe even reality itself, or so The Author can only hope. If you decide to read such a text, may Gibsey have mercy on your dull and wretched soul. The company would like to provide one last reminder, or warning, for those hoping to protect themselves from future harm, or who may require such warnings. Keep your hands, arms, feet, and legs inside the vehicle at all times, and enjoy your stay at The Wonderful Worlds of Gibsey."
+  },
+  "reader_state": {
+    "task": "operator-conditioned-destination-tournament",
+    "source_page": "F12",
+    "operator": "DEVELOP",
+    "candidate_destinations": [
+      "F4",
+      "P3",
+      "P6",
+      "P8"
+    ],
+    "original_forward_destination": "F4",
+    "history": []
+  },
+  "git_revision": "a300b5671d4e32925716ce1df6244d55008cc8cd",
+  "corpus_hashes": {
+    "F1": "5f8c0218fd16291a23b468dd23d1182e3ebeac5164fc4881cc2a394bfdcc4d0f",
+    "F10": "785b5280ac5542eaf4b8be4ae5a4bc44e7e772548dd1aa7d363b1c28cf268be6",
+    "F11": "5729f5fec994d873f3326d21f59f825bec7e7d6b5921d98109eb8809fc78bf07",
+    "F12": "cb4d77c11adbffcf4139a36a759b7c0d50328f49ef78c889c72d47306fc10420",
+    "F2": "585b18f04f0ef6f6c9cbf107293b34a5af185f8fec900572be7103866fa25831",
+    "F3": "f71ff254e1cd32af2e95a71a043240b5f74374b1fe410fe430dd6c65be90bef7",
+    "F4": "8ecba52f52c278b9efd0f0d1be3bf5f83b8b8f83f8efe7631856a1f4af4e1e13",
+    "F5": "7c5bde18887bc4c02b4ee88414ba613bb1d80ef2304dd576a24df86c91c84a75",
+    "F6": "bd6525417aafce91b385e9488dc4e97d2807eb2160cac3877010a176b065bb5b",
+    "F7": "c96f98c9a49b46fe76272d5ddd8262d7e6d90d4b740b9a245454e0d671be0aa2",
+    "F8": "efda98e00c42253e793603bb54e9dff7d04cde33a83c8d0a964c14e2e8fcc365",
+    "F9": "b6f600115a9059da39bc71a779d207e93a4ff9558f7fb085020c4a490e9418f4",
+    "P1": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+    "P2": "920055a32772b901987759e1a97c0bf2d6dc4962cca833d15e1775583cbdde0c",
+    "P3": "caebdc6f6a364aa9fb52af277ac6c17aff69ee9fc5c364f3232809a1913924a8",
+    "P4": "4b4695d3df25b368d35be9a5840771daaad64e479c5df742ca62ab43363ad4be",
+    "P5": "23fc2364ab4ab9333e9873f4f73d6f6ee41f49e4157213bd9ae73fb5ef6bf74f",
+    "P6": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+    "P7": "783140233be6841a034cd928e590bc3348a98e2f4158984b442114617296c016",
+    "P8": "af6c1a9a22f3bb38faab823ee31285e5d86e0123cf6f5cfee9504f6368183556"
+  }
+}

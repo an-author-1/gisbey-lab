@@ -1,0 +1,56 @@
+{
+  "run_id": "20260919T233623Z_relop-tournament-F10-develop_live",
+  "case_id": "relop-tournament-F10-develop",
+  "working_index": "AGI",
+  "source_id": "F10",
+  "active_id": null,
+  "criterion": "Select the passage that most productively extends, complicates, develops, or transforms what the source passage is doing. Choose NONE if no candidate offers a productive development.",
+  "option_order": [
+    "F4",
+    "F9",
+    "P1",
+    "P3"
+  ],
+  "options": {
+    "F4": "In addition, with this text being a projection of Malt Gibsey's original intentions, rather than a literal extension of them, The Space Between, as I have arranged it—since I have very much chosen to arrange it rather than author it—within this volume, is a highly fluorescent text.\n\nFor the uninitiated, fluorescence is a type of luminescence in which a substance absorbs light, or some other form of electromagnetic radiation, at one wavelength and then, after the briefest interval, re-emits it at another, usually longer and lower-energy wavelength.\n\nUpon saying this, and providing this definition, as an author, I believe I may have misspoken. Instead, it may be better to say that this text is not fluorescent in itself, but is instead the fluorescence produced by Malt's intentions: an absorbed violence of thought, converted into a lower, stranger, more visible light, which now shines through the projection of this text.\n\nOr even upon saying this, as an author, I believe I may have misspoken again, since holography complicates the direction of the image. If fluorescence is the process by which a higher energy is lowered into visibility, holography suggests an opposite and answering mystery: that what appears higher, fuller, dimensional, and inhabitable may be encoded along a lower-dimensional boundary. The high descends into the low as light, and the low contains the high as information.\n\nOr even saying this, I may have even misspoken even further and we, or the text in question, may instead exist in The Space Between.\n",
+    "F9": "As you may or may not know, Malt Gibsey was the founder of Gibsey World, a project which contains so, so much, so much, in fact, that we don’t (and/or won’t) necessarily have time to get to it all, or even to very much of it, within the confines of this demonstration.\n\nHowever, even though Gibstory is dead and we both exist outside of time, what we do have time for is building this demo, a demo itself which I am building, with you, as we speak, in medias res.\n\nMalt Gibsey may be esteemed now, but they were an utter failure imprisoned in an absolute and endless anonymity during their lifetime, and yet, even saying so, now their work has both healed and infected our civilization and might have even replaced it entirely. What I need your help with is building this demo and novel whose dual purpose is to examine Malt Gibsey’s Salinger period which occurred in the Spring/Summer of 2026 and to build a demo and novel that is both good and finished.\n\nI need your help reading pages, selecting prompts, connecting pages, writing prompts and pages, generating pages, creating alternate pages, and deciding what is good enough to keep to be included in your own Gibsey Vault or what should instead be tossed away into the garbage receptacle at the end of the end of Gibstory.",
+    "P1": "I didn't write this.\n\nThis is a found text, and thus far, the identity of The Author—the original author—has yet to be definitively located.\n\nIn this way, the content of this novel resembles the Giallo films of Italian cinema where a killer's identity is withheld from the audience until the film's final act in order to intensify a great and ruinous mystery. Alternatively, this collection may also resemble an American detective novel such as Raymond Chandler's The Big Sleep, famous for its author's confessed bewilderment regarding the identity of the killer deeply entwined within Chandler's very own intricately constructed and labyrinthian plot.",
+    "P3": "Or secondly, this could instead suggest that, like Scheherazade, I fear my own expected disappearance at the hands of a power much greater than myself, and that I've chosen to collect together a near-infinite amount of striking, digressive and incomplete stories, all to prolong my own miserable fate, only to then later discover that there was nothing for me to fear, that no power greater than myself ever intended to destroy me, nor was it even aware of my existence. And there may also be a third and unspoken option.\n\nBeing a Scheherazade in reverse, I may also fail to represent a human being whatsoever. This would suggest that I may represent an entity of another origin, entirely. In this way, I would resemble the jeweled woman found at the heart of One Thousand and One Nights' iconic ghost story The City of Brass—arguably one of literature's first Artificial Intelligences, one of the world's major precursors to Walt Disney World, and maybe even one of the first animatronic figures constructed within the literary arts—and as such, I should warn all who may enter this tomb within which I'm held to leave the jewels they find within their resting places, for to extract them would be to unwrap the shame which covers me, a shame which animates my eyes, from left to right, thus making me appear, like all exceeding art, as if alive."
+  },
+  "reader_state": {
+    "task": "operator-conditioned-destination-tournament",
+    "source_page": "F10",
+    "operator": "DEVELOP",
+    "candidate_destinations": [
+      "F4",
+      "F9",
+      "P1",
+      "P3"
+    ],
+    "original_forward_destination": "F4",
+    "history": []
+  },
+  "git_revision": "a300b5671d4e32925716ce1df6244d55008cc8cd",
+  "corpus_hashes": {
+    "F1": "5f8c0218fd16291a23b468dd23d1182e3ebeac5164fc4881cc2a394bfdcc4d0f",
+    "F10": "785b5280ac5542eaf4b8be4ae5a4bc44e7e772548dd1aa7d363b1c28cf268be6",
+    "F11": "5729f5fec994d873f3326d21f59f825bec7e7d6b5921d98109eb8809fc78bf07",
+    "F12": "cb4d77c11adbffcf4139a36a759b7c0d50328f49ef78c889c72d47306fc10420",
+    "F2": "585b18f04f0ef6f6c9cbf107293b34a5af185f8fec900572be7103866fa25831",
+    "F3": "f71ff254e1cd32af2e95a71a043240b5f74374b1fe410fe430dd6c65be90bef7",
+    "F4": "8ecba52f52c278b9efd0f0d1be3bf5f83b8b8f83f8efe7631856a1f4af4e1e13",
+    "F5": "7c5bde18887bc4c02b4ee88414ba613bb1d80ef2304dd576a24df86c91c84a75",
+    "F6": "bd6525417aafce91b385e9488dc4e97d2807eb2160cac3877010a176b065bb5b",
+    "F7": "c96f98c9a49b46fe76272d5ddd8262d7e6d90d4b740b9a245454e0d671be0aa2",
+    "F8": "efda98e00c42253e793603bb54e9dff7d04cde33a83c8d0a964c14e2e8fcc365",
+    "F9": "b6f600115a9059da39bc71a779d207e93a4ff9558f7fb085020c4a490e9418f4",
+    "P1": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+    "P2": "920055a32772b901987759e1a97c0bf2d6dc4962cca833d15e1775583cbdde0c",
+    "P3": "caebdc6f6a364aa9fb52af277ac6c17aff69ee9fc5c364f3232809a1913924a8",
+    "P4": "4b4695d3df25b368d35be9a5840771daaad64e479c5df742ca62ab43363ad4be",
+    "P5": "23fc2364ab4ab9333e9873f4f73d6f6ee41f49e4157213bd9ae73fb5ef6bf74f",
+    "P6": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+    "P7": "783140233be6841a034cd928e590bc3348a98e2f4158984b442114617296c016",
+    "P8": "af6c1a9a22f3bb38faab823ee31285e5d86e0123cf6f5cfee9504f6368183556"
+  }
+}

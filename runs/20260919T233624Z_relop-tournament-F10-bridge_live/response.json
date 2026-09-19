@@ -1,0 +1,20 @@
+{
+  "live": true,
+  "requested_model": "jev-1.13.0",
+  "returned_model": "jev-1.13.0",
+  "choice": "P3",
+  "confidence": 0.51,
+  "probabilities": {
+    "F9": 0.03,
+    "F4": 0.2,
+    "P3": 0.63,
+    "P1": 0.14
+  },
+  "usage": {
+    "input_tokens": 1759,
+    "output_tokens": 50
+  },
+  "elapsed_seconds": 0.48169033403974026,
+  "retries": 0,
+  "error": null
+}
