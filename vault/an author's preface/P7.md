@@ -1,0 +1,3 @@
+The Malt Gibsey Company is not liable for any damages, curses, spells, or unexpected disappearances that may accrue due to one's own idiotic decision to read something from an author that has still yet to reach its final conclusion.
+
+However, if any personal revelations, spiritual enlightenment, ability to float or hover in the air at will, telekinesis, cure for erectile dysfunction, or any other kind of positive effect, mindset, mental power or acuity, let alone any kind of significance, is to be found within these passages, then the Malt Gibsey Company take full responsibility for these specific effects and hold the copyright therein.

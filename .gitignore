@@ -1,0 +1,23 @@
+# Secrets
+.env
+.env.*
+!.env.example
+credentials.local*
+
+# Transient Obsidian workspace state (not source material)
+vault/.obsidian/workspace.json
+vault/.obsidian/workspace-mobile.json
+vault/.obsidian/workspace.json.bak
+
+# OS / editor cruft
+.DS_Store
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
