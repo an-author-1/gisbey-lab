@@ -1,0 +1,16 @@
+{
+  "case_id": "f12-micro",
+  "is_abstention": false,
+  "selected_id": "F12.S7",
+  "selected_text": "Gibsey has been structured in previous forms, in this form, and the forms it will take in the future, to better visualize and participate in that creative, constructive, reconstructive, and deconstructive process.",
+  "confidence": 0.32,
+  "probabilities": {
+    "F12.S2": 0.06,
+    "F12.S6": 0.39,
+    "F12.S1": 0.0,
+    "F12.S8": 0.01,
+    "F12.S7": 0.42,
+    "F12.S9": 0.03,
+    "NONE": 0.09
+  }
+}
