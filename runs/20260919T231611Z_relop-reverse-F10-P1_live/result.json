@@ -1,0 +1,14 @@
+{
+  "case_id": "relop-reverse-F10-P1",
+  "is_abstention": false,
+  "selected_id": "CONTRADICT",
+  "selected_text": "The destination most meaningfully resists, reverses, destabilizes, challenges, or creates tension with the source.",
+  "confidence": 0.29,
+  "probabilities": {
+    "BRIDGE": 0.07,
+    "CONTRADICT": 0.44,
+    "ECHO": 0.09,
+    "NONE": 0.0,
+    "DEVELOP": 0.4
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "case_id": "relop-reverse-F12-P8",
+  "is_abstention": false,
+  "selected_id": "ECHO",
+  "selected_text": "The destination most strongly returns to, mirrors, resonates with, or meaningfully recurs from the source.",
+  "confidence": 0.88,
+  "probabilities": {
+    "DEVELOP": 0.09,
+    "BRIDGE": 0.0,
+    "ECHO": 0.91,
+    "CONTRADICT": 0.0,
+    "NONE": 0.0
+  }
+}

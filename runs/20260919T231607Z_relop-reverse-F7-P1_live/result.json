@@ -1,0 +1,14 @@
+{
+  "case_id": "relop-reverse-F7-P1",
+  "is_abstention": false,
+  "selected_id": "DEVELOP",
+  "selected_text": "The destination most productively extends, complicates, develops, or transforms what the source is doing.",
+  "confidence": 0.2,
+  "probabilities": {
+    "DEVELOP": 0.36,
+    "NONE": 0.08,
+    "BRIDGE": 0.2,
+    "CONTRADICT": 0.26,
+    "ECHO": 0.1
+  }
+}

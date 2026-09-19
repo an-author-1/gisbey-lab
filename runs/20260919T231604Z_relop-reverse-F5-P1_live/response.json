@@ -1,0 +1,21 @@
+{
+  "live": true,
+  "requested_model": "jev-1.13.0",
+  "returned_model": "jev-1.13.0",
+  "choice": "DEVELOP",
+  "confidence": 0.29,
+  "probabilities": {
+    "DEVELOP": 0.44,
+    "BRIDGE": 0.02,
+    "ECHO": 0.31,
+    "CONTRADICT": 0.23,
+    "NONE": 0.0
+  },
+  "usage": {
+    "input_tokens": 912,
+    "output_tokens": 60
+  },
+  "elapsed_seconds": 0.4321018750779331,
+  "retries": 0,
+  "error": null
+}

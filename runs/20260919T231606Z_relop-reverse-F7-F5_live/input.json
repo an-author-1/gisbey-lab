@@ -1,0 +1,57 @@
+{
+  "run_id": "20260919T231606Z_relop-reverse-F7-F5_live",
+  "case_id": "relop-reverse-F7-F5",
+  "working_index": "AGI",
+  "source_id": "F7->F5",
+  "active_id": null,
+  "criterion": "Read the source passage and the destination passage below. Choose exactly one relational description that best characterizes how the destination relates to the source, when the destination is read immediately after the source.",
+  "option_order": [
+    "ECHO",
+    "DEVELOP",
+    "CONTRADICT",
+    "BRIDGE",
+    "NONE"
+  ],
+  "options": {
+    "ECHO": "The destination most strongly returns to, mirrors, resonates with, or meaningfully recurs from the source.",
+    "DEVELOP": "The destination most productively extends, complicates, develops, or transforms what the source is doing.",
+    "CONTRADICT": "The destination most meaningfully resists, reverses, destabilizes, challenges, or creates tension with the source.",
+    "BRIDGE": "The destination creates a useful connection to the source that is not primarily based on obvious surface similarity, repeated wording, or direct thematic overlap.",
+    "NONE": "None of the four relational descriptions meaningfully characterizes the relationship."
+  },
+  "reader_state": {
+    "task": "reverse-operator-typing",
+    "source_page": "F7",
+    "destination_page": "F5",
+    "forward_operators": [
+      "ECHO"
+    ],
+    "forward_confidences": [
+      0.59
+    ],
+    "history": []
+  },
+  "git_revision": "e485573ec24c6f40eba36331f1b48bc3051f8bac",
+  "corpus_hashes": {
+    "F1": "5f8c0218fd16291a23b468dd23d1182e3ebeac5164fc4881cc2a394bfdcc4d0f",
+    "F10": "785b5280ac5542eaf4b8be4ae5a4bc44e7e772548dd1aa7d363b1c28cf268be6",
+    "F11": "5729f5fec994d873f3326d21f59f825bec7e7d6b5921d98109eb8809fc78bf07",
+    "F12": "cb4d77c11adbffcf4139a36a759b7c0d50328f49ef78c889c72d47306fc10420",
+    "F2": "585b18f04f0ef6f6c9cbf107293b34a5af185f8fec900572be7103866fa25831",
+    "F3": "f71ff254e1cd32af2e95a71a043240b5f74374b1fe410fe430dd6c65be90bef7",
+    "F4": "8ecba52f52c278b9efd0f0d1be3bf5f83b8b8f83f8efe7631856a1f4af4e1e13",
+    "F5": "7c5bde18887bc4c02b4ee88414ba613bb1d80ef2304dd576a24df86c91c84a75",
+    "F6": "bd6525417aafce91b385e9488dc4e97d2807eb2160cac3877010a176b065bb5b",
+    "F7": "c96f98c9a49b46fe76272d5ddd8262d7e6d90d4b740b9a245454e0d671be0aa2",
+    "F8": "efda98e00c42253e793603bb54e9dff7d04cde33a83c8d0a964c14e2e8fcc365",
+    "F9": "b6f600115a9059da39bc71a779d207e93a4ff9558f7fb085020c4a490e9418f4",
+    "P1": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+    "P2": "920055a32772b901987759e1a97c0bf2d6dc4962cca833d15e1775583cbdde0c",
+    "P3": "caebdc6f6a364aa9fb52af277ac6c17aff69ee9fc5c364f3232809a1913924a8",
+    "P4": "4b4695d3df25b368d35be9a5840771daaad64e479c5df742ca62ab43363ad4be",
+    "P5": "23fc2364ab4ab9333e9873f4f73d6f6ee41f49e4157213bd9ae73fb5ef6bf74f",
+    "P6": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+    "P7": "783140233be6841a034cd928e590bc3348a98e2f4158984b442114617296c016",
+    "P8": "af6c1a9a22f3bb38faab823ee31285e5d86e0123cf6f5cfee9504f6368183556"
+  }
+}
