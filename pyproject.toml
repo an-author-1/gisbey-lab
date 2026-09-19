@@ -1,0 +1,22 @@
+[project]
+name = "gibsey-lab"
+version = "0.1.0"
+description = "Local experiment harness for Gibsey Lab: QDPI-guided Jev experiments over the authored corpus."
+requires-python = ">=3.10"
+dependencies = [
+    "typesafe-sdk",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+gibsey = "gibsey_lab.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

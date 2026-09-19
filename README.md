@@ -8,7 +8,7 @@ Gibsey supplies the authored world and literary material. The lab investigates c
 
 **Jev is a core component of the first experiments.** We will use it to make structured judgments about supplied passages and candidate connections, then inspect those judgments against the text. Language models can supply written interpretations and, in later experiments, generate material under the appropriate QDPI function.
 
-**Status — 19 September 2026:** This README is the launch plan. The initial commit will contain this document, the QDPI master function matrix, and the twenty authored Pages. The experiment harness, integrations, and results still need to be built. Everything below marked as a proposed path, experiment, or component describes intended work, not an existing feature.
+**Status — 19 September 2026:** The corpus (twenty authored Pages), the QDPI master function matrix, and a working local experiment harness are implemented and committed. See "Implementation Status and Commands" below for what actually runs today, what is verified offline vs. against a real Jev call, and what remains open (an unreviewed F12 sentence mapping). Everything else in this document that is still marked as a proposed path or future experiment (02–04, and interfaces/scale beyond the local CLI) remains intended work, not an existing feature.
 
 ---
 
@@ -314,20 +314,114 @@ Keep model integration separate from QDPI rules so experiments can compare provi
 | `notes/`                         | Findings and open questions                                                 |
 | `tests/`                         | Meaningful checks for corpus integrity, eligibility, and state preservation |
 
-There is no project installation or run command yet. The next build should add the actual commands and update this status after verification.
-
 Keep API secrets and transient Obsidian workspace settings out of Git; add a credentials template containing names only.
+
+---
+
+## Implementation Status and Commands
+
+The harness above is implemented as a small Python package, `src/gibsey_lab/`, installed
+into a project-local virtual environment.
+
+**Install:**
+
+```bash
+python3.12 -m venv .venv        # requires Python >= 3.10 (typesafe-sdk requirement)
+.venv/bin/pip install -e ".[dev]"
+cp .env.example .env            # then fill in TYPESAFE_API_KEY locally; .env is gitignored
+```
+
+**Validate the corpus** (loads all twenty Pages, checks for missing/empty/duplicate IDs,
+records content hashes to `data/corpus_manifest.json`):
+
+```bash
+gibsey validate-corpus
+```
+
+**Sentence mapping for the micro case** (`F12` currently splits cleanly into nine
+paragraph-delimited sentences; the mapping is proposed, not yet reviewed):
+
+```bash
+gibsey propose-sentence-map F12      # writes data/sentence_map.F12.json, status: proposed
+gibsey review-sentence-map F12       # prints it for review
+gibsey review-sentence-map F12 --approve   # after a human has reviewed it, status -> reviewed
+```
+
+**Run a case** (`f12-micro` requires the reviewed mapping above; `f12-macro` only needs
+F12 and the other nineteen Pages to be non-empty):
+
+```bash
+gibsey run-case f12-macro --mock     # deterministic offline adapter, no network/spend
+gibsey run-case f12-macro            # real Jev Choice call, requires TYPESAFE_API_KEY
+gibsey run-case f12-micro            # once the F12 mapping is reviewed
+```
+
+**Inspect and record a review** for a run (`RUN_ID` is the directory name printed by
+`run-case`, e.g. `20260919T195949Z_f12-macro_live`):
+
+```bash
+gibsey show-run RUN_ID
+gibsey review RUN_ID --correspondence "..." --change "..." --grounding 2 --effect 2 --decision accept
+```
+
+**Accept a proposal, follow its bond through Q, and preserve a realization through R**
+(none of this happens automatically — a Jev selection is only a proposal until a human
+takes these explicit steps):
+
+```bash
+PROPOSAL=$(gibsey propose RUN_ID)
+BOND=$(gibsey accept "$PROPOSAL")
+gibsey follow "$BOND"       # Q: moves the local reader_state to the target
+gibsey preserve "$BOND"     # R: writes the exact selected text + provenance into data/gibsey_vault/
+gibsey reader-state
+```
+
+`propose` / `accept` / `preserve` are repeat-safe: replaying the same run, proposal, or
+bond returns the existing record instead of creating a duplicate.
+
+**Run the tests:**
+
+```bash
+.venv/bin/python -m pytest -q
+```
+
+### Verified so far
+
+* Offline: 41 unit/integration tests pass, covering corpus loading and hashing, missing/empty-page
+  validation, micro/macro eligibility (including refusing to build a case from missing or
+  empty source text), the deterministic mock adapter, response validation (rejecting
+  out-of-set choices), the full propose → accept → follow → preserve state machine
+  (including repeat-safety and abstention/failure handling), and that credentials never
+  appear in `repr()`/`str()` or in saved run records.
+* Live: one real `f12-macro` Jev Choice call succeeded (`runs/20260919T195949Z_f12-macro_live/`),
+  selecting **P8** over the other 18 candidates and `NONE`, confidence 0.44. Saved input,
+  raw response, and report contain no credentials. Human review is left pending on purpose.
+* Not yet run live: `f12-micro`. It's implementation-complete and passes its offline tests,
+  but is correctly blocked because the F12 sentence mapping is still `proposed`, not
+  `reviewed` — see "Open items" below.
+
+### Open items
+
+* **F12 sentence mapping needs review.** `data/sentence_map.F12.json` proposes a clean
+  9-sentence, one-per-paragraph split of F12 (matching this README's own quoted `F12.S4`).
+  Run `gibsey review-sentence-map F12 --approve` after checking it, then `f12-micro` becomes
+  runnable.
+* **Env var naming.** The `.env` convention has been `TYPESAFE_API_KEY` / `TYPESAFE_MODEL`
+  since this build (the SDK itself reads `TYPESAFE_API_KEY`). An earlier, incorrect draft of
+  `.env.example` used `JEV_API_KEY` / `JEV_MODEL_ID`; the config loader still accepts those
+  as a fallback so an existing `.env` isn't broken, but new setups should use the canonical
+  names.
 
 ### First Milestone Acceptance Checklist
 
-* [ ] The corpus loads all twenty Pages with stable IDs and preserved text.
-* [ ] F12's nine-sentence mapping is available and reviewed.
-* [ ] Experiment 01 has an explicit candidate set, abstention option, and success criterion.
-* [ ] A real Jev call is recorded with its exact input, output, and versions.
-* [ ] Code validates the selected destination; a human reviews its literary effect.
-* [ ] An accepted bond can be followed through Q with an explicit recorded transition.
-* [ ] R preserves the selected realization and connections without overwriting the source.
-* [ ] The run produces evidence and a specific next question.
+* [x] The corpus loads all twenty Pages with stable IDs and preserved text.
+* [ ] F12's nine-sentence mapping is available and reviewed. (Proposed; awaiting `--approve`.)
+* [x] Experiment 01 has an explicit candidate set, abstention option, and success criterion.
+* [x] A real Jev call is recorded with its exact input, output, and versions. (`f12-macro`; `f12-micro` pending the mapping review above.)
+* [x] Code validates the selected destination; a human reviews its literary effect. (Validation implemented; human review of the live run's result is pending.)
+* [x] An accepted bond can be followed through Q with an explicit recorded transition. (Verified offline; not yet exercised on the live run's own result, since that acceptance is a human decision.)
+* [x] R preserves the selected realization and connections without overwriting the source. (Verified offline via `data/gibsey_vault/`.)
+* [x] The run produces evidence and a specific next question. (See "One concrete next experiment" — not yet in this file; see handoff notes.)
 
 ---
 

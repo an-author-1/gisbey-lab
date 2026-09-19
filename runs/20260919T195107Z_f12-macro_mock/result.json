@@ -1,0 +1,29 @@
+{
+  "case_id": "f12-macro",
+  "is_abstention": false,
+  "selected_id": "P8",
+  "selected_text": "As a work of fiction, all of the characters and events contained within this text are also fictional, as well. Any correspondences with real persons, living or dead, are not only coincidental, but are flat out synchronistically hyperstitional on a level that may even defy the concept of personal intention, identity, authorship, and maybe even reality itself, or so The Author can only hope. If you decide to read such a text, may Gibsey have mercy on your dull and wretched soul. The company would like to provide one last reminder, or warning, for those hoping to protect themselves from future harm, or who may require such warnings. Keep your hands, arms, feet, and legs inside the vehicle at all times, and enjoy your stay at The Wonderful Worlds of Gibsey.",
+  "confidence": 0.07941313460642757,
+  "probabilities": {
+    "F1": 0.05845365626455519,
+    "F2": 0.05845365626455519,
+    "F3": 0.06311131811830462,
+    "F4": 0.046809501630181646,
+    "F5": 0.04448067070330694,
+    "F6": 0.04215183977643223,
+    "F7": 0.04913833255705636,
+    "F8": 0.05379599441080577,
+    "F9": 0.07009781089892873,
+    "F10": 0.07242664182580344,
+    "F11": 0.05845365626455519,
+    "P1": 0.030507685142058684,
+    "P2": 0.03982300884955752,
+    "P3": 0.04448067070330694,
+    "P4": 0.05379599441080577,
+    "P5": 0.04448067070330694,
+    "P6": 0.056124825337680484,
+    "P7": 0.03283651606893339,
+    "P8": 0.07941313460642757,
+    "NONE": 0.0011644154634373543
+  }
+}
