@@ -1,0 +1,29 @@
+{
+  "case_id": "relop-full-F7-bridge",
+  "is_abstention": false,
+  "selected_id": "P1",
+  "selected_text": "I didn't write this.\n\nThis is a found text, and thus far, the identity of The Author—the original author—has yet to be definitively located.\n\nIn this way, the content of this novel resembles the Giallo films of Italian cinema where a killer's identity is withheld from the audience until the film's final act in order to intensify a great and ruinous mystery. Alternatively, this collection may also resemble an American detective novel such as Raymond Chandler's The Big Sleep, famous for its author's confessed bewilderment regarding the identity of the killer deeply entwined within Chandler's very own intricately constructed and labyrinthian plot.",
+  "confidence": 0.19,
+  "probabilities": {
+    "F4": 0.03,
+    "P1": 0.23,
+    "P8": 0.01,
+    "P7": 0.0,
+    "F6": 0.01,
+    "F9": 0.01,
+    "P4": 0.01,
+    "P3": 0.1,
+    "P5": 0.0,
+    "P6": 0.0,
+    "F11": 0.01,
+    "F2": 0.05,
+    "F8": 0.17,
+    "F10": 0.01,
+    "F5": 0.1,
+    "F3": 0.09,
+    "F1": 0.01,
+    "P2": 0.09,
+    "F12": 0.01,
+    "NONE": 0.06
+  }
+}

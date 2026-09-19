@@ -1,0 +1,29 @@
+{
+  "case_id": "relop-full-P6-contradict",
+  "is_abstention": false,
+  "selected_id": "P7",
+  "selected_text": "The Malt Gibsey Company is not liable for any damages, curses, spells, or unexpected disappearances that may accrue due to one's own idiotic decision to read something from an author that has still yet to reach its final conclusion.\n\nHowever, if any personal revelations, spiritual enlightenment, ability to float or hover in the air at will, telekinesis, cure for erectile dysfunction, or any other kind of positive effect, mindset, mental power or acuity, let alone any kind of significance, is to be found within these passages, then the Malt Gibsey Company take full responsibility for these specific effects and hold the copyright therein.",
+  "confidence": 0.33,
+  "probabilities": {
+    "F11": 0.01,
+    "F2": 0.01,
+    "P5": 0.01,
+    "F6": 0.02,
+    "F8": 0.02,
+    "P3": 0.02,
+    "P4": 0.06,
+    "F7": 0.01,
+    "F5": 0.07,
+    "P7": 0.37,
+    "F12": 0.13,
+    "P1": 0.07,
+    "P8": 0.04,
+    "F10": 0.01,
+    "F1": 0.03,
+    "F3": 0.0,
+    "P2": 0.02,
+    "F9": 0.04,
+    "NONE": 0.05,
+    "F4": 0.01
+  }
+}

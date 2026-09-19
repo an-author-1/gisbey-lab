@@ -1,0 +1,29 @@
+{
+  "case_id": "relop-full-F12-contradict",
+  "is_abstention": false,
+  "selected_id": "P6",
+  "selected_text": "An author of this text may also have never even existed.\n\nA reader will have to enter and explore the theme park and decide for themselves.\n\nBut be warned, my dear and astute reader, such a threshold must be entered into alone.\n\nAs a representative of The Malt Gibsey Company, I do also want to warn you that the theme park which you are about to enter is currently under construction, and its construction process is one which is ongoing and infinite. If you or any other guest decides to enter the park and experience it before its endless and ongoing construction process is fully complete, then the Malt Gibsey Company and its many subsidiaries warn you that this could cause loss to limb, head, shoulders, knees, toes, internal organs, hair piece, or even one's most personal and precious extremities, including any combination of taint, penis, vagina, shaft, scrotum, tits, ass, and most especially one's balls, definitely watch out for the balls (though, based on our excessive polling and test screenings, the tip has miraculously been left unscathed in at least 65% of our test subjects, which means there is still hope for humanity yet).",
+  "confidence": 0.53,
+  "probabilities": {
+    "P8": 0.06,
+    "F1": 0.08,
+    "P6": 0.55,
+    "P3": 0.01,
+    "F9": 0.01,
+    "F8": 0.01,
+    "F4": 0.03,
+    "NONE": 0.05,
+    "F6": 0.01,
+    "P5": 0.0,
+    "P7": 0.04,
+    "F3": 0.01,
+    "F10": 0.01,
+    "P4": 0.02,
+    "P1": 0.07,
+    "F11": 0.0,
+    "F2": 0.0,
+    "F7": 0.0,
+    "F5": 0.01,
+    "P2": 0.03
+  }
+}

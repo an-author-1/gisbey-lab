@@ -1,0 +1,29 @@
+{
+  "case_id": "relop-full-P5-contradict",
+  "is_abstention": false,
+  "selected_id": "F11",
+  "selected_text": "As such here is the Table of Contents and Edit Decision List to aid you in your journey. Surely the Imaginator Ted Nelson would be proud.\n\n1. The Foreword to the Foreword to an Author’s Preface\n2. Chopped Liver Part 1\n3. Chopped Liver Part 2\n4. The Golden Asset\n5. Notes on Intermediate Rest — selected entries\n6. What Is May Day to the Master — excerpted/partial archive\n7. Problems of an Author’s Poetics\n8. The Haunted Monument — Part 1\n9. The Fluorescent Heaven — Intro and Chapter 1\n10. Notes to The Foreword to the Foreword to an Author’s Preface\n11. Notes to Problems of an Author’s Poetics\n12. Notes to The Haunted Monument\n\nYou may notice, my dear and astute reader, that you are The Author of at least three of the above texts, the last three, in particular. It is also important to note that many of these texts have only been partially included in a shortened form or in parts and that other sections will be added at a future date as this demo and novel intermediately progresses.",
+  "confidence": 0.23,
+  "probabilities": {
+    "F9": 0.01,
+    "P7": 0.01,
+    "P2": 0.04,
+    "F3": 0.0,
+    "F10": 0.01,
+    "F12": 0.01,
+    "P4": 0.02,
+    "F5": 0.17,
+    "P6": 0.12,
+    "P1": 0.2,
+    "P8": 0.02,
+    "F11": 0.27,
+    "F1": 0.02,
+    "F6": 0.02,
+    "F8": 0.01,
+    "F4": 0.02,
+    "F7": 0.01,
+    "F2": 0.01,
+    "P3": 0.01,
+    "NONE": 0.02
+  }
+}
