@@ -1,0 +1,5 @@
+When she'd first built Synchromy-S.S.S.T.E.R.Y, she built it as a parody of all the mindlessly mystical, the magical thinkers, the brain-dead dreamers, out there, corrupting the sacred equilibrium of her otherwise ordered world. All who existed outside the mainstream, the fools, the freaks, the weirdos, the secret societies, the techno-utopians, the conspiracy theorists, the bloggers, the podcasters, the dystopian novelists, the chaos-magicians, the fantasists, the fabulists, the Masons, the Rosecrucians, the Gibseyan Mystics, the Subversionists, and the Post-Subversionists, all of them out there conspiring in secret—separately, disconnectedly, and in an excessively chaotic and disorganized manner—to destroy the balance and control of the Gibseyan society which she treasured so dearly and which she would restore.
+
+And maybe she was right?
+
+Maybe they were?

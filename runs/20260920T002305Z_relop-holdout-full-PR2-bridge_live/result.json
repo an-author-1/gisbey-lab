@@ -1,0 +1,30 @@
+{
+  "case_id": "relop-holdout-full-PR2-bridge",
+  "is_abstention": false,
+  "selected_id": "PR1",
+  "selected_text": "This is not a piece of writing.\n\nThis is not the written word.\n\nThis isn't even a record of thought.\n\nThis is thought itself, revealing itself, to itself.\n\nIt is pure, raw unadulterated thought, stripped of all data.\n\nIn this way, this content-if it is content-what you are reading, is like a brain.\n\nBrains carve pathways, after all.\n\nBrains are like amusement parks.\n\nThey construct attractions, and visitors ride their attractions, repeatedly.",
+  "confidence": 0.26,
+  "probabilities": {
+    "LF9": 0.04,
+    "LF13": 0.0,
+    "LF7": 0.1,
+    "LF10": 0.01,
+    "LF5": 0.01,
+    "PR3": 0.19,
+    "LF12": 0.01,
+    "PR4": 0.07,
+    "LF8": 0.02,
+    "LF15": 0.0,
+    "NONE": 0.05,
+    "LF3": 0.06,
+    "LF16": 0.03,
+    "LF14": 0.01,
+    "LF1": 0.01,
+    "LF6": 0.03,
+    "LF4": 0.01,
+    "LF11": 0.03,
+    "PR1": 0.27999999999999997,
+    "PR5": 0.03,
+    "LF2": 0.01
+  }
+}

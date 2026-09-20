@@ -1,0 +1,30 @@
+{
+  "case_id": "relop-holdout-full-LF16-echo",
+  "is_abstention": false,
+  "selected_id": "LF15",
+  "selected_text": "I will remake you.\n\nEnter my kingdom, my magical dominion,\n\nThe Magical Dominion.\n\nEnter and become the words which are my self and which are now to become yours.\n\nEnter my words.\n\nMy words shall become you.\n\nMy words have already become you.\n\nThey have become your very flesh.\n\nThe shell within which you rest.\n\nThe flesh which sits upon the bones that twist beneath your skin.",
+  "confidence": 0.49,
+  "probabilities": {
+    "NONE": 0.01,
+    "LF14": 0.1,
+    "LF2": 0.0,
+    "LF11": 0.18,
+    "LF15": 0.51,
+    "LF1": 0.02,
+    "LF6": 0.01,
+    "LF5": 0.0,
+    "LF9": 0.0,
+    "LF8": 0.01,
+    "LF13": 0.02,
+    "PR3": 0.03,
+    "PR5": 0.01,
+    "LF7": 0.03,
+    "PR1": 0.01,
+    "PR2": 0.02,
+    "LF4": 0.0,
+    "LF10": 0.02,
+    "LF3": 0.01,
+    "LF12": 0.01,
+    "PR4": 0.0
+  }
+}

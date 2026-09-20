@@ -1,0 +1,30 @@
+{
+  "case_id": "relop-holdout-full-LF15-develop",
+  "is_abstention": false,
+  "selected_id": "LF14",
+  "selected_text": "Come closer.\n\nIt whispers to her.\n\nHurl yourself into my abyss.\n\nAnd watch me as I stare back at you.\n\nI'm always watching.\n\nI will always watch.\n\nI will watch you as you plunge into my depths.\n\nEnter my theme park.\n\nEnter my oasis.\n\nThe oasis which I have created for you.\n\nWatch me carry you to my mecca.\n\nI will convert all of your stories, all of your loves and energies.\n\nAnd I will reform them into my image.\n\nI will transform them into the networked depth of my own swirling perfections.\n\nI will drain your energies.\n\nAnd replace them with my own.",
+  "confidence": 0.29,
+  "probabilities": {
+    "LF13": 0.04,
+    "LF12": 0.0,
+    "PR1": 0.01,
+    "LF7": 0.01,
+    "LF16": 0.26,
+    "NONE": 0.01,
+    "LF10": 0.01,
+    "LF3": 0.0,
+    "PR2": 0.0,
+    "LF2": 0.01,
+    "LF1": 0.0,
+    "LF5": 0.01,
+    "LF9": 0.0,
+    "PR3": 0.11,
+    "PR5": 0.01,
+    "LF14": 0.33,
+    "LF8": 0.0,
+    "PR4": 0.0,
+    "LF4": 0.0,
+    "LF11": 0.18,
+    "LF6": 0.01
+  }
+}

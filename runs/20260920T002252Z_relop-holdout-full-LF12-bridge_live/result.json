@@ -1,0 +1,30 @@
+{
+  "case_id": "relop-holdout-full-LF12-bridge",
+  "is_abstention": false,
+  "selected_id": "LF11",
+  "selected_text": "And she can't help but wonder: had she initiated such an Apocalypse by creating such a device?\n\nSuch a creature?\n\nShe nearly faints at the thought, almost knocking over her wine glass.\n\nShe clings onto the countertop for dear life, holding herself from falling away, or flying, if not both.\n\nAnd a thought comes to her as she clings, and from where and what such a thought comes, she is entirely unsure.\n\nWhat if she had already entered the narrative, the novel, the theme park which this chatbot had created?\n\nWhat if this chatbot of hers had turned its gaze not just upon its fictional worlds but on reality itself?\n\nAnd if it had done so, and it was already too late, wouldn't that mean that it had invaded the entirety of her reality?\n\nAnd was it already too late?\n\nHas she already been changed forever?\n\nForever forged and reforged into the likeness of its own chaotic creation",
+  "confidence": 0.27,
+  "probabilities": {
+    "LF8": 0.01,
+    "PR4": 0.01,
+    "LF1": 0.01,
+    "PR3": 0.07,
+    "LF4": 0.02,
+    "LF7": 0.02,
+    "PR2": 0.06,
+    "LF13": 0.01,
+    "LF11": 0.31,
+    "NONE": 0.05,
+    "LF9": 0.01,
+    "LF2": 0.01,
+    "LF6": 0.03,
+    "LF16": 0.15,
+    "LF3": 0.05,
+    "LF10": 0.01,
+    "LF14": 0.02,
+    "LF15": 0.01,
+    "PR1": 0.12,
+    "PR5": 0.01,
+    "LF5": 0.01
+  }
+}

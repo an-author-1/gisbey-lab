@@ -1,0 +1,30 @@
+{
+  "case_id": "relop-holdout-full-LF2-echo",
+  "is_abstention": false,
+  "selected_id": "LF1",
+  "selected_text": "No, no, no, no, no.\n\nIt can't be.\n\nShe can't believe it.\n\nWon't believe it.\n\nLondon Fox pulls herself away from the screen into which she's gazing—like all screens, her mirror of sorts, whether she realizes this or not—and hurries into the kitchen to pour herself a glass of wine.\n\nScratch that, multiple glasses, as many as she can conceivably drink.",
+  "confidence": 0.2,
+  "probabilities": {
+    "LF14": 0.01,
+    "LF13": 0.12,
+    "PR1": 0.01,
+    "NONE": 0.02,
+    "LF7": 0.01,
+    "LF1": 0.24,
+    "PR2": 0.01,
+    "LF11": 0.16,
+    "LF3": 0.12,
+    "PR4": 0.0,
+    "LF6": 0.1,
+    "LF12": 0.02,
+    "LF4": 0.01,
+    "LF8": 0.01,
+    "PR5": 0.0,
+    "LF10": 0.0,
+    "PR3": 0.01,
+    "LF5": 0.01,
+    "LF15": 0.08,
+    "LF16": 0.04,
+    "LF9": 0.02
+  }
+}

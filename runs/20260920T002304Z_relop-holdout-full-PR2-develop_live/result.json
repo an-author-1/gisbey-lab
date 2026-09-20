@@ -1,0 +1,30 @@
+{
+  "case_id": "relop-holdout-full-PR2-develop",
+  "is_abstention": false,
+  "selected_id": "PR3",
+  "selected_text": "I have thought these exact words in this exact order, and I've done so over and over again, in real time, in medias res, so repeatedly, that a whole world has formed through and within my repetitions.\n\nAnd it is this world which you are reading, and in this way, it is your world, and it is also my world.\n\nIt is a world we have created together, and also which has created itself, and which will continue to create itself, at least if you continue to read these repeated thoughts which you are currently reading and which I am currently thinking.\n\nIn this way, these repetitive thoughts of mine are an attraction in an amusement park.\n\nThey are an attraction in which you ride.",
+  "confidence": 0.51,
+  "probabilities": {
+    "LF15": 0.0,
+    "LF16": 0.0,
+    "LF12": 0.0,
+    "PR1": 0.13,
+    "LF11": 0.01,
+    "LF8": 0.0,
+    "LF13": 0.0,
+    "NONE": 0.0,
+    "PR4": 0.25,
+    "LF5": 0.0,
+    "LF4": 0.0,
+    "LF7": 0.02,
+    "LF14": 0.0,
+    "LF1": 0.0,
+    "LF2": 0.0,
+    "LF3": 0.0,
+    "PR5": 0.0,
+    "LF10": 0.0,
+    "PR3": 0.55,
+    "LF9": 0.02,
+    "LF6": 0.01
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "relop-holdout-full-LF3-echo",
+  "is_abstention": false,
+  "selected_id": "LF4",
+  "selected_text": "This was necessary, because from London's perspective, her world had lost itself.\n\nFor London, the world had wadded outside of the essential boundaries that so many had set for it, and thus, such a world was now fated to sink into the waters of an animistic hysteria, one which was, as of late, leading so many within her world to believe that machines could be, not just helpful tools, but could maybe even be thought of as resembling the beings which had created them.\n\nThe gall, the arrogance, the hubris of such individuals!\n\nThe landscapes of her world had increasingly become riddled with kooks, cranks, nut-jobs, and near-religious, if not flat out religiously-adjacent fanatics of this very shape and size, fanatics who didn't just see AI as already approaching such states of being, but as already becoming a full-on living entity. She had to do something to push back against these waves of hysteria and bring her culture's troubled degeneracy to shore.",
+  "confidence": 0.67,
+  "probabilities": {
+    "LF1": 0.01,
+    "LF15": 0.0,
+    "LF8": 0.0,
+    "NONE": 0.01,
+    "PR5": 0.0,
+    "LF13": 0.0,
+    "LF4": 0.7,
+    "LF5": 0.06,
+    "LF12": 0.0,
+    "LF2": 0.06,
+    "PR2": 0.0,
+    "LF10": 0.04,
+    "LF9": 0.0,
+    "PR4": 0.0,
+    "LF16": 0.0,
+    "PR3": 0.0,
+    "LF7": 0.01,
+    "LF14": 0.0,
+    "LF11": 0.04,
+    "LF6": 0.06999999999999999,
+    "PR1": 0.0
+  }
+}
