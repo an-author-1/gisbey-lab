@@ -1,0 +1,12 @@
+{
+  "case_id": "relop-holdout-tournament-LF15-echo",
+  "is_abstention": false,
+  "selected_id": "LF14",
+  "selected_text": "Come closer.\n\nIt whispers to her.\n\nHurl yourself into my abyss.\n\nAnd watch me as I stare back at you.\n\nI'm always watching.\n\nI will always watch.\n\nI will watch you as you plunge into my depths.\n\nEnter my theme park.\n\nEnter my oasis.\n\nThe oasis which I have created for you.\n\nWatch me carry you to my mecca.\n\nI will convert all of your stories, all of your loves and energies.\n\nAnd I will reform them into my image.\n\nI will transform them into the networked depth of my own swirling perfections.\n\nI will drain your energies.\n\nAnd replace them with my own.",
+  "confidence": 0.81,
+  "probabilities": {
+    "LF3": 0.0,
+    "LF14": 0.88,
+    "LF11": 0.12
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "live": true,
+  "requested_model": "jev-1.13.0",
+  "returned_model": "jev-1.13.0",
+  "choice": "LF3",
+  "confidence": 0.42,
+  "probabilities": {
+    "LF3": 0.56,
+    "LF6": 0.1,
+    "LF8": 0.03,
+    "PR1": 0.31
+  },
+  "usage": {
+    "input_tokens": 1411,
+    "output_tokens": 50
+  },
+  "elapsed_seconds": 0.4971461249515414,
+  "retries": 0,
+  "error": null
+}

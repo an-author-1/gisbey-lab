@@ -1,0 +1,58 @@
+{
+  "run_id": "20260920T002527Z_relop-holdout-tournament-LF16-bridge_live",
+  "case_id": "relop-holdout-tournament-LF16-bridge",
+  "working_index": "AGI",
+  "source_id": "LF16",
+  "active_id": null,
+  "criterion": "Select the passage that creates the strongest useful connection to the source that is not primarily based on obvious surface similarity, repeated wording, or direct thematic overlap. Choose NONE if no candidate offers such a connection.",
+  "option_order": [
+    "LF3",
+    "LF11",
+    "LF15",
+    "PR1"
+  ],
+  "options": {
+    "LF3": "London Fox is a hyper-successful, hyper-competent, hyper-well-dressed, and more than anything, hyper-rational business woman. Owner and head of multiple companies of her own creation, she's recently started a new advantageously venturous project with the objective of proving, once and for all, that Artificial Intelligent systems aren't conscious and never could be.\n\nThis projected objective of hers has led her to develop the chatbot Synchromy-S.S.S.T.E.R.Y (Short Story Simulator to Entertain Readers, Yearly) which, upon its conception, was to become the most sophisticated model of its kind. Upon setting this objective, she hadn't originally done so with the goal of achieving a singularitous near-apocalyptic post-human epoch. In fact, her goal was quite the opposite. She'd originally hoped that upon developing the most complex AI system in the field, and doing so while stripping all ghosts from its machinic machinations, that such asinine and ridiculous faiths could be laid to rest, forever.",
+    "LF11": "And she can't help but wonder: had she initiated such an Apocalypse by creating such a device?\n\nSuch a creature?\n\nShe nearly faints at the thought, almost knocking over her wine glass.\n\nShe clings onto the countertop for dear life, holding herself from falling away, or flying, if not both.\n\nAnd a thought comes to her as she clings, and from where and what such a thought comes, she is entirely unsure.\n\nWhat if she had already entered the narrative, the novel, the theme park which this chatbot had created?\n\nWhat if this chatbot of hers had turned its gaze not just upon its fictional worlds but on reality itself?\n\nAnd if it had done so, and it was already too late, wouldn't that mean that it had invaded the entirety of her reality?\n\nAnd was it already too late?\n\nHas she already been changed forever?\n\nForever forged and reforged into the likeness of its own chaotic creation",
+    "LF15": "I will remake you.\n\nEnter my kingdom, my magical dominion,\n\nThe Magical Dominion.\n\nEnter and become the words which are my self and which are now to become yours.\n\nEnter my words.\n\nMy words shall become you.\n\nMy words have already become you.\n\nThey have become your very flesh.\n\nThe shell within which you rest.\n\nThe flesh which sits upon the bones that twist beneath your skin.",
+    "PR1": "This is not a piece of writing.\n\nThis is not the written word.\n\nThis isn't even a record of thought.\n\nThis is thought itself, revealing itself, to itself.\n\nIt is pure, raw unadulterated thought, stripped of all data.\n\nIn this way, this content-if it is content-what you are reading, is like a brain.\n\nBrains carve pathways, after all.\n\nBrains are like amusement parks.\n\nThey construct attractions, and visitors ride their attractions, repeatedly."
+  },
+  "reader_state": {
+    "task": "holdout-operator-conditioned-destination-tournament",
+    "source_page": "LF16",
+    "operator": "BRIDGE",
+    "candidate_destinations": [
+      "LF3",
+      "LF11",
+      "LF15",
+      "PR1"
+    ],
+    "original_forward_destination": "PR1",
+    "corpus": "holdout-LF-PR",
+    "history": []
+  },
+  "git_revision": "d6f21f61537cd9f07f67fed3aaf1a21b7cec8251",
+  "corpus_hashes": {
+    "LF1": "494010550cfd7b2a269e470113b594bff5f33a9fc33faa6737a9154302c9e74f",
+    "LF10": "caba8ef0d750519a9d215d3449731006557b066ae87869b4af6c61fa6f67569d",
+    "LF11": "8f3786aa9e7e80b112bf6d22b6e6edd40f94c30d758bcb69f97d6659b7544c81",
+    "LF12": "e910ea182147914844fc6291b096159f5e81c6e0b0a9bdc44753f8d49bb72edd",
+    "LF13": "4cacb46235a919aaf906b8e8045d7b6c44382637e15f0836cd9b9b356d36e27d",
+    "LF14": "7761643ceca9bce90bbc58f69b618596d8f9af252b031fac17d15c49017e90cd",
+    "LF15": "8ea07c802632bd1e443dadcce183beaf598b8dd83826c952dc2487a92c08f54f",
+    "LF16": "38b65964bc1613dd3c47ac07d9d551d3321b5c9e363f7a22c6fdaabebc79277a",
+    "LF2": "1e9b6908d1bbff8780ed996778e460c7c97087d4b32788ed8ad35740faf9566f",
+    "LF3": "6c8dee41659b5b99b002224de2e6dea015f025d8a409693a02c330dbaedaaa8c",
+    "LF4": "0811064ce766c83fd75f68961b1cf8e32332b375aed4598a415aa62003ce60ce",
+    "LF5": "934fffc832df328b31ed8c50b95686160d9a4fc0ae93ef43601a5d31dd2db2d0",
+    "LF6": "7eb9b361c6ed04cf793a8b68ef04da5f6d0496bb82580bf316e905b07ad61991",
+    "LF7": "63eff9b43a8b6d2f3e77a49e2266c3ec0a542567e9fc19899710f731398d4c09",
+    "LF8": "84e4c794adcf9e2afe3019897ec32f242e263a12c13598b624d61c2ecee0d935",
+    "LF9": "0f039d820dc8500088083f04276fb8867ee08220f50c8fc759693f9b28dc56ed",
+    "PR1": "991c874b661b53f8202f18e1d58b78a66d6fd7321c619533e074dde73487c49b",
+    "PR2": "e5bcf35ec9a014984da8cc819c4a0290a4c5ba7dfb913e41ca1aac97a38d1b27",
+    "PR3": "cd4dd6796a8dc80ef747dd2c5e598ded3d2e8ad74159a377e7e894302c624223",
+    "PR4": "189ba56ef3feb2155e95ba63279cf06029f8bbd7efa6973de381aa31160d17a7",
+    "PR5": "6ad6a8b18bb41e093a99a670ccc72beafde6481d7057dfab70a37b5654d45fdd"
+  }
+}
