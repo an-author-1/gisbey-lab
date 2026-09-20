@@ -385,6 +385,32 @@ bond returns the existing record instead of creating a duplicate.
 .venv/bin/python -m pytest -q
 ```
 
+### Local browser reader
+
+A minimal local reader for using the experimental Q operators (ECHO/DEVELOP/CONTRADICT/
+BRIDGE, Q Operator Prototype v0.1, frozen — see `notes/q-operator-prototype-v0.1.md`)
+through reading rather than the CLI. Pure Python standard library (`http.server`), no new
+dependencies, bound to `127.0.0.1` only:
+
+```bash
+gibsey serve-reader              # opens a browser tab at http://127.0.0.1:8765/
+gibsey serve-reader --no-open    # don't auto-open a browser tab
+gibsey serve-reader --port 9000  # use a different local port
+```
+
+Starts at PR1 in the 21-page holdout field (London Fox / Princhetta) by default, showing
+any existing recorded original-field result for the selected operator without making a
+call. A field selector offers the complete 41-page corpus (training + holdout) as an
+explicitly separate, distinctly labeled condition — no live experiment has ever been run
+against that combined field, so nothing is preloaded there. Loading the page, switching
+fields/sources/operators, and viewing saved results never call Jev; only the explicit
+"Request new selection" button does, using the pinned model and recording the actual
+returned identifier. "Accept and follow" performs the existing `propose` → `accept` →
+`follow` actions as separate recorded events; preserving to the Gibsey Vault reuses the
+existing repeat-safe `preserve`. Reading notes are optional and are never included in any
+Jev request. Reuses the existing corpus loader, context assembly, Jev/mock adapters, run
+recorder, and Q/R state modules unchanged.
+
 ### Verified so far
 
 * Offline: 41 unit/integration tests pass, covering corpus loading and hashing, missing/empty-page

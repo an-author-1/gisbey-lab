@@ -2,8 +2,12 @@
 
 Loader, context assembler, Jev adapter, proposal validator, run recorder, and reader-state handling.
 
-Implemented as the `gibsey_lab` package: `corpus.py` (loader/manifest), `sentence_map.py`,
-`cases.py` + `context.py` (case specs and assembly), `jev_client.py` (real adapter) /
-`mock_client.py` (deterministic offline adapter), `validate.py`, `recorder.py`, `runner.py`,
-`state.py` (Q/R actions), and `cli.py` (the `gibsey` command). See the root `README.md`,
-"Implementation Status and Commands."
+Implemented as the `gibsey_lab` package: `corpus.py` (training-corpus loader/manifest),
+`holdout_corpus.py` (holdout-corpus loader), `fields.py` (the two candidate fields the
+reader operates over), `sentence_map.py`, `cases.py` + `context.py` (f12-micro/f12-macro
+case specs and assembly), `relational_operators.py` (frozen Q Operator Prototype v0.1
+wording), `reader_context.py` (context assembly for the reader), `jev_client.py` (real
+adapter) / `mock_client.py` (deterministic offline adapter), `validate.py`, `recorder.py`,
+`saved_runs.py` (recorded-result lookup), `reviewing.py` (optional review notes),
+`runner.py`, `state.py` (Q/R actions), `cli.py` (the `gibsey` command), and `reader/`
+(the local browser reader — see the root `README.md`, "Local browser reader").

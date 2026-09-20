@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gibsey Lab Reader</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header>
+  <h1>Gibsey Lab Reader</h1>
+  <div class="header-controls">
+    <label>Field
+      <select id="field-select"></select>
+    </label>
+    <label>Source page
+      <select id="page-select"></select>
+    </label>
+    <button id="back-btn" disabled>&larr; Back</button>
+  </div>
+</header>
+
+<main>
+  <section id="source-panel" class="panel">
+    <h2>Source <span id="source-id" class="page-tag"></span></h2>
+    <div id="source-text" class="passage"></div>
+  </section>
+
+  <section id="operator-panel" class="panel">
+    <h2>Choose a relational operator</h2>
+    <div id="operator-buttons" class="operator-row"></div>
+    <div id="operator-criterion" class="criterion-box" hidden></div>
+  </section>
+
+  <section id="result-panel" class="panel" hidden>
+    <h2>Proposed destination</h2>
+    <div id="result-status" class="status-line"></div>
+    <div id="result-body"></div>
+    <div id="result-actions" class="action-row" hidden>
+      <button id="request-new-btn">Request new selection</button>
+      <button id="accept-follow-btn" disabled>Accept and follow &rarr;</button>
+    </div>
+    <details id="tech-details" hidden>
+      <summary>Technical details</summary>
+      <pre id="tech-details-body"></pre>
+    </details>
+  </section>
+
+  <section id="postfollow-panel" class="panel" hidden>
+    <h2>Now reading <span id="postfollow-id" class="page-tag"></span></h2>
+    <p class="hint">You followed the accepted bond. Preserve this realization to your Gibsey Vault, or leave a short optional note.</p>
+    <div class="action-row">
+      <button id="preserve-btn">Preserve to Gibsey Vault</button>
+      <span id="preserve-status" class="status-line"></span>
+    </div>
+    <details open>
+      <summary>Optional reading note (never sent to Jev)</summary>
+      <div class="note-form">
+        <label>What is the correspondence?<textarea id="note-correspondence" rows="2"></textarea></label>
+        <label>What does reading these together change?<textarea id="note-change" rows="2"></textarea></label>
+        <label>Grounding (0-2)
+          <select id="note-grounding"><option value="">--</option><option value="0">0 absent</option><option value="1">1 plausible but thin</option><option value="2">2 convincing</option></select>
+        </label>
+        <label>Reading effect (0-2)
+          <select id="note-effect"><option value="">--</option><option value="0">0 absent</option><option value="1">1 limited</option><option value="2">2 substantial</option></select>
+        </label>
+        <label>Decision
+          <select id="note-decision"><option value="">--</option><option value="accept">accept</option><option value="reject">reject</option><option value="undecided">undecided</option></select>
+        </label>
+        <button id="save-note-btn">Save note</button>
+        <span id="note-status" class="status-line"></span>
+      </div>
+    </details>
+  </section>
+
+  <section id="history-panel" class="panel">
+    <details>
+      <summary>Recorded Q traversal history (what actually happened, server-side)</summary>
+      <pre id="traversal-history"></pre>
+    </details>
+  </section>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

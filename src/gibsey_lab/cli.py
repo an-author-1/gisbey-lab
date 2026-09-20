@@ -10,6 +10,7 @@ from .config import load_config
 from .context import CaseError, assemble
 from .corpus import corpus_hashes, load_manifest, validate_manifest
 from .recorder import RUNS_DIR
+from .reviewing import ReviewError, update_review
 from .runner import run_case
 from .sentence_map import SentenceMapError, approve, load_reviewed_map, propose_sentence_map, save_map
 
@@ -135,23 +136,19 @@ def cmd_show_run(args: argparse.Namespace) -> int:
 
 def cmd_review(args: argparse.Namespace) -> int:
     run_dir = RUNS_DIR / args.run_id if not Path(args.run_id).exists() else Path(args.run_id)
-    review_path = run_dir / "review.json"
-    if not review_path.exists():
-        print(f"no review.json at {review_path}", file=sys.stderr)
+    try:
+        review = update_review(
+            run_dir,
+            correspondence=args.correspondence,
+            reading_effect=args.change,
+            grounding_score=args.grounding,
+            effect_score=args.effect,
+            decision=args.decision,
+        )
+    except ReviewError as e:
+        print(f"error: {e}", file=sys.stderr)
         return 1
-    review = json.loads(review_path.read_text())
-    if args.correspondence is not None:
-        review["correspondence"] = args.correspondence
-    if args.change is not None:
-        review["reading_effect"] = args.change
-    if args.grounding is not None:
-        review["grounding_score"] = args.grounding
-    if args.effect is not None:
-        review["effect_score"] = args.effect
-    if args.decision is not None:
-        review["decision"] = args.decision
-    review_path.write_text(json.dumps(review, indent=2, ensure_ascii=False) + "\n")
-    print(f"updated {review_path}")
+    print(f"updated {run_dir / 'review.json'}")
     print(json.dumps(review, indent=2, ensure_ascii=False))
     return 0
 
@@ -199,6 +196,13 @@ def cmd_preserve(args: argparse.Namespace) -> int:
 
 def cmd_reader_state(args: argparse.Namespace) -> int:
     print(json.dumps(state.reader_state(), indent=2, ensure_ascii=False))
+    return 0
+
+
+def cmd_serve_reader(args: argparse.Namespace) -> int:
+    from .reader.server import run as run_reader_server
+
+    run_reader_server(port=args.port, open_browser=not args.no_open)
     return 0
 
 
@@ -252,6 +256,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_preserve)
 
     sub.add_parser("reader-state").set_defaults(func=cmd_reader_state)
+
+    p = sub.add_parser("serve-reader")
+    p.add_argument("--port", type=int, default=8765)
+    p.add_argument("--no-open", action="store_true", help="don't open a browser tab automatically")
+    p.set_defaults(func=cmd_serve_reader)
 
     return parser
 
