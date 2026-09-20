@@ -388,9 +388,14 @@ bond returns the existing record instead of creating a duplicate.
 ### Local browser reader
 
 A minimal local reader for using the experimental Q operators (ECHO/DEVELOP/CONTRADICT/
-BRIDGE, Q Operator Prototype v0.1, frozen — see `notes/q-operator-prototype-v0.1.md`)
-through reading rather than the CLI. Pure Python standard library (`http.server`), no new
-dependencies, bound to `127.0.0.1` only:
+BRIDGE) through reading rather than the CLI. Pure Python standard library (`http.server`),
+no new dependencies, bound to `127.0.0.1` only. Two criteria versions exist side by side
+in `src/gibsey_lab/relational_operators.py`: **v0.1** (frozen, see
+`notes/q-operator-prototype-v0.1.md`) and **v0.2** (active for new reader requests, see
+`notes/q-operator-prototype-v0.2.md` — written specifically because DEVELOP frequently
+selected the immediate next authored page under v0.1; NONE is preserved in both, and
+neither version treats distance, novelty, or crossing between authored texts as an
+intrinsic mark of quality).
 
 ```bash
 gibsey serve-reader              # opens a browser tab at http://127.0.0.1:8765/
@@ -408,27 +413,35 @@ page identity — normally empty, since both corpora currently load clean. The p
 is grouped by authored text (the four folders under `vault/`), pages ordered numerically
 within each group.
 
-Two reading modes: **Preview** (default) shows what an operator would propose and moves
-nothing until you click "Accept and follow." **Follow immediately** (an explicit toggle,
-explained once next to the checkbox) makes clicking an operator retrieve a matching
-recorded proposal or request one new live selection if none matches, then automatically
-accept and follow a valid destination — NONE or an error still leaves you in place either
-way. Loading a page or changing the field never triggers a live call in either mode; only
-an operator click in Follow-immediately mode, or the explicit "Ask Jev again" button in
-Preview mode, ever does. "Accept and follow" performs `propose` → `accept` → `follow` as
-three separately recorded events (never popularity-judgments or literary quality checks —
-just the mechanical state transition). A recorded result is only ever reused when its
-field, exact source/candidate page versions and order, operator criterion text, and
-requested model configuration all match what would be sent right now; a result from one
-field is never shown as a result from the other, and mock results are never surfaced
-during normal exploration. A generation counter guards against duplicate clicks or a
-stale in-flight response causing movement after you've already navigated elsewhere or
-changed fields.
+**Candidate policy** (also shown, also recorded with every request): **Discovery**
+(default) excludes the active source's immediate authored predecessor/successor within
+its own text, derived from the manifest's explicit numeric page order — text boundaries
+(P/F/LF/PR) are never treated as adjacency, so the last page of one text never excludes
+the first page of another. **Include adjacent pages** keeps the original unrestricted
+behavior. Plain **Previous/Next** buttons navigate the authored sequence directly with no
+model call, logging their own provenance (`via: "prev_next"`) distinct from a dropdown
+selection or Back.
 
-Every navigation step, operator check, run reference, traversal, and Back click is logged
-automatically and passively to `data/session_log.jsonl` — no notes required, and nothing
-here is ever preserved to the Gibsey Vault or sent to Jev on its own. Preserving to the
-Vault remains a separate, explicit, repeat-safe action.
+Clicking an operator always produces a proposal, in both modes: a matching recorded
+result if the field, exact source/candidate page versions and order under the active
+policy, operator criterion text, and requested model configuration all match what would
+be sent right now, otherwise one automatic live request (with a loading state) — this is
+the fix for uncached choices previously needing an extra click. **Preview** (default)
+just shows the result; nothing moves until you click "Accept and follow." **Follow
+immediately** (toggle, explained once beside it) also auto-accepts and follows a valid
+destination — NONE or an error still leaves you in place either way. "Ask Jev again" is
+reserved for an explicit rerun. Loading a page or switching field/policy never triggers a
+live call on its own. A result from one field/policy/version is never shown as a result
+from another, and mock results are never surfaced during normal exploration. A generation
+counter guards every async action against duplicate clicks or a stale response causing
+movement after you've already navigated elsewhere or changed field/policy. "Accept and
+follow" performs `propose` → `accept` → `follow` as three separately recorded events —
+the mechanical state transition only, never a popularity or literary-quality judgment.
+
+Every navigation step, operator check, run reference, traversal, and Back/Previous/Next
+click is logged automatically and passively to `data/session_log.jsonl` — no notes
+required, and nothing here is ever preserved to the Gibsey Vault or sent to Jev on its
+own. Preserving to the Vault remains a separate, explicit, repeat-safe action.
 
 Reuses the existing corpus loader, context assembly, Jev/mock adapters, run recorder, and
 Q/R state modules unchanged.

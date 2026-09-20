@@ -25,6 +25,15 @@ FULL_41 = "full-41"
 KNOWN_FIELDS = (FULL_41, HOLDOUT_21)
 DEFAULT_FIELD = FULL_41
 
+# Candidate eligibility policy: which pages may serve as a destination for a source.
+# "discovery" (default) excludes the source's immediate authored predecessor/successor
+# within its own text, so an operator isn't just picking the next/previous page.
+# "include-adjacent" is the original unrestricted behavior (every other page eligible).
+DISCOVERY = "discovery"
+INCLUDE_ADJACENT = "include-adjacent"
+KNOWN_POLICIES = (DISCOVERY, INCLUDE_ADJACENT)
+DEFAULT_POLICY = DISCOVERY
+
 EXPECTED_FULL_41_IDS = TRAINING_EXPECTED_IDS + EXPECTED_HOLDOUT_IDS
 
 # Human-readable groupings for the page picker: (prefix, title). Order here is the
@@ -70,6 +79,27 @@ class Field:
 
     def candidate_ids_for(self, source_id: str) -> list[str]:
         return sorted((pid for pid in self.manifest if pid != source_id), key=_sort_key)
+
+    def neighbors_of(self, source_id: str) -> dict[str, str | None]:
+        """The source's immediate authored predecessor/successor within its own text,
+        derived from the manifest's explicit numeric Page.order -- never crossing into a
+        different prefix (P/F/LF/PR boundaries are never treated as adjacency)."""
+        source = self.manifest[source_id]
+        prefix = prefix_of(source_id)
+        by_order = {p.order: pid for pid, p in self.manifest.items() if prefix_of(pid) == prefix}
+        return {
+            "previous": by_order.get(source.order - 1),
+            "next": by_order.get(source.order + 1),
+        }
+
+    def eligible_candidate_ids(self, source_id: str, policy: str = DEFAULT_POLICY) -> list[str]:
+        candidates = self.candidate_ids_for(source_id)
+        if policy == DISCOVERY:
+            excluded = {n for n in self.neighbors_of(source_id).values() if n is not None}
+            candidates = [pid for pid in candidates if pid not in excluded]
+        elif policy != INCLUDE_ADJACENT:
+            raise FieldError(f"unknown candidate policy: {policy!r}; known policies: {KNOWN_POLICIES}")
+        return candidates
 
     def grouped_ids(self) -> list[dict]:
         """Page picker grouping: by authored text, pages ordered numerically within
@@ -136,13 +166,13 @@ def check_full_field_completeness() -> list[str]:
     return problems
 
 
-def validate_source_and_candidates(field: Field, source_id: str) -> None:
+def validate_source_and_candidates(field: Field, source_id: str, policy: str = DEFAULT_POLICY) -> None:
     if source_id not in field.manifest:
         raise FieldError(f"source {source_id!r} is not eligible in field {field.id!r}")
     source = field.manifest[source_id]
     if source.is_empty:
         raise FieldError(f"source {source_id!r} is empty in field {field.id!r}")
-    candidates = field.candidate_ids_for(source_id)
+    candidates = field.eligible_candidate_ids(source_id, policy)
     empty_candidates = [pid for pid in candidates if field.manifest[pid].is_empty]
     if empty_candidates:
         raise FieldError(f"field {field.id!r} has empty candidate pages: {empty_candidates}")

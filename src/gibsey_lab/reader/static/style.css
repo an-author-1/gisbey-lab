@@ -38,6 +38,7 @@ button:hover:not(:disabled) { background: #f0ede6; }
 .kind-recorded { color: #1a6b3f; }
 .kind-new { color: #4a6fa5; }
 .kind-mock { color: #b8860b; }
+.status-loading { color: #7a5c00; font-style: italic; }
 .passage { white-space: pre-wrap; font-size: 1.05rem; background: #f6f4ee; padding: 1rem 1.25rem; border-radius: 6px; }
 .passage p { margin: 0 0 1rem; }
 .passage p:last-child { margin-bottom: 0; }

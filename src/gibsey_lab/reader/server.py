@@ -121,9 +121,22 @@ class Handlers:
                 {"id": fields_module.FULL_41, "label": "Complete 41-page corpus (training + holdout)", "default": True},
                 {"id": fields_module.HOLDOUT_21, "label": "21-page holdout field (London Fox / Princhetta)", "default": False},
             ],
+            "policies": [
+                {
+                    "id": fields_module.DISCOVERY,
+                    "label": "Discovery (excludes the immediate previous/next authored page)",
+                    "default": True,
+                },
+                {
+                    "id": fields_module.INCLUDE_ADJACENT,
+                    "label": "Include adjacent pages (every other page eligible)",
+                    "default": False,
+                },
+            ],
             "operators": relational_operators.OPERATOR_NAMES,
             "criteria": relational_operators.CRITERIA,
             "operator_version": relational_operators.VERSION,
+            "criteria_versions": relational_operators.CRITERIA_BY_VERSION,
         }
 
     @staticmethod
@@ -157,28 +170,37 @@ class Handlers:
         if page_id not in field.manifest:
             raise ApiError(f"page {page_id!r} not in field {field.id!r}", status=404)
         page = field.manifest[page_id]
-        return {"field": field.id, "id": page.id, "text": page.text, "sha256": page.sha256}
+        neighbors = field.neighbors_of(page_id)
+        return {
+            "field": field.id, "id": page.id, "text": page.text, "sha256": page.sha256,
+            "previous_id": neighbors["previous"], "next_id": neighbors["next"],
+        }
 
     @staticmethod
     def get_saved_result(query: dict) -> dict:
         field_id = query.get("field", [fields_module.DEFAULT_FIELD])[0]
         source_id = query.get("source", [None])[0]
         operator = query.get("operator", [None])[0]
+        policy = query.get("policy", [fields_module.DEFAULT_POLICY])[0]
+        version = query.get("version", [relational_operators.DEFAULT_VERSION])[0]
         if not source_id or not operator:
             raise ApiError("missing 'source' or 'operator'")
         operator = operator.upper()
         try:
             field = fields_module.load_field(field_id)
-            fields_module.validate_source_and_candidates(field, source_id)
+            fields_module.validate_source_and_candidates(field, source_id, policy)
         except FieldError as e:
             raise ApiError(str(e)) from e
-        if operator not in relational_operators.CRITERIA:
+        if version not in relational_operators.CRITERIA_BY_VERSION:
+            raise ApiError(f"unknown criteria version: {version!r}")
+        criteria = relational_operators.CRITERIA_BY_VERSION[version]
+        if operator not in criteria:
             raise ApiError(f"unknown operator: {operator!r}")
 
-        criterion = relational_operators.CRITERIA[operator]
+        criterion = criteria[operator]
         cfg = load_config()
         saved = saved_runs.find_matching_recorded_result(
-            field, source_id, operator, criterion, expected_model=cfg.model, runs_dir=RUNS_DIR
+            field, source_id, operator, criterion, expected_model=cfg.model, policy=policy, runs_dir=RUNS_DIR
         )
         record = _saved_result_to_dict(saved)
         _log_operator_result(
@@ -192,12 +214,14 @@ class Handlers:
         field_id = body.get("field", fields_module.DEFAULT_FIELD)
         source_id = body.get("source")
         operator = body.get("operator")
+        policy = body.get("policy", fields_module.DEFAULT_POLICY)
+        version = body.get("version", relational_operators.DEFAULT_VERSION)
         if not source_id or not operator:
             raise ApiError("missing 'source' or 'operator'")
         operator = operator.upper()
         try:
             field = fields_module.load_field(field_id)
-            packet = reader_context.assemble_reader_packet(field, source_id, operator)
+            packet = reader_context.assemble_reader_packet(field, source_id, operator, policy=policy, criteria_version=version)
         except (FieldError, CaseError, ValueError) as e:
             raise ApiError(str(e)) from e
 
@@ -310,8 +334,10 @@ class Handlers:
 
     @staticmethod
     def post_session_navigation(body: dict) -> dict:
-        """Passive navigation logging only (page views, field switches, Back). Requires
-        no written notes and never touches Q/R state or the Gibsey Vault."""
+        """Passive navigation logging only (page views, field switches, Back,
+        Previous/Next). Requires no written notes and never touches Q/R state or the
+        Gibsey Vault. `via` records provenance -- which control caused the navigation
+        (dropdown, back, prev_next) -- without affecting anything else."""
         event = body.get("event")
         if event not in ("page_viewed", "field_selected", "back"):
             raise ApiError(f"unknown navigation event: {event!r}")
@@ -321,6 +347,7 @@ class Handlers:
             field=body.get("field"),
             page_id=body.get("page_id"),
             from_page=body.get("from_page"),
+            via=body.get("via", "dropdown"),
         )
         return record
 

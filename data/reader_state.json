@@ -1,6 +1,6 @@
 {
-  "active_page": "PR4",
-  "active_passage": "PR4",
+  "active_page": "PR2",
+  "active_passage": "PR2",
   "history": [
     {
       "event": "Q_follow",
@@ -9,6 +9,14 @@
       "from_passage": null,
       "to_id": "PR4",
       "at": "2026-09-20T01:52:56.664058+00:00"
+    },
+    {
+      "event": "Q_follow",
+      "bond_id": "bond_prop_20260920T031823Z_reader-full-41-PR1-develop_live",
+      "from_page": "PR4",
+      "from_passage": "PR4",
+      "to_id": "PR2",
+      "at": "2026-09-20T03:18:28.976766+00:00"
     }
   ]
 }

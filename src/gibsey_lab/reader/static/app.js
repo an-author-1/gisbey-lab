@@ -2,6 +2,7 @@
 
 const App = {
   field: null,
+  policy: null,
   source: null,
   operator: null,
   currentRun: null,   // {run_dir, recorded, is_abstention, selected_id, selected_text, ...}
@@ -9,7 +10,8 @@ const App = {
   viewHistory: [],    // client-side "pages I looked at" for the Back button only
   criteria: {},       // operator -> exact criterion text, from /api/fields
   followImmediately: false,
-  generation: 0,      // bumped on every navigation/field change; guards against stale async responses
+  generation: 0,      // bumped on every navigation/field/policy change; guards against stale async responses
+  currentPage: null,  // {id, previous_id, next_id} for the active source
 };
 
 const el = (id) => document.getElementById(id);
@@ -41,6 +43,7 @@ function renderPassage(container, text) {
 
 async function init() {
   const fieldsData = await api("/api/fields");
+
   const fieldSelect = el("field-select");
   fieldSelect.innerHTML = "";
   for (const f of fieldsData.fields) {
@@ -51,6 +54,18 @@ async function init() {
     fieldSelect.appendChild(opt);
   }
   App.field = fieldsData.fields.find((f) => f.default).id;
+
+  const policySelect = el("policy-select");
+  policySelect.innerHTML = "";
+  for (const p of fieldsData.policies) {
+    const opt = document.createElement("option");
+    opt.value = p.id;
+    opt.textContent = p.label;
+    if (p.default) opt.selected = true;
+    policySelect.appendChild(opt);
+  }
+  App.policy = fieldsData.policies.find((p) => p.default).id;
+
   App.criteria = fieldsData.criteria;
   renderOperatorButtons(fieldsData.operators, fieldsData.operator_version);
 
@@ -65,15 +80,28 @@ async function init() {
     await loadPageList();
     const groups = el("page-select").querySelectorAll("optgroup");
     const firstPage = groups.length ? groups[0].querySelector("option").value : null;
-    await navigateTo(firstPage, false);
+    await navigateTo(firstPage, "dropdown");
+  });
+  policySelect.addEventListener("change", () => {
+    App.policy = policySelect.value;
+    App.generation++; // any in-flight saved-result/request-selection under the old policy is now stale
+    el("policy-badge").textContent = App.policy;
+    // Re-check the current operator (if any) under the new policy, without moving the reader.
+    if (App.operator) selectOperator(App.operator);
   });
   el("back-btn").addEventListener("click", onBack);
-  el("page-select").addEventListener("change", () => navigateTo(el("page-select").value, false));
+  el("prev-btn").addEventListener("click", () => {
+    if (App.currentPage && App.currentPage.previous_id) navigateTo(App.currentPage.previous_id, "prev_next");
+  });
+  el("next-btn").addEventListener("click", () => {
+    if (App.currentPage && App.currentPage.next_id) navigateTo(App.currentPage.next_id, "prev_next");
+  });
+  el("page-select").addEventListener("change", () => navigateTo(el("page-select").value, "dropdown"));
   el("follow-immediately-toggle").addEventListener("change", (e) => {
     App.followImmediately = e.target.checked;
   });
-  el("request-new-btn").addEventListener("click", () => onRequestNew(true));
-  el("accept-follow-btn").addEventListener("click", onAcceptAndFollow);
+  el("request-new-btn").addEventListener("click", () => onRequestNew());
+  el("accept-follow-btn").addEventListener("click", () => onAcceptAndFollow());
   el("preserve-btn").addEventListener("click", onPreserve);
   el("save-note-btn").addEventListener("click", onSaveNote);
 
@@ -88,7 +116,7 @@ async function init() {
     const firstGroup = el("page-select").querySelector("optgroup");
     start = firstGroup ? firstGroup.querySelector("option").value : null;
   }
-  await navigateTo(start, false);
+  await navigateTo(start, "dropdown");
   renderTraversalHistory(readerState);
 }
 
@@ -134,12 +162,13 @@ function renderOperatorButtons(operators, version) {
   }
 }
 
-async function navigateTo(pageId, fromBack) {
+async function navigateTo(pageId, via) {
   if (!pageId) return;
   App.generation++;
   const myGeneration = App.generation;
 
-  if (!fromBack && App.source && App.source !== pageId) {
+  const isBack = via === "back";
+  if (!isBack && App.source && App.source !== pageId) {
     App.viewHistory.push(App.source);
     el("back-btn").disabled = App.viewHistory.length === 0;
   }
@@ -152,8 +181,14 @@ async function navigateTo(pageId, fromBack) {
   const page = await api(`/api/page?field=${encodeURIComponent(App.field)}&id=${encodeURIComponent(pageId)}`);
   if (myGeneration !== App.generation) return; // a newer navigation superseded this one
 
+  App.currentPage = page;
   el("source-id").textContent = page.id;
   el("field-badge").textContent = App.field;
+  el("policy-badge").textContent = App.policy;
+  el("prev-btn").disabled = !page.previous_id;
+  el("prev-btn").textContent = page.previous_id ? `← Previous (${page.previous_id})` : "← Previous";
+  el("next-btn").disabled = !page.next_id;
+  el("next-btn").textContent = page.next_id ? `Next (${page.next_id}) →` : "Next →";
   renderPassage(el("source-text"), page.text);
 
   document.querySelectorAll("#operator-buttons button").forEach((b) => b.classList.remove("active"));
@@ -161,14 +196,14 @@ async function navigateTo(pageId, fromBack) {
   el("result-panel").hidden = true;
   el("postfollow-panel").hidden = true;
 
-  logNavigation(fromBack ? "back" : "page_viewed", { page_id: pageId });
+  logNavigation(isBack ? "back" : "page_viewed", { page_id: pageId, via: via || "dropdown" });
 }
 
 async function onBack() {
   if (App.viewHistory.length === 0) return;
   const prev = App.viewHistory.pop();
   el("back-btn").disabled = App.viewHistory.length === 0;
-  await navigateTo(prev, true);
+  await navigateTo(prev, "back");
 }
 
 async function selectOperator(operator) {
@@ -185,44 +220,45 @@ async function selectOperator(operator) {
 
   el("result-panel").hidden = false;
   el("postfollow-panel").hidden = true;
-  el("result-status").textContent = "Checking for a recorded result...";
-  el("result-status").className = "status-line";
+  el("result-status").textContent = "Loading — checking for a recorded result...";
+  el("result-status").className = "status-line status-loading";
   el("result-body").innerHTML = "";
   el("tech-details").hidden = true;
   el("result-actions").hidden = true;
+  disableResultButtons(true);
 
-  const source = App.source;
-  const field = App.field;
+  const field = App.field, source = App.source, policy = App.policy;
   const saved = await api(
-    `/api/saved-result?field=${encodeURIComponent(field)}&source=${encodeURIComponent(source)}&operator=${encodeURIComponent(operator)}`
+    `/api/saved-result?field=${encodeURIComponent(field)}&source=${encodeURIComponent(source)}` +
+    `&operator=${encodeURIComponent(operator)}&policy=${encodeURIComponent(policy)}`
   );
-  if (myGeneration !== App.generation) return; // stale: field/page/operator changed since this click
+  if (myGeneration !== App.generation) return; // stale: field/page/operator/policy changed since this click
+
+  el("result-actions").hidden = false;
+  disableResultButtons(false);
 
   if (saved.recorded) {
     App.currentRun = saved;
     renderResult(saved, "recorded");
-    if (App.followImmediately) {
-      await tryAutoFollow(myGeneration);
-    }
+    if (App.followImmediately) await tryAutoFollow(myGeneration);
   } else {
-    App.currentRun = null;
-    el("result-status").textContent = "No recorded result for this field/source/operator.";
-    el("result-body").innerHTML = "";
-    el("result-actions").hidden = false;
-    el("accept-follow-btn").disabled = true;
-    if (App.followImmediately) {
-      await onRequestNew(false, myGeneration);
-    }
+    // Clicking an operator must always produce a proposal: no recorded match means an
+    // automatic live request, in both Preview and Follow-immediately mode. This is the
+    // fix for "uncached choices require an extra request" -- there is no separate click
+    // needed just to discover that nothing was cached.
+    await onRequestNew(myGeneration);
   }
-  el("result-actions").hidden = false;
+}
+
+function disableResultButtons(disabled) {
+  el("request-new-btn").disabled = disabled;
+  el("accept-follow-btn").disabled = disabled || !App.currentRun || App.currentRun.error || App.currentRun.is_abstention;
 }
 
 function renderResult(record, kind) {
   // kind: "recorded" | "new" | "mock"
   const statusEl = el("result-status");
   const bodyEl = el("result-body");
-  const actionsEl = el("result-actions");
-  actionsEl.hidden = false;
 
   const kindLabel = { recorded: "Recorded result", new: "New live result (just requested)", mock: "MOCK result (not a real Jev call)" }[kind] || kind;
 
@@ -230,12 +266,10 @@ function renderResult(record, kind) {
     statusEl.textContent = `Error (${kindLabel}): ${record.error}`;
     statusEl.className = "status-line status-error";
     bodyEl.innerHTML = "";
-    el("accept-follow-btn").disabled = true;
   } else if (record.is_abstention) {
     statusEl.textContent = `${kindLabel}: Jev abstained (NONE) -- no eligible destination.`;
     statusEl.className = "status-line status-none";
     bodyEl.innerHTML = "";
-    el("accept-follow-btn").disabled = true;
   } else {
     statusEl.textContent = kindLabel;
     statusEl.className = `status-line kind-${kind}`;
@@ -244,7 +278,6 @@ function renderResult(record, kind) {
     passageDiv.className = "passage";
     renderPassage(passageDiv, record.selected_text);
     bodyEl.appendChild(passageDiv);
-    el("accept-follow-btn").disabled = false;
   }
 
   el("tech-details").hidden = false;
@@ -255,6 +288,7 @@ function renderResult(record, kind) {
       field: record.field,
       source: record.source,
       operator: record.operator,
+      policy: App.policy,
       criterion: record.criterion,
       confidence: record.confidence,
       probabilities: record.probabilities,
@@ -268,25 +302,25 @@ function renderResult(record, kind) {
   );
 
   App.currentRun = { ...record, run_dir: record.run_dir };
+  disableResultButtons(false);
 }
 
-async function onRequestNew(manualClick, expectedGeneration) {
-  const myGeneration = expectedGeneration !== undefined ? expectedGeneration : App.generation;
-  const field = App.field;
-  const source = App.source;
-  const operator = App.operator;
+async function onRequestNew(expectedGeneration) {
+  // Reserved for an explicit rerun when called from the "Ask Jev again" button (no
+  // argument); also used internally as the automatic first request on a cache miss.
+  const myGeneration = typeof expectedGeneration === "number" ? expectedGeneration : App.generation;
+  const field = App.field, source = App.source, operator = App.operator, policy = App.policy;
 
-  el("request-new-btn").disabled = true;
-  el("accept-follow-btn").disabled = true;
-  el("result-status").textContent = "Requesting a live selection from Jev...";
-  el("result-status").className = "status-line";
+  disableResultButtons(true);
+  el("result-status").textContent = "Loading — requesting a live selection from Jev...";
+  el("result-status").className = "status-line status-loading";
   try {
     const record = await api("/api/request-selection", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ field, source, operator }),
+      body: JSON.stringify({ field, source, operator, policy }),
     });
-    if (myGeneration !== App.generation) return; // stale: navigation happened while this was in flight
+    if (myGeneration !== App.generation) return; // stale: navigation/policy change happened while this was in flight
 
     if (record.result) {
       renderResult(
@@ -299,9 +333,7 @@ async function onRequestNew(manualClick, expectedGeneration) {
         },
         record.kind || "new"
       );
-      if (manualClick === false && App.followImmediately) {
-        await tryAutoFollow(myGeneration);
-      }
+      if (App.followImmediately) await tryAutoFollow(myGeneration);
     } else {
       renderResult({ ...record, error: record.error || "unknown error" }, record.kind || "new");
     }
@@ -309,10 +341,7 @@ async function onRequestNew(manualClick, expectedGeneration) {
     if (myGeneration === App.generation) {
       el("result-status").textContent = `Request failed: ${e.message}`;
       el("result-status").className = "status-line status-error";
-    }
-  } finally {
-    if (myGeneration === App.generation) {
-      el("request-new-btn").disabled = false;
+      disableResultButtons(false);
     }
   }
 }
@@ -320,7 +349,7 @@ async function onRequestNew(manualClick, expectedGeneration) {
 async function tryAutoFollow(expectedGeneration) {
   if (expectedGeneration !== App.generation) return;
   if (!App.currentRun || App.currentRun.error || App.currentRun.is_abstention) return;
-  el("result-status").textContent += " -- following automatically (Follow immediately mode)...";
+  el("result-status").textContent += " — following automatically (Follow immediately mode)...";
   await onAcceptAndFollow(expectedGeneration);
 }
 
@@ -343,7 +372,7 @@ async function onAcceptAndFollow(expectedGeneration) {
     renderTraversalHistory(outcome.reader_state);
 
     const destination = App.currentRun.selected_id;
-    await navigateTo(destination, false);
+    await navigateTo(destination, "traversal");
 
     el("postfollow-panel").hidden = false;
     el("postfollow-id").textContent = destination;

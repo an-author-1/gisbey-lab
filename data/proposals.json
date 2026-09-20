@@ -10,5 +10,17 @@
     "confidence": 0.33,
     "status": "accepted",
     "created_at": "2026-09-20T01:52:56.661842+00:00"
+  },
+  "20260920T031823Z_reader-full-41-PR1-develop_live": {
+    "proposal_id": "prop_20260920T031823Z_reader-full-41-PR1-develop_live",
+    "run_id": "20260920T031823Z_reader-full-41-PR1-develop_live",
+    "case_id": "reader-full-41-PR1-develop",
+    "source_id": "PR1",
+    "active_id": null,
+    "selected_id": "PR2",
+    "selected_text": "In a theme park, when an attraction loses traffic, they are destroyed and replaced by other attractions.\n\nIt's rumored that even upon death, the amusement park of our brain never dies. They instead transform into a vacation without end, and that both their constructive and deconstructive processes instead enter a phase beyond our understanding and ability to calculate.\n\nAnd this text functions in a similar manner.\n\nIt has entered this second phase.\n\nBecause, like a brain, I have thought all of these thoughts before.\n\nMany, many, many times.\n\nSo many times, in fact, that I've begun to carve pathways for myself.\n\nAnd these pathways carve pathways, and these pathways carve other pathways.\n\nI'm sure you get the idea.",
+    "confidence": 0.37,
+    "status": "accepted",
+    "created_at": "2026-09-20T03:18:28.974370+00:00"
   }
 }

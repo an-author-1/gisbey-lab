@@ -14,7 +14,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from .fields import HOLDOUT_21, Field, prefix_of
+from .fields import DEFAULT_POLICY, HOLDOUT_21, INCLUDE_ADJACENT, Field, prefix_of
 from .recorder import RUNS_DIR
 
 _HOLDOUT_PREFIXES = {"LF", "PR"}
@@ -52,8 +52,8 @@ def _infer_legacy_field(option_order: list[str], source_id: str) -> str:
     return "legacy-training-only-field"
 
 
-def _expected_fingerprint(field: Field, source_id: str, operator: str, criterion: str) -> dict:
-    candidate_order = field.candidate_ids_for(source_id)
+def _expected_fingerprint(field: Field, source_id: str, operator: str, criterion: str, policy: str) -> dict:
+    candidate_order = field.eligible_candidate_ids(source_id, policy)
     return {
         "field": field.id,
         "source_id": source_id,
@@ -89,17 +89,19 @@ def find_matching_recorded_result(
     operator: str,
     criterion: str,
     expected_model: str | None,
+    policy: str = DEFAULT_POLICY,
     runs_dir: Path = RUNS_DIR,
 ) -> SavedResult | None:
     """Search all recorded runs (both the original experiment batches and anything the
     reader app itself has produced) for one whose full fingerprint -- field, exact
-    source/candidate versions and order, exact criterion text, and requested model --
-    matches what would be sent right now. Returns the most recent qualifying match, or
-    None if there isn't one. Never returns a mock run."""
+    source/candidate versions and order under the given eligibility policy, exact
+    criterion text, and requested model -- matches what would be sent right now. Returns
+    the most recent qualifying match, or None if there isn't one. Never returns a mock
+    run."""
     if not runs_dir.is_dir():
         return None
 
-    expected = _expected_fingerprint(field, source_id, operator, criterion)
+    expected = _expected_fingerprint(field, source_id, operator, criterion, policy)
     best: SavedResult | None = None
     best_run_id = ""
 

@@ -16,6 +16,9 @@
     <label>Source page
       <select id="page-select"></select>
     </label>
+    <label>Candidate policy
+      <select id="policy-select"></select>
+    </label>
     <button id="back-btn" disabled>&larr; Back</button>
   </div>
 </header>
@@ -29,13 +32,16 @@
       Follow immediately
     </label>
     <p class="hint">
-      <strong>Preview</strong> (default): clicking an operator only shows what it would propose -- nothing moves until you click "Accept and follow."
-      <strong>Follow immediately</strong>: clicking an operator retrieves a matching recorded proposal, or requests one new Jev selection if none matches, then automatically accepts and follows a valid destination. NONE or an error leaves you in place either way.
+      Clicking an operator always produces a proposal -- a matching recorded result if one exists, otherwise one new live Jev selection automatically. <strong>Preview</strong> (default) just shows it; nothing moves until you click "Accept and follow." <strong>Follow immediately</strong> also auto-accepts and follows a valid destination. NONE or an error leaves you in place either way. "Ask Jev again" always makes a fresh request, in both modes.
     </p>
   </section>
 
   <section id="source-panel" class="panel">
-    <h2>Source <span id="source-id" class="page-tag"></span> <span id="field-badge" class="field-badge"></span></h2>
+    <h2>Source <span id="source-id" class="page-tag"></span> <span id="field-badge" class="field-badge"></span> <span id="policy-badge" class="field-badge"></span></h2>
+    <div class="action-row">
+      <button id="prev-btn">&larr; Previous</button>
+      <button id="next-btn">Next &rarr;</button>
+    </div>
     <div id="source-text" class="passage"></div>
   </section>
 

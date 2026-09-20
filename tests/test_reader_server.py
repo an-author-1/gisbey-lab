@@ -67,14 +67,22 @@ def test_get_pages_holdout_still_available_and_has_21():
 
 @pytest.mark.parametrize("source_id", ["P1", "F1", "LF1", "PR1"])
 def test_every_prefix_gets_exactly_40_candidates_plus_none_in_full_field(source_id):
-    from gibsey_lab.fields import FULL_41, load_field
+    """Under Include-adjacent (no neighbor exclusion), every source gets all 40 other
+    pages regardless of its own text's prefix."""
+    from gibsey_lab.fields import FULL_41, INCLUDE_ADJACENT, load_field
     from gibsey_lab.reader_context import assemble_reader_packet
 
     field = load_field(FULL_41)
-    packet = assemble_reader_packet(field, source_id, "ECHO")
+    packet = assemble_reader_packet(field, source_id, "ECHO", policy=INCLUDE_ADJACENT)
     assert len(packet.option_order) == 41  # 40 other pages + NONE
     assert source_id not in packet.options
     assert "NONE" in packet.options
+
+
+def test_get_page_includes_prev_next_neighbors():
+    data = Handlers.get_page({"field": ["holdout-21"], "id": ["LF6"]})
+    assert data["previous_id"] == "LF5"
+    assert data["next_id"] == "LF7"
 
 
 def test_get_page_pr1_full_text_matches_manifest():
@@ -87,11 +95,21 @@ def test_get_page_pr1_full_text_matches_manifest():
 
 
 def test_get_saved_result_pr1_develop_is_recorded_pr4():
-    data = Handlers.get_saved_result({"field": ["holdout-21"], "source": ["PR1"], "operator": ["DEVELOP"]})
+    """The historical Phase-A run used v0.1 wording and an unrestricted candidate set --
+    explicitly requesting that exact configuration finds it."""
+    data = Handlers.get_saved_result({
+        "field": ["holdout-21"], "source": ["PR1"], "operator": ["DEVELOP"],
+        "version": ["v0.1"], "policy": ["include-adjacent"],
+    })
     assert data["recorded"] is True
     assert data["kind"] == "recorded"
     assert data["selected_id"] == "PR4"
     assert data["is_abstention"] is False
+
+
+def test_get_saved_result_defaults_to_v0_2_discovery_which_has_no_recorded_history_yet():
+    data = Handlers.get_saved_result({"field": ["holdout-21"], "source": ["PR1"], "operator": ["DEVELOP"]})
+    assert data["recorded"] is False
 
 
 def test_get_saved_result_never_preloads_for_expanded_field_with_no_history():
@@ -105,12 +123,29 @@ def test_get_saved_result_missing_params_is_api_error():
         Handlers.get_saved_result({"field": ["holdout-21"]})
 
 
-def test_a_holdout_result_is_never_shown_as_a_full_41_result():
-    """Same source/operator, different field -- the holdout-21 recorded result for
-    PR1/DEVELOP must not leak into a full-41 lookup for the same pair."""
-    holdout_data = Handlers.get_saved_result({"field": ["holdout-21"], "source": ["PR1"], "operator": ["DEVELOP"]})
-    full_data = Handlers.get_saved_result({"field": ["full-41"], "source": ["PR1"], "operator": ["DEVELOP"]})
-    assert holdout_data["recorded"] is True
+def test_a_holdout_result_is_never_conflated_with_a_full_41_result():
+    """Same source/operator/version/policy, different field -- both fields happen to have
+    their own genuine recorded result for this exact pair (holdout-21 from the original
+    experiment, full-41 from a real reader session), and each must report its own field
+    and its own actual destination rather than one leaking into the other."""
+    params = {
+        "source": ["PR1"], "operator": ["DEVELOP"],
+        "version": ["v0.1"], "policy": ["include-adjacent"],
+    }
+    holdout_data = Handlers.get_saved_result({"field": ["holdout-21"], **params})
+    full_data = Handlers.get_saved_result({"field": ["full-41"], **params})
+    assert holdout_data["recorded"] is True and holdout_data["field"] == "holdout-21"
+    assert full_data["recorded"] is True and full_data["field"] == "full-41"
+    assert holdout_data["selected_id"] != full_data["selected_id"]  # genuinely distinct results, not the same record
+
+
+def test_a_result_never_recorded_under_one_field_stays_absent_there():
+    """v0.2/discovery has no history in either field yet -- confirms the negative case
+    still holds where no genuine record exists."""
+    params = {"source": ["PR1"], "operator": ["DEVELOP"]}  # defaults: v0.2, discovery
+    holdout_data = Handlers.get_saved_result({"field": ["holdout-21"], **params})
+    full_data = Handlers.get_saved_result({"field": ["full-41"], **params})
+    assert holdout_data["recorded"] is False
     assert full_data["recorded"] is False
 
 
@@ -279,7 +314,7 @@ def test_request_selection_wires_to_run_case_without_a_real_network_call(monkeyp
     assert record["kind"] == "new"
 
     saved_run_dir = list((tmp_path / "runs").iterdir())[0]
-    assert saved_run_dir.name.endswith("_reader-holdout-21-PR1-develop_live")
+    assert saved_run_dir.name.endswith("_reader-holdout-21-PR1-develop-v0.2-discovery_live")
 
     from gibsey_lab import session_log
 
@@ -333,7 +368,8 @@ def test_full_http_roundtrip(tmp_path, monkeypatch):
             assert data["fields"][0]["id"] == "full-41"
 
         with urllib.request.urlopen(
-            f"http://127.0.0.1:{port}/api/saved-result?field=holdout-21&source=PR1&operator=DEVELOP", timeout=5
+            f"http://127.0.0.1:{port}/api/saved-result?field=holdout-21&source=PR1&operator=DEVELOP"
+            f"&version=v0.1&policy=include-adjacent", timeout=5
         ) as resp:
             data = json.loads(resp.read())
             assert data["selected_id"] == "PR4"
