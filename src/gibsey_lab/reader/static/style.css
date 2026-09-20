@@ -27,8 +27,17 @@ button { cursor: pointer; background: #fff; }
 button:disabled { opacity: 0.5; cursor: not-allowed; }
 button:hover:not(:disabled) { background: #f0ede6; }
 .panel { border: 1px solid #ddd; border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; background: #fff; }
+.panel-compact { padding: 0.85rem 1.25rem; }
 .panel h2 { font-size: 1.05rem; margin-top: 0; }
 .page-tag { font-family: Menlo, monospace; font-size: 0.85rem; background: #eee; padding: 0.1rem 0.5rem; border-radius: 4px; color: #555; }
+.field-badge { font-size: 0.75rem; background: #eef2f7; color: #4a6fa5; padding: 0.1rem 0.5rem; border-radius: 10px; font-family: inherit; font-style: normal; }
+.banner { padding: 0.75rem 1.25rem; margin: 0 0 1rem; border-radius: 6px; font-size: 0.9rem; }
+.banner-warning { background: #fde3c8; color: #8a4a00; border: 1px solid #e0a35c; }
+.mode-toggle { display: flex; align-items: center; gap: 0.5rem; font-weight: bold; margin-bottom: 0.4rem; cursor: pointer; }
+.mode-toggle input { width: 1.1rem; height: 1.1rem; }
+.kind-recorded { color: #1a6b3f; }
+.kind-new { color: #4a6fa5; }
+.kind-mock { color: #b8860b; }
 .passage { white-space: pre-wrap; font-size: 1.05rem; background: #f6f4ee; padding: 1rem 1.25rem; border-radius: 6px; }
 .passage p { margin: 0 0 1rem; }
 .passage p:last-child { margin-bottom: 0; }

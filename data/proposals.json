@@ -1,0 +1,14 @@
+{
+  "20260920T002302Z_relop-holdout-full-PR1-develop_live": {
+    "proposal_id": "prop_20260920T002302Z_relop-holdout-full-PR1-develop_live",
+    "run_id": "20260920T002302Z_relop-holdout-full-PR1-develop_live",
+    "case_id": "relop-holdout-full-PR1-develop",
+    "source_id": "PR1",
+    "active_id": null,
+    "selected_id": "PR4",
+    "selected_text": "Some thoughts of mine will become the more popular rides of the park, the E-class attractions, while others will become the less popular rides, the A through D class attractions. Some will be constructed and will remain within the park throughout the entirety of its construction, while others will be demolished and replaced.\n\nI have no control over which rides remain and which rides are to be destroyed.\n\nThat is for my guests to decide.\n\nAnd you are a guest in my amusement park.\n\nYou are both the creator and destroyer of my thoughts.\n\nYou decide which attractions will remain and which will be replaced.\n\nAnd as such, one is forced to ask, does telepathy then exist and has it always existed?",
+    "confidence": 0.33,
+    "status": "accepted",
+    "created_at": "2026-09-20T01:52:56.661842+00:00"
+  }
+}

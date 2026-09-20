@@ -20,9 +20,22 @@
   </div>
 </header>
 
+<div id="field-status-banner" class="banner banner-warning" hidden></div>
+
 <main>
+  <section id="mode-panel" class="panel panel-compact">
+    <label class="mode-toggle">
+      <input type="checkbox" id="follow-immediately-toggle">
+      Follow immediately
+    </label>
+    <p class="hint">
+      <strong>Preview</strong> (default): clicking an operator only shows what it would propose -- nothing moves until you click "Accept and follow."
+      <strong>Follow immediately</strong>: clicking an operator retrieves a matching recorded proposal, or requests one new Jev selection if none matches, then automatically accepts and follows a valid destination. NONE or an error leaves you in place either way.
+    </p>
+  </section>
+
   <section id="source-panel" class="panel">
-    <h2>Source <span id="source-id" class="page-tag"></span></h2>
+    <h2>Source <span id="source-id" class="page-tag"></span> <span id="field-badge" class="field-badge"></span></h2>
     <div id="source-text" class="passage"></div>
   </section>
 
@@ -37,7 +50,7 @@
     <div id="result-status" class="status-line"></div>
     <div id="result-body"></div>
     <div id="result-actions" class="action-row" hidden>
-      <button id="request-new-btn">Request new selection</button>
+      <button id="request-new-btn">Ask Jev again</button>
       <button id="accept-follow-btn" disabled>Accept and follow &rarr;</button>
     </div>
     <details id="tech-details" hidden>
@@ -48,13 +61,12 @@
 
   <section id="postfollow-panel" class="panel" hidden>
     <h2>Now reading <span id="postfollow-id" class="page-tag"></span></h2>
-    <p class="hint">You followed the accepted bond. Preserve this realization to your Gibsey Vault, or leave a short optional note.</p>
     <div class="action-row">
       <button id="preserve-btn">Preserve to Gibsey Vault</button>
       <span id="preserve-status" class="status-line"></span>
     </div>
-    <details open>
-      <summary>Optional reading note (never sent to Jev)</summary>
+    <details>
+      <summary>Optional reading note (never sent to Jev, not required to keep exploring)</summary>
       <div class="note-form">
         <label>What is the correspondence?<textarea id="note-correspondence" rows="2"></textarea></label>
         <label>What does reading these together change?<textarea id="note-change" rows="2"></textarea></label>
@@ -73,9 +85,9 @@
     </details>
   </section>
 
-  <section id="history-panel" class="panel">
+  <section id="history-panel" class="panel panel-compact">
     <details>
-      <summary>Recorded Q traversal history (what actually happened, server-side)</summary>
+      <summary>Recorded Q traversal history (server-side)</summary>
       <pre id="traversal-history"></pre>
     </details>
   </section>

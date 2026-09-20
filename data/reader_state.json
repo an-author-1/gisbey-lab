@@ -1,0 +1,14 @@
+{
+  "active_page": "PR4",
+  "active_passage": "PR4",
+  "history": [
+    {
+      "event": "Q_follow",
+      "bond_id": "bond_prop_20260920T002302Z_relop-holdout-full-PR1-develop_live",
+      "from_page": null,
+      "from_passage": null,
+      "to_id": "PR4",
+      "at": "2026-09-20T01:52:56.664058+00:00"
+    }
+  ]
+}

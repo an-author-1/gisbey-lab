@@ -1,11 +1,14 @@
 """The two candidate fields the reader app can operate over.
 
 `holdout-21`: the London Fox / Princhetta holdout corpus only (21 pages). This is the
-field the existing full-field and tournament experiments were run against.
+field the existing full-field and tournament experiments were run against. Kept
+available as an optional experiment setting; historical sessions and results recorded
+against it are unchanged.
 
-`full-41`: the complete vault (20 training pages + 21 holdout pages = 41). This
-combination has never been exercised by a live experiment -- it is a genuinely new,
-explicitly labeled condition, not an extension of prior recorded results.
+`full-41`: the complete vault (20 training pages + 21 holdout pages = 41), the default
+for new reading sessions. Every page is eligible as a source, and for any source, every
+other page in the field is an eligible destination for all four operators (40 candidates
++ NONE).
 """
 from __future__ import annotations
 
@@ -13,18 +16,29 @@ import re
 from dataclasses import dataclass
 
 from . import cases
+from .corpus import EXPECTED_IDS as TRAINING_EXPECTED_IDS
 from .corpus import Page, load_manifest
-from .holdout_corpus import load_holdout_manifest
+from .holdout_corpus import EXPECTED_HOLDOUT_IDS, load_holdout_manifest
 
 HOLDOUT_21 = "holdout-21"
 FULL_41 = "full-41"
-KNOWN_FIELDS = (HOLDOUT_21, FULL_41)
-DEFAULT_FIELD = HOLDOUT_21
+KNOWN_FIELDS = (FULL_41, HOLDOUT_21)
+DEFAULT_FIELD = FULL_41
+
+EXPECTED_FULL_41_IDS = TRAINING_EXPECTED_IDS + EXPECTED_HOLDOUT_IDS
+
+# Human-readable groupings for the page picker: (prefix, title). Order here is the
+# display order of groups; pages within a group are ordered numerically.
+TEXT_GROUPS: list[tuple[str, str]] = [
+    ("P", "an author's preface"),
+    ("F", "The Foreword to the Foreword to an author's preface"),
+    ("LF", "London Fox Who Vertically Disintegrates"),
+    ("PR", "Princhetta Who Thinks Herself Alive"),
+]
 
 # Page IDs mix two naming schemes: single-letter (P1, F12) and two-letter (LF16, PR5)
-# prefixes. holdout_corpus.canonical_order's fixed pid[:2] slicing only handles the
-# latter; this splits on the letters/digits boundary generically, so it works for both
-# in the combined 41-page field.
+# prefixes. A fixed pid[:2] slice breaks on the single-letter ids (int('') on the
+# leftover ""), so this splits on the letters/digits boundary generically instead.
 _ID_SPLIT = re.compile(r"^([A-Za-z]+)(\d+)$")
 
 
@@ -34,6 +48,11 @@ def _sort_key(pid: str) -> tuple[str, int]:
         return (pid, 0)
     prefix, number = match.groups()
     return (prefix, int(number))
+
+
+def prefix_of(pid: str) -> str:
+    match = _ID_SPLIT.match(pid)
+    return match.group(1) if match else pid
 
 
 class FieldError(Exception):
@@ -52,6 +71,16 @@ class Field:
     def candidate_ids_for(self, source_id: str) -> list[str]:
         return sorted((pid for pid in self.manifest if pid != source_id), key=_sort_key)
 
+    def grouped_ids(self) -> list[dict]:
+        """Page picker grouping: by authored text, pages ordered numerically within
+        each group. Only groups actually present in this field are included."""
+        groups = []
+        for prefix, title in TEXT_GROUPS:
+            pages = sorted((pid for pid in self.manifest if prefix_of(pid) == prefix), key=_sort_key)
+            if pages:
+                groups.append({"prefix": prefix, "title": title, "pages": pages})
+        return groups
+
 
 def load_field(field_id: str) -> Field:
     if field_id == HOLDOUT_21:
@@ -64,8 +93,47 @@ def load_field(field_id: str) -> Field:
         if overlap:
             raise FieldError(f"unexpected ID overlap between corpora: {sorted(overlap)}")
         manifest = {**training, **holdout}
+        missing = [pid for pid in EXPECTED_FULL_41_IDS if pid not in manifest]
+        if missing:
+            raise FieldError(f"field {FULL_41!r} is missing expected pages: {missing}")
+        if len(manifest) != len(EXPECTED_FULL_41_IDS):
+            extra = sorted(set(manifest) - set(EXPECTED_FULL_41_IDS))
+            raise FieldError(f"field {FULL_41!r} has unexpected extra pages: {extra}")
         return Field(id=FULL_41, label="Complete 41-page corpus (training + holdout)", manifest=manifest)
     raise FieldError(f"unknown field: {field_id!r}; known fields: {KNOWN_FIELDS}")
+
+
+def check_full_field_completeness() -> list[str]:
+    """Report-only check (never silently excludes pages): returns a list of problem
+    strings -- missing IDs, duplicate IDs across the two corpora -- or an empty list if
+    the manifest is exactly the expected 41 pages. Safe to call even if load_field(41)
+    would raise (it re-derives the two manifests independently)."""
+    problems: list[str] = []
+    try:
+        training = load_manifest()
+    except Exception as e:  # noqa: BLE001
+        problems.append(f"training corpus failed to load: {e}")
+        training = {}
+    try:
+        holdout = load_holdout_manifest()
+    except Exception as e:  # noqa: BLE001
+        problems.append(f"holdout corpus failed to load: {e}")
+        holdout = {}
+
+    overlap = sorted(set(training) & set(holdout))
+    if overlap:
+        problems.append(f"duplicate IDs present in both corpora: {overlap}")
+
+    combined = {**training, **holdout}
+    missing = [pid for pid in EXPECTED_FULL_41_IDS if pid not in combined]
+    if missing:
+        problems.append(f"missing pages: {missing}")
+
+    for pid, page in combined.items():
+        if page.is_empty:
+            problems.append(f"empty page: {pid}")
+
+    return problems
 
 
 def validate_source_and_candidates(field: Field, source_id: str) -> None:

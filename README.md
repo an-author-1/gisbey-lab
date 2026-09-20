@@ -398,18 +398,55 @@ gibsey serve-reader --no-open    # don't auto-open a browser tab
 gibsey serve-reader --port 9000  # use a different local port
 ```
 
-Starts at PR1 in the 21-page holdout field (London Fox / Princhetta) by default, showing
-any existing recorded original-field result for the selected operator without making a
-call. A field selector offers the complete 41-page corpus (training + holdout) as an
-explicitly separate, distinctly labeled condition — no live experiment has ever been run
-against that combined field, so nothing is preloaded there. Loading the page, switching
-fields/sources/operators, and viewing saved results never call Jev; only the explicit
-"Request new selection" button does, using the pinned model and recording the actual
-returned identifier. "Accept and follow" performs the existing `propose` → `accept` →
-`follow` actions as separate recorded events; preserving to the Gibsey Vault reuses the
-existing repeat-safe `preserve`. Reading notes are optional and are never included in any
-Jev request. Reuses the existing corpus loader, context assembly, Jev/mock adapters, run
-recorder, and Q/R state modules unchanged.
+**Default field is the complete 41-page corpus** (`full-41`: P1–P8, F1–F12, LF1–16,
+PR1–5 — every page eligible as a source, every other page in the field eligible as a
+destination for all four operators: 40 candidates + NONE). The 21-page holdout field
+(London Fox / Princhetta only) remains available from the field dropdown as an optional
+setting; historical sessions and results recorded against it are unchanged and still
+load correctly. `/api/field-status` reports (never silently drops) any missing/duplicate
+page identity — normally empty, since both corpora currently load clean. The page picker
+is grouped by authored text (the four folders under `vault/`), pages ordered numerically
+within each group.
+
+Two reading modes: **Preview** (default) shows what an operator would propose and moves
+nothing until you click "Accept and follow." **Follow immediately** (an explicit toggle,
+explained once next to the checkbox) makes clicking an operator retrieve a matching
+recorded proposal or request one new live selection if none matches, then automatically
+accept and follow a valid destination — NONE or an error still leaves you in place either
+way. Loading a page or changing the field never triggers a live call in either mode; only
+an operator click in Follow-immediately mode, or the explicit "Ask Jev again" button in
+Preview mode, ever does. "Accept and follow" performs `propose` → `accept` → `follow` as
+three separately recorded events (never popularity-judgments or literary quality checks —
+just the mechanical state transition). A recorded result is only ever reused when its
+field, exact source/candidate page versions and order, operator criterion text, and
+requested model configuration all match what would be sent right now; a result from one
+field is never shown as a result from the other, and mock results are never surfaced
+during normal exploration. A generation counter guards against duplicate clicks or a
+stale in-flight response causing movement after you've already navigated elsewhere or
+changed fields.
+
+Every navigation step, operator check, run reference, traversal, and Back click is logged
+automatically and passively to `data/session_log.jsonl` — no notes required, and nothing
+here is ever preserved to the Gibsey Vault or sent to Jev on its own. Preserving to the
+Vault remains a separate, explicit, repeat-safe action.
+
+Reuses the existing corpus loader, context assembly, Jev/mock adapters, run recorder, and
+Q/R state modules unchanged.
+
+#### Reviewing a reading session with agents
+
+A Claude Code skill, `.claude/skills/review-reading-session/`, reviews up to the 10 most
+recent traversals from `data/session_log.jsonl` using two read-only project subagents
+defined in `.claude/agents/`: `close-reader` (textual grounding, possible reading
+effects) and `skeptical-reader` (weak operator fit, repetition, alternative
+interpretations). Both receive the exact recorded source/destination text and criterion,
+never each other's output, and never Jev's confidence. Invoke it by asking Claude Code to
+"review my latest reading session," or by running `gibsey session-review-data --limit 10`
+yourself first to see exactly what would be reviewed. Findings are saved to
+`data/agent_reviews/<timestamp>.md`, separate from any run's human `review.json`; the
+reply is a short digest (up to three interesting connections, any supported concern). The
+skill never changes operator wording, accepts/follows a proposal, or turns commentary
+into an in-world page — and the reader works fully without ever running it.
 
 ### Verified so far
 

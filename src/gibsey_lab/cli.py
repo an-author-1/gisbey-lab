@@ -13,6 +13,7 @@ from .recorder import RUNS_DIR
 from .reviewing import ReviewError, update_review
 from .runner import run_case
 from .sentence_map import SentenceMapError, approve, load_reviewed_map, propose_sentence_map, save_map
+from .session_review import gather_recent_traversal_material
 
 
 def cmd_validate_corpus(args: argparse.Namespace) -> int:
@@ -206,6 +207,12 @@ def cmd_serve_reader(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_session_review_data(args: argparse.Namespace) -> int:
+    material = gather_recent_traversal_material(limit=args.limit)
+    print(json.dumps(material, indent=2, ensure_ascii=False))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="gibsey")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -261,6 +268,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--port", type=int, default=8765)
     p.add_argument("--no-open", action="store_true", help="don't open a browser tab automatically")
     p.set_defaults(func=cmd_serve_reader)
+
+    p = sub.add_parser("session-review-data")
+    p.add_argument("--limit", type=int, default=10)
+    p.set_defaults(func=cmd_session_review_data)
 
     return parser
 

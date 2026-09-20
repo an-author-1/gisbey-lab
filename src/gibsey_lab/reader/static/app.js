@@ -8,6 +8,8 @@ const App = {
   currentBond: null,  // {proposal_id, bond_id}
   viewHistory: [],    // client-side "pages I looked at" for the Back button only
   criteria: {},       // operator -> exact criterion text, from /api/fields
+  followImmediately: false,
+  generation: 0,      // bumped on every navigation/field change; guards against stale async responses
 };
 
 const el = (id) => document.getElementById(id);
@@ -19,13 +21,21 @@ async function api(path, opts) {
   return data;
 }
 
+function logNavigation(event, extra) {
+  api("/api/session/navigation", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ event, field: App.field, ...extra }),
+  }).catch(() => {}); // passive logging: never blocks or breaks the reading flow
+}
+
 function renderPassage(container, text) {
   container.innerHTML = "";
   const paragraphs = text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   for (const p of paragraphs) {
-    const el2 = document.createElement("p");
-    el2.textContent = p;
-    container.appendChild(el2);
+    const p2 = document.createElement("p");
+    p2.textContent = p;
+    container.appendChild(p2);
   }
 }
 
@@ -45,37 +55,69 @@ async function init() {
   renderOperatorButtons(fieldsData.operators, fieldsData.operator_version);
 
   fieldSelect.addEventListener("change", async () => {
+    const previousField = App.field;
     App.field = fieldSelect.value;
+    App.generation++;
+    App.viewHistory = [];
+    el("back-btn").disabled = true;
+    logNavigation("field_selected", { from_field: previousField });
+    await checkFieldStatus();
     await loadPageList();
-    const first = App.field === "holdout-21" ? "PR1" : (el("page-select").options[0] || {}).value;
-    await navigateTo(first, false);
+    const groups = el("page-select").querySelectorAll("optgroup");
+    const firstPage = groups.length ? groups[0].querySelector("option").value : null;
+    await navigateTo(firstPage, false);
   });
   el("back-btn").addEventListener("click", onBack);
   el("page-select").addEventListener("change", () => navigateTo(el("page-select").value, false));
-  el("request-new-btn").addEventListener("click", onRequestNew);
+  el("follow-immediately-toggle").addEventListener("change", (e) => {
+    App.followImmediately = e.target.checked;
+  });
+  el("request-new-btn").addEventListener("click", () => onRequestNew(true));
   el("accept-follow-btn").addEventListener("click", onAcceptAndFollow);
   el("preserve-btn").addEventListener("click", onPreserve);
   el("save-note-btn").addEventListener("click", onSaveNote);
 
+  await checkFieldStatus();
   await loadPageList();
 
-  // Start at PR1 unless there is already a recorded reader position (Q traversal state).
+  // Start at the recorded reader position if one exists (a real Q traversal already
+  // happened in a previous session), otherwise the first page of the default field.
   const readerState = await api("/api/reader-state");
-  const start = readerState.active_page && readerState.active_passage ? readerState.active_passage
-    : (readerState.active_page || "PR1");
+  let start = readerState.active_passage || readerState.active_page;
+  if (!start) {
+    const firstGroup = el("page-select").querySelector("optgroup");
+    start = firstGroup ? firstGroup.querySelector("option").value : null;
+  }
   await navigateTo(start, false);
   renderTraversalHistory(readerState);
+}
+
+async function checkFieldStatus() {
+  const status = await api(`/api/field-status?field=${encodeURIComponent(App.field)}`);
+  const banner = el("field-status-banner");
+  if (status.ok) {
+    banner.hidden = true;
+    banner.textContent = "";
+  } else {
+    banner.hidden = false;
+    banner.textContent = `Corpus problem in field "${App.field}": ${status.problems.join("; ")}`;
+  }
 }
 
 async function loadPageList() {
   const data = await api(`/api/pages?field=${encodeURIComponent(App.field)}`);
   const pageSelect = el("page-select");
   pageSelect.innerHTML = "";
-  for (const id of data.pages) {
-    const opt = document.createElement("option");
-    opt.value = id;
-    opt.textContent = id;
-    pageSelect.appendChild(opt);
+  for (const group of data.groups) {
+    const optgroup = document.createElement("optgroup");
+    optgroup.label = group.title;
+    for (const id of group.pages) {
+      const opt = document.createElement("option");
+      opt.value = id;
+      opt.textContent = id;
+      optgroup.appendChild(opt);
+    }
+    pageSelect.appendChild(optgroup);
   }
 }
 
@@ -94,6 +136,9 @@ function renderOperatorButtons(operators, version) {
 
 async function navigateTo(pageId, fromBack) {
   if (!pageId) return;
+  App.generation++;
+  const myGeneration = App.generation;
+
   if (!fromBack && App.source && App.source !== pageId) {
     App.viewHistory.push(App.source);
     el("back-btn").disabled = App.viewHistory.length === 0;
@@ -105,13 +150,18 @@ async function navigateTo(pageId, fromBack) {
 
   el("page-select").value = pageId;
   const page = await api(`/api/page?field=${encodeURIComponent(App.field)}&id=${encodeURIComponent(pageId)}`);
+  if (myGeneration !== App.generation) return; // a newer navigation superseded this one
+
   el("source-id").textContent = page.id;
+  el("field-badge").textContent = App.field;
   renderPassage(el("source-text"), page.text);
 
   document.querySelectorAll("#operator-buttons button").forEach((b) => b.classList.remove("active"));
   el("operator-criterion").hidden = true;
   el("result-panel").hidden = true;
   el("postfollow-panel").hidden = true;
+
+  logNavigation(fromBack ? "back" : "page_viewed", { page_id: pageId });
 }
 
 async function onBack() {
@@ -122,6 +172,9 @@ async function onBack() {
 }
 
 async function selectOperator(operator) {
+  App.generation++;
+  const myGeneration = App.generation;
+
   App.operator = operator;
   document.querySelectorAll("#operator-buttons button").forEach((b) => {
     b.classList.toggle("active", b.dataset.operator === operator);
@@ -138,43 +191,54 @@ async function selectOperator(operator) {
   el("tech-details").hidden = true;
   el("result-actions").hidden = true;
 
+  const source = App.source;
+  const field = App.field;
   const saved = await api(
-    `/api/saved-result?field=${encodeURIComponent(App.field)}&source=${encodeURIComponent(App.source)}&operator=${encodeURIComponent(operator)}`
+    `/api/saved-result?field=${encodeURIComponent(field)}&source=${encodeURIComponent(source)}&operator=${encodeURIComponent(operator)}`
   );
+  if (myGeneration !== App.generation) return; // stale: field/page/operator changed since this click
 
   if (saved.recorded) {
     App.currentRun = saved;
     renderResult(saved, "recorded");
+    if (App.followImmediately) {
+      await tryAutoFollow(myGeneration);
+    }
   } else {
     App.currentRun = null;
-    el("result-status").textContent = "No recorded original-field result for this combination.";
+    el("result-status").textContent = "No recorded result for this field/source/operator.";
     el("result-body").innerHTML = "";
     el("result-actions").hidden = false;
     el("accept-follow-btn").disabled = true;
+    if (App.followImmediately) {
+      await onRequestNew(false, myGeneration);
+    }
   }
   el("result-actions").hidden = false;
 }
 
 function renderResult(record, kind) {
-  // kind: "recorded" | "new"
+  // kind: "recorded" | "new" | "mock"
   const statusEl = el("result-status");
   const bodyEl = el("result-body");
   const actionsEl = el("result-actions");
   actionsEl.hidden = false;
 
+  const kindLabel = { recorded: "Recorded result", new: "New live result (just requested)", mock: "MOCK result (not a real Jev call)" }[kind] || kind;
+
   if (record.error) {
-    statusEl.textContent = `Error (${kind === "recorded" ? "recorded" : "live"} run): ${record.error}`;
+    statusEl.textContent = `Error (${kindLabel}): ${record.error}`;
     statusEl.className = "status-line status-error";
     bodyEl.innerHTML = "";
     el("accept-follow-btn").disabled = true;
   } else if (record.is_abstention) {
-    statusEl.textContent = `${kind === "recorded" ? "Recorded result" : "New live result"}: Jev abstained (NONE) -- no eligible destination.`;
+    statusEl.textContent = `${kindLabel}: Jev abstained (NONE) -- no eligible destination.`;
     statusEl.className = "status-line status-none";
     bodyEl.innerHTML = "";
     el("accept-follow-btn").disabled = true;
   } else {
-    statusEl.textContent = kind === "recorded" ? "Recorded result" : "New live result (just requested)";
-    statusEl.className = `status-line ${kind === "recorded" ? "status-recorded" : ""}`;
+    statusEl.textContent = kindLabel;
+    statusEl.className = `status-line kind-${kind}`;
     bodyEl.innerHTML = `<h3>${record.selected_id}</h3>`;
     const passageDiv = document.createElement("div");
     passageDiv.className = "passage";
@@ -206,53 +270,75 @@ function renderResult(record, kind) {
   App.currentRun = { ...record, run_dir: record.run_dir };
 }
 
-async function onRequestNew() {
+async function onRequestNew(manualClick, expectedGeneration) {
+  const myGeneration = expectedGeneration !== undefined ? expectedGeneration : App.generation;
+  const field = App.field;
+  const source = App.source;
+  const operator = App.operator;
+
   el("request-new-btn").disabled = true;
+  el("accept-follow-btn").disabled = true;
   el("result-status").textContent = "Requesting a live selection from Jev...";
   el("result-status").className = "status-line";
   try {
     const record = await api("/api/request-selection", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ field: App.field, source: App.source, operator: App.operator }),
+      body: JSON.stringify({ field, source, operator }),
     });
+    if (myGeneration !== App.generation) return; // stale: navigation happened while this was in flight
+
     if (record.result) {
       renderResult(
         {
           ...record.result,
-          run_id: record.run_id,
-          run_dir: record.run_dir,
-          field: record.field,
-          source: record.source,
-          operator: record.operator,
-          criterion: record.criterion,
-          requested_model: record.requested_model,
-          returned_model: record.returned_model,
-          elapsed_seconds: record.elapsed_seconds,
-          usage: record.usage,
+          run_id: record.run_id, run_dir: record.run_dir, field: record.field,
+          source: record.source, operator: record.operator, criterion: record.criterion,
+          requested_model: record.requested_model, returned_model: record.returned_model,
+          elapsed_seconds: record.elapsed_seconds, usage: record.usage,
         },
-        "new"
+        record.kind || "new"
       );
+      if (manualClick === false && App.followImmediately) {
+        await tryAutoFollow(myGeneration);
+      }
     } else {
-      renderResult({ ...record, error: record.error || "unknown error" }, "new");
+      renderResult({ ...record, error: record.error || "unknown error" }, record.kind || "new");
     }
   } catch (e) {
-    el("result-status").textContent = `Request failed: ${e.message}`;
-    el("result-status").className = "status-line status-error";
+    if (myGeneration === App.generation) {
+      el("result-status").textContent = `Request failed: ${e.message}`;
+      el("result-status").className = "status-line status-error";
+    }
   } finally {
-    el("request-new-btn").disabled = false;
+    if (myGeneration === App.generation) {
+      el("request-new-btn").disabled = false;
+    }
   }
 }
 
-async function onAcceptAndFollow() {
+async function tryAutoFollow(expectedGeneration) {
+  if (expectedGeneration !== App.generation) return;
+  if (!App.currentRun || App.currentRun.error || App.currentRun.is_abstention) return;
+  el("result-status").textContent += " -- following automatically (Follow immediately mode)...";
+  await onAcceptAndFollow(expectedGeneration);
+}
+
+async function onAcceptAndFollow(expectedGeneration) {
+  const myGeneration = typeof expectedGeneration === "number" ? expectedGeneration : App.generation;
+  if (myGeneration !== App.generation) return;
   if (!App.currentRun || !App.currentRun.run_dir) return;
+
   el("accept-follow-btn").disabled = true;
+  const field = App.field, source = App.source, operator = App.operator;
   try {
     const outcome = await api("/api/accept-and-follow", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ run_dir: App.currentRun.run_dir }),
+      body: JSON.stringify({ run_dir: App.currentRun.run_dir, field, source, operator }),
     });
+    if (myGeneration !== App.generation) return; // a newer navigation/field-change superseded this
+
     App.currentBond = { proposal_id: outcome.proposal_id, bond_id: outcome.bond_id };
     renderTraversalHistory(outcome.reader_state);
 
@@ -265,10 +351,14 @@ async function onAcceptAndFollow() {
     ["note-correspondence", "note-change"].forEach((id) => (el(id).value = ""));
     ["note-grounding", "note-effect", "note-decision"].forEach((id) => (el(id).value = ""));
   } catch (e) {
-    el("result-status").textContent = `Accept/follow failed: ${e.message}`;
-    el("result-status").className = "status-line status-error";
+    if (myGeneration === App.generation) {
+      el("result-status").textContent = `Accept/follow failed: ${e.message}`;
+      el("result-status").className = "status-line status-error";
+    }
   } finally {
-    el("accept-follow-btn").disabled = false;
+    if (myGeneration === App.generation) {
+      el("accept-follow-btn").disabled = false;
+    }
   }
 }
 
