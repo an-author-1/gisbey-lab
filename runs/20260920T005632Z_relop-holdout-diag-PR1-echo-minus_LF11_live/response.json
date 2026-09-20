@@ -1,0 +1,36 @@
+{
+  "live": true,
+  "requested_model": "jev-1.13.0",
+  "returned_model": "jev-1.13.0",
+  "choice": "PR2",
+  "confidence": 0.53,
+  "probabilities": {
+    "PR5": 0.0,
+    "LF6": 0.0,
+    "LF10": 0.0,
+    "LF7": 0.0,
+    "LF1": 0.0,
+    "LF16": 0.0,
+    "LF9": 0.0,
+    "PR4": 0.09,
+    "LF5": 0.0,
+    "LF14": 0.0,
+    "PR3": 0.34,
+    "PR2": 0.56,
+    "LF3": 0.0,
+    "LF12": 0.0,
+    "LF13": 0.0,
+    "LF4": 0.0,
+    "LF2": 0.0,
+    "LF15": 0.0,
+    "LF8": 0.0,
+    "NONE": 0.0
+  },
+  "usage": {
+    "input_tokens": 4162,
+    "output_tokens": 183
+  },
+  "elapsed_seconds": 0.5244514170335606,
+  "retries": 0,
+  "error": null
+}

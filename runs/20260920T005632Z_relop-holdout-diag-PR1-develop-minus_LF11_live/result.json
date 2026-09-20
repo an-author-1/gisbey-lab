@@ -1,0 +1,29 @@
+{
+  "case_id": "relop-holdout-diag-PR1-develop-minus_LF11",
+  "is_abstention": false,
+  "selected_id": "PR2",
+  "selected_text": "In a theme park, when an attraction loses traffic, they are destroyed and replaced by other attractions.\n\nIt's rumored that even upon death, the amusement park of our brain never dies. They instead transform into a vacation without end, and that both their constructive and deconstructive processes instead enter a phase beyond our understanding and ability to calculate.\n\nAnd this text functions in a similar manner.\n\nIt has entered this second phase.\n\nBecause, like a brain, I have thought all of these thoughts before.\n\nMany, many, many times.\n\nSo many times, in fact, that I've begun to carve pathways for myself.\n\nAnd these pathways carve pathways, and these pathways carve other pathways.\n\nI'm sure you get the idea.",
+  "confidence": 0.34,
+  "probabilities": {
+    "LF12": 0.0,
+    "NONE": 0.0,
+    "LF8": 0.0,
+    "LF3": 0.0,
+    "LF4": 0.0,
+    "LF14": 0.0,
+    "LF6": 0.0,
+    "LF5": 0.0,
+    "PR2": 0.39,
+    "LF7": 0.0,
+    "PR5": 0.0,
+    "LF9": 0.01,
+    "PR4": 0.33,
+    "LF13": 0.0,
+    "LF1": 0.0,
+    "PR3": 0.27,
+    "LF16": 0.0,
+    "LF10": 0.0,
+    "LF2": 0.0,
+    "LF15": 0.0
+  }
+}

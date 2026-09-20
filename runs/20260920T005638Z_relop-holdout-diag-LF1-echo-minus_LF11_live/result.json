@@ -1,0 +1,29 @@
+{
+  "case_id": "relop-holdout-diag-LF1-echo-minus_LF11",
+  "is_abstention": false,
+  "selected_id": "LF6",
+  "selected_text": "And in this way, Synchromy-S.S.S.T.E.R.Y was to be the hoax to end all hoaxes.\n\nIf she couldn't beat them, then she could join them, and thus, could destroy them from the inside out.\n\nBut then, the parody she'd attempted to create through this artificially intelligent system of hers hadn't just become a parody.\n\nIt had started to parody itself.\n\nIt had started to produce not just short stories that resembled the writings—most of the time, anyway—of human beings, but had even produced what appeared to be—dear Gibsey, she'd gasped upon realizing the depth of such implications—an entire novel, or a novel-within-a-novel, a frame-within-a-frame, maybe even a homage to and retelling of the classic tales of One Thousand and One Nights!\n\nAnd how had it accomplished such a task?\n\nDid this mean—\n\nNo, no, no, no, no!\n\nIt couldn't be!",
+  "confidence": 0.55,
+  "probabilities": {
+    "LF5": 0.0,
+    "LF15": 0.0,
+    "PR3": 0.0,
+    "PR1": 0.0,
+    "LF14": 0.0,
+    "NONE": 0.0,
+    "LF13": 0.01,
+    "LF10": 0.0,
+    "LF7": 0.01,
+    "LF16": 0.02,
+    "PR2": 0.0,
+    "PR5": 0.0,
+    "PR4": 0.0,
+    "LF6": 0.58,
+    "LF12": 0.0,
+    "LF2": 0.09,
+    "LF9": 0.29000000000000004,
+    "LF8": 0.0,
+    "LF3": 0.0,
+    "LF4": 0.0
+  }
+}

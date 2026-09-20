@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LF3 / LF11 removal diagnostic</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    max-width: 820px;
+    margin: 2.5rem auto;
+    padding: 0 1.25rem 4rem;
+    line-height: 1.55;
+    color: #1c1c1c;
+    background: #fbfaf7;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e8e6e1; background: #17181a; }
+    .card { background: #202226 !important; border-color: #3a3c40 !important; }
+    .badge-noop { background: #2a2d2f !important; color: #b9bcbf !important; }
+    .badge-forced { background: #4a2a12 !important; color: #ffcf9e !important; }
+    .badge-unforced { background: #402020 !important; color: #ffb3b3 !important; }
+    .badge-reproduced { background: #16332a !important; color: #a8e6c9 !important; }
+    code, pre { background: #26282b !important; color: #e0ded8 !important; }
+    a { color: #8fc4ff !important; }
+    details summary { color: #cfd2d6 !important; }
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.2rem; margin-top: 2.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
+  h3 { font-size: 1.02rem; margin-top: 1.8rem; }
+  .meta { color: #666; font-size: 0.92rem; margin-bottom: 1.5rem; }
+  .source-block {
+    background: #f1efe8; border-left: 4px solid #8a7355; padding: 1rem 1.25rem;
+    margin: 0.75rem 0 1.5rem; border-radius: 3px;
+  }
+  .source-block p { margin: 0 0 0.8rem; }
+  .source-block p:last-child { margin-bottom: 0; }
+  .condition {
+    border: 1px solid #ddd; border-radius: 6px; padding: 0.9rem 1.1rem; margin: 0.6rem 0;
+  }
+  .card { background: #ffffff; }
+  .condition-label { font-weight: bold; font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .dest-line { font-size: 0.9rem; color: #555; margin-bottom: 0.5rem; }
+  .badge {
+    display: inline-block; font-size: 0.75rem; font-weight: bold; letter-spacing: 0.02em;
+    padding: 0.15rem 0.55rem; border-radius: 10px; margin-left: 0.5rem; vertical-align: middle;
+  }
+  .badge-noop { background: #eee; color: #555; }
+  .badge-forced { background: #fde3c8; color: #8a4a00; }
+  .badge-unforced { background: #fbdada; color: #8a1f1f; }
+  .badge-reproduced { background: #d8f0e2; color: #1a6b3f; }
+  .dest-text { margin-top: 0.5rem; }
+  details { margin: 1rem 0; }
+  details summary { cursor: pointer; font-size: 0.85rem; color: #555; }
+  details pre { font-size: 0.78rem; overflow-x: auto; white-space: pre-wrap; background: #f0f0ec; padding: 0.75rem; border-radius: 4px; }
+  .analysis { background: #eef2f7; border-left: 4px solid #4a6fa5; padding: 0.85rem 1.1rem; margin: 1rem 0; border-radius: 3px; font-size: 0.95rem; }
+  .analysis .label { font-weight: bold; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; color: #4a6fa5; display: block; margin-bottom: 0.35rem; }
+  .summary-list li { margin-bottom: 0.5rem; }
+  code { background: #eee; padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.85em; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 2.5rem 0; }
+</style>
+</head>
+<body>
+
+<h1>LF3 / LF11 removal diagnostic</h1>
+<p class="meta">
+24 live calls, pinned <code>jev-1.13.0</code>, frozen Q Operator Prototype v0.1 wording (unchanged).
+Two sources, three field conditions each, four operators each. Uses only the 21-page holdout corpus
+(London Fox + Princhetta); the 20-page training corpus stayed outside this experiment. All source
+texts verified byte-identical (by hash) to those used in the original holdout forward field.
+</p>
+
+<details>
+<summary>Methodology and source selection rule</summary>
+<pre>Sources tested: PR1, and LF1.
+
+Selection rule for the second source: the lowest-numbered London Fox source (excluding
+LF3 and LF11 themselves) whose saved Phase-A forward selections included LF3 and/or LF11
+among its four operator picks. Checked in order LF1, LF2, LF4, LF5... -- LF1 qualified
+first (its CONTRADICT operator originally selected LF3).
+
+Three conditions per source, per operator:
+  1. original    - the same full holdout field used in the forward-field experiment
+                    (20 other holdout pages + NONE), canonical order.
+  2. minus_LF3   - same field with LF3 removed, relative order of remaining
+                    candidates preserved.
+  3. minus_LF11  - same field with LF11 removed, relative order preserved.
+
+This is 2 sources x 3 conditions x 4 operators = 24 calls. Not a new accuracy score --
+an exploratory look at what changes when two specific attractor pages are taken off
+the table.</pre>
+</details>
+
+<h2>Summary of what happened</h2>
+<ul class="summary-list">
+  <li><strong>Baseline reproducibility:</strong> all 8 "original" condition reruns landed on the exact same destination as the historical Phase-A record (confidence values wobbled slightly, as expected from a non-deterministic model, but no destination differed).</li>
+  <li><strong>Forced changes</strong> (the operator's original destination was the page removed): 2 of 16 removal calls &mdash; both CONTRADICT, both for different sources, and both landed on the same fallback, <strong>LF4</strong>.</li>
+  <li><strong>Unforced changes</strong> (the operator's original destination remained available, but it switched anyway): <strong>3 of 16</strong> removal calls &mdash; PR1/DEVELOP, LF1/DEVELOP, and LF1/BRIDGE. These are the most interesting results here: removing a page that wasn't even the operator's own pick still changed its preference.</li>
+  <li><strong>No effect:</strong> the remaining 11 of 16 removal calls kept the original destination, which also remained available.</li>
+  <li><strong>Abstentions:</strong> 0. <strong>Errors:</strong> 0.</li>
+</ul>
+<p class="analysis"><span class="label">Claude's analysis</span>
+These are four illustrative outcomes, not a scored result. The two forced changes converging on the same fallback (LF4) and the three unforced shifts are worth reading closely below, but nothing here should be treated as confirming that any replacement is a "better" or "successful" connection &mdash; that judgment is left open.</p>
+
+<hr>
+
+<h2>PR1 (source)</h2>
+<div class="source-block card"><p>This is not a piece of writing. This is not the written word. This isn't even a record of thought. This is thought itself, revealing itself, to itself. It is pure, raw unadulterated thought, stripped of all data. In this way, this content&mdash;if it is content&mdash;what you are reading, is like a brain. Brains carve pathways, after all. Brains are like amusement parks. They construct attractions, and visitors ride their attractions, repeatedly.</p></div>
+
+<h3>ECHO</h3>
+<div class="condition card">
+  <div class="condition-label">1. Original field <span class="badge badge-reproduced">reproduced historical</span></div>
+  <div class="dest-line">&rarr; PR2, confidence 0.53 (historical: PR2, 0.54)</div>
+  <div class="dest-text">In a theme park, when an attraction loses traffic, they are destroyed and replaced by other attractions. It's rumored that even upon death, the amusement park of our brain never dies. They instead transform into a vacation without end, and that both their constructive and deconstructive processes instead enter a phase beyond our understanding and ability to calculate. And this text functions in a similar manner. It has entered this second phase. Because, like a brain, I have thought all of these thoughts before. Many, many, many times. So many times, in fact, that I've begun to carve pathways for myself. And these pathways carve pathways, and these pathways carve other pathways. I'm sure you get the idea.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">2. Field minus LF3 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; PR2, confidence 0.45 &mdash; same destination; LF3 was not this operator's pick, so removing it left ECHO's preference untouched.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">3. Field minus LF11 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; PR2, confidence 0.53 &mdash; same destination; unaffected by LF11's removal.</div>
+</div>
+
+<h3>DEVELOP</h3>
+<div class="condition card">
+  <div class="condition-label">1. Original field <span class="badge badge-reproduced">reproduced historical</span></div>
+  <div class="dest-line">&rarr; PR4, confidence 0.32 (historical: PR4, 0.33)</div>
+  <div class="dest-text">Some thoughts of mine will become the more popular rides of the park, the E-class attractions, while others will become the less popular rides, the A through D class attractions. Some will be constructed and will remain within the park throughout the entirety of its construction, while others will be demolished and replaced. I have no control over which rides remain and which rides are to be destroyed. That is for my guests to decide. And you are a guest in my amusement park. You are both the creator and destroyer of my thoughts. You decide which attractions will remain and which will be replaced. And as such, one is forced to ask, does telepathy then exist and has it always existed?</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">4. Field minus LF3 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; PR4, confidence 0.33 &mdash; same destination; unaffected.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">5. Field minus LF11 <span class="badge badge-unforced">unforced change</span></div>
+  <div class="dest-line">&rarr; PR2, confidence 0.34 &mdash; PR4 (the original pick) was still eligible here, but DEVELOP switched to PR2 anyway once LF11 was removed.</div>
+  <div class="dest-text">In a theme park, when an attraction loses traffic, they are destroyed and replaced by other attractions. It's rumored that even upon death, the amusement park of our brain never dies. They instead transform into a vacation without end, and that both their constructive and deconstructive processes instead enter a phase beyond our understanding and ability to calculate. And this text functions in a similar manner. It has entered this second phase. Because, like a brain, I have thought all of these thoughts before. Many, many, many times. So many times, in fact, that I've begun to carve pathways for myself. And these pathways carve pathways, and these pathways carve other pathways. I'm sure you get the idea.</div>
+</div>
+
+<h3>CONTRADICT</h3>
+<div class="condition card">
+  <div class="condition-label">6. Original field <span class="badge badge-reproduced">reproduced historical</span></div>
+  <div class="dest-line">&rarr; LF3, confidence 0.42 (historical: LF3, 0.41)</div>
+  <div class="dest-text">London Fox is a hyper-successful, hyper-competent, hyper-well-dressed, and more than anything, hyper-rational business woman. Owner and head of multiple companies of her own creation, she's recently started a new advantageously venturous project with the objective of proving, once and for all, that Artificial Intelligent systems aren't conscious and never could be. This projected objective of hers has led her to develop the chatbot Synchromy-S.S.S.T.E.R.Y (Short Story Simulator to Entertain Readers, Yearly) which, upon its conception, was to become the most sophisticated model of its kind. Upon setting this objective, she hadn't originally done so with the goal of achieving a singularitous near-apocalyptic post-human epoch. In fact, her goal was quite the opposite. She'd originally hoped that upon developing the most complex AI system in the field, and doing so while stripping all ghosts from its machinic machinations, that such asinine and ridiculous faiths could be laid to rest, forever.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">7. Field minus LF3 <span class="badge badge-forced">forced change (original destination removed)</span></div>
+  <div class="dest-line">&rarr; LF4, confidence 0.49 &mdash; LF3 was CONTRADICT's own pick, so it could not be reselected; this is what CONTRADICT chose instead.</div>
+  <div class="dest-text">This was necessary, because from London's perspective, her world had lost itself. For London, the world had wadded outside of the essential boundaries that so many had set for it, and thus, such a world was now fated to sink into the waters of an animistic hysteria, one which was, as of late, leading so many within her world to believe that machines could be, not just helpful tools, but could maybe even be thought of as resembling the beings which had created them. The gall, the arrogance, the hubris of such individuals! The landscapes of her world had increasingly become riddled with kooks, cranks, nut-jobs, and near-religious, if not flat out religiously-adjacent fanatics of this very shape and size, fanatics who didn't just see AI as already approaching such states of being, but as already becoming a full-on living entity. She had to do something to push back against these waves of hysteria and bring her culture's troubled degeneracy to shore.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">8. Field minus LF11 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; LF3, confidence 0.44 &mdash; unaffected; LF3 was never touched by this removal.</div>
+</div>
+
+<h3>BRIDGE</h3>
+<div class="condition card">
+  <div class="condition-label">9. Original field <span class="badge badge-reproduced">reproduced historical</span></div>
+  <div class="dest-line">&rarr; PR2, confidence 0.34 (historical: PR2, 0.37)</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">10. Field minus LF3 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; PR2, confidence 0.40 &mdash; unaffected.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">11. Field minus LF11 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; PR2, confidence 0.36 &mdash; unaffected.</div>
+</div>
+
+<hr>
+
+<h2>LF1 (source)</h2>
+<div class="source-block card"><p>No, no, no, no, no. It can't be. She can't believe it. Won't believe it. London Fox pulls herself away from the screen into which she's gazing&mdash;like all screens, her mirror of sorts, whether she realizes this or not&mdash;and hurries into the kitchen to pour herself a glass of wine. Scratch that, multiple glasses, as many as she can conceivably drink.</p></div>
+
+<h3>ECHO</h3>
+<div class="condition card">
+  <div class="condition-label">1. Original field <span class="badge badge-reproduced">reproduced historical</span></div>
+  <div class="dest-line">&rarr; LF6, confidence 0.60 (historical: LF6, 0.60)</div>
+  <div class="dest-text">And in this way, Synchromy-S.S.S.T.E.R.Y was to be the hoax to end all hoaxes. If she couldn't beat them, then she could join them, and thus, could destroy them from the inside out. But then, the parody she'd attempted to create through this artificially intelligent system of hers hadn't just become a parody. It had started to parody itself. It had started to produce not just short stories that resembled the writings&mdash;most of the time, anyway&mdash;of human beings, but had even produced what appeared to be&mdash;dear Gibsey, she'd gasped upon realizing the depth of such implications&mdash;an entire novel, or a novel-within-a-novel, a frame-within-a-frame, maybe even a homage to and retelling of the classic tales of One Thousand and One Nights! And how had it accomplished such a task? Did this mean&mdash; No, no, no, no, no! It couldn't be!</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">2. Field minus LF3 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; LF6, confidence 0.47 &mdash; unaffected.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">3. Field minus LF11 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; LF6, confidence 0.55 &mdash; unaffected.</div>
+</div>
+
+<h3>DEVELOP</h3>
+<div class="condition card">
+  <div class="condition-label">4. Original field <span class="badge badge-reproduced">reproduced historical</span></div>
+  <div class="dest-line">&rarr; LF6, confidence 0.25 (historical: LF6, 0.28)</div>
+  <div class="dest-text">(same LF6 passage as above)</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">5. Field minus LF3 <span class="badge badge-unforced">unforced change</span></div>
+  <div class="dest-line">&rarr; LF7, confidence 0.19 &mdash; LF6 (the original pick) remained eligible, but DEVELOP switched to LF7 once LF3 was removed.</div>
+  <div class="dest-text">Before pouring her now third glass of wine, she'd first been pouring over Synchromy-S.S.S.T.E.R.Y's most recent textual creation, An Unexpected Disappearance, a Glyph Marrow Mystery, which itself had appeared to be a smaller gestaltic piece of a larger whole. And the Chatbot appeared to have gone further, making this novel within its novel even more novel by transforming it into an application of some kind, one that when accessed by users&mdash;she was still unsure if she was the only one who would ever access such creations and increasingly hoped she would be the only one&mdash;generated story upon story upon story, and stories within these same stories which themselves generated other stories, ad nauseum. What had she expected to happen when committing to creating such a generative model? And there were many more stories to come.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">6. Field minus LF11 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; LF6, confidence 0.42 &mdash; unaffected.</div>
+</div>
+
+<h3>CONTRADICT</h3>
+<div class="condition card">
+  <div class="condition-label">7. Original field <span class="badge badge-reproduced">reproduced historical</span></div>
+  <div class="dest-line">&rarr; LF3, confidence 0.27 (historical: LF3, 0.33)</div>
+  <div class="dest-text">(same LF3 passage as in the PR1 section above)</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">8. Field minus LF3 <span class="badge badge-forced">forced change (original destination removed)</span></div>
+  <div class="dest-line">&rarr; LF4, confidence 0.13 &mdash; the same fallback CONTRADICT chose for PR1 once LF3 was unavailable.</div>
+  <div class="dest-text">(same LF4 passage as in the PR1 section above)</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">9. Field minus LF11 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; LF3, confidence 0.31 &mdash; unaffected.</div>
+</div>
+
+<h3>BRIDGE</h3>
+<div class="condition card">
+  <div class="condition-label">10. Original field <span class="badge badge-reproduced">reproduced historical</span></div>
+  <div class="dest-line">&rarr; PR1, confidence 0.08 (historical: PR1, 0.09)</div>
+  <div class="dest-text">(PR1's full text is shown as the source passage in the PR1 section above)</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">11. Field minus LF3 <span class="badge badge-noop">no change</span></div>
+  <div class="dest-line">&rarr; PR1, confidence 0.12 &mdash; unaffected.</div>
+</div>
+<div class="condition card">
+  <div class="condition-label">12. Field minus LF11 <span class="badge badge-unforced">unforced change</span></div>
+  <div class="dest-line">&rarr; LF6, confidence 0.11 &mdash; PR1 (the original pick) remained eligible, but BRIDGE switched to LF6 once LF11 was removed.</div>
+  <div class="dest-text">(same LF6 passage as in the ECHO section above)</div>
+</div>
+
+<hr>
+
+<p class="analysis"><span class="label">Claude's analysis</span>
+Two things stand out. First, the two forced CONTRADICT replacements &mdash; for two unrelated sources &mdash; both land on LF4, which reads (to me) as an expository, judgmental passage about London's broader worldview; it may be a secondary CONTRADICT-flavored attractor once LF3 is off the table, but two data points can't establish that. Second, all three unforced changes happen to DEVELOP or BRIDGE, never ECHO or CONTRADICT in this small sample, and each one shifts toward a passage that was already a candidate rather than toward something new &mdash; consistent with (but not proof of) LF3 and LF11 exerting some pull on the overall ranking even for sources that didn't pick them, not just acting as isolated top choices. Neither observation is a conclusion; both are read directly off the 24 calls above.</p>
+
+<details>
+<summary>Technical details: run directories, exact criterion text, candidate order</summary>
+<pre id="tech">Model pinned: jev-1.13.0 (requested and returned, all 24 calls)
+
+Exact operator criterion text (unchanged, Q Operator Prototype v0.1):
+ECHO: Select the passage that most strongly returns to, mirrors, resonates with, or
+  meaningfully recurs from the source passage. Choose NONE if no candidate offers a
+  meaningful echo.
+DEVELOP: Select the passage that most productively extends, complicates, develops, or
+  transforms what the source passage is doing. Choose NONE if no candidate offers a
+  productive development.
+CONTRADICT: Select the passage that most meaningfully resists, reverses, destabilizes,
+  challenges, or creates tension with the source passage. Choose NONE if no candidate
+  creates meaningful tension.
+BRIDGE: Select the passage that creates the strongest useful connection to the source
+  that is not primarily based on obvious surface similarity, repeated wording, or
+  direct thematic overlap. Choose NONE if no candidate offers such a connection.
+
+Per-call records:
+
+PR1 / ECHO / original
+  destination=PR2 confidence=0.53
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005627Z_relop-holdout-diag-PR1-echo-original_live
+
+PR1 / DEVELOP / original
+  destination=PR4 confidence=0.32
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005628Z_relop-holdout-diag-PR1-develop-original_live
+
+PR1 / CONTRADICT / original
+  destination=LF3 confidence=0.42
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005628Z_relop-holdout-diag-PR1-contradict-original_live
+
+PR1 / BRIDGE / original
+  destination=PR2 confidence=0.34
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005629Z_relop-holdout-diag-PR1-bridge-original_live
+
+PR1 / ECHO / minus_LF3
+  destination=PR2 confidence=0.45
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005629Z_relop-holdout-diag-PR1-echo-minus_LF3_live
+
+PR1 / DEVELOP / minus_LF3
+  destination=PR4 confidence=0.33
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005630Z_relop-holdout-diag-PR1-develop-minus_LF3_live
+
+PR1 / CONTRADICT / minus_LF3
+  destination=LF4 confidence=0.49
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005631Z_relop-holdout-diag-PR1-contradict-minus_LF3_live
+
+PR1 / BRIDGE / minus_LF3
+  destination=PR2 confidence=0.4
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005631Z_relop-holdout-diag-PR1-bridge-minus_LF3_live
+
+PR1 / ECHO / minus_LF11
+  destination=PR2 confidence=0.53
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005632Z_relop-holdout-diag-PR1-echo-minus_LF11_live
+
+PR1 / DEVELOP / minus_LF11
+  destination=PR2 confidence=0.34
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005632Z_relop-holdout-diag-PR1-develop-minus_LF11_live
+
+PR1 / CONTRADICT / minus_LF11
+  destination=LF3 confidence=0.44
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005633Z_relop-holdout-diag-PR1-contradict-minus_LF11_live
+
+PR1 / BRIDGE / minus_LF11
+  destination=PR2 confidence=0.36
+  candidate_order=[&#x27;LF1&#x27;, &#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005633Z_relop-holdout-diag-PR1-bridge-minus_LF11_live
+
+LF1 / ECHO / original
+  destination=LF6 confidence=0.6
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005634Z_relop-holdout-diag-LF1-echo-original_live
+
+LF1 / DEVELOP / original
+  destination=LF6 confidence=0.25
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005634Z_relop-holdout-diag-LF1-develop-original_live
+
+LF1 / CONTRADICT / original
+  destination=LF3 confidence=0.27
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005635Z_relop-holdout-diag-LF1-contradict-original_live
+
+LF1 / BRIDGE / original
+  destination=PR1 confidence=0.08
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005635Z_relop-holdout-diag-LF1-bridge-original_live
+
+LF1 / ECHO / minus_LF3
+  destination=LF6 confidence=0.47
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005636Z_relop-holdout-diag-LF1-echo-minus_LF3_live
+
+LF1 / DEVELOP / minus_LF3
+  destination=LF7 confidence=0.19
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005636Z_relop-holdout-diag-LF1-develop-minus_LF3_live
+
+LF1 / CONTRADICT / minus_LF3
+  destination=LF4 confidence=0.13
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005637Z_relop-holdout-diag-LF1-contradict-minus_LF3_live
+
+LF1 / BRIDGE / minus_LF3
+  destination=PR1 confidence=0.12
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF11&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005637Z_relop-holdout-diag-LF1-bridge-minus_LF3_live
+
+LF1 / ECHO / minus_LF11
+  destination=LF6 confidence=0.55
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005638Z_relop-holdout-diag-LF1-echo-minus_LF11_live
+
+LF1 / DEVELOP / minus_LF11
+  destination=LF6 confidence=0.42
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005638Z_relop-holdout-diag-LF1-develop-minus_LF11_live
+
+LF1 / CONTRADICT / minus_LF11
+  destination=LF3 confidence=0.31
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005639Z_relop-holdout-diag-LF1-contradict-minus_LF11_live
+
+LF1 / BRIDGE / minus_LF11
+  destination=LF6 confidence=0.11
+  candidate_order=[&#x27;LF2&#x27;, &#x27;LF3&#x27;, &#x27;LF4&#x27;, &#x27;LF5&#x27;, &#x27;LF6&#x27;, &#x27;LF7&#x27;, &#x27;LF8&#x27;, &#x27;LF9&#x27;, &#x27;LF10&#x27;, &#x27;LF12&#x27;, &#x27;LF13&#x27;, &#x27;LF14&#x27;, &#x27;LF15&#x27;, &#x27;LF16&#x27;, &#x27;PR1&#x27;, &#x27;PR2&#x27;, &#x27;PR3&#x27;, &#x27;PR4&#x27;, &#x27;PR5&#x27;, &#x27;NONE&#x27;]
+  run_dir=/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T005639Z_relop-holdout-diag-LF1-bridge-minus_LF11_live</pre>
+</details>
+
+</body>
+</html>
