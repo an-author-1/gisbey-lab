@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import socket
 import subprocess
 import sys
@@ -142,8 +143,13 @@ def check_combo(reader: Reader, atlas, pid: str, op: str, index: int) -> dict:
         for r, o in zip(rows, oracle):
             if not r["visible"]:
                 problems.append(f"{r['destination']}: row, tier badge, Preview or Follow is not visible")
-            if f"{o['score']:.2f}" not in r["text"]:
-                problems.append(f"{r['destination']}: displayed fit does not show the recorded score {o['score']:.2f}")
+            shown_fit = re.search(r"([0-9]+(?:\.[0-9]+)?) of 3", r["text"])
+            if not shown_fit or abs(float(shown_fit.group(1)) - round(o["score"], 2)) > 1e-9:
+                problems.append(f"{r['destination']}: displayed fit {shown_fit.group(0) if shown_fit else None!r} "
+                                f"is not the recorded score {o['score']:.2f}")
+            shown_conf = re.search(r"confidence ([0-9]+(?:\.[0-9]+)?)", r["text"])
+            if not shown_conf or abs(float(shown_conf.group(1)) - round(o["confidence"], 2)) > 1e-9:
+                problems.append(f"{r['destination']}: displayed confidence is not the recorded {o['confidence']:.2f}")
             if (o["score"] >= independent.SUPPORT_LEVEL - 1e-9) != (r["tier"] == "supported"):
                 problems.append(f"{r['destination']}: tier {r['tier']} contradicts recorded score {o['score']:.2f}")
         for r in rows:

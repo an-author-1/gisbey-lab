@@ -32,7 +32,7 @@ def eligible(pid: str, policy: str) -> list[str]:
 
 
 def vault_text(pid: str) -> str:
-    hits = [f for f in glob.glob(str(REPO / "vault" / "*" / "*.md")) if os.path.basename(f) == pid + ".md"]
+    hits = [f for f in glob.glob(str(REPO / "vault" / "*" / "*.md")) if os.path.basename(f).replace(" ", "") == pid + ".md"]  # some files are named "PR 1.md"
     assert len(hits) == 1, (pid, hits)
     return Path(hits[0]).read_text(encoding="utf-8")
 
