@@ -257,10 +257,16 @@ contradiction floor. That is the atlas's honest reading, shown as such.
 
 ## Verification of the repair (three kinds, reported separately)
 
-**Tested build:** git `d5e178cae2ec6f30ff1788a466372e2be585143b`, clean tree, `app.js`
-sha256 `b6e47a33193d1aa2…`. The restarted reader on 127.0.0.1:8765 reports the same
-revision and hash at `/api/build` (also shown in the page footer). Application code is
-identical to `2b533ab`; `d5e178c` only fixes the acceptance harness.
+**Final tested build:** git `c136f3b7921dbf70a7663d1e2d92c67e5a841b7e`, clean tree, `app.js`
+sha256 `51f4f768ba4010ad…`. The restarted reader on 127.0.0.1:8765 reports the same
+revision and hash at `/api/build` (also in the page footer), and the served `app.js`
+equals the file on disk. Sequence of tested revisions, each with its report under
+`data/verification/browser_acceptance/`: `2b533ab` (harness defects, 151 false failures)
+→ `d5e178c` (discovery 164/164, 10/10; independent QA ran here) → `975ba00` ("Continue
+here" fix; discovery clean, include-adjacent 164/164 but 8/10 scenarios — the chosen
+policy reverted to Discovery on refresh) → **`c136f3b`** (policy remembered per viewer;
+**both policies 164/164 and 10/10, 0 console errors, exit 0**). The figures in item 1
+below are the same on `c136f3b`.
 
 **1. Browser coverage using recorded data** — `tests/acceptance/run_browser_acceptance.py`,
 headless Chrome via Playwright, isolated instance (temp session; real live atlas
@@ -308,9 +314,19 @@ tiers and labels unchanged; tie band respected; a repeat was served from cache w
 attempts. Ledgers now: milestone 1,686 / 2,000 attempts, 5,138,253 tokens; reader ledger
 as recorded by `gibsey live-usage`.
 
+**QA re-check on `d5e178c`** (same fresh agent, its own scripts): contrast now ≥6.0:1
+light and ≥8.29:1 dark for all visible text (only the *disabled* Back button is lower, 4.0
+in dark); a history ordering is claimed only when the order actually moved; no level word
+is shared between tiers; all-exploratory lists are no longer success-green; its
+independent 164-combination pass re-ran clean (717 rows, 717 fit cross-checks, 164
+follows). It found one more defect — "Continue here" in the two-tab conflict silently
+replayed the refused Follow/Refine — fixed in `975ba00` and confirmed by re-running QA's
+own repro script (`recheck_tab2.py`): the tab stays put, no traversal, no dispatch.
+
 **Not verified:** Firefox/Safari; narrow viewports; keyboard-only use; real provider
-timeouts (only mocked); light-scheme contrast in a browser (token test only, pending the
-QA re-check below).
+timeouts (only mocked); QA did not re-run on `975ba00`/`c136f3b` (those two changes were
+verified by the lead's harness and, for the first, QA's repro script). Ledgers at
+handoff: milestone 1,686 / 2,000 attempts (5,138,253 tokens); reader ledger 8 / 600.
 
 **How to re-run:** `.venv/bin/python tests/acceptance/run_browser_acceptance.py`
 (`--policy include-adjacent`, `--scenarios-only`, `--pages P1,P6`, `--headed`). Needs
