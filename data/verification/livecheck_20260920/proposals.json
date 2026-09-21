@@ -1,0 +1,24 @@
+{
+  "offer:offers_20260920T192230Z_LF4_c203c30c:LF11": {
+    "proposal_id": "prop_offers_20260920T192230Z_LF4_c203c30c_LF11",
+    "kind": "offer",
+    "run_id": null,
+    "run_dir": null,
+    "offer_set_id": "offers_20260920T192230Z_LF4_c203c30c",
+    "case_id": null,
+    "source_id": "LF4",
+    "active_id": null,
+    "selected_id": "LF11",
+    "selected_text": "And she can't help but wonder: had she initiated such an Apocalypse by creating such a device?\n\nSuch a creature?\n\nShe nearly faints at the thought, almost knocking over her wine glass.\n\nShe clings onto the countertop for dear life, holding herself from falling away, or flying, if not both.\n\nAnd a thought comes to her as she clings, and from where and what such a thought comes, she is entirely unsure.\n\nWhat if she had already entered the narrative, the novel, the theme park which this chatbot had created?\n\nWhat if this chatbot of hers had turned its gaze not just upon its fictional worlds but on reality itself?\n\nAnd if it had done so, and it was already too late, wouldn't that mean that it had invaded the entirety of her reality?\n\nAnd was it already too late?\n\nHas she already been changed forever?\n\nForever forged and reforged into the likeness of its own chaotic creation",
+    "confidence": null,
+    "relation_labels": [
+      "development"
+    ],
+    "field": "full-41",
+    "policy": "discovery",
+    "source_sha256": "0811064ce766c83fd75f68961b1cf8e32332b375aed4598a415aa62003ce60ce",
+    "destination_sha256": "8f3786aa9e7e80b112bf6d22b6e6edd40f94c30d758bcb69f97d6659b7544c81",
+    "status": "accepted",
+    "created_at": "2026-09-20T19:23:06.224419+00:00"
+  }
+}

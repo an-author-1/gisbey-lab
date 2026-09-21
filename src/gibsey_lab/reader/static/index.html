@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <title>Gibsey Lab Reader</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
 <header>
   <h1>Gibsey Lab Reader</h1>
+  <a id="demo-link" class="header-link" href="/demo/pr2" target="_blank" rel="noopener">PR2 memory demonstration (fixtures)</a>
   <div class="header-controls">
     <label>Field
       <select id="field-select"></select>
@@ -19,7 +21,7 @@
     <label>Candidate policy
       <select id="policy-select"></select>
     </label>
-    <button id="back-btn" disabled>&larr; Back</button>
+    <button id="back-btn" data-testid="back-btn" disabled>&larr; Back</button>
   </div>
 </header>
 
@@ -27,17 +29,13 @@
 
 <main>
   <section id="mode-panel" class="panel panel-compact">
-    <label class="mode-toggle">
-      <input type="checkbox" id="follow-immediately-toggle">
-      Follow immediately
-    </label>
     <p class="hint">
-      Clicking an operator always produces a proposal -- a matching recorded result if one exists, otherwise one new live Jev selection automatically. <strong>Preview</strong> (default) just shows it; nothing moves until you click "Accept and follow." <strong>Follow immediately</strong> also auto-accepts and follows a valid destination. NONE or an error leaves you in place either way. "Ask Jev again" always makes a fresh request, in both modes.
+      Choose an operator under the page to see ranked next pages straight from the saved relationship atlas &mdash; nothing is sent to Jev for that. Preview any of them, follow one, keep reading. Weak fits are labeled exploratory, never hidden. Previous, Next, the page list and Back always work.
     </p>
   </section>
 
   <section id="source-panel" class="panel">
-    <h2>Source <span id="source-id" class="page-tag"></span> <span id="field-badge" class="field-badge"></span> <span id="policy-badge" class="field-badge"></span></h2>
+    <h2>Source <span id="source-id" data-testid="source-id" class="page-tag"></span> <span id="field-badge" class="field-badge"></span> <span id="policy-badge" class="field-badge"></span></h2>
     <div class="action-row">
       <button id="prev-btn">&larr; Previous</button>
       <button id="next-btn">Next &rarr;</button>
@@ -45,15 +43,39 @@
     <div id="source-text" class="passage"></div>
   </section>
 
+  <div id="position-conflict" class="banner banner-warning position-conflict" data-testid="position-conflict" role="alert" hidden></div>
+
   <section id="operator-panel" class="panel">
-    <h2>Choose a relational operator</h2>
+    <h2>Where next? Choose a relational operator</h2>
     <div id="operator-buttons" class="operator-row"></div>
     <div id="operator-criterion" class="criterion-box" hidden></div>
+    <div id="options-block" hidden>
+      <div id="options-status" class="status-line" data-testid="options-status"></div>
+      <div id="ordering-line" class="ordering-line" data-testid="ordering-line"></div>
+      <div id="options-list" data-testid="options-list"></div>
+      <div class="action-row">
+        <button id="refine-button" data-testid="refine-button">Refine order using my reading history</button>
+        <span id="refine-status" class="status-line" data-testid="refine-status"></span>
+      </div>
+      <details id="options-details">
+        <summary>About this list (counts, pages that could not be ranked, ids)</summary>
+        <pre id="options-details-body"></pre>
+      </details>
+    </div>
   </section>
 
-  <section id="result-panel" class="panel" hidden>
-    <h2>Proposed destination</h2>
-    <div id="result-status" class="status-line"></div>
+  <section id="result-panel" class="panel panel-compact" hidden>
+    <h2>Single pick (research) <span id="result-operator" class="page-tag"></span></h2>
+    <p class="hint">Asks Jev to choose exactly one destination among all eligible pages, or NONE. It is a separate research question: an abstention or error here never changes the ranked list above.</p>
+    <div class="action-row">
+      <button id="single-pick-button" data-testid="single-pick-button">Ask Jev for a single pick (research)</button>
+      <label class="mode-toggle inline-toggle">
+        <input type="checkbox" id="follow-immediately-toggle">
+        Follow a single pick immediately
+      </label>
+    </div>
+    <div id="result-status" class="status-line" data-testid="single-pick-status"></div>
+    <span id="result-loading" class="status-line status-loading" hidden>Asking Jev&hellip; (the earlier result stays below until the new one arrives)</span>
     <div id="result-body"></div>
     <div id="result-actions" class="action-row" hidden>
       <button id="request-new-btn">Ask Jev again</button>
@@ -62,6 +84,10 @@
     <details id="tech-details" hidden>
       <summary>Technical details</summary>
       <pre id="tech-details-body"></pre>
+    </details>
+    <details id="earlier-results" open>
+      <summary>Earlier results for this page and operator (<span id="earlier-count">0</span>)</summary>
+      <ul id="earlier-list" class="earlier-list"></ul>
     </details>
   </section>
 
@@ -91,6 +117,38 @@
     </details>
   </section>
 
+  <section id="offers-panel" class="panel panel-compact">
+    <details id="advanced-hand">
+    <summary>Advanced: history-conditioned hand</summary>
+    <div class="action-row">
+      <button id="offers-btn" class="primary">Show possible next pages</button>
+      <span id="offers-loading" class="status-line status-loading" hidden>Assessing possible next pages&hellip;</span>
+    </div>
+    <details id="intention-details">
+      <summary>Optional: say what you are looking for (sent as written; leave empty to skip)</summary>
+      <input type="text" id="intention-input" maxlength="300" autocomplete="off">
+    </details>
+    <div id="offers-status" class="status-line"></div>
+    <div id="offers-cards"></div>
+    <p class="hint">One cross-operator hand, thresholded against your reading history; it can legitimately come back small or empty. The operator lists above are the ordinary way to explore. Showing or previewing a route never moves you; only Follow does.</p>
+    </details>
+  </section>
+
+  <section id="atlas-panel" class="panel panel-compact">
+    <details id="atlas-details">
+      <summary>Base relationship profiles for this page (40)</summary>
+      <div class="action-row">
+        <label class="inline-label">Assessments
+          <select id="atlas-mode"><option value="live">live</option><option value="mock">mock</option></select>
+        </label>
+        <span id="atlas-mode-label" class="field-badge"></span>
+      </div>
+      <div id="atlas-coverage" class="status-line"></div>
+      <div class="table-scroll"><table id="atlas-table" class="atlas-table"></table></div>
+      <p class="hint">Independent base assessments of this page against each other page. They are evidence for possible routes, not bonds or judgments. "&mdash;" means not assessed; it is never a zero.</p>
+    </details>
+  </section>
+
   <section id="history-panel" class="panel panel-compact">
     <details>
       <summary>Recorded Q traversal history (server-side)</summary>
@@ -98,6 +156,8 @@
     </details>
   </section>
 </main>
+
+<footer id="build-id" class="build-id" data-testid="build-id"></footer>
 
 <script src="/app.js"></script>
 </body>

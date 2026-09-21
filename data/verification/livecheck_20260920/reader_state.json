@@ -1,0 +1,15 @@
+{
+  "active_page": "LF11",
+  "active_passage": "LF11",
+  "history": [
+    {
+      "event": "Q_follow",
+      "bond_id": "bond_prop_offers_20260920T192230Z_LF4_c203c30c_LF11",
+      "from_page": "LF4",
+      "from_passage": "LF4",
+      "to_id": "LF11",
+      "at": "2026-09-20T19:23:06.225309+00:00",
+      "follow_token": "t2"
+    }
+  ]
+}

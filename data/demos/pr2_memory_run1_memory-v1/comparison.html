@@ -1,0 +1,109 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'>
+<title>PR2 memory demonstration</title><style>
+body{font:15px/1.5 Georgia,serif;margin:0;padding:0 20px 60px;background:#fbfaf7;color:#222}
+h1{font-size:22px} h2{font-size:18px;margin-top:36px;border-top:1px solid #ccc;padding-top:18px} h3{font-size:15px}
+.banner{background:#7a1f1f;color:#fff;padding:10px 20px;margin:0 -20px 20px;font:bold 14px sans-serif}
+.meta,table,code{font:13px/1.4 ui-monospace,Menlo,monospace}
+table{border-collapse:collapse;margin:8px 0} th,td{border:1px solid #ccc;padding:4px 8px;text-align:left;vertical-align:top}
+th{background:#eee} .scroll{overflow-x:auto}
+.history{background:#fff;border:1px solid #ddd;padding:8px 12px;margin:6px 0}
+.history pre{white-space:pre-wrap;font:14px/1.45 Georgia,serif;margin:4px 0;max-height:260px;overflow:auto}
+.label{font:12px sans-serif;color:#555} .offer{font-weight:bold} .muted{color:#777}
+</style></head><body>
+<div class='banner'>Demonstration fixtures — not the reader&#x27;s actions, not accepted bonds</div>
+<h1>PR2: same page, same shortlist, three declared arrival histories</h1>
+<p class='meta'>mode: live · requested model: jev-1.13.0 · field: full-41 · offer eligibility policy: discovery · page sha256: e5bcf35ec9a01498… · generated 2026-09-20T19:20:07.948957+00:00</p>
+<p>Held constant across conditions: page version, shortlist and its order (<code>PR4, P6, LF7, LF8, LF14</code>), the three questions (<code>contextual-rubric-v1</code>), model, and the qualification/ranking policy (<code>offers-v2</code>). Only the declared history changes. A difference in offers is neither asserted nor required. Literary usefulness is judged separately.</p>
+<h2>Request hashes: proof the provider input differed</h2>
+<div class='scroll'><table><tr><th>candidate</th><th>A</th><th>B</th><th>C</th><th>all different</th></tr>
+<tr><td>PR4</td><td>a647241ca4fd4686</td><td>8ff7d5ccbc52dd1a</td><td>da585ee30497f48d</td><td>yes</td></tr>
+<tr><td>P6</td><td>af6d64858afe096e</td><td>21c60f6dcb70f326</td><td>1642e1d84c9f7eda</td><td>yes</td></tr>
+<tr><td>LF7</td><td>9282423f8978e026</td><td>8f9c3583d4f2aa5e</td><td>bfa61a41327c768c</td><td>yes</td></tr>
+<tr><td>LF8</td><td>6125277acb1e5dc2</td><td>53e52c423a32b1f8</td><td>7195fcd7d4cf9602</td><td>yes</td></tr>
+<tr><td>LF14</td><td>faf6f8721ba82f1e</td><td>76433f8ce37eaa3b</td><td>90aad279dd5a07c5</td><td>yes</td></tr>
+</table></div>
+<h2>Condition A: declared path PR1 → PR3 → PR2</h2>
+<p class='meta'>state: offers () · mode: live · requested model: jev-1.13.0 · returned: jev-1.13.0 · memory_sha256: 314d175dee83191a…</p>
+<h3>Exact history supplied to the provider (no page ids are sent; ids appear only in the heading above)</h3>
+<p class='label'>Encounters are listed oldest first. This is the complete supplied history. Current page arrived by: arrival not specified.</p>
+<div class='history'><span class='label'>encounter 1 · arrived by: arrival not specified</span><pre>This is not a piece of writing.
+
+This is not the written word.
+
+This isn&#x27;t even a record of thought.
+
+This is thought itself, revealing itself, to itself.
+
+It is pure, raw unadulterated thought, stripped of all data.
+
+In this way, this content-if it is content-what you are reading, is like a brain.
+
+Brains carve pathways, after all.
+
+Brains are like amusement parks.
+
+They construct attractions, and visitors ride their attractions, repeatedly.</pre></div>
+<div class='history'><span class='label'>encounter 2 · arrived by: arrival not specified</span><pre>I have thought these exact words in this exact order, and I&#x27;ve done so over and over again, in real time, in medias res, so repeatedly, that a whole world has formed through and within my repetitions.
+
+And it is this world which you are reading, and in this way, it is your world, and it is also my world.
+
+It is a world we have created together, and also which has created itself, and which will continue to create itself, at least if you continue to read these repeated thoughts which you are currently reading and which I am currently thinking.
+
+In this way, these repetitive thoughts of mine are an attraction in an amusement park.
+
+They are an attraction in which you ride.</pre></div>
+<h3>History-conditioned answers per shortlisted candidate (score / confidence)</h3>
+<div class='scroll'><table><tr><th>candidate</th><th>works_after_history</th><th>grounded_reading_effect</th><th>repeats_recent_reading</th><th>qualified</th><th>offered</th><th>cache</th><th>request sha256</th></tr>
+<tr><td>PR4</td><td>2.95 / 0.95</td><td>2.67 / 0.67</td><td>1.13 / 0.78</td><td>yes</td><td><span class='offer'>#1</span></td><td>fresh</td><td>a647241ca4fd4686…</td></tr>
+<tr><td>P6</td><td>2.41 / 0.41</td><td>2.63 / 0.63</td><td>0.94 / 0.84</td><td>yes</td><td><span class='offer'>#2</span></td><td>fresh</td><td>af6d64858afe096e…</td></tr>
+<tr><td>LF7</td><td>1.70 / 0.26</td><td>2.30 / 0.59</td><td>0.95 / 0.77</td><td>no: works_after_history 0.57 below floor 0.667</td><td>—</td><td>fresh</td><td>9282423f8978e026…</td></tr>
+<tr><td>LF8</td><td>1.11 / 0.37</td><td>2.12 / 0.49</td><td>0.50 / 0.50</td><td>no: works_after_history 0.37 below floor 0.667</td><td>—</td><td>fresh</td><td>6125277acb1e5dc2…</td></tr>
+<tr><td>LF14</td><td>2.40 / 0.40</td><td>2.50 / 0.50</td><td>1.09 / 0.83</td><td>yes</td><td><span class='offer'>#3</span></td><td>fresh</td><td>faf6f8721ba82f1e…</td></tr>
+</table></div>
+<h3>Resulting offers (history-conditioned) beside the base-only ranking</h3>
+<div class='scroll'><table><tr><th>rank</th><th>history-conditioned offer</th><th>base relation labels</th><th>base-only ranking would offer</th></tr>
+<tr><td>1</td><td>PR4</td><td>echo, development</td><td>PR4 (echo 0.98)</td></tr>
+<tr><td>2</td><td>P6</td><td>echo, development, bridge_relation</td><td>P6 (echo 0.92)</td></tr>
+<tr><td>3</td><td>LF14</td><td>echo, development, bridge_relation</td><td>LF7 (bridge_relation 0.88)</td></tr>
+</table></div>
+<h2>Condition B: declared path LF3 → PR2</h2>
+<p class='meta'>state: offers () · mode: live · requested model: jev-1.13.0 · returned: jev-1.13.0 · memory_sha256: b2b58470fdc40f37…</p>
+<h3>Exact history supplied to the provider (no page ids are sent; ids appear only in the heading above)</h3>
+<p class='label'>Encounters are listed oldest first. This is the complete supplied history. Current page arrived by: arrival not specified.</p>
+<div class='history'><span class='label'>encounter 1 · arrived by: arrival not specified</span><pre>London Fox is a hyper-successful, hyper-competent, hyper-well-dressed, and more than anything, hyper-rational business woman. Owner and head of multiple companies of her own creation, she&#x27;s recently started a new advantageously venturous project with the objective of proving, once and for all, that Artificial Intelligent systems aren&#x27;t conscious and never could be.
+
+This projected objective of hers has led her to develop the chatbot Synchromy-S.S.S.T.E.R.Y (Short Story Simulator to Entertain Readers, Yearly) which, upon its conception, was to become the most sophisticated model of its kind. Upon setting this objective, she hadn&#x27;t originally done so with the goal of achieving a singularitous near-apocalyptic post-human epoch. In fact, her goal was quite the opposite. She&#x27;d originally hoped that upon developing the most complex AI system in the field, and doing so while stripping all ghosts from its machinic machinations, that such asinine and ridiculous faiths could be laid to rest, forever.</pre></div>
+<h3>History-conditioned answers per shortlisted candidate (score / confidence)</h3>
+<div class='scroll'><table><tr><th>candidate</th><th>works_after_history</th><th>grounded_reading_effect</th><th>repeats_recent_reading</th><th>qualified</th><th>offered</th><th>cache</th><th>request sha256</th></tr>
+<tr><td>PR4</td><td>2.81 / 0.81</td><td>2.44 / 0.55</td><td>1.05 / 0.70</td><td>yes</td><td><span class='offer'>#3</span></td><td>fresh</td><td>8ff7d5ccbc52dd1a…</td></tr>
+<tr><td>P6</td><td>2.60 / 0.60</td><td>2.56 / 0.56</td><td>0.94 / 0.84</td><td>yes</td><td><span class='offer'>#1</span></td><td>fresh</td><td>21c60f6dcb70f326…</td></tr>
+<tr><td>LF7</td><td>2.51 / 0.51</td><td>2.44 / 0.52</td><td>0.87 / 0.76</td><td>yes</td><td>—</td><td>fresh</td><td>8f9c3583d4f2aa5e…</td></tr>
+<tr><td>LF8</td><td>2.03 / 0.35</td><td>2.43 / 0.43</td><td>0.49 / 0.51</td><td>yes</td><td>—</td><td>fresh</td><td>53e52c423a32b1f8…</td></tr>
+<tr><td>LF14</td><td>2.51 / 0.51</td><td>2.51 / 0.51</td><td>0.92 / 0.83</td><td>yes</td><td><span class='offer'>#2</span></td><td>fresh</td><td>76433f8ce37eaa3b…</td></tr>
+</table></div>
+<h3>Resulting offers (history-conditioned) beside the base-only ranking</h3>
+<div class='scroll'><table><tr><th>rank</th><th>history-conditioned offer</th><th>base relation labels</th><th>base-only ranking would offer</th></tr>
+<tr><td>1</td><td>P6</td><td>echo, development, bridge_relation</td><td>PR4 (echo 0.98)</td></tr>
+<tr><td>2</td><td>LF14</td><td>echo, development, bridge_relation</td><td>P6 (echo 0.92)</td></tr>
+<tr><td>3</td><td>PR4</td><td>echo, development</td><td>LF7 (bridge_relation 0.88)</td></tr>
+</table></div>
+<h2>Condition C: declared path PR2</h2>
+<p class='meta'>state: offers () · mode: live · requested model: jev-1.13.0 · returned: jev-1.13.0 · memory_sha256: 992639d881e8c8a6…</p>
+<h3>Exact history supplied to the provider (no page ids are sent; ids appear only in the heading above)</h3>
+<p class='label'>No earlier reading history is supplied for this reader. Current page arrived by: arrival not specified.</p>
+<div class='history muted'>(empty history)</div>
+<h3>History-conditioned answers per shortlisted candidate (score / confidence)</h3>
+<div class='scroll'><table><tr><th>candidate</th><th>works_after_history</th><th>grounded_reading_effect</th><th>repeats_recent_reading</th><th>qualified</th><th>offered</th><th>cache</th><th>request sha256</th></tr>
+<tr><td>PR4</td><td>2.94 / 0.94</td><td>2.75 / 0.75</td><td>0.97 / 0.81</td><td>yes</td><td><span class='offer'>#1</span></td><td>fresh</td><td>da585ee30497f48d…</td></tr>
+<tr><td>P6</td><td>2.56 / 0.56</td><td>2.62 / 0.62</td><td>0.91 / 0.87</td><td>yes</td><td><span class='offer'>#2</span></td><td>fresh</td><td>1642e1d84c9f7eda…</td></tr>
+<tr><td>LF7</td><td>2.16 / 0.39</td><td>2.37 / 0.58</td><td>1.06 / 0.83</td><td>yes</td><td><span class='offer'>#3</span></td><td>fresh</td><td>bfa61a41327c768c…</td></tr>
+<tr><td>LF8</td><td>1.73 / 0.36</td><td>2.25 / 0.57</td><td>0.73 / 0.71</td><td>no: works_after_history 0.58 below floor 0.667</td><td>—</td><td>fresh</td><td>7195fcd7d4cf9602…</td></tr>
+<tr><td>LF14</td><td>2.48 / 0.48</td><td>2.49 / 0.49</td><td>0.97 / 0.87</td><td>yes</td><td>—</td><td>fresh</td><td>90aad279dd5a07c5…</td></tr>
+</table></div>
+<h3>Resulting offers (history-conditioned) beside the base-only ranking</h3>
+<div class='scroll'><table><tr><th>rank</th><th>history-conditioned offer</th><th>base relation labels</th><th>base-only ranking would offer</th></tr>
+<tr><td>1</td><td>PR4</td><td>echo, development</td><td>PR4 (echo 0.98)</td></tr>
+<tr><td>2</td><td>P6</td><td>echo, development, bridge_relation</td><td>P6 (echo 0.92)</td></tr>
+<tr><td>3</td><td>LF7</td><td>echo, development, bridge_relation</td><td>LF7 (bridge_relation 0.88)</td></tr>
+</table></div>
+</body></html>

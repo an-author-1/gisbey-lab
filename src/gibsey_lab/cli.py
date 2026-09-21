@@ -201,15 +201,34 @@ def cmd_reader_state(args: argparse.Namespace) -> int:
 
 
 def cmd_serve_reader(args: argparse.Namespace) -> int:
-    from .reader.server import run as run_reader_server
+    from . import live_gateway
+    from .reader import server as reader_server
 
-    run_reader_server(port=args.port, open_browser=not args.no_open)
+    if args.mock_offers:
+        # Offline mode: route offers use the deterministic mock dispatch and the MOCK atlas
+        # view. Results are labeled mock everywhere and never count as live coverage.
+        from .config import DEFAULT_MODEL
+        from .scoring import mock_dispatch
+
+        reader_server.OFFER_DISPATCH_FACTORY = lambda: (mock_dispatch, "mock", DEFAULT_MODEL)
+    else:
+        # Live route offers go through the "reader" budget ledger (see live_gateway).
+        reader_server.OFFER_DISPATCH_FACTORY = live_gateway.reader_offer_dispatch_factory
+    reader_server.run(port=args.port, open_browser=not args.no_open)
     return 0
 
 
 def cmd_session_review_data(args: argparse.Namespace) -> int:
     material = gather_recent_traversal_material(limit=args.limit)
     print(json.dumps(material, indent=2, ensure_ascii=False))
+    return 0
+
+
+def cmd_live_usage(args: argparse.Namespace) -> int:
+    from . import live_gateway
+
+    for scope in ("milestone", "reader"):
+        print(f"[{scope}] " + json.dumps(live_gateway.ledger_for(scope).summary(), sort_keys=True))
     return 0
 
 
@@ -267,11 +286,25 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("serve-reader")
     p.add_argument("--port", type=int, default=8765)
     p.add_argument("--no-open", action="store_true", help="don't open a browser tab automatically")
+    p.add_argument("--mock-offers", action="store_true", help="offline: route offers use the mock dispatch and mock atlas")
     p.set_defaults(func=cmd_serve_reader)
 
     p = sub.add_parser("session-review-data")
     p.add_argument("--limit", type=int, default=10)
     p.set_defaults(func=cmd_session_review_data)
+
+    # Relationship atlas (base pair profiles) and reader memory / route offers. Each
+    # package registers its own commands; --live variants get the ledgered dispatch.
+    from . import live_gateway
+    from .atlas import cli as atlas_cli
+    from .memory import cli as memory_cli
+
+    atlas_cli.register_cli(sub)
+    memory_cli.register_cli(sub)
+    live_gateway.wire_cli_hooks()
+
+    p = sub.add_parser("live-usage", help="attempts/tokens spent against each live budget ledger")
+    p.set_defaults(func=cmd_live_usage)
 
     return parser
 

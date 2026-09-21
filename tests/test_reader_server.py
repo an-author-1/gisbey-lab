@@ -19,6 +19,10 @@ def isolated_state(tmp_path, monkeypatch):
     `isolated_runs_dir` separately so they never write into the real runs/ directory."""
     monkeypatch.setattr(reader_server, "DATA_DIR", tmp_path / "data")
     monkeypatch.setattr(reader_server, "SESSION_LOG_PATH", tmp_path / "session_log.jsonl")
+    monkeypatch.setattr(reader_server, "OUTCOMES_PATH", tmp_path / "data" / "reader_outcomes.jsonl")
+    monkeypatch.setattr(reader_server, "OFFER_SETS_PATH", tmp_path / "data" / "reader_offer_sets.jsonl")
+    monkeypatch.setattr(reader_server, "DEMO_DIR", tmp_path / "demo")
+    reader_server._LATEST_REQUEST.clear()
 
 
 @pytest.fixture
@@ -112,8 +116,9 @@ def test_get_saved_result_defaults_to_v0_2_discovery_which_has_no_recorded_histo
     assert data["recorded"] is False
 
 
-def test_get_saved_result_never_preloads_for_expanded_field_with_no_history():
-    """The 41-page field has never been exercised live; nothing is preloaded for it."""
+def test_get_saved_result_never_preloads_for_expanded_field_with_no_history(isolated_runs_dir):
+    """A field with no recorded runs preloads nothing. Asserted against an empty tmp runs
+    dir: the real runs/ directory legitimately gains v0.2/discovery history over time."""
     data = Handlers.get_saved_result({"field": ["full-41"], "source": ["PR1"], "operator": ["DEVELOP"]})
     assert data["recorded"] is False
 
@@ -139,9 +144,9 @@ def test_a_holdout_result_is_never_conflated_with_a_full_41_result():
     assert holdout_data["selected_id"] != full_data["selected_id"]  # genuinely distinct results, not the same record
 
 
-def test_a_result_never_recorded_under_one_field_stays_absent_there():
-    """v0.2/discovery has no history in either field yet -- confirms the negative case
-    still holds where no genuine record exists."""
+def test_a_result_never_recorded_under_one_field_stays_absent_there(isolated_runs_dir):
+    """Confirms the negative case where no genuine record exists (empty tmp runs dir --
+    never an assertion about what the real runs/ directory happens to hold today)."""
     params = {"source": ["PR1"], "operator": ["DEVELOP"]}  # defaults: v0.2, discovery
     holdout_data = Handlers.get_saved_result({"field": ["holdout-21"], **params})
     full_data = Handlers.get_saved_result({"field": ["full-41"], **params})
@@ -151,12 +156,21 @@ def test_a_result_never_recorded_under_one_field_stays_absent_there():
 
 # --- proposal vs. traversal: requesting/viewing must never move the reader ---
 
-def _write_fake_run(base_dir, run_id="fake_run", selected_id="PR4", is_abstention=False, source_id="PR1"):
+def _write_fake_run(base_dir, run_id="fake_run", selected_id="PR4", is_abstention=False, source_id="PR1",
+                    field_id="full-41", policy="include-adjacent"):
+    """A recorded-run directory shaped like recorder.record_run's output, carrying the
+    real current page hashes so follow-time validation has something true to check."""
+    from gibsey_lab.fields import load_field
+
+    field = load_field(field_id)
     run_dir = base_dir / run_id
     run_dir.mkdir(parents=True)
     (run_dir / "input.json").write_text(json.dumps({
         "run_id": run_id, "case_id": "reader-holdout-21-pr1-develop",
         "source_id": source_id, "active_id": None,
+        "reader_state": {"app": "reader", "field": field_id, "operator": "DEVELOP", "policy": policy,
+                         "criteria_version": "v0.2"},
+        "corpus_hashes": {pid: page.sha256 for pid, page in field.manifest.items()},
     }))
     (run_dir / "result.json").write_text(json.dumps({
         "is_abstention": is_abstention,
@@ -172,7 +186,9 @@ def test_cross_collection_destination_can_be_displayed_and_followed(isolated_run
     different text (holdout LF) must be followable like any other pairing -- the field
     does not restrict destinations to the source's own collection."""
     run_dir = _write_fake_run(tmp_path / "runs", source_id="P1", selected_id="LF1")
-    outcome = Handlers.post_accept_and_follow({"run_dir": str(run_dir), "field": "full-41", "source": "P1", "operator": "BRIDGE"})
+    outcome = Handlers.post_accept_and_follow({
+        "run_dir": str(run_dir), "field": "full-41", "source": "P1", "operator": "BRIDGE", "from_page": "P1",
+    })
     assert outcome["reader_state"]["active_passage"] == "LF1"
 
 
@@ -211,17 +227,26 @@ def test_follow_moves_the_reader(tmp_path, isolated_runs_dir):
     proposal_id = Handlers.post_propose({"run_dir": str(run_dir)})["proposal_id"]
     bond_id = Handlers.post_accept({"proposal_id": proposal_id})["bond_id"]
 
-    result = Handlers.post_follow({"bond_id": bond_id})
+    with pytest.raises(ApiError, match="from_page"):
+        Handlers.post_follow({"bond_id": bond_id})  # the page being followed FROM is required
+    assert Handlers.get_reader_state({})["history"] == []
+
+    result = Handlers.post_follow({"bond_id": bond_id, "from_page": "PR1"})
     assert result["active_passage"] == "PR4"
 
     after = Handlers.get_reader_state({})
     assert after["active_passage"] == "PR4"
     assert len(after["history"]) == 1
 
+    replay = Handlers.post_follow({"bond_id": bond_id, "from_page": "PR1"})
+    assert replay["duplicate"] is True and len(replay["history"]) == 1  # a replay is never a second traversal
+
 
 def test_accept_and_follow_records_all_three_as_separate_events_and_logs_a_traversal(tmp_path, isolated_runs_dir):
     run_dir = _write_fake_run(tmp_path / "runs")
-    outcome = Handlers.post_accept_and_follow({"run_dir": str(run_dir), "field": "holdout-21", "source": "PR1", "operator": "DEVELOP"})
+    outcome = Handlers.post_accept_and_follow({
+        "run_dir": str(run_dir), "field": "full-41", "source": "PR1", "operator": "DEVELOP", "from_page": "PR1",
+    })
     assert outcome["proposal_id"].startswith("prop_")
     assert outcome["bond_id"].startswith("bond_")
     assert outcome["reader_state"]["active_passage"] == "PR4"
@@ -238,7 +263,7 @@ def test_accept_and_follow_records_all_three_as_separate_events_and_logs_a_trave
     traversals = [e for e in events if e["event"] == "accept_and_follow"]
     assert len(traversals) == 1
     assert traversals[0]["destination"] == "PR4"
-    assert traversals[0]["field"] == "holdout-21"
+    assert traversals[0]["field"] == "full-41"
 
 
 def test_cannot_propose_from_abstained_run(tmp_path, isolated_runs_dir):
@@ -251,7 +276,7 @@ def test_cannot_propose_from_abstained_run(tmp_path, isolated_runs_dir):
 
 def test_preserve_is_repeat_safe_and_logged_separately_from_traversal(tmp_path, isolated_runs_dir):
     run_dir = _write_fake_run(tmp_path / "runs")
-    outcome = Handlers.post_accept_and_follow({"run_dir": str(run_dir)})
+    outcome = Handlers.post_accept_and_follow({"run_dir": str(run_dir), "from_page": "PR1"})
     bond_id = outcome["bond_id"]
 
     entry1 = Handlers.post_preserve({"bond_id": bond_id})["entry_id"]
@@ -330,7 +355,7 @@ def test_request_selection_requires_credentials(monkeypatch):
 
 # --- optional review notes: never touch Jev input ---
 
-def test_review_note_is_optional_and_separate_from_run_input(tmp_path):
+def test_review_note_is_optional_and_separate_from_run_input(tmp_path, isolated_runs_dir):
     run_dir = _write_fake_run(tmp_path / "runs")
     (run_dir / "review.json").write_text(json.dumps({
         "correspondence": None, "reading_effect": None,

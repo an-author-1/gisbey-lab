@@ -9,7 +9,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+# playwright drives the locally installed Chrome (channel="chrome"); no browser download needed.
+dev = ["pytest", "playwright"]
 
 [project.scripts]
 gibsey = "gibsey_lab.cli:main"

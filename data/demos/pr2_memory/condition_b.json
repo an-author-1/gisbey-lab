@@ -1,0 +1,1008 @@
+{
+  "schema": "offer-result/1",
+  "offer_set_id": "offers_20260920T225302Z_PR2_1d322957",
+  "at": "2026-09-20T22:53:02.561998+00:00",
+  "field": "full-41",
+  "page_id": "PR2",
+  "page_sha256": "e5bcf35ec9a014984da8cc819c4a0290a4c5ba7dfb913e41ca1aac97a38d1b27",
+  "policy": "discovery",
+  "mode": "live",
+  "state": "offers",
+  "state_detail": null,
+  "memory_source": "demonstration_fixture",
+  "memory_packet": {
+    "schema": "memory-packet/1",
+    "policy_version": "memory-v2",
+    "source": "demonstration_fixture",
+    "field": "full-41",
+    "candidate_policy": "discovery",
+    "current": {
+      "page_id": "PR2",
+      "sha256": "e5bcf35ec9a014984da8cc819c4a0290a4c5ba7dfb913e41ca1aac97a38d1b27",
+      "arrived_via": "fixture",
+      "operator": null,
+      "seq": 1,
+      "revisit": false
+    },
+    "window": 6,
+    "encounters": [
+      {
+        "seq": 0,
+        "page_id": "LF3",
+        "sha256": "6c8dee41659b5b99b002224de2e6dea015f025d8a409693a02c330dbaedaaa8c",
+        "text": "London Fox is a hyper-successful, hyper-competent, hyper-well-dressed, and more than anything, hyper-rational business woman. Owner and head of multiple companies of her own creation, she's recently started a new advantageously venturous project with the objective of proving, once and for all, that Artificial Intelligent systems aren't conscious and never could be.\n\nThis projected objective of hers has led her to develop the chatbot Synchromy-S.S.S.T.E.R.Y (Short Story Simulator to Entertain Readers, Yearly) which, upon its conception, was to become the most sophisticated model of its kind. Upon setting this objective, she hadn't originally done so with the goal of achieving a singularitous near-apocalyptic post-human epoch. In fact, her goal was quite the opposite. She'd originally hoped that upon developing the most complex AI system in the field, and doing so while stripping all ghosts from its machinic machinations, that such asinine and ridiculous faiths could be laid to rest, forever.",
+        "text_available": true,
+        "arrived_via": "fixture",
+        "operator": null,
+        "at": null,
+        "revisit": false,
+        "version_source": "current_manifest"
+      }
+    ],
+    "omitted_earlier_encounters": 0,
+    "total_earlier_encounters": 1,
+    "intention": null,
+    "trace_ref": {
+      "log_path": null,
+      "first_seq": 0,
+      "last_seq": 1,
+      "declared_path": [
+        "LF3",
+        "PR2"
+      ]
+    }
+  },
+  "memory_sha256": "b2b58470fdc40f3770ea5c6260e72d5cc64d5a66b76feaca13bf050090117b21",
+  "base_counts": {
+    "profile_rows": 40,
+    "complete": 40,
+    "stale": 0,
+    "failed": 0,
+    "unassessed": 0,
+    "eligible": 38,
+    "ineligible_policy": 2,
+    "eligible_complete": 38,
+    "ineligible_incomplete": 0
+  },
+  "shortlist": [
+    {
+      "position": 1,
+      "destination_id": "PR4",
+      "destination_sha256": "189ba56ef3feb2155e95ba63279cf06029f8bbd7efa6973de381aa31160d17a7",
+      "base_assessment_id": "as-45309ef2077b4e419aaa2a6767db0dc7",
+      "is_authored_neighbor": false,
+      "best_relation": "echo",
+      "best_score_norm": 0.9833333333333334,
+      "reasons": [
+        {
+          "relation": "echo",
+          "score_norm": 0.9833333333333334,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 1
+        },
+        {
+          "relation": "development",
+          "score_norm": 0.9233333333333333,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 1
+        }
+      ],
+      "notes": [],
+      "relation_labels": [
+        "echo",
+        "development"
+      ],
+      "base": {
+        "direct_q_fit": {
+          "score": 2.92,
+          "score_norm": 0.9733333333333333,
+          "confidence": 0.92
+        },
+        "echo": {
+          "score": 2.95,
+          "score_norm": 0.9833333333333334,
+          "confidence": 0.95
+        },
+        "development": {
+          "score": 2.77,
+          "score_norm": 0.9233333333333333,
+          "confidence": 0.77
+        },
+        "contradiction": {
+          "score": 0.91,
+          "score_norm": 0.30333333333333334,
+          "confidence": 0.09
+        },
+        "bridge_relation": {
+          "score": 0.23,
+          "score_norm": 0.07666666666666667,
+          "confidence": 0.77
+        },
+        "redundancy": {
+          "score": 0.99,
+          "score_norm": 0.33,
+          "confidence": 0.64
+        },
+        "missing_context": {
+          "score": 0.72,
+          "score_norm": 0.24,
+          "confidence": 0.28
+        }
+      }
+    },
+    {
+      "position": 2,
+      "destination_id": "P6",
+      "destination_sha256": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+      "base_assessment_id": "as-c21fd565e77f41ef82c3f5fbe9c502be",
+      "is_authored_neighbor": false,
+      "best_relation": "echo",
+      "best_score_norm": 0.9233333333333333,
+      "reasons": [
+        {
+          "relation": "echo",
+          "score_norm": 0.9233333333333333,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 2
+        }
+      ],
+      "notes": [],
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "base": {
+        "direct_q_fit": {
+          "score": 2.6,
+          "score_norm": 0.8666666666666667,
+          "confidence": 0.6
+        },
+        "echo": {
+          "score": 2.77,
+          "score_norm": 0.9233333333333333,
+          "confidence": 0.77
+        },
+        "development": {
+          "score": 2.3,
+          "score_norm": 0.7666666666666666,
+          "confidence": 0.5
+        },
+        "contradiction": {
+          "score": 0.8,
+          "score_norm": 0.26666666666666666,
+          "confidence": 0.2
+        },
+        "bridge_relation": {
+          "score": 2.21,
+          "score_norm": 0.7366666666666667,
+          "confidence": 0.21
+        },
+        "redundancy": {
+          "score": 0.47,
+          "score_norm": 0.15666666666666665,
+          "confidence": 0.53
+        },
+        "missing_context": {
+          "score": 0.69,
+          "score_norm": 0.22999999999999998,
+          "confidence": 0.49
+        }
+      }
+    },
+    {
+      "position": 3,
+      "destination_id": "LF7",
+      "destination_sha256": "63eff9b43a8b6d2f3e77a49e2266c3ec0a542567e9fc19899710f731398d4c09",
+      "base_assessment_id": "as-89ec61667fce43aeaa4228e8096c9ba3",
+      "is_authored_neighbor": false,
+      "best_relation": "bridge_relation",
+      "best_score_norm": 0.88,
+      "reasons": [
+        {
+          "relation": "bridge_relation",
+          "score_norm": 0.88,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 1
+        }
+      ],
+      "notes": [],
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "base": {
+        "direct_q_fit": {
+          "score": 2.27,
+          "score_norm": 0.7566666666666667,
+          "confidence": 0.51
+        },
+        "echo": {
+          "score": 2.62,
+          "score_norm": 0.8733333333333334,
+          "confidence": 0.62
+        },
+        "development": {
+          "score": 2.23,
+          "score_norm": 0.7433333333333333,
+          "confidence": 0.5
+        },
+        "contradiction": {
+          "score": 0.41,
+          "score_norm": 0.13666666666666666,
+          "confidence": 0.59
+        },
+        "bridge_relation": {
+          "score": 2.64,
+          "score_norm": 0.88,
+          "confidence": 0.64
+        },
+        "redundancy": {
+          "score": 0.76,
+          "score_norm": 0.25333333333333335,
+          "confidence": 0.54
+        },
+        "missing_context": {
+          "score": 1.96,
+          "score_norm": 0.6533333333333333,
+          "confidence": 0.37
+        }
+      }
+    },
+    {
+      "position": 4,
+      "destination_id": "LF8",
+      "destination_sha256": "84e4c794adcf9e2afe3019897ec32f242e263a12c13598b624d61c2ecee0d935",
+      "base_assessment_id": "as-6e67ecf0ba38479685fd40a76c0713fc",
+      "is_authored_neighbor": false,
+      "best_relation": "bridge_relation",
+      "best_score_norm": 0.8666666666666667,
+      "reasons": [
+        {
+          "relation": "bridge_relation",
+          "score_norm": 0.8666666666666667,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 2
+        }
+      ],
+      "notes": [],
+      "relation_labels": [
+        "development",
+        "bridge_relation"
+      ],
+      "base": {
+        "direct_q_fit": {
+          "score": 2.06,
+          "score_norm": 0.6866666666666666,
+          "confidence": 0.62
+        },
+        "echo": {
+          "score": 1.73,
+          "score_norm": 0.5766666666666667,
+          "confidence": 0.35
+        },
+        "development": {
+          "score": 2.01,
+          "score_norm": 0.6699999999999999,
+          "confidence": 0.45
+        },
+        "contradiction": {
+          "score": 0.63,
+          "score_norm": 0.21,
+          "confidence": 0.37
+        },
+        "bridge_relation": {
+          "score": 2.6,
+          "score_norm": 0.8666666666666667,
+          "confidence": 0.6
+        },
+        "redundancy": {
+          "score": 0.3,
+          "score_norm": 0.09999999999999999,
+          "confidence": 0.7
+        },
+        "missing_context": {
+          "score": 1.41,
+          "score_norm": 0.47,
+          "confidence": 0.12
+        }
+      }
+    },
+    {
+      "position": 5,
+      "destination_id": "LF14",
+      "destination_sha256": "7761643ceca9bce90bbc58f69b618596d8f9af252b031fac17d15c49017e90cd",
+      "base_assessment_id": "as-118043589f1c42618715ee2332384c23",
+      "is_authored_neighbor": false,
+      "best_relation": "development",
+      "best_score_norm": 0.8033333333333333,
+      "reasons": [
+        {
+          "relation": "development",
+          "score_norm": 0.8033333333333333,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 2
+        }
+      ],
+      "notes": [],
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "base": {
+        "direct_q_fit": {
+          "score": 2.48,
+          "score_norm": 0.8266666666666667,
+          "confidence": 0.48
+        },
+        "echo": {
+          "score": 2.56,
+          "score_norm": 0.8533333333333334,
+          "confidence": 0.56
+        },
+        "development": {
+          "score": 2.41,
+          "score_norm": 0.8033333333333333,
+          "confidence": 0.41
+        },
+        "contradiction": {
+          "score": 0.72,
+          "score_norm": 0.24,
+          "confidence": 0.28
+        },
+        "bridge_relation": {
+          "score": 2.18,
+          "score_norm": 0.7266666666666667,
+          "confidence": 0.18
+        },
+        "redundancy": {
+          "score": 0.61,
+          "score_norm": 0.20333333333333334,
+          "confidence": 0.51
+        },
+        "missing_context": {
+          "score": 0.99,
+          "score_norm": 0.33,
+          "confidence": 0.48
+        }
+      }
+    }
+  ],
+  "shortlist_excluded": [],
+  "shortlist_counts": {},
+  "shortlist_fixed": true,
+  "static_base_only": [
+    {
+      "rank": 1,
+      "destination_id": "PR4",
+      "best_relation": "echo",
+      "best_score_norm": 0.9833333333333334,
+      "relation_labels": [
+        "echo",
+        "development"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": true
+    },
+    {
+      "rank": 2,
+      "destination_id": "P6",
+      "best_relation": "echo",
+      "best_score_norm": 0.9233333333333333,
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": true
+    },
+    {
+      "rank": 3,
+      "destination_id": "LF7",
+      "best_relation": "bridge_relation",
+      "best_score_norm": 0.88,
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": true
+    },
+    {
+      "rank": 4,
+      "destination_id": "LF8",
+      "best_relation": "bridge_relation",
+      "best_score_norm": 0.8666666666666667,
+      "relation_labels": [
+        "development",
+        "bridge_relation"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": false
+    },
+    {
+      "rank": 5,
+      "destination_id": "LF14",
+      "best_relation": "development",
+      "best_score_norm": 0.8033333333333333,
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": false
+    }
+  ],
+  "assessed_ids": [
+    "PR4",
+    "P6",
+    "LF7",
+    "LF8",
+    "LF14"
+  ],
+  "assessed": [
+    {
+      "destination_id": "PR4",
+      "status": "ok",
+      "layer": "history_conditioned",
+      "contextual_assessment_id": "ctx_20260920T225303Z_04d3181fb2",
+      "from_cache": false,
+      "cache_key": "3c296a31b7b21acb854fa9c5d86fd6fe7c17d0a149eeeb661b72a6392f811b3f",
+      "request_sha256": "8ff7d5ccbc52dd1ad1d3a1dc4f3d293a51e745001b4ea6ff02e4e52a5ecb6722",
+      "mode": "live",
+      "returned_model": "jev-1.13.0",
+      "answers": {
+        "works_after_history": {
+          "score": 2.78,
+          "score_norm": 0.9266666666666666,
+          "max_level": 3,
+          "confidence": 0.78,
+          "valid": true
+        },
+        "grounded_reading_effect": {
+          "score": 2.4,
+          "score_norm": 0.7999999999999999,
+          "max_level": 3,
+          "confidence": 0.59,
+          "valid": true
+        },
+        "repeats_recent_reading": {
+          "score": 1.04,
+          "score_norm": 0.3466666666666667,
+          "max_level": 3,
+          "confidence": 0.71,
+          "valid": true
+        }
+      },
+      "qualified": true,
+      "reasons": []
+    },
+    {
+      "destination_id": "P6",
+      "status": "ok",
+      "layer": "history_conditioned",
+      "contextual_assessment_id": "ctx_20260920T225303Z_ed643129f8",
+      "from_cache": false,
+      "cache_key": "0fa1dd53d7d0b3d6ba69d971b5070e88ddd77ac4ea9c5f39a6a2b789e362dbd3",
+      "request_sha256": "21c60f6dcb70f326d0b17e881aa8aeebdb5b4278262dfdcc0432c89273ea0ec1",
+      "mode": "live",
+      "returned_model": "jev-1.13.0",
+      "answers": {
+        "works_after_history": {
+          "score": 2.53,
+          "score_norm": 0.8433333333333333,
+          "max_level": 3,
+          "confidence": 0.53,
+          "valid": true
+        },
+        "grounded_reading_effect": {
+          "score": 2.48,
+          "score_norm": 0.8266666666666667,
+          "max_level": 3,
+          "confidence": 0.48,
+          "valid": true
+        },
+        "repeats_recent_reading": {
+          "score": 0.92,
+          "score_norm": 0.3066666666666667,
+          "max_level": 3,
+          "confidence": 0.86,
+          "valid": true
+        }
+      },
+      "qualified": true,
+      "reasons": []
+    },
+    {
+      "destination_id": "LF7",
+      "status": "ok",
+      "layer": "history_conditioned",
+      "contextual_assessment_id": "ctx_20260920T225304Z_15458b1ba6",
+      "from_cache": false,
+      "cache_key": "75411dd890e539a4aa412c75f1d5c102ee4402de99a5fccf9d0eaa9509f66ca8",
+      "request_sha256": "8f9c3583d4f2aa5e874d021148ddb50cd0e133021c3554371bd4e15793f0148a",
+      "mode": "live",
+      "returned_model": "jev-1.13.0",
+      "answers": {
+        "works_after_history": {
+          "score": 2.51,
+          "score_norm": 0.8366666666666666,
+          "max_level": 3,
+          "confidence": 0.51,
+          "valid": true
+        },
+        "grounded_reading_effect": {
+          "score": 2.48,
+          "score_norm": 0.8266666666666667,
+          "max_level": 3,
+          "confidence": 0.48,
+          "valid": true
+        },
+        "repeats_recent_reading": {
+          "score": 0.85,
+          "score_norm": 0.2833333333333333,
+          "max_level": 3,
+          "confidence": 0.75,
+          "valid": true
+        }
+      },
+      "qualified": true,
+      "reasons": []
+    },
+    {
+      "destination_id": "LF8",
+      "status": "ok",
+      "layer": "history_conditioned",
+      "contextual_assessment_id": "ctx_20260920T225304Z_e7a3420846",
+      "from_cache": false,
+      "cache_key": "dabdc5cd4d490a1b29b748885eabe37b592afb914c315eeafa3c9f745422049b",
+      "request_sha256": "53e52c423a32b1f89ad5c8f4b0edf6b592070f56614eef7d85eb89c83202b4f5",
+      "mode": "live",
+      "returned_model": "jev-1.13.0",
+      "answers": {
+        "works_after_history": {
+          "score": 2.04,
+          "score_norm": 0.68,
+          "max_level": 3,
+          "confidence": 0.35,
+          "valid": true
+        },
+        "grounded_reading_effect": {
+          "score": 2.49,
+          "score_norm": 0.8300000000000001,
+          "max_level": 3,
+          "confidence": 0.49,
+          "valid": true
+        },
+        "repeats_recent_reading": {
+          "score": 0.48,
+          "score_norm": 0.16,
+          "max_level": 3,
+          "confidence": 0.52,
+          "valid": true
+        }
+      },
+      "qualified": true,
+      "reasons": []
+    },
+    {
+      "destination_id": "LF14",
+      "status": "ok",
+      "layer": "history_conditioned",
+      "contextual_assessment_id": "ctx_20260920T225305Z_9aed38ce5e",
+      "from_cache": false,
+      "cache_key": "4b6abb9e9f6b9f11fd877b1d358e5c53bece8d9a30e64079d1e9a380b51cf584",
+      "request_sha256": "76433f8ce37eaa3bd8f710b31d0e9ba2bd3790817f876d2113c4c163cae407c8",
+      "mode": "live",
+      "returned_model": "jev-1.13.0",
+      "answers": {
+        "works_after_history": {
+          "score": 2.51,
+          "score_norm": 0.8366666666666666,
+          "max_level": 3,
+          "confidence": 0.51,
+          "valid": true
+        },
+        "grounded_reading_effect": {
+          "score": 2.45,
+          "score_norm": 0.8166666666666668,
+          "max_level": 3,
+          "confidence": 0.51,
+          "valid": true
+        },
+        "repeats_recent_reading": {
+          "score": 0.93,
+          "score_norm": 0.31,
+          "max_level": 3,
+          "confidence": 0.84,
+          "valid": true
+        }
+      },
+      "qualified": true,
+      "reasons": []
+    }
+  ],
+  "not_assessed_count": 33,
+  "offers": [
+    {
+      "rank": 1,
+      "destination_id": "PR4",
+      "destination_sha256": "189ba56ef3feb2155e95ba63279cf06029f8bbd7efa6973de381aa31160d17a7",
+      "relation_labels": [
+        "echo",
+        "development"
+      ],
+      "is_authored_neighbor": false,
+      "base": {
+        "layer": "base_pair_profile",
+        "assessment_id": "as-45309ef2077b4e419aaa2a6767db0dc7",
+        "dimensions": {
+          "direct_q_fit": {
+            "score": 2.92,
+            "score_norm": 0.9733333333333333,
+            "confidence": 0.92
+          },
+          "echo": {
+            "score": 2.95,
+            "score_norm": 0.9833333333333334,
+            "confidence": 0.95
+          },
+          "development": {
+            "score": 2.77,
+            "score_norm": 0.9233333333333333,
+            "confidence": 0.77
+          },
+          "contradiction": {
+            "score": 0.91,
+            "score_norm": 0.30333333333333334,
+            "confidence": 0.09
+          },
+          "bridge_relation": {
+            "score": 0.23,
+            "score_norm": 0.07666666666666667,
+            "confidence": 0.77
+          },
+          "redundancy": {
+            "score": 0.99,
+            "score_norm": 0.33,
+            "confidence": 0.64
+          },
+          "missing_context": {
+            "score": 0.72,
+            "score_norm": 0.24,
+            "confidence": 0.28
+          }
+        }
+      },
+      "contextual": {
+        "layer": "history_conditioned",
+        "from_cache": false,
+        "answers": {
+          "works_after_history": {
+            "score": 2.78,
+            "score_norm": 0.9266666666666666,
+            "max_level": 3,
+            "confidence": 0.78,
+            "valid": true
+          },
+          "grounded_reading_effect": {
+            "score": 2.4,
+            "score_norm": 0.7999999999999999,
+            "max_level": 3,
+            "confidence": 0.59,
+            "valid": true
+          },
+          "repeats_recent_reading": {
+            "score": 1.04,
+            "score_norm": 0.3466666666666667,
+            "max_level": 3,
+            "confidence": 0.71,
+            "valid": true
+          }
+        },
+        "request_sha256": "8ff7d5ccbc52dd1ad1d3a1dc4f3d293a51e745001b4ea6ff02e4e52a5ecb6722",
+        "mode": "live",
+        "returned_model": "jev-1.13.0"
+      },
+      "contextual_assessment_id": "ctx_20260920T225303Z_04d3181fb2",
+      "from_cache": false,
+      "shortlist_reasons": [
+        {
+          "relation": "echo",
+          "score_norm": 0.9833333333333334,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 1
+        },
+        {
+          "relation": "development",
+          "score_norm": 0.9233333333333333,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 1
+        }
+      ],
+      "rank_reasons": [
+        "works_after_history level 3 (score 2.78)",
+        "grounded_reading_effect level 2 (score 2.40)",
+        "repeats_recent_reading level 1 (score 1.04; lower ranks first)",
+        "tie-break: best base relation echo 0.98, then field page order"
+      ]
+    },
+    {
+      "rank": 2,
+      "destination_id": "P6",
+      "destination_sha256": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "is_authored_neighbor": false,
+      "base": {
+        "layer": "base_pair_profile",
+        "assessment_id": "as-c21fd565e77f41ef82c3f5fbe9c502be",
+        "dimensions": {
+          "direct_q_fit": {
+            "score": 2.6,
+            "score_norm": 0.8666666666666667,
+            "confidence": 0.6
+          },
+          "echo": {
+            "score": 2.77,
+            "score_norm": 0.9233333333333333,
+            "confidence": 0.77
+          },
+          "development": {
+            "score": 2.3,
+            "score_norm": 0.7666666666666666,
+            "confidence": 0.5
+          },
+          "contradiction": {
+            "score": 0.8,
+            "score_norm": 0.26666666666666666,
+            "confidence": 0.2
+          },
+          "bridge_relation": {
+            "score": 2.21,
+            "score_norm": 0.7366666666666667,
+            "confidence": 0.21
+          },
+          "redundancy": {
+            "score": 0.47,
+            "score_norm": 0.15666666666666665,
+            "confidence": 0.53
+          },
+          "missing_context": {
+            "score": 0.69,
+            "score_norm": 0.22999999999999998,
+            "confidence": 0.49
+          }
+        }
+      },
+      "contextual": {
+        "layer": "history_conditioned",
+        "from_cache": false,
+        "answers": {
+          "works_after_history": {
+            "score": 2.53,
+            "score_norm": 0.8433333333333333,
+            "max_level": 3,
+            "confidence": 0.53,
+            "valid": true
+          },
+          "grounded_reading_effect": {
+            "score": 2.48,
+            "score_norm": 0.8266666666666667,
+            "max_level": 3,
+            "confidence": 0.48,
+            "valid": true
+          },
+          "repeats_recent_reading": {
+            "score": 0.92,
+            "score_norm": 0.3066666666666667,
+            "max_level": 3,
+            "confidence": 0.86,
+            "valid": true
+          }
+        },
+        "request_sha256": "21c60f6dcb70f326d0b17e881aa8aeebdb5b4278262dfdcc0432c89273ea0ec1",
+        "mode": "live",
+        "returned_model": "jev-1.13.0"
+      },
+      "contextual_assessment_id": "ctx_20260920T225303Z_ed643129f8",
+      "from_cache": false,
+      "shortlist_reasons": [
+        {
+          "relation": "echo",
+          "score_norm": 0.9233333333333333,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 2
+        }
+      ],
+      "rank_reasons": [
+        "works_after_history level 3 (score 2.53)",
+        "grounded_reading_effect level 2 (score 2.48)",
+        "repeats_recent_reading level 1 (score 0.92; lower ranks first)",
+        "tie-break: best base relation echo 0.92, then field page order"
+      ]
+    },
+    {
+      "rank": 3,
+      "destination_id": "LF7",
+      "destination_sha256": "63eff9b43a8b6d2f3e77a49e2266c3ec0a542567e9fc19899710f731398d4c09",
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "is_authored_neighbor": false,
+      "base": {
+        "layer": "base_pair_profile",
+        "assessment_id": "as-89ec61667fce43aeaa4228e8096c9ba3",
+        "dimensions": {
+          "direct_q_fit": {
+            "score": 2.27,
+            "score_norm": 0.7566666666666667,
+            "confidence": 0.51
+          },
+          "echo": {
+            "score": 2.62,
+            "score_norm": 0.8733333333333334,
+            "confidence": 0.62
+          },
+          "development": {
+            "score": 2.23,
+            "score_norm": 0.7433333333333333,
+            "confidence": 0.5
+          },
+          "contradiction": {
+            "score": 0.41,
+            "score_norm": 0.13666666666666666,
+            "confidence": 0.59
+          },
+          "bridge_relation": {
+            "score": 2.64,
+            "score_norm": 0.88,
+            "confidence": 0.64
+          },
+          "redundancy": {
+            "score": 0.76,
+            "score_norm": 0.25333333333333335,
+            "confidence": 0.54
+          },
+          "missing_context": {
+            "score": 1.96,
+            "score_norm": 0.6533333333333333,
+            "confidence": 0.37
+          }
+        }
+      },
+      "contextual": {
+        "layer": "history_conditioned",
+        "from_cache": false,
+        "answers": {
+          "works_after_history": {
+            "score": 2.51,
+            "score_norm": 0.8366666666666666,
+            "max_level": 3,
+            "confidence": 0.51,
+            "valid": true
+          },
+          "grounded_reading_effect": {
+            "score": 2.48,
+            "score_norm": 0.8266666666666667,
+            "max_level": 3,
+            "confidence": 0.48,
+            "valid": true
+          },
+          "repeats_recent_reading": {
+            "score": 0.85,
+            "score_norm": 0.2833333333333333,
+            "max_level": 3,
+            "confidence": 0.75,
+            "valid": true
+          }
+        },
+        "request_sha256": "8f9c3583d4f2aa5e874d021148ddb50cd0e133021c3554371bd4e15793f0148a",
+        "mode": "live",
+        "returned_model": "jev-1.13.0"
+      },
+      "contextual_assessment_id": "ctx_20260920T225304Z_15458b1ba6",
+      "from_cache": false,
+      "shortlist_reasons": [
+        {
+          "relation": "bridge_relation",
+          "score_norm": 0.88,
+          "floor": 0.6666666666666666,
+          "rank_in_relation": 1
+        }
+      ],
+      "rank_reasons": [
+        "works_after_history level 3 (score 2.51)",
+        "grounded_reading_effect level 2 (score 2.48)",
+        "repeats_recent_reading level 1 (score 0.85; lower ranks first)",
+        "tie-break: best base relation bridge_relation 0.88, then field page order"
+      ]
+    }
+  ],
+  "rejected": [
+    {
+      "destination_id": "LF14",
+      "stage": "ranking",
+      "reasons": [
+        "qualified but ranked below the 3 offered"
+      ]
+    },
+    {
+      "destination_id": "LF8",
+      "stage": "ranking",
+      "reasons": [
+        "qualified but ranked below the 3 offered"
+      ]
+    }
+  ],
+  "versions": {
+    "offer_policy": "offers-v2",
+    "shortlist_policy": "shortlist-v2",
+    "memory_policy": "memory-v2",
+    "contextual_rubric": "contextual-rubric-v1",
+    "requested_model": "jev-1.13.0",
+    "atlas_config_id": "cfg-5a7766c6c2012139e7bab61f",
+    "atlas_rubric_version": "atlas-rubric-v2",
+    "pinned_returned_model": "jev-1.13.0",
+    "returned_models": [
+      "jev-1.13.0"
+    ]
+  },
+  "thresholds": {
+    "works_floor": 0.6666666666666666,
+    "grounded_floor": 0.6666666666666666,
+    "repeats_ceiling": 0.67,
+    "max_offers": 3,
+    "shortlist": {
+      "relation_floor": 0.6666666666666666,
+      "direct_q_fit_floor": 0.34,
+      "missing_context_ceiling": 0.67,
+      "redundancy_ceiling": 0.67,
+      "per_relation_top": 2,
+      "cap": 8,
+      "status": "provisional application policy"
+    },
+    "status": "provisional application policy"
+  },
+  "usage": {
+    "requests_dispatched": 5,
+    "cache_hits": 0,
+    "attempts": 5,
+    "input_tokens": 10956,
+    "output_tokens": 290,
+    "usage_unknown_requests": 0
+  },
+  "errors": [],
+  "demo": {
+    "condition": "B",
+    "declared_path": [
+      "LF3",
+      "PR2"
+    ],
+    "banner": "Demonstration fixtures — not the reader's actions, not accepted bonds",
+    "model_visible_history": {
+      "encounters": [
+        {
+          "order": 1,
+          "arrived_by": "arrival not specified",
+          "returning_to_a_page_read_earlier": false,
+          "text": "London Fox is a hyper-successful, hyper-competent, hyper-well-dressed, and more than anything, hyper-rational business woman. Owner and head of multiple companies of her own creation, she's recently started a new advantageously venturous project with the objective of proving, once and for all, that Artificial Intelligent systems aren't conscious and never could be.\n\nThis projected objective of hers has led her to develop the chatbot Synchromy-S.S.S.T.E.R.Y (Short Story Simulator to Entertain Readers, Yearly) which, upon its conception, was to become the most sophisticated model of its kind. Upon setting this objective, she hadn't originally done so with the goal of achieving a singularitous near-apocalyptic post-human epoch. In fact, her goal was quite the opposite. She'd originally hoped that upon developing the most complex AI system in the field, and doing so while stripping all ghosts from its machinic machinations, that such asinine and ridiculous faiths could be laid to rest, forever."
+        }
+      ],
+      "omitted_earlier_encounters": 0,
+      "note": "Encounters are listed oldest first. This is the complete supplied history.",
+      "current_page_arrived_by": "arrival not specified",
+      "reader_stated_intention": null
+    }
+  }
+}

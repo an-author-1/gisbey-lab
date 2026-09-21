@@ -461,6 +461,43 @@ reply is a short digest (up to three interesting connections, any supported conc
 skill never changes operator wording, accepts/follows a proposal, or turns commentary
 into an in-world page — and the reader works fully without ever running it.
 
+### Relationship atlas and reader memory (2026-09-20 milestone)
+
+Current state, versions, coverage, usage and limitations live in
+[`notes/atlas-memory-status.md`](notes/atlas-memory-status.md); the design agreements are
+in `notes/atlas-memory-contracts.md`; the pilot and rubric calibration are in
+`notes/atlas-pilot-calibration.md`. Three data layers are kept apart everywhere:
+**base pair profiles** (independent seven-dimension Score assessments of each directed
+pair, `data/atlas/`), **field-relative Choice distributions** (the historical `runs/`,
+read-only, never treated as pair scores), and **history-conditioned assessments**
+(`data/contextual/`, keyed by the exact reading history that was sent to Jev). This is
+still Q→Q: nothing here generates pages, and `bridge_relation` is a relationship label,
+not QDPI L.
+
+```
+gibsey atlas-coverage [--mode live|mock]   # complete / failed / stale / unassessed of 1,640
+gibsey atlas-inspect SRC DST               # one directed pair: 7 dimensions + provenance,
+                                           #   with Choice history shown separately
+gibsey atlas-build --live                  # assess whatever is not complete (resumable;
+gibsey atlas-resume                        #   skips compatible complete pairs)
+gibsey atlas-build --mock --limit 50       # offline; labeled MOCK, never counted as live
+gibsey memory-packet [--page ID]           # the reading-history packet for the real session
+gibsey offers PAGE --live|--mock           # shortlist -> contextual assessment -> <=3 routes
+gibsey pr2-demo --live|--mock              # PR2 arrival-history comparison (fixtures)
+gibsey live-usage                          # attempts/tokens against both budget ledgers
+gibsey serve-reader [--mock-offers]        # reader; live offers use the "reader" ledger
+```
+
+Live Score work is budgeted by append-only ledgers that a restart cannot reset:
+`data/atlas/ledger.jsonl` (milestone: 2,000 attempts / 10M input tokens / 2 in flight) and
+`data/reader_ledger.jsonl` (interactive offers from the browser; default 600 attempts /
+2M tokens, adjustable downward or up to the hard caps with `GIBSEY_READER_MAX_ATTEMPTS`
+and `GIBSEY_READER_MAX_INPUT_TOKENS`). After editing a vault page, its 80 pairs read as
+`stale`; `gibsey atlas-build --live` re-assesses exactly those and leaves the old records
+in place. In the reader: **Show possible next pages** asks for a hand of up to three
+routes informed by how you got to the page; the atlas panel lists the page's 40 base
+profiles; the header links to the PR2 memory demonstration at `/demo/pr2`.
+
 ### Verified so far
 
 * Offline: 41 unit/integration tests pass, covering corpus loading and hashing, missing/empty-page

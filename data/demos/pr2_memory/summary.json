@@ -1,0 +1,223 @@
+{
+  "schema": "pr2-memory-demo/1",
+  "banner": "Demonstration fixtures — not the reader's actions, not accepted bonds",
+  "at": "2026-09-20T22:53:07.593301+00:00",
+  "page_id": "PR2",
+  "page_sha256": "e5bcf35ec9a014984da8cc819c4a0290a4c5ba7dfb913e41ca1aac97a38d1b27",
+  "field": "full-41",
+  "policy": "discovery",
+  "mode": "live",
+  "requested_model": "jev-1.13.0",
+  "held_constant": {
+    "shortlist_ids_in_order": [
+      "PR4",
+      "P6",
+      "LF7",
+      "LF8",
+      "LF14"
+    ],
+    "shortlist_policy": "shortlist-v2",
+    "offer_policy": "offers-v2",
+    "contextual_rubric": "contextual-rubric-v1",
+    "question_ids": [
+      "works_after_history",
+      "grounded_reading_effect",
+      "repeats_recent_reading"
+    ]
+  },
+  "static_base_only": [
+    {
+      "rank": 1,
+      "destination_id": "PR4",
+      "best_relation": "echo",
+      "best_score_norm": 0.9833333333333334,
+      "relation_labels": [
+        "echo",
+        "development"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": true
+    },
+    {
+      "rank": 2,
+      "destination_id": "P6",
+      "best_relation": "echo",
+      "best_score_norm": 0.9233333333333333,
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": true
+    },
+    {
+      "rank": 3,
+      "destination_id": "LF7",
+      "best_relation": "bridge_relation",
+      "best_score_norm": 0.88,
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": true
+    },
+    {
+      "rank": 4,
+      "destination_id": "LF8",
+      "best_relation": "bridge_relation",
+      "best_score_norm": 0.8666666666666667,
+      "relation_labels": [
+        "development",
+        "bridge_relation"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": false
+    },
+    {
+      "rank": 5,
+      "destination_id": "LF14",
+      "best_relation": "development",
+      "best_score_norm": 0.8033333333333333,
+      "relation_labels": [
+        "echo",
+        "development",
+        "bridge_relation"
+      ],
+      "layer": "base_pair_profile",
+      "would_offer": false
+    }
+  ],
+  "conditions": {
+    "a": {
+      "condition": "A",
+      "declared_path": [
+        "PR1",
+        "PR3",
+        "PR2"
+      ],
+      "memory_sha256": "314d175dee83191a41c1d6e9734f2ddcdecb35b8bb1b1d3dd3867418d27462b6",
+      "state": "offers",
+      "offers": [
+        "PR4",
+        "LF14",
+        "P6"
+      ],
+      "assessed_ids": [
+        "PR4",
+        "P6",
+        "LF7",
+        "LF8",
+        "LF14"
+      ],
+      "returned_models": [
+        "jev-1.13.0"
+      ],
+      "usage": {
+        "requests_dispatched": 5,
+        "cache_hits": 0,
+        "attempts": 5,
+        "input_tokens": 11301,
+        "output_tokens": 290,
+        "usage_unknown_requests": 0
+      },
+      "errors": []
+    },
+    "b": {
+      "condition": "B",
+      "declared_path": [
+        "LF3",
+        "PR2"
+      ],
+      "memory_sha256": "b2b58470fdc40f3770ea5c6260e72d5cc64d5a66b76feaca13bf050090117b21",
+      "state": "offers",
+      "offers": [
+        "PR4",
+        "P6",
+        "LF7"
+      ],
+      "assessed_ids": [
+        "PR4",
+        "P6",
+        "LF7",
+        "LF8",
+        "LF14"
+      ],
+      "returned_models": [
+        "jev-1.13.0"
+      ],
+      "usage": {
+        "requests_dispatched": 5,
+        "cache_hits": 0,
+        "attempts": 5,
+        "input_tokens": 10956,
+        "output_tokens": 290,
+        "usage_unknown_requests": 0
+      },
+      "errors": []
+    },
+    "c": {
+      "condition": "C",
+      "declared_path": [
+        "PR2"
+      ],
+      "memory_sha256": "992639d881e8c8a68692dfd988f2aaa6deb222b06ee99ed705e6192c9e245975",
+      "state": "offers",
+      "offers": [
+        "PR4",
+        "P6",
+        "LF14"
+      ],
+      "assessed_ids": [
+        "PR4",
+        "P6",
+        "LF7",
+        "LF8",
+        "LF14"
+      ],
+      "returned_models": [
+        "jev-1.13.0"
+      ],
+      "usage": {
+        "requests_dispatched": 5,
+        "cache_hits": 0,
+        "attempts": 5,
+        "input_tokens": 9601,
+        "output_tokens": 290,
+        "usage_unknown_requests": 0
+      },
+      "errors": []
+    }
+  },
+  "request_sha256_by_candidate": {
+    "PR4": {
+      "a": "a647241ca4fd4686e7f08e843cf6d3b3d9c3a4837b9ff6a9edaa121284d6a9e2",
+      "b": "8ff7d5ccbc52dd1ad1d3a1dc4f3d293a51e745001b4ea6ff02e4e52a5ecb6722",
+      "c": "da585ee30497f48dc779374c2f869d9926d1c243942247236c2894dc593c0d99"
+    },
+    "P6": {
+      "a": "af6d64858afe096eeea4ef59fee89e745b7d571250d1d2cc6a7348b4f74d23c7",
+      "b": "21c60f6dcb70f326d0b17e881aa8aeebdb5b4278262dfdcc0432c89273ea0ec1",
+      "c": "1642e1d84c9f7edae52c8950bebaf49f4f8d65181a8c2968d080004d2735ab65"
+    },
+    "LF7": {
+      "a": "9282423f8978e02614d3ebc16f97a08dbaca17b244191d360cb6018176cf1f2c",
+      "b": "8f9c3583d4f2aa5e874d021148ddb50cd0e133021c3554371bd4e15793f0148a",
+      "c": "bfa61a41327c768cd23295cdbc38aba12e4da4e9f722ddb5883f2d8d6e7a6189"
+    },
+    "LF8": {
+      "a": "6125277acb1e5dc25007714ac003490b18fd36083597bb083631a8ae6c9e2b11",
+      "b": "53e52c423a32b1f89ad5c8f4b0edf6b592070f56614eef7d85eb89c83202b4f5",
+      "c": "7195fcd7d4cf9602b77329f7c640b9ee5b0537385af6131bfe471c1d042e874f"
+    },
+    "LF14": {
+      "a": "faf6f8721ba82f1e894ea3754e3faf8e42a10890756e0ede003e122a2b36713e",
+      "b": "76433f8ce37eaa3bd8f710b31d0e9ba2bd3790817f876d2113c4c163cae407c8",
+      "c": "90aad279dd5a07c5afad32cb8701564f80b33cf951f31f3a2ea4661dbdbd6b2b"
+    }
+  },
+  "provider_input_differed_for_every_candidate": true,
+  "note": "A difference in offers is neither asserted nor required. Literary usefulness is judged separately."
+}

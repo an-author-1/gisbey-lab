@@ -1,0 +1,268 @@
+{
+ "at": "2026-09-21T03:30:51.581125+00:00",
+ "build": {
+  "git_revision": "1935bb73716124667c987bb9aef0154c34a8dc1b",
+  "dirty": true,
+  "app_js_sha256": "52be1b3b44f9df1f4f41f7cd02aeeee3475de5487657f6d1e817ff528ba010f5",
+  "server_started_at": "2026-09-21T03:30:46.235316+00:00"
+ },
+ "policy": "discovery",
+ "browser": "Chrome via Playwright (channel=chrome, headless)",
+ "isolated_data_dir": "/var/folders/zs/hx1cyk6910171fwj2bbx478r0000gn/T/gibsey-acceptance-7_bqrkn0",
+ "provider": "MOCK only (tests/acceptance/serve_isolated.py); atlas = real live records, read-only",
+ "combinations": {
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "with_exploratory_rows": 1,
+  "follows_of_exploratory_rows": 1
+ },
+ "scenarios": {
+  "total": 0,
+  "passed": 0
+ },
+ "console_errors": [
+  "console.error: Failed to load resource: the server responded with a status of 404 (Not Found)"
+ ],
+ "mock_counters": {
+  "contextual_dispatches": 0,
+  "single_pick_dispatches": 0,
+  "mode": "ok"
+ },
+ "failed_combinations": [],
+ "scenario_results": [],
+ "all_combinations": [
+  {
+   "page": "P1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "F1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  }
+ ]
+}

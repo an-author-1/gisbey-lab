@@ -80,14 +80,17 @@ def test_changed_source_text_invalidates_reuse():
     assert saved is None
 
 
-def test_full_41_field_has_no_recorded_v0_2_results_yet():
-    """v0.2 criterion text has never been used in any recorded run; nothing should be
-    surfaced as 'recorded' for it regardless of field or policy."""
+def test_full_41_field_surfaces_no_v0_2_result_without_a_recorded_run(tmp_path):
+    """Nothing is surfaced as 'recorded' for a criterion that no run in the searched
+    directory used. (This originally asserted against the real runs/ directory, which was
+    true until the reader produced live v0.2 runs on 2026-09-20; it now uses an isolated
+    runs dir so real reading sessions cannot break it.)"""
     from gibsey_lab.fields import FULL_41
 
     field = load_field(FULL_41)
     saved = find_matching_recorded_result(
-        field, "PR1", "DEVELOP", relational_operators.CRITERIA_BY_VERSION["v0.2"]["DEVELOP"], expected_model="jev-latest"
+        field, "PR1", "DEVELOP", relational_operators.CRITERIA_BY_VERSION["v0.2"]["DEVELOP"],
+        expected_model="jev-latest", runs_dir=tmp_path,
     )
     assert saved is None
 

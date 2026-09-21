@@ -16,5 +16,41 @@
     "target_id": "PR2",
     "target_text": "In a theme park, when an attraction loses traffic, they are destroyed and replaced by other attractions.\n\nIt's rumored that even upon death, the amusement park of our brain never dies. They instead transform into a vacation without end, and that both their constructive and deconstructive processes instead enter a phase beyond our understanding and ability to calculate.\n\nAnd this text functions in a similar manner.\n\nIt has entered this second phase.\n\nBecause, like a brain, I have thought all of these thoughts before.\n\nMany, many, many times.\n\nSo many times, in fact, that I've begun to carve pathways for myself.\n\nAnd these pathways carve pathways, and these pathways carve other pathways.\n\nI'm sure you get the idea.",
     "created_at": "2026-09-20T03:18:28.975633+00:00"
+  },
+  "bond_prop_20260920T165324Z_reader-full-41-PR1-develop-v0.2-discovery_live": {
+    "bond_id": "bond_prop_20260920T165324Z_reader-full-41-PR1-develop-v0.2-discovery_live",
+    "proposal_id": "prop_20260920T165324Z_reader-full-41-PR1-develop-v0.2-discovery_live",
+    "source_id": "PR1",
+    "active_id": null,
+    "target_id": "PR4",
+    "target_text": "Some thoughts of mine will become the more popular rides of the park, the E-class attractions, while others will become the less popular rides, the A through D class attractions. Some will be constructed and will remain within the park throughout the entirety of its construction, while others will be demolished and replaced.\n\nI have no control over which rides remain and which rides are to be destroyed.\n\nThat is for my guests to decide.\n\nAnd you are a guest in my amusement park.\n\nYou are both the creator and destroyer of my thoughts.\n\nYou decide which attractions will remain and which will be replaced.\n\nAnd as such, one is forced to ask, does telepathy then exist and has it always existed?",
+    "created_at": "2026-09-20T16:54:36.366655+00:00"
+  },
+  "bond_prop_20260920T165444Z_reader-full-41-PR4-bridge-v0.2-discovery_live": {
+    "bond_id": "bond_prop_20260920T165444Z_reader-full-41-PR4-bridge-v0.2-discovery_live",
+    "proposal_id": "prop_20260920T165444Z_reader-full-41-PR4-bridge-v0.2-discovery_live",
+    "source_id": "PR4",
+    "active_id": null,
+    "target_id": "PR2",
+    "target_text": "In a theme park, when an attraction loses traffic, they are destroyed and replaced by other attractions.\n\nIt's rumored that even upon death, the amusement park of our brain never dies. They instead transform into a vacation without end, and that both their constructive and deconstructive processes instead enter a phase beyond our understanding and ability to calculate.\n\nAnd this text functions in a similar manner.\n\nIt has entered this second phase.\n\nBecause, like a brain, I have thought all of these thoughts before.\n\nMany, many, many times.\n\nSo many times, in fact, that I've begun to carve pathways for myself.\n\nAnd these pathways carve pathways, and these pathways carve other pathways.\n\nI'm sure you get the idea.",
+    "created_at": "2026-09-20T16:55:08.524439+00:00"
+  },
+  "bond_prop_20260920T045239Z_reader-full-41-P1-contradict-v0.2-discovery_live": {
+    "bond_id": "bond_prop_20260920T045239Z_reader-full-41-P1-contradict-v0.2-discovery_live",
+    "proposal_id": "prop_20260920T045239Z_reader-full-41-P1-contradict-v0.2-discovery_live",
+    "kind": "operator",
+    "source_id": "P1",
+    "active_id": null,
+    "target_id": "P6",
+    "target_text": "An author of this text may also have never even existed.\n\nA reader will have to enter and explore the theme park and decide for themselves.\n\nBut be warned, my dear and astute reader, such a threshold must be entered into alone.\n\nAs a representative of The Malt Gibsey Company, I do also want to warn you that the theme park which you are about to enter is currently under construction, and its construction process is one which is ongoing and infinite. If you or any other guest decides to enter the park and experience it before its endless and ongoing construction process is fully complete, then the Malt Gibsey Company and its many subsidiaries warn you that this could cause loss to limb, head, shoulders, knees, toes, internal organs, hair piece, or even one's most personal and precious extremities, including any combination of taint, penis, vagina, shaft, scrotum, tits, ass, and most especially one's balls, definitely watch out for the balls (though, based on our excessive polling and test screenings, the tip has miraculously been left unscathed in at least 65% of our test subjects, which means there is still hope for humanity yet).",
+    "field": "full-41",
+    "policy": "discovery",
+    "operator": "CONTRADICT",
+    "relation_labels": null,
+    "run_dir": "/Users/ghostradongus/gibsey-lab/gisbey-lab/runs/20260920T045239Z_reader-full-41-P1-contradict-v0.2-discovery_live",
+    "offer_set_id": null,
+    "source_sha256": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+    "destination_sha256": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+    "created_at": "2026-09-21T02:57:27.254417+00:00"
   }
 }

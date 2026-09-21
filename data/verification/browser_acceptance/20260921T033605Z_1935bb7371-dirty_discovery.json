@@ -1,0 +1,99 @@
+{
+ "at": "2026-09-21T03:36:05.582270+00:00",
+ "build": {
+  "git_revision": "1935bb73716124667c987bb9aef0154c34a8dc1b",
+  "dirty": true,
+  "app_js_sha256": "52be1b3b44f9df1f4f41f7cd02aeeee3475de5487657f6d1e817ff528ba010f5",
+  "server_started_at": "2026-09-21T03:35:10.799037+00:00"
+ },
+ "policy": "discovery",
+ "browser": "Chrome via Playwright (channel=chrome, headless)",
+ "isolated_data_dir": "/var/folders/zs/hx1cyk6910171fwj2bbx478r0000gn/T/gibsey-acceptance-aehflr6s",
+ "provider": "MOCK only (tests/acceptance/serve_isolated.py); atlas = real live records, read-only",
+ "combinations": {
+  "total": 0,
+  "passed": 0,
+  "failed": 0,
+  "with_exploratory_rows": 0,
+  "follows_of_exploratory_rows": 0
+ },
+ "scenarios": {
+  "total": 10,
+  "passed": 10
+ },
+ "console_errors": [],
+ "mock_counters": {
+  "contextual_dispatches": 38,
+  "single_pick_dispatches": 1,
+  "mode": "ok"
+ },
+ "failed_combinations": [],
+ "scenario_results": [
+  {
+   "scenario": "switch operators while a refinement is pending",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "navigate away before the response arrives",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "double click refine and follow",
+   "problems": [],
+   "contextual_dispatches": 5,
+   "traversals_from_double_click": 1,
+   "ok": true
+  },
+  {
+   "scenario": "refresh",
+   "problems": [],
+   "restored": [
+    "LF14",
+    "P4",
+    "P6",
+    "P7",
+    "PR3"
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "provider error during refinement (MOCK)",
+   "problems": [],
+   "refine_status": "History refinement failed or was refused, so the base order is kept and every option stays usable. First error: MOCK TypeSafeAPIError: HTTP 529 service overloaded. You can try again.",
+   "ordering_line": "Ordering: base atlas assessments — the history refinement did not complete, so these options were NOT newly assessed against your reading history",
+   "ok": true
+  },
+  {
+   "scenario": "provider timeout during refinement (MOCK)",
+   "problems": [],
+   "refine_status": "History refinement failed or was refused, so the base order is kept and every option stays usable. First error: MOCK TypeSafeAPITimeoutError: request exceeded its timeout. You can try again.",
+   "ordering_line": "Ordering: base atlas assessments — the history refinement did not complete, so these options were NOT newly assessed against your reading history",
+   "ok": true
+  },
+  {
+   "scenario": "contextual abstention: every answer weakest (MOCK)",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "single-pick research abstention NONE (MOCK)",
+   "problems": [],
+   "single_pick_status": "Jev was asked and chose NONE: it declined all 38 eligible candidates. An abstention is a recorded answer, not an error and not an empty candidate list. — MOCK r",
+   "ok": true
+  },
+  {
+   "scenario": "session reload in a new browser context",
+   "problems": [],
+   "page_after_reload": "F7",
+   "ok": true
+  },
+  {
+   "scenario": "repeated encounters with the same page",
+   "problems": [],
+   "ok": true
+  }
+ ],
+ "all_combinations": []
+}

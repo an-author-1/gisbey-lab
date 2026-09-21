@@ -1,0 +1,12 @@
+{
+  "schema": "atlas-config/1",
+  "active": {
+    "rubric_version": "atlas-rubric-v2",
+    "pinned_returned_model": "jev-1.13.0",
+    "requested_model": "jev-1.13.0",
+    "frozen_at": "2026-09-20T19:10:53Z",
+    "note": "Frozen 2026-09-20 after the 8-pair pilot and one bridge-only rubric revision (v1->v2). See notes/atlas-pilot-calibration.md.",
+    "config_id": "cfg-5a7766c6c2012139e7bab61f"
+  },
+  "history": []
+}

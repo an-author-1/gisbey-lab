@@ -1,0 +1,4772 @@
+{
+ "at": "2026-09-21T03:50:28.975804+00:00",
+ "build": {
+  "git_revision": "1935bb73716124667c987bb9aef0154c34a8dc1b",
+  "dirty": true,
+  "app_js_sha256": "52be1b3b44f9df1f4f41f7cd02aeeee3475de5487657f6d1e817ff528ba010f5",
+  "server_started_at": "2026-09-21T03:48:25.840225+00:00"
+ },
+ "policy": "discovery",
+ "browser": "Chrome via Playwright (channel=chrome, headless)",
+ "isolated_data_dir": "/var/folders/zs/hx1cyk6910171fwj2bbx478r0000gn/T/gibsey-acceptance-7b4cgvhv",
+ "provider": "MOCK only (tests/acceptance/serve_isolated.py); atlas = real live records, read-only",
+ "combinations": {
+  "total": 164,
+  "passed": 164,
+  "failed": 0,
+  "with_exploratory_rows": 45,
+  "follows_of_exploratory_rows": 39
+ },
+ "scenarios": {
+  "total": 10,
+  "passed": 10
+ },
+ "console_errors": [],
+ "mock_counters": {
+  "contextual_dispatches": 38,
+  "single_pick_dispatches": 1,
+  "mode": "ok"
+ },
+ "failed_combinations": [],
+ "scenario_results": [
+  {
+   "scenario": "switch operators while a refinement is pending",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "navigate away before the response arrives",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "double click refine and follow",
+   "problems": [],
+   "contextual_dispatches": 5,
+   "traversals_from_double_click": 1,
+   "ok": true
+  },
+  {
+   "scenario": "refresh",
+   "problems": [],
+   "restored": [
+    "LF14",
+    "P4",
+    "P6",
+    "P7",
+    "PR3"
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "provider error during refinement (MOCK)",
+   "problems": [],
+   "refine_status": "History refinement failed or was refused, so the base order is kept and every option stays usable. First error: MOCK TypeSafeAPIError: HTTP 529 service overloaded. You can try again.",
+   "ordering_line": "Ordering: base atlas assessments — the history refinement did not complete, so these options were NOT newly assessed against your reading history",
+   "ok": true
+  },
+  {
+   "scenario": "provider timeout during refinement (MOCK)",
+   "problems": [],
+   "refine_status": "History refinement failed or was refused, so the base order is kept and every option stays usable. First error: MOCK TypeSafeAPITimeoutError: request exceeded its timeout. You can try again.",
+   "ordering_line": "Ordering: base atlas assessments — the history refinement did not complete, so these options were NOT newly assessed against your reading history",
+   "ok": true
+  },
+  {
+   "scenario": "contextual abstention: every answer weakest (MOCK)",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "single-pick research abstention NONE (MOCK)",
+   "problems": [],
+   "single_pick_status": "Jev was asked and chose NONE: it declined all 38 eligible candidates. An abstention is a recorded answer, not an error and not an empty candidate list. — MOCK r",
+   "ok": true
+  },
+  {
+   "scenario": "session reload in a new browser context",
+   "problems": [],
+   "page_after_reload": "F7",
+   "ok": true
+  },
+  {
+   "scenario": "repeated encounters with the same page",
+   "problems": [],
+   "ok": true
+  }
+ ],
+ "all_combinations": [
+  {
+   "page": "F1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F9",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ]
+   ],
+   "followed": "F9",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "F5",
+     "exploratory"
+    ]
+   ],
+   "followed": "F5",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F2",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "F5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F2",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ]
+   ],
+   "followed": "F4",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F2",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P6",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F2",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ]
+   ],
+   "followed": "LF9",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F3",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F3",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "F8",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "F8",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F3",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F4",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ]
+   ],
+   "followed": "F1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F4",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ]
+   ],
+   "followed": "F6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F4",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF15",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF15",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F4",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ]
+   ],
+   "followed": "F7",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ]
+   ],
+   "followed": "F8",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "F8",
+     "exploratory"
+    ],
+    [
+     "P6",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F2",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ]
+   ],
+   "followed": "F2",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "F4",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F7",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ]
+   ],
+   "followed": "F2",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F7",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F1",
+     "exploratory"
+    ]
+   ],
+   "followed": "F9",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F7",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P6",
+     "exploratory"
+    ],
+    [
+     "F9",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F7",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "P6",
+     "exploratory"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F8",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F8",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F8",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F8",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F9",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ]
+   ],
+   "followed": "F3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F9",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF9",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F9",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P6",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F9",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F10",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F2",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F10",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ]
+   ],
+   "followed": "F1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F10",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF4",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F10",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F11",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F11",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F11",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F11",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F12",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ]
+   ],
+   "followed": "LF9",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F12",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "F12",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ],
+    [
+     "PR4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF4",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "F12",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ]
+   ],
+   "followed": "LF8",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "LF16",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF2",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF2",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF2",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF13",
+     "exploratory"
+    ],
+    [
+     "LF5",
+     "exploratory"
+    ],
+    [
+     "LF12",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF2",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF5",
+     "supported"
+    ]
+   ],
+   "followed": "LF6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF3",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF3",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF3",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ]
+   ],
+   "followed": "F9",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF4",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ],
+    [
+     "LF16",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF4",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF4",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "exploratory"
+    ],
+    [
+     "LF10",
+     "exploratory"
+    ],
+    [
+     "LF16",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF4",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ]
+   ],
+   "followed": "F6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF13",
+     "exploratory"
+    ],
+    [
+     "LF16",
+     "exploratory"
+    ],
+    [
+     "LF2",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ]
+   ],
+   "followed": "P3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF4",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF7",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF7",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF7",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF7",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF8",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF8",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "P3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF8",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF8",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF9",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF9",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF9",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF9",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "F9",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF10",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF10",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ]
+   ],
+   "followed": "P3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF10",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF10",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "LF15",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF11",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF11",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF11",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "P3",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF11",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF12",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF2",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF12",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF5",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF12",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF2",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF12",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF13",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF5",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF13",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF5",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ]
+   ],
+   "followed": "LF5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF13",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ]
+   ],
+   "followed": "P3",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF13",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF14",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF14",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF14",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF14",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ]
+   ],
+   "followed": "P2",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF15",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF2",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ]
+   ],
+   "followed": "F2",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF15",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF15",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF15",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF1",
+     "supported"
+    ]
+   ],
+   "followed": "PR5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF16",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF16",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "LF16",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF1",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF4",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "LF16",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ]
+   ],
+   "followed": "F4",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ]
+   ],
+   "followed": "PR5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ]
+   ],
+   "followed": "F5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P2",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF15",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P2",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P2",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "F11",
+     "exploratory"
+    ],
+    [
+     "PR4",
+     "exploratory"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P2",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ]
+   ],
+   "followed": "P7",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P3",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P3",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF4",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P3",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF8",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P4",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P4",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ],
+    [
+     "LF9",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF9",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P4",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF11",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P4",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "F5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F8",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P7",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F3",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR5",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P7",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ]
+   ],
+   "followed": "P3",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P7",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "LF13",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P7",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P4",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P8",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P8",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "P8",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "P8",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF8",
+     "exploratory"
+    ],
+    [
+     "F11",
+     "exploratory"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "PR1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR2",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR2",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR2",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "PR2",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ]
+   ],
+   "followed": "LF8",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR3",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR3",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "PR3",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR4",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR4",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "PR2",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR4",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF15",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "PR4",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ]
+   ],
+   "followed": "PR2",
+   "followed_tier": "supported",
+   "ok": true
+  },
+  {
+   "page": "PR5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "ok": true
+  },
+  {
+   "page": "PR5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "LF8",
+   "followed_tier": "supported",
+   "ok": true
+  }
+ ]
+}

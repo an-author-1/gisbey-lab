@@ -1,6 +1,6 @@
 {
-  "active_page": "PR2",
-  "active_passage": "PR2",
+  "active_page": "P6",
+  "active_passage": "P6",
   "history": [
     {
       "event": "Q_follow",
@@ -17,6 +17,40 @@
       "from_passage": "PR4",
       "to_id": "PR2",
       "at": "2026-09-20T03:18:28.976766+00:00"
+    },
+    {
+      "event": "Q_follow",
+      "bond_id": "bond_prop_20260920T165324Z_reader-full-41-PR1-develop-v0.2-discovery_live",
+      "from_page": "PR2",
+      "from_passage": "PR2",
+      "to_id": "PR4",
+      "at": "2026-09-20T16:54:36.368449+00:00"
+    },
+    {
+      "event": "Q_follow",
+      "bond_id": "bond_prop_20260920T165444Z_reader-full-41-PR4-bridge-v0.2-discovery_live",
+      "from_page": "PR4",
+      "from_passage": "PR4",
+      "to_id": "PR2",
+      "at": "2026-09-20T16:55:08.525506+00:00"
+    },
+    {
+      "event": "Q_follow",
+      "bond_id": "bond_prop_20260920T165324Z_reader-full-41-PR1-develop-v0.2-discovery_live",
+      "from_page": "PR1",
+      "from_passage": "PR1",
+      "to_id": "PR4",
+      "at": "2026-09-21T02:56:26.203674+00:00",
+      "follow_token": "s334qj0x:20260920T165324Z_reader-full-41-PR1-develop-v0.2-discovery_live"
+    },
+    {
+      "event": "Q_follow",
+      "bond_id": "bond_prop_20260920T045239Z_reader-full-41-P1-contradict-v0.2-discovery_live",
+      "from_page": "P1",
+      "from_passage": "P1",
+      "to_id": "P6",
+      "at": "2026-09-21T02:57:27.255903+00:00",
+      "follow_token": "wn90eea9:20260920T045239Z_reader-full-41-P1-contradict-v0.2-discovery_live"
     }
   ]
 }
