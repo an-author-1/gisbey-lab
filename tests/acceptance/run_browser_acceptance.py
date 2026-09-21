@@ -240,6 +240,8 @@ def scenarios(reader: Reader, base: str, session_log: Path, new_context) -> list
         record = {"scenario": name, "problems": []}
         quiesce()
         try:
+            if page.locator("#policy-select").input_value() != reader.policy:  # each scenario starts on the policy under test
+                page.select_option("#policy-select", reader.policy)
             fn(record["problems"], record)
         except PlaywrightTimeout as e:
             record["problems"].append(f"timeout: {str(e).splitlines()[0]}")
@@ -319,6 +321,10 @@ def scenarios(reader: Reader, base: str, session_log: Path, new_context) -> list
         page.wait_for_timeout(1200)
         if reader.source() != "LF5":
             problems.append(f"after refresh the reader is on {reader.source()}")
+        kept = page.locator("#policy-select").input_value()
+        rec["policy_after_refresh"] = kept
+        if kept != reader.policy:
+            problems.append(f"the chosen candidate policy {reader.policy!r} reverted to {kept!r} on refresh")
         if counters() != before:
             problems.append("refresh dispatched provider work")
         restored = [r["destination"] for r in reader.rows()]

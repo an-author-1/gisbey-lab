@@ -626,3 +626,33 @@ def test_static_page_offers_the_two_honest_choices_for_a_second_tab_and_never_a_
         assert needle in js, needle
     assert "reload the page" not in js and "reload the page" not in server_source
     assert "moderate" not in js  # level words come from the rubric level the score clears
+
+
+def test_the_chosen_candidate_policy_is_restored_before_any_request_and_falls_back_to_the_default():
+    """The only non-browser seam: the pure `choosePolicy` function, evaluated with node."""
+    import shutil
+    import subprocess
+
+    js = (reader_server.STATIC_DIR / "app.js").read_text()
+    init = js[js.index("async function init() {"):js.index("async function checkFieldStatus()")]
+    restore, first_page_request = init.index("choosePolicy(readStoredPolicy()"), init.index("navigateTo(")
+    assert restore < first_page_request and restore < init.index("loadPageList()")  # before any page/option request
+    assert "policySelect.value = App.policy" in init and "storePolicy(App.policy)" in init
+    for accessor in ("function readStoredPolicy()", "function storePolicy("):
+        body = js[js.index(accessor):js.index("}\n", js.index(accessor))]
+        assert "try {" in body and "catch" in body, accessor  # the page must work when storage is unavailable
+
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("node is not installed; the structural checks above still ran")
+    function = js[js.index("function choosePolicy("):js.index("function readStoredPolicy()")]
+    script = function + """
+const policies = [{id: "discovery", default: true}, {id: "include-adjacent", default: false}];
+console.log(JSON.stringify([
+  choosePolicy("include-adjacent", policies), choosePolicy("discovery", policies), choosePolicy(null, policies),
+  choosePolicy("no-such-policy", policies), choosePolicy(undefined, policies), choosePolicy(42, policies),
+  choosePolicy("include-adjacent", [])]));
+"""
+    out = subprocess.run([node, "-e", script], capture_output=True, text=True, timeout=20)
+    assert out.returncode == 0, out.stderr
+    assert json.loads(out.stdout) == ["include-adjacent", "discovery", "discovery", "discovery", "discovery", "discovery", None]

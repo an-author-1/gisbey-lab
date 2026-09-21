@@ -131,6 +131,26 @@ function loadViewHistory() {
   el("back-btn").disabled = App.viewHistory.length === 0;
 }
 
+// --- the viewer's chosen candidate policy survives a refresh (per browser, optional) ---
+
+const POLICY_STORAGE_KEY = "gibsey.candidatePolicy";
+
+function choosePolicy(stored, policies) {
+  // The remembered choice if it is still a known policy; otherwise the server default.
+  const known = (policies || []).map((p) => p.id);
+  if (typeof stored === "string" && known.includes(stored)) return stored;
+  const fallback = (policies || []).find((p) => p.default) || (policies || [])[0];
+  return fallback ? fallback.id : null;
+}
+
+function readStoredPolicy() {
+  try { return window.localStorage.getItem(POLICY_STORAGE_KEY); } catch (e) { return null; } // storage may be unavailable
+}
+
+function storePolicy(policy) {
+  try { window.localStorage.setItem(POLICY_STORAGE_KEY, policy); } catch (e) { /* the page works without it */ }
+}
+
 async function init() {
   const fieldsData = await api("/api/fields");
 
@@ -151,10 +171,12 @@ async function init() {
     const opt = document.createElement("option");
     opt.value = p.id;
     opt.textContent = p.label;
-    if (p.default) opt.selected = true;
     policySelect.appendChild(opt);
   }
-  App.policy = fieldsData.policies.find((p) => p.default).id;
+  // Restored BEFORE the first page/option request, so nothing is ever fetched under a
+  // policy the reader did not choose. No stored choice (or an unknown one) = server default.
+  App.policy = choosePolicy(readStoredPolicy(), fieldsData.policies);
+  policySelect.value = App.policy;
 
   App.criteria = fieldsData.criteria;
   App.criteriaVersion = fieldsData.default_criteria_version || null;
@@ -177,6 +199,7 @@ async function init() {
   });
   policySelect.addEventListener("change", () => {
     App.policy = policySelect.value;
+    storePolicy(App.policy);
     App.navGeneration++; // anything in flight under the old policy is now stale
     el("policy-badge").textContent = App.policy;
     // Results are policy-specific: clear what is DISPLAYED (the records stay on the server)
