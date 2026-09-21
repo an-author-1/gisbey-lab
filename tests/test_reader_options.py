@@ -572,23 +572,49 @@ def test_option_rows_carry_the_level_word_without_touching_the_numbers(isolated)
     assert exploratory["operator_fit"]["score"] == pytest.approx(0.6)  # the recorded number is untouched
 
 
-def test_a_second_tab_conflict_names_both_pages_and_resuming_here_makes_the_action_possible(isolated, monkeypatch):
+def test_a_second_tab_conflict_names_both_pages_and_continue_here_only_records_the_page(isolated, monkeypatch):
     _view("P1")
     view = _options("P1", "DEVELOP")
     _view("LF3")  # another tab moved on
-    _enable_refiner(monkeypatch, fake_refiner("ok"))
+    calls = []
+    _enable_refiner(monkeypatch, fake_refiner("ok", calls=calls))
     with pytest.raises(ApiError) as excinfo:
         Handlers.post_refine_options({"option_set_id": view["option_set_id"]})
     assert excinfo.value.status == 409 and "reload" not in str(excinfo.value)
     assert "'P1'" in str(excinfo.value) and "'LF3'" in str(excinfo.value)
+    assert 'Continue here on P1' in str(excinfo.value) and "choose the action again yourself" in str(excinfo.value)
     assert excinfo.value.payload["position_conflict"]["logged_page"] == "LF3"
     assert [o["destination_id"] for o in excinfo.value.payload["options"]] == [o["destination_id"] for o in view["options"]]
-    assert state.reader_state(data_dir=isolated / "data")["history"] == []  # nothing moved
+    with pytest.raises(ApiError):
+        _follow(view, view["options"][0]["destination_id"])
+    assert calls == [] and state.reader_state(data_dir=isolated / "data")["history"] == []
 
-    _view("P1", via="resume")  # "Continue here on P1": an explicit, logged choice
-    assert _events(isolated)[-1]["via"] == "resume"
+    # "Continue here on P1" is exactly this one request -- and it does nothing but record the page.
+    events_before, outcomes_before = len(_events(isolated)), len(_outcome_lines(isolated))
+    _view("P1", via="resume")
+    new_events = _events(isolated)[events_before:]
+    assert [(e["event"], e["page_id"], e["via"]) for e in new_events] == [("page_viewed", "P1", "resume")]
+    assert "q_traversal" not in [e["event"] for e in _events(isolated)]
+    assert calls == [] and len(_outcome_lines(isolated)) == outcomes_before  # zero dispatches, nothing replayed
+    assert state.reader_state(data_dir=isolated / "data")["history"] == []
+    assert not (isolated / "data" / "proposals.json").exists()
+
+    # The reader then chooses the action again themselves, and it works.
     assert Handlers.post_refine_options({"option_set_id": view["option_set_id"]})["refine_state"] == "refined"
+    assert len(calls) == 1
     assert _follow(view, view["options"][0]["destination_id"])["duplicate"] is False
+
+
+def test_the_continue_here_button_never_replays_the_refused_action():
+    js = (reader_server.STATIC_DIR / "app.js").read_text()
+    body = js[js.index("function showPositionConflict("):js.index("// --- single pick (research)")]
+    assert "function showPositionConflict(error) {" in body and "retry" not in body
+    handler = body[body.index('here.addEventListener("click"'):body.index("actions.appendChild(here)")]
+    assert 'via: "resume"' in handler
+    for forbidden in ("postJson", "onFollowOption", "onRefineOptions", "onFollowOffer", "onAcceptAndFollow",
+                      "onShowOffers", "requestSelection", "navigateTo"):
+        assert forbidden not in handler, forbidden
+    assert "showPositionConflict(e, " not in js  # no caller hands it something to replay
 
 
 def test_static_page_offers_the_two_honest_choices_for_a_second_tab_and_never_a_reload():

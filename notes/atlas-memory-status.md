@@ -254,3 +254,65 @@ Atlas-level coverage (`gibsey operator-coverage`): 164/164 combinations show ≥
 policies. Pages needing exploratory fill — discovery: ECHO 2, DEVELOP 3, CONTRADICT 39,
 BRIDGE 1. **CONTRADICT is exploratory almost everywhere**: only 1% of pairs reach the
 contradiction floor. That is the atlas's honest reading, shown as such.
+
+## Verification of the repair (three kinds, reported separately)
+
+**Tested build:** git `d5e178cae2ec6f30ff1788a466372e2be585143b`, clean tree, `app.js`
+sha256 `b6e47a33193d1aa2…`. The restarted reader on 127.0.0.1:8765 reports the same
+revision and hash at `/api/build` (also shown in the page footer). Application code is
+identical to `2b533ab`; `d5e178c` only fixes the acceptance harness.
+
+**1. Browser coverage using recorded data** — `tests/acceptance/run_browser_acceptance.py`,
+headless Chrome via Playwright, isolated instance (temp session; real live atlas
+read-only; port 8765 and the real session never touched). Report:
+`data/verification/browser_acceptance/20260921T040357Z_d5e178cae2_discovery.json`.
+**164 / 164 page × operator combinations passed.** For each: the operator control works;
+≥3 distinct, eligible, visible rows; ids, order and tier equal an **independent ranking
+computed from `assessments.jsonl` without importing the application**; the displayed fit
+and confidence equal the recorded numbers; tier label text exact; every displayed
+destination resolves; every preview equals the vault file text; one option followed
+(rotating position — 43 of the follows were exploratory rows) and the reader showed the
+destination's recorded text; Back returned. 45 combinations contained exploratory rows.
+Session log afterwards: exactly the 164 follows, each `operator_proposed → offer_accepted
+→ accept_and_follow → q_traversal → page_viewed`, strictly increasing `seq`. 0 console
+errors. An earlier run of this harness against `2b533ab` failed 151/164 because of two
+defects in the harness's own new checks (vault filenames containing a space; score
+compared as a string); that report is kept beside the passing one.
+
+**2. Failure scenarios tested with MOCKS** (same harness; mocks are named and switchable in
+`tests/acceptance/serve_isolated.py`): 10 / 10 passed — switching operators while a
+refinement is pending; navigating away before the response; double-click refine (exactly
+one dispatch per option) and double-click Follow (one traversal); refresh (no dispatch);
+provider error → base order kept, explicit wording, retry succeeds; provider timeout →
+same; every history answer at the weakest level → all options kept, tiers unchanged,
+visible line says the order did not change and that no support was found; single-pick
+NONE → ranked options untouched; new browser context restores the page without
+dispatch; repeated encounters of the same page.
+Independent QA (fresh agent, its own Playwright scripts and its own ranking from the raw
+records): 232 page×operator checks over both policies, 1,013 fit cross-checks, 1,013
+preview comparisons, 232 follows (60 exploratory), 22 abuse scenarios, zero provider
+dispatches on click/load/refresh, no mislabeled tier, no review or judgment written by
+any follow. It **confirmed two failures**, both then fixed: unreadable dark-scheme text
+(criterion box 1.72:1 — now theme tokens with a test enforcing ≥4.5:1 in both schemes),
+and a refinement that changed nothing being described as a reading-history ordering. It
+also caught: "moderate" appearing on both tiers, success-green on all-exploratory lists,
+second-tab advice that moved the reader, and that the lead's first harness was circular
+(it compared the frontend with the same function the server calls) — the harness now
+uses the independent oracle.
+
+**3. Interactions verified through real Jev calls** — 8 attempts of the 12 allowed, on a
+scratch session, counted on the milestone ledger (1,678 → 1,686; 0 failed; jev-1.13.0;
+records in `data/verification/livecheck_20260921_options/`): P1 DEVELOP after P3 (5
+supported options) and P6 CONTRADICT after P3→P1 (3 exploratory options) were refined;
+tiers and labels unchanged; tie band respected; a repeat was served from cache with 0
+attempts. Ledgers now: milestone 1,686 / 2,000 attempts, 5,138,253 tokens; reader ledger
+as recorded by `gibsey live-usage`.
+
+**Not verified:** Firefox/Safari; narrow viewports; keyboard-only use; real provider
+timeouts (only mocked); light-scheme contrast in a browser (token test only, pending the
+QA re-check below).
+
+**How to re-run:** `.venv/bin/python tests/acceptance/run_browser_acceptance.py`
+(`--policy include-adjacent`, `--scenarios-only`, `--pages P1,P6`, `--headed`). Needs
+`pip install -e '.[dev]'` and a local Chrome; makes no live calls. Data-level check
+without a browser: `gibsey operator-coverage`.

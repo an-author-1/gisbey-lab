@@ -419,10 +419,10 @@ def describe_position_conflict(this_page: str | None, logged_page: str | None, a
     here = repr(this_page) if this_page else "this page"
     if logged_page:
         return (f"Nothing was {action} and nothing has moved. This tab shows {here}, but the reading session was last "
-                f"recorded on {logged_page!r} (another tab or window moved on). Choose to continue here on {here} or to "
-                f"go to {logged_page!r}.")
+                f"recorded on {logged_page!r} (another tab or window moved on). Choose \"Continue here on "
+                f"{this_page or 'this page'}\" and then choose the action again yourself, or go to {logged_page!r}.")
     return (f"Nothing was {action} and nothing has moved. The reading session has no recorded visit to {here} yet. "
-            f"Choose to continue here on {here}.")
+            f"Choose \"Continue here on {this_page or 'this page'}\" and then choose the action again yourself.")
 
 
 def describe_option_set(option_set: dict) -> str:

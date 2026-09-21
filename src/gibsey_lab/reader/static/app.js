@@ -625,7 +625,7 @@ async function onRefineOptions() {
     data = await postJson("/api/refine-options", { option_set_id: shown.option_set_id, request_id: requestId });
   } catch (e) {
     data = e.data && e.data.refine_state ? e.data : { refine_state: "error", refine_message: `History refinement could not run; the base order is kept and every option stays usable. ${e.message} You can try again.` };
-    if (stillCurrent(ctx) && showPositionConflict(e, onRefineOptions)) {
+    if (stillCurrent(ctx) && showPositionConflict(e)) {
       data = { ...data, refine_message: "Not refined: choose above whether to continue on this page. The base order is kept and every option stays usable." };
     }
   } finally {
@@ -678,7 +678,7 @@ async function onFollowOption(data, option) {
     if (stillCurrent(ctx)) {
       App.following = false;
       renderOptions();
-      if (!showPositionConflict(e, () => onFollowOption(data, option))) {
+      if (!showPositionConflict(e)) {
         el("options-status").className = "status-line state-error";
         el("options-status").textContent = `Not followed — you have not moved. ${e.message}`;
       }
@@ -690,9 +690,11 @@ async function onFollowOption(data, option) {
 
 // --- second tab: the session log places the reader on another page ---
 
-function showPositionConflict(error, retry) {
+function showPositionConflict(error) {
   // Nothing has moved. Offer the two honest choices; never a reload (that would silently
-  // move this tab to the other tab's page).
+  // move this tab to the other tab's page). "Continue here" does ONLY what it says: it
+  // records that the reader is on this tab's page and clears the banner. It never replays
+  // the refused action -- no follow, no dispatch. The reader clicks Follow/Refine again.
   const conflict = error && error.data && error.data.position_conflict;
   if (!conflict) return false;
   const box = el("position-conflict");
@@ -708,7 +710,10 @@ function showPositionConflict(error, retry) {
     App.navLogged = logNavigation("page_viewed", { page_id: App.source, via: "resume" });
     await App.navLogged;
     box.hidden = true;
-    if (retry) retry();
+    if (App.operator) delete App.refine[App.operator]; // drop the "choose above" note; the list itself is untouched
+    renderOptions();
+    renderOffers();
+    renderOperatorPanel();
   });
   actions.appendChild(here);
   if (conflict.logged_page) {
@@ -962,7 +967,7 @@ async function onAcceptAndFollow(automatic) {
       const statusEl = el("result-status");
       statusEl.className = "status-line state-error";
       statusEl.textContent = `Not followed — you have not moved. ${e.message}`;
-      showPositionConflict(e, () => onAcceptAndFollow(false));
+      showPositionConflict(e);
     }
   } finally {
     App.following = false;
@@ -1015,7 +1020,7 @@ async function onShowOffers() {
     });
   } catch (e) {
     data = e.data && e.data.state ? e.data : { state: "error", message: `The offer request failed and no routes are shown: ${e.message}`, offers: [] };
-    if (stillCurrent(ctx)) showPositionConflict(e, onShowOffers);
+    if (stillCurrent(ctx)) showPositionConflict(e);
   } finally {
     delete App.inFlight[key];
   }
@@ -1188,7 +1193,7 @@ async function onFollowOffer(data, offer) {
       App.following = false;
       if (e.data && e.data.memory_current === false && App.offers) App.offers = { ...App.offers, memory_current: false };
       renderOffers();
-      showPositionConflict(e, () => onFollowOffer(data, offer));
+      showPositionConflict(e);
       const statusEl = el("offers-status");
       statusEl.appendChild(textNode("span", ` Not followed — you have not moved. ${e.message}`, "state-error"));
     }
