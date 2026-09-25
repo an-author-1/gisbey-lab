@@ -498,6 +498,20 @@ in place. In the reader: **Show possible next pages** asks for a hand of up to t
 routes informed by how you got to the page; the atlas panel lists the page's 40 base
 profiles; the header links to the PR2 memory demonstration at `/demo/pr2`.
 
+### Core v0.3 (2026-09-25, session 1)
+
+Persistent Q now runs through `src/gibsey_lab/core/`: a per-session append-only journal,
+a pure reducer, deduplicated and atomically committed actions, and provider-disabled
+replay. Read `notes/core-v03-status.md` first, then `notes/core-v03-contracts.md`.
+
+```
+gibsey core-sessions | core-journey ID | core-replay ID [--export DIR]
+gibsey analysis-manifest | analysis-project | analysis-compose --ops ECHO,DEVELOP [--source P1]
+```
+
+In the reader, the session line shows the Core session id, revision and encounter count;
+`/journey` is the read-only inspection of one recorded journey.
+
 ### Verified so far
 
 * Offline: 41 unit/integration tests pass, covering corpus loading and hashing, missing/empty-page
