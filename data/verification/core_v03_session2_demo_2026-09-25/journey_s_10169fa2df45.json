@@ -1,0 +1,964 @@
+{
+ "schema": "journey-bundle/1",
+ "session_id": "s_10169fa2df45",
+ "events": [
+  {
+   "schema": "core-event/1",
+   "seq": 0,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:19.884713+00:00",
+   "event": "session_started",
+   "revision_after": 1,
+   "field_id": "full-41",
+   "version_id": "P1@c8adbba7f4ed",
+   "page_id": "P1",
+   "sha256": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+   "via": "start"
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 1,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:21.033993+00:00",
+   "event": "offer_set_created",
+   "revision_after": 1,
+   "offer_set_id": "offers_7e661ed7c25270ffa1a8",
+   "revision": 1,
+   "source_version": "P1@c8adbba7f4ed",
+   "source_page": "P1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "bond_version_ids": [
+    "bond_248987c718f4b6934a8a",
+    "bond_94472bf793e11dc9a39f",
+    "bond_0d477b5cf0cc7e7ae172",
+    "bond_49fe4bc49af66e9f32f6",
+    "bond_ba0aa01b2e7d90106a75"
+   ],
+   "bonds": [
+    {
+     "bond_version_id": "bond_248987c718f4b6934a8a",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "P5@23fc2364ab4a",
+     "destination_page": "P5",
+     "operator": "DEVELOP",
+     "wording": "As such, I do suppose that there is a fourth and other unspoken option.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.75,
+      "score_norm": 0.9166666666666666,
+      "confidence": 0.75,
+      "nearest_level": 3
+     },
+     "cautions": [],
+     "assessment_id": "as-cc43d39d632a4ff7823ba3ba4dda9cbb",
+     "rank": 1,
+     "rank_reasons": [
+      "development score_norm 0.92 is at or above the support floor 0.667: supported",
+      "ordered by development 0.92, then direct_q_fit 0.94, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_94472bf793e11dc9a39f",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "F11@5729f5fec994",
+     "destination_page": "F11",
+     "operator": "DEVELOP",
+     "wording": "As such here is the Table of Contents and Edit Decision List to aid you in your journey.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.54,
+      "score_norm": 0.8466666666666667,
+      "confidence": 0.54,
+      "nearest_level": 3
+     },
+     "cautions": [],
+     "assessment_id": "as-f6877fbd59914954bce2ffe4f8d7f7e4",
+     "rank": 2,
+     "rank_reasons": [
+      "development score_norm 0.85 is at or above the support floor 0.667: supported",
+      "ordered by development 0.85, then direct_q_fit 0.79, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_0d477b5cf0cc7e7ae172",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "LF6@7eb9b361c6ed",
+     "destination_page": "LF6",
+     "operator": "DEVELOP",
+     "wording": "And in this way, Synchromy-S.S.S.T.E.R.Y was to be the hoax to end all hoaxes.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.5,
+      "score_norm": 0.8333333333333334,
+      "confidence": 0.5,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "high_missing_context"
+     ],
+     "assessment_id": "as-1156bbd104214b14b03d6deca9139174",
+     "rank": 3,
+     "rank_reasons": [
+      "development score_norm 0.83 is at or above the support floor 0.667: supported",
+      "ordered by development 0.83, then direct_q_fit 0.64, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_49fe4bc49af66e9f32f6",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "F5@7c5bde18887b",
+     "destination_page": "F5",
+     "operator": "DEVELOP",
+     "wording": "As an author, despite my own authority and authorizations, I exist in The Outskirts like any other.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.26,
+      "score_norm": 0.7533333333333333,
+      "confidence": 0.26,
+      "nearest_level": 2
+     },
+     "cautions": [
+      "low_confidence",
+      "high_missing_context"
+     ],
+     "assessment_id": "as-674845427b8545f9be294ee2110b303a",
+     "rank": 4,
+     "rank_reasons": [
+      "development score_norm 0.75 is at or above the support floor 0.667: supported",
+      "ordered by development 0.75, then direct_q_fit 0.81, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_ba0aa01b2e7d90106a75",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "P8@af6c1a9a22f3",
+     "destination_page": "P8",
+     "operator": "DEVELOP",
+     "wording": "As a work of fiction, all of the characters and events contained within this text are also fictional, as well.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.07,
+      "score_norm": 0.69,
+      "confidence": 0.4,
+      "nearest_level": 2
+     },
+     "cautions": [
+      "low_confidence"
+     ],
+     "assessment_id": "as-725bffff06a64ff980601fe48d666990",
+     "rank": 5,
+     "rank_reasons": [
+      "development score_norm 0.69 is at or above the support floor 0.667: supported",
+      "ordered by development 0.69, then direct_q_fit 0.68, then field page order"
+     ]
+    }
+   ],
+   "options_policy_version": "operator-options-v1",
+   "options_state": "options",
+   "counts": {
+    "eligible": 39,
+    "usable": 39,
+    "unusable": 0,
+    "supported": 5,
+    "supported_shown": 5,
+    "exploratory_shown": 0,
+    "ineligible_policy": 1
+   },
+   "atlas_config_id": "cfg-5a7766c6c2012139e7bab61f",
+   "unusable": [],
+   "exclusions": {
+    "ineligible_policy": 1,
+    "unusable": 0
+   }
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 2,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:21.133526+00:00",
+   "event": "action_committed",
+   "revision_after": 2,
+   "request_id": "req_muhk4d4a_2_gmz35lp5",
+   "fingerprint": "830881c9a86ec080f5b737c19bc66ae2ae80f13a4d8df15f8074805db3e5e80b",
+   "offer_set_id": "offers_7e661ed7c25270ffa1a8",
+   "bond_version_id": "bond_248987c718f4b6934a8a",
+   "operator": "DEVELOP",
+   "wording": "As such, I do suppose that there is a fourth and other unspoken option.",
+   "from_version": "P1@c8adbba7f4ed",
+   "from_page": "P1",
+   "to_version": "P5@23fc2364ab4a",
+   "to_page": "P5",
+   "expected_revision": 1,
+   "encounter_index": 1,
+   "tier": "supported",
+   "operator_fit": {
+    "dimension": "development",
+    "score": 2.75,
+    "score_norm": 0.9166666666666666,
+    "confidence": 0.75,
+    "nearest_level": 3
+   },
+   "assessment_id": "as-cc43d39d632a4ff7823ba3ba4dda9cbb"
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 3,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:21.501386+00:00",
+   "event": "relocation_committed",
+   "revision_after": 3,
+   "request_id": "req_muhk4dei_3_ojrqsx3e",
+   "fingerprint": "6c8f6b026bcf0ef71ae4b84b909da9cc89d10c02485c7c62699979c5acea5889",
+   "cause": "next",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "P5@23fc2364ab4a",
+   "from_page": "P5",
+   "to_version": "P6@441fc9e6c294",
+   "to_page": "P6",
+   "expected_revision": 2,
+   "encounter_index": 2
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 4,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:22.017114+00:00",
+   "event": "relocation_committed",
+   "revision_after": 4,
+   "request_id": "req_muhk4dsu_4_cnj6d2e9",
+   "fingerprint": "bc3bcddaf46d7e2936566a7c3948a869dc362ef63f34a2574a5160b99756f076",
+   "cause": "previous",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "P6@441fc9e6c294",
+   "from_page": "P6",
+   "to_version": "P5@23fc2364ab4a",
+   "to_page": "P5",
+   "expected_revision": 3,
+   "encounter_index": 3
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 5,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:22.534397+00:00",
+   "event": "relocation_committed",
+   "revision_after": 5,
+   "request_id": "req_muhk4e78_5_mehfl3u7",
+   "fingerprint": "735b7089b36b43f31ef04ad8972819e80fd6025b98c9e01148a29aaca209d0d2",
+   "cause": "page_list",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "P5@23fc2364ab4a",
+   "from_page": "P5",
+   "to_version": "P1@c8adbba7f4ed",
+   "to_page": "P1",
+   "expected_revision": 4,
+   "encounter_index": 4
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 6,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:22.967090+00:00",
+   "event": "relocation_committed",
+   "revision_after": 6,
+   "request_id": "req_muhk4ej8_6_aiipxthh",
+   "fingerprint": "7a020004806211b489e8e97c77afbef40fcefcd424230fd9bba5c24415b48d96",
+   "cause": "back",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "P1@c8adbba7f4ed",
+   "from_page": "P1",
+   "to_version": "P5@23fc2364ab4a",
+   "to_page": "P5",
+   "expected_revision": 5,
+   "encounter_index": 5
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 7,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:23.483044+00:00",
+   "event": "relocation_committed",
+   "revision_after": 7,
+   "request_id": "req_muhk4exk_7_a4tuiaxy",
+   "fingerprint": "ba53c1fa20559377ea3f853bd4c4fff8d76949d4aa68667b0b0b16f3d35da276",
+   "cause": "history_back",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "P5@23fc2364ab4a",
+   "from_page": "P5",
+   "to_version": "P1@c8adbba7f4ed",
+   "to_page": "P1",
+   "expected_revision": 6,
+   "encounter_index": 6
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 8,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:24.200466+00:00",
+   "event": "relocation_committed",
+   "revision_after": 8,
+   "request_id": "req_muhk4fhg_8_xz9tl6k4",
+   "fingerprint": "b7b201e40e4dd077ca8082878f50e4bc80d5e28c3fe27850aac419ff5196bdf2",
+   "cause": "history_forward",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "P1@c8adbba7f4ed",
+   "from_page": "P1",
+   "to_version": "P5@23fc2364ab4a",
+   "to_page": "P5",
+   "expected_revision": 7,
+   "encounter_index": 7
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 9,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:24.922587+00:00",
+   "event": "offer_set_created",
+   "revision_after": 8,
+   "offer_set_id": "offers_775d395ce3a823b7c1ce",
+   "revision": 8,
+   "source_version": "P5@23fc2364ab4a",
+   "source_page": "P5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "bond_version_ids": [
+    "bond_3816e9936db411d1e126",
+    "bond_530cb56968f35835eb1c",
+    "bond_9523f43582c2da250843",
+    "bond_30b8cb9cbd09930cdded",
+    "bond_ad4dd39b3a11e05ad12d"
+   ],
+   "bonds": [
+    {
+     "bond_version_id": "bond_3816e9936db411d1e126",
+     "source_version": "P5@23fc2364ab4a",
+     "destination_version": "P1@c8adbba7f4ed",
+     "destination_page": "P1",
+     "operator": "ECHO",
+     "wording": "I didn't write this.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 2.78,
+      "score_norm": 0.9266666666666666,
+      "confidence": 0.78,
+      "nearest_level": 3
+     },
+     "cautions": [],
+     "assessment_id": "as-b19b43d415ad453399ec6b08b9b8dc80",
+     "rank": 1,
+     "rank_reasons": [
+      "echo score_norm 0.93 is at or above the support floor 0.667: supported",
+      "ordered by echo 0.93, then direct_q_fit 0.97, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_530cb56968f35835eb1c",
+     "source_version": "P5@23fc2364ab4a",
+     "destination_version": "P2@920055a32772",
+     "destination_page": "P2",
+     "operator": "ECHO",
+     "wording": "I do not know the identity of The Author of these various tales.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 2.71,
+      "score_norm": 0.9033333333333333,
+      "confidence": 0.71,
+      "nearest_level": 3
+     },
+     "cautions": [],
+     "assessment_id": "as-e7ada212bbca4834a8d9c9d653878d80",
+     "rank": 2,
+     "rank_reasons": [
+      "echo score_norm 0.90 is at or above the support floor 0.667: supported",
+      "ordered by echo 0.90, then direct_q_fit 0.94, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_9523f43582c2da250843",
+     "source_version": "P5@23fc2364ab4a",
+     "destination_version": "F6@bd6525417aaf",
+     "destination_page": "F6",
+     "operator": "ECHO",
+     "wording": "However, it would appear that a few other stragglers from The Entrance Way have chosen to invade this text, and again, whether they've done so of their own agency or not is certainly uncertain, most specifically the hyper-competent analyst for the ADD, the Agency of Data and Detection, Jacklyn Variance, and the somehow both well known and obscure Gibstorian and Gibseyan Mystic, Natalie Weissman.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 2.61,
+      "score_norm": 0.87,
+      "confidence": 0.61,
+      "nearest_level": 3
+     },
+     "cautions": [],
+     "assessment_id": "as-02e07eea2360426facb9b89cf1c49002",
+     "rank": 3,
+     "rank_reasons": [
+      "echo score_norm 0.87 is at or above the support floor 0.667: supported",
+      "ordered by echo 0.87, then direct_q_fit 0.86, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_30b8cb9cbd09930cdded",
+     "source_version": "P5@23fc2364ab4a",
+     "destination_version": "F5@7c5bde18887b",
+     "destination_page": "F5",
+     "operator": "ECHO",
+     "wording": "As an author, despite my own authority and authorizations, I exist in The Outskirts like any other.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 2.51,
+      "score_norm": 0.8366666666666666,
+      "confidence": 0.51,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "high_missing_context"
+     ],
+     "assessment_id": "as-83ef394a7f8741eab5317e306a514f03",
+     "rank": 4,
+     "rank_reasons": [
+      "echo score_norm 0.84 is at or above the support floor 0.667: supported",
+      "ordered by echo 0.84, then direct_q_fit 0.81, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_ad4dd39b3a11e05ad12d",
+     "source_version": "P5@23fc2364ab4a",
+     "destination_version": "F11@5729f5fec994",
+     "destination_page": "F11",
+     "operator": "ECHO",
+     "wording": "As such here is the Table of Contents and Edit Decision List to aid you in your journey.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 2.46,
+      "score_norm": 0.82,
+      "confidence": 0.46,
+      "nearest_level": 2
+     },
+     "cautions": [
+      "low_confidence"
+     ],
+     "assessment_id": "as-cd3770828743442e99f78c2a34e7fd93",
+     "rank": 5,
+     "rank_reasons": [
+      "echo score_norm 0.82 is at or above the support floor 0.667: supported",
+      "ordered by echo 0.82, then direct_q_fit 0.82, then field page order"
+     ]
+    }
+   ],
+   "options_policy_version": "operator-options-v1",
+   "options_state": "options",
+   "counts": {
+    "eligible": 38,
+    "usable": 38,
+    "unusable": 0,
+    "supported": 18,
+    "supported_shown": 5,
+    "exploratory_shown": 0,
+    "ineligible_policy": 2
+   },
+   "atlas_config_id": "cfg-5a7766c6c2012139e7bab61f",
+   "unusable": [],
+   "exclusions": {
+    "ineligible_policy": 2,
+    "unusable": 0
+   }
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 10,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:24.967700+00:00",
+   "event": "action_committed",
+   "revision_after": 9,
+   "request_id": "req_muhk4g2r_9_9souddfa",
+   "fingerprint": "5cd9ab15adfd52ee2eee680f10b2f83f89b51788ac80fa92cb25f6d2d492d524",
+   "offer_set_id": "offers_775d395ce3a823b7c1ce",
+   "bond_version_id": "bond_3816e9936db411d1e126",
+   "operator": "ECHO",
+   "wording": "I didn't write this.",
+   "from_version": "P5@23fc2364ab4a",
+   "from_page": "P5",
+   "to_version": "P1@c8adbba7f4ed",
+   "to_page": "P1",
+   "expected_revision": 8,
+   "encounter_index": 8,
+   "tier": "supported",
+   "operator_fit": {
+    "dimension": "echo",
+    "score": 2.78,
+    "score_norm": 0.9266666666666666,
+    "confidence": 0.78,
+    "nearest_level": 3
+   },
+   "assessment_id": "as-b19b43d415ad453399ec6b08b9b8dc80"
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 11,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:27.124118+00:00",
+   "event": "relocation_committed",
+   "revision_after": 10,
+   "request_id": "lead-retry-1",
+   "fingerprint": "9c8adc328f7252b945034de48384e27cb1e14de87b2250a0384eb18fa168739a",
+   "cause": "page_list",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "P1@c8adbba7f4ed",
+   "from_page": "P1",
+   "to_version": "P4@4b4695d3df25",
+   "to_page": "P4",
+   "expected_revision": 9,
+   "encounter_index": 9
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 12,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:27.723045+00:00",
+   "event": "relocation_committed",
+   "revision_after": 11,
+   "request_id": "req_muhk4i7a_1_3srzkmyo",
+   "fingerprint": "6f1ac1ead48331bd7f73e0f72042a0f32fb39746871502c46987bfe17de99cbf",
+   "cause": "next",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "P4@4b4695d3df25",
+   "from_page": "P4",
+   "to_version": "P5@23fc2364ab4a",
+   "to_page": "P5",
+   "expected_revision": 10,
+   "encounter_index": 10
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 13,
+   "session_id": "s_10169fa2df45",
+   "at": "2026-09-25T22:53:28.354851+00:00",
+   "event": "action_rejected",
+   "revision_after": 11,
+   "request_id": "req_muhk4ior_1_asexktfv",
+   "fingerprint": "68f6b1f49f894d98915638983fb6b58588184b0ef5e9806f4faae79be5adec5b",
+   "code": "stale_revision",
+   "reason": "expected revision 9 but the session is at 11",
+   "kind": "relocation",
+   "relocate_to": "P2",
+   "cause": "next",
+   "expected_revision": 9,
+   "revision_at_rejection": 11
+  }
+ ],
+ "final_state": {
+  "session_id": "s_10169fa2df45",
+  "v": "P5@23fc2364ab4a",
+  "page": "P5",
+  "z": {
+   "score_id": "neutral",
+   "score_version": 1,
+   "movement": "open"
+  },
+  "H": [
+   {
+    "encounter_index": 0,
+    "version_id": "P1@c8adbba7f4ed",
+    "page_id": "P1",
+    "via": "start",
+    "event_seq": 0,
+    "from_version": null,
+    "bond_version_id": null,
+    "request_id": null,
+    "cause": null,
+    "previous_encounter_index": null
+   },
+   {
+    "encounter_index": 1,
+    "version_id": "P5@23fc2364ab4a",
+    "page_id": "P5",
+    "via": "Q",
+    "event_seq": 2,
+    "from_version": "P1@c8adbba7f4ed",
+    "bond_version_id": "bond_248987c718f4b6934a8a",
+    "request_id": "req_muhk4d4a_2_gmz35lp5",
+    "cause": null,
+    "previous_encounter_index": null
+   },
+   {
+    "encounter_index": 2,
+    "version_id": "P6@441fc9e6c294",
+    "page_id": "P6",
+    "via": "manual",
+    "event_seq": 3,
+    "from_version": "P5@23fc2364ab4a",
+    "bond_version_id": null,
+    "request_id": "req_muhk4dei_3_ojrqsx3e",
+    "cause": "next",
+    "previous_encounter_index": null
+   },
+   {
+    "encounter_index": 3,
+    "version_id": "P5@23fc2364ab4a",
+    "page_id": "P5",
+    "via": "manual",
+    "event_seq": 4,
+    "from_version": "P6@441fc9e6c294",
+    "bond_version_id": null,
+    "request_id": "req_muhk4dsu_4_cnj6d2e9",
+    "cause": "previous",
+    "previous_encounter_index": 1,
+    "return_index_distance": 2,
+    "intervening_encounters": 1
+   },
+   {
+    "encounter_index": 4,
+    "version_id": "P1@c8adbba7f4ed",
+    "page_id": "P1",
+    "via": "manual",
+    "event_seq": 5,
+    "from_version": "P5@23fc2364ab4a",
+    "bond_version_id": null,
+    "request_id": "req_muhk4e78_5_mehfl3u7",
+    "cause": "page_list",
+    "previous_encounter_index": 0,
+    "return_index_distance": 4,
+    "intervening_encounters": 3
+   },
+   {
+    "encounter_index": 5,
+    "version_id": "P5@23fc2364ab4a",
+    "page_id": "P5",
+    "via": "manual",
+    "event_seq": 6,
+    "from_version": "P1@c8adbba7f4ed",
+    "bond_version_id": null,
+    "request_id": "req_muhk4ej8_6_aiipxthh",
+    "cause": "back",
+    "previous_encounter_index": 3,
+    "return_index_distance": 2,
+    "intervening_encounters": 1
+   },
+   {
+    "encounter_index": 6,
+    "version_id": "P1@c8adbba7f4ed",
+    "page_id": "P1",
+    "via": "manual",
+    "event_seq": 7,
+    "from_version": "P5@23fc2364ab4a",
+    "bond_version_id": null,
+    "request_id": "req_muhk4exk_7_a4tuiaxy",
+    "cause": "history_back",
+    "previous_encounter_index": 4,
+    "return_index_distance": 2,
+    "intervening_encounters": 1
+   },
+   {
+    "encounter_index": 7,
+    "version_id": "P5@23fc2364ab4a",
+    "page_id": "P5",
+    "via": "manual",
+    "event_seq": 8,
+    "from_version": "P1@c8adbba7f4ed",
+    "bond_version_id": null,
+    "request_id": "req_muhk4fhg_8_xz9tl6k4",
+    "cause": "history_forward",
+    "previous_encounter_index": 5,
+    "return_index_distance": 2,
+    "intervening_encounters": 1
+   },
+   {
+    "encounter_index": 8,
+    "version_id": "P1@c8adbba7f4ed",
+    "page_id": "P1",
+    "via": "Q",
+    "event_seq": 10,
+    "from_version": "P5@23fc2364ab4a",
+    "bond_version_id": "bond_3816e9936db411d1e126",
+    "request_id": "req_muhk4g2r_9_9souddfa",
+    "cause": null,
+    "previous_encounter_index": 6,
+    "return_index_distance": 2,
+    "intervening_encounters": 1
+   },
+   {
+    "encounter_index": 9,
+    "version_id": "P4@4b4695d3df25",
+    "page_id": "P4",
+    "via": "manual",
+    "event_seq": 11,
+    "from_version": "P1@c8adbba7f4ed",
+    "bond_version_id": null,
+    "request_id": "lead-retry-1",
+    "cause": "page_list",
+    "previous_encounter_index": null
+   },
+   {
+    "encounter_index": 10,
+    "version_id": "P5@23fc2364ab4a",
+    "page_id": "P5",
+    "via": "manual",
+    "event_seq": 12,
+    "from_version": "P4@4b4695d3df25",
+    "bond_version_id": null,
+    "request_id": "req_muhk4i7a_1_3srzkmyo",
+    "cause": "next",
+    "previous_encounter_index": 7,
+    "return_index_distance": 3,
+    "intervening_encounters": 2
+   }
+  ],
+  "c": {
+   "P1@c8adbba7f4ed": 4,
+   "P5@23fc2364ab4a": 5,
+   "P6@441fc9e6c294": 1,
+   "P4@4b4695d3df25": 1
+  },
+  "ell": {
+   "P1@c8adbba7f4ed": 8,
+   "P5@23fc2364ab4a": 10,
+   "P6@441fc9e6c294": 2,
+   "P4@4b4695d3df25": 9
+  },
+  "u": [],
+  "r": 11,
+  "paused": false,
+  "field_id": "full-41",
+  "requests": {
+   "req_muhk4d4a_2_gmz35lp5": {
+    "kind": "action",
+    "fingerprint": "830881c9a86ec080f5b737c19bc66ae2ae80f13a4d8df15f8074805db3e5e80b",
+    "event_seq": 2,
+    "bond_version_id": "bond_248987c718f4b6934a8a",
+    "to_version": "P5@23fc2364ab4a",
+    "to_page": "P5",
+    "revision_after": 2,
+    "encounter_index": 1
+   },
+   "req_muhk4dei_3_ojrqsx3e": {
+    "kind": "relocation",
+    "fingerprint": "6c8f6b026bcf0ef71ae4b84b909da9cc89d10c02485c7c62699979c5acea5889",
+    "event_seq": 3,
+    "bond_version_id": null,
+    "cause": "next",
+    "to_version": "P6@441fc9e6c294",
+    "to_page": "P6",
+    "revision_after": 3,
+    "encounter_index": 2
+   },
+   "req_muhk4dsu_4_cnj6d2e9": {
+    "kind": "relocation",
+    "fingerprint": "bc3bcddaf46d7e2936566a7c3948a869dc362ef63f34a2574a5160b99756f076",
+    "event_seq": 4,
+    "bond_version_id": null,
+    "cause": "previous",
+    "to_version": "P5@23fc2364ab4a",
+    "to_page": "P5",
+    "revision_after": 4,
+    "encounter_index": 3
+   },
+   "req_muhk4e78_5_mehfl3u7": {
+    "kind": "relocation",
+    "fingerprint": "735b7089b36b43f31ef04ad8972819e80fd6025b98c9e01148a29aaca209d0d2",
+    "event_seq": 5,
+    "bond_version_id": null,
+    "cause": "page_list",
+    "to_version": "P1@c8adbba7f4ed",
+    "to_page": "P1",
+    "revision_after": 5,
+    "encounter_index": 4
+   },
+   "req_muhk4ej8_6_aiipxthh": {
+    "kind": "relocation",
+    "fingerprint": "7a020004806211b489e8e97c77afbef40fcefcd424230fd9bba5c24415b48d96",
+    "event_seq": 6,
+    "bond_version_id": null,
+    "cause": "back",
+    "to_version": "P5@23fc2364ab4a",
+    "to_page": "P5",
+    "revision_after": 6,
+    "encounter_index": 5
+   },
+   "req_muhk4exk_7_a4tuiaxy": {
+    "kind": "relocation",
+    "fingerprint": "ba53c1fa20559377ea3f853bd4c4fff8d76949d4aa68667b0b0b16f3d35da276",
+    "event_seq": 7,
+    "bond_version_id": null,
+    "cause": "history_back",
+    "to_version": "P1@c8adbba7f4ed",
+    "to_page": "P1",
+    "revision_after": 7,
+    "encounter_index": 6
+   },
+   "req_muhk4fhg_8_xz9tl6k4": {
+    "kind": "relocation",
+    "fingerprint": "b7b201e40e4dd077ca8082878f50e4bc80d5e28c3fe27850aac419ff5196bdf2",
+    "event_seq": 8,
+    "bond_version_id": null,
+    "cause": "history_forward",
+    "to_version": "P5@23fc2364ab4a",
+    "to_page": "P5",
+    "revision_after": 8,
+    "encounter_index": 7
+   },
+   "req_muhk4g2r_9_9souddfa": {
+    "kind": "action",
+    "fingerprint": "5cd9ab15adfd52ee2eee680f10b2f83f89b51788ac80fa92cb25f6d2d492d524",
+    "event_seq": 10,
+    "bond_version_id": "bond_3816e9936db411d1e126",
+    "to_version": "P1@c8adbba7f4ed",
+    "to_page": "P1",
+    "revision_after": 9,
+    "encounter_index": 8
+   },
+   "lead-retry-1": {
+    "kind": "relocation",
+    "fingerprint": "9c8adc328f7252b945034de48384e27cb1e14de87b2250a0384eb18fa168739a",
+    "event_seq": 11,
+    "bond_version_id": null,
+    "cause": "page_list",
+    "to_version": "P4@4b4695d3df25",
+    "to_page": "P4",
+    "revision_after": 10,
+    "encounter_index": 9
+   },
+   "req_muhk4i7a_1_3srzkmyo": {
+    "kind": "relocation",
+    "fingerprint": "6f1ac1ead48331bd7f73e0f72042a0f32fb39746871502c46987bfe17de99cbf",
+    "event_seq": 12,
+    "bond_version_id": null,
+    "cause": "next",
+    "to_version": "P5@23fc2364ab4a",
+    "to_page": "P5",
+    "revision_after": 11,
+    "encounter_index": 10
+   }
+  },
+  "offer_sets": {},
+  "last_seq": 13
+ },
+ "versions": {
+  "P1@c8adbba7f4ed": {
+   "page_id": "P1",
+   "text": "I didn't write this.\n\nThis is a found text, and thus far, the identity of The Author—the original author—has yet to be definitively located.\n\nIn this way, the content of this novel resembles the Giallo films of Italian cinema where a killer's identity is withheld from the audience until the film's final act in order to intensify a great and ruinous mystery. Alternatively, this collection may also resemble an American detective novel such as Raymond Chandler's The Big Sleep, famous for its author's confessed bewilderment regarding the identity of the killer deeply entwined within Chandler's very own intricately constructed and labyrinthian plot.",
+   "sha256": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+   "retained": true,
+   "note": null
+  },
+  "P5@23fc2364ab4a": {
+   "page_id": "P5",
+   "text": "As such, I do suppose that there is a fourth and other unspoken option. \n\nThis fourth option likely refers to a set of individuals, of both human and non-human origin, whom I suspect may, in fact, be The Author of these very pages. Many of these suspects are, very unfortunately, the characters that make up the theme park whose Entrance Way you are about to approach—if you haven't already—thus complicating even further one's ability to locate the identity of any such suspects as either The Author or an author of these tales. \n\nThese suspects may be an author, such as myself, or they could also very well be the other characters which precede me, such as London Fox, Glyph Marrow, Philip Bafflemint, Jacklyn Variance, Oren Progresso, the Original Natalie Weissman, the animatronic reality show star Princhetta, the chatbot Cop‑E‑Right, the recently cloned version of Natalie Weissman, the shape‑shifter Arieol Owlist, Jack Parlance, Manny Valentinas, Shamrock Stillman, the podcaster Todd Fishbone, or even The Author themselves, or an additional unspoken character hidden either among or between them.",
+   "sha256": "23fc2364ab4ab9333e9873f4f73d6f6ee41f49e4157213bd9ae73fb5ef6bf74f",
+   "retained": true,
+   "note": null
+  },
+  "P6@441fc9e6c294": {
+   "page_id": "P6",
+   "text": "An author of this text may also have never even existed.\n\nA reader will have to enter and explore the theme park and decide for themselves.\n\nBut be warned, my dear and astute reader, such a threshold must be entered into alone.\n\nAs a representative of The Malt Gibsey Company, I do also want to warn you that the theme park which you are about to enter is currently under construction, and its construction process is one which is ongoing and infinite. If you or any other guest decides to enter the park and experience it before its endless and ongoing construction process is fully complete, then the Malt Gibsey Company and its many subsidiaries warn you that this could cause loss to limb, head, shoulders, knees, toes, internal organs, hair piece, or even one's most personal and precious extremities, including any combination of taint, penis, vagina, shaft, scrotum, tits, ass, and most especially one's balls, definitely watch out for the balls (though, based on our excessive polling and test screenings, the tip has miraculously been left unscathed in at least 65% of our test subjects, which means there is still hope for humanity yet).",
+   "sha256": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
+   "retained": true,
+   "note": null
+  },
+  "P4@4b4695d3df25": {
+   "page_id": "P4",
+   "text": "Being the collector that I am, like any avid tourist or Gibsey fanatic, I want to make an essential note. \n\nBy collecting the found material which I've strung together within this expansive volume, I have not intended to subvert or threaten the financial state, well-being, or status of the Walt Disney Company, in any way, shape, or form. The material collected within The Wonderful World of Gibsey is intended as a work of parody. Any references to such an entity, be it through figurative or very sparing literal means, are not intended as subversive acts of any kind, nor are they intended as a breach of copyright regarding any of Disney's properties or characters. They are instead meant to artfully capture, in a literary manner, the parodic and absurd reality of the world in which we live, a world which includes and often interacts with Walt Disney World and its various characters and properties.",
+   "sha256": "4b4695d3df25b368d35be9a5840771daaad64e479c5df742ca62ab43363ad4be",
+   "retained": true,
+   "note": null
+  }
+ },
+ "atlas_config": {
+  "schema": "atlas-config/1",
+  "mode": "live",
+  "frozen": true,
+  "field": "full-41",
+  "rubric_version": "atlas-rubric-v2",
+  "rubric_sha256": "a1a93f0176f7d456ace427bec5432c7952d348d6e12f571e74ef408d046485a9",
+  "dimensions": [
+   "direct_q_fit",
+   "echo",
+   "development",
+   "contradiction",
+   "bridge_relation",
+   "redundancy",
+   "missing_context"
+  ],
+  "state_layout": {
+   "source_page": [
+    "text"
+   ],
+   "destination_page": [
+    "text"
+   ]
+  },
+  "requested_model": "jev-1.13.0",
+  "pinned_returned_model": "jev-1.13.0",
+  "config_id": "cfg-5a7766c6c2012139e7bab61f",
+  "frozen_at": "2026-09-20T19:10:53Z",
+  "note": "Frozen 2026-09-20 after the 8-pair pilot and one bridge-only rubric revision (v1->v2). See notes/atlas-pilot-calibration.md."
+ },
+ "dspy_used": false,
+ "replay": {
+  "session_id": "s_10169fa2df45",
+  "provider_calls": 0,
+  "state_replay": {
+   "check": "state_replay",
+   "session_id": "s_10169fa2df45",
+   "events": 14,
+   "per_event_mismatches": [],
+   "final_equal": true,
+   "final_revision": 11,
+   "encounters": 11,
+   "ok": true
+  },
+  "decision_replay": {
+   "check": "decision_replay",
+   "session_id": "s_10169fa2df45",
+   "offer_sets": 2,
+   "drift": [],
+   "ok": true
+  },
+  "ok": true
+ }
+}

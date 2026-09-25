@@ -38,9 +38,9 @@ DEFAULT_CORE_DIR = REPO_ROOT / "data" / "core"
 
 EVENT_TYPES = (
     "session_started",     # initial location: {version_id, page_id, sha256, text_sha256: same, via}
-    "arrived",             # an encounter created by a committed action: {version_id, page_id, sha256, action_seq}
     "offer_set_created",   # persisted ordered offers at a revision: {offer_set_id, ...}
     "action_committed",    # accepted action: {request_id, offer_set_id, bond_version_id, from_version, to_version}
+    "relocation_committed",  # accepted manual move (no bond, no operator): {request_id, cause, from_version, to_version}
     "action_rejected",     # recorded refusal (never changes state): {request_id, code, reason}
     "paused",
     "resumed",

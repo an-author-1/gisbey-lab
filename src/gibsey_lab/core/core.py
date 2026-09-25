@@ -27,6 +27,7 @@ from ..fields import DEFAULT_POLICY, Field, load_field
 from . import identity, journal, reducer
 
 OPERATORS = identity.OPERATORS
+RELOCATION_CAUSES = ("previous", "next", "page_list", "back", "history_back", "history_forward", "resume_here", "other")
 SESSION_ID_RE = re.compile(r"^[A-Za-z0-9_-]{4,64}$")
 WORDING_SOURCE = "destination_opening_sentence"  # mechanical; see `bond_wording`
 
@@ -260,6 +261,79 @@ class Core:
         new_state = self.state(session_id)
         return {"status": "committed", "duplicate": False, "request_id": request_id, "event_seq": event["seq"],
                 "bond_version_id": bond_version_id, "to_version": bond["destination_version"], "to_page": dest_page,
+                "revision_after": new_state.r, "encounter_index": len(new_state.H) - 1,
+                "state": new_state.canonical(), "projection_errors": projection_errors}
+
+    def relocate(self, session_id: str, *, page_id: str, expected_revision: int, request_id: str,
+                 cause: str) -> dict:
+        """An intentional manual move to another exact content version within the SAME
+        session. It asserts no literary relationship: no operator, no bond, no offer set.
+        Same discipline as execute_action: dedup first, then validation, then one atomic
+        journal append, then projections. Moving to the already-active exact version is a
+        no-op (no event, no encounter) -- an explicit reread would be a separate action."""
+        if not request_id or not isinstance(request_id, str):
+            raise CoreError("missing_request_id", "a relocation needs a request_id", status=400)
+        if cause not in RELOCATION_CAUSES:
+            raise CoreError("unknown_cause", f"unknown relocation cause {cause!r}", status=400)
+        state = self.state(session_id)
+        fingerprint = identity.request_fingerprint({
+            "session_id": session_id, "relocate_to": page_id, "expected_revision": expected_revision, "cause": cause,
+        })
+
+        # (1) deduplication, before any staleness check
+        prior = self.get_action_status(session_id, request_id)
+        if prior["status"] == "committed":
+            if prior["fingerprint"] != fingerprint:
+                raise CoreError("request_id_reused", "this request_id was already used for a different action",
+                                details={"recorded": prior})
+            return {"status": "committed", "duplicate": True, "noop": False, "request_id": request_id, **prior,
+                    "state": state.canonical()}
+        if prior["status"] == "rejected":
+            if prior["fingerprint"] != fingerprint:
+                raise CoreError("request_id_reused", "this request_id was already used for a different action",
+                                details={"recorded": prior})
+            raise CoreError(prior["code"], prior["reason"], details={"duplicate": True, "recorded": prior})
+
+        # (2) validation
+        def reject(code: str, reason: str, **details):
+            self._append(session_id, state, "action_rejected",
+                         {"request_id": request_id, "fingerprint": fingerprint, "code": code, "reason": reason,
+                          "kind": "relocation", "relocate_to": page_id, "cause": cause,
+                          "expected_revision": expected_revision, "revision_at_rejection": state.r}, bumps=False)
+            raise CoreError(code, reason, details=details)
+
+        if state.paused:
+            reject("paused", "the session is paused; navigation is rejected until it is resumed")
+        if expected_revision != state.r:
+            reject("stale_revision", f"expected revision {expected_revision} but the session is at {state.r}",
+                   current_revision=state.r)
+        page = self.field.manifest.get(page_id)
+        if page is None:
+            reject("unknown_page", f"{page_id!r} is not in field {self.field.id!r}")
+        if page.is_empty:
+            reject("destination_version_unavailable", f"{page_id} has no text in the current corpus")
+        if self._version(state.page) != state.v:
+            reject("source_version_changed", f"{state.page} is no longer the text the session is on")
+        to_version = self._version(page_id)  # pinned at commit: the exact version arrived at
+        if to_version == state.v:
+            return {"status": "noop", "duplicate": False, "noop": True, "request_id": request_id,
+                    "reason": "already at this exact version; no encounter is created by rendering it again",
+                    "to_version": to_version, "to_page": page_id, "revision_after": state.r,
+                    "state": state.canonical()}
+
+        # (3) atomic commit
+        event = self._append(session_id, state, "relocation_committed", {
+            "request_id": request_id, "fingerprint": fingerprint, "cause": cause, "operator": None,
+            "bond_version_id": None, "offer_set_id": None,
+            "from_version": state.v, "from_page": state.page, "to_version": to_version, "to_page": page_id,
+            "expected_revision": expected_revision, "encounter_index": len(state.H),
+        }, bumps=True)
+
+        # (4) projections
+        projection_errors = self._project(session_id, event)
+        new_state = self.state(session_id)
+        return {"status": "committed", "duplicate": False, "noop": False, "request_id": request_id,
+                "event_seq": event["seq"], "cause": cause, "to_version": to_version, "to_page": page_id,
                 "revision_after": new_state.r, "encounter_index": len(new_state.H) - 1,
                 "state": new_state.canonical(), "projection_errors": projection_errors}
 

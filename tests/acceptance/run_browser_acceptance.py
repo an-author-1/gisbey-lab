@@ -13,10 +13,16 @@ displayed destination resolves; every preview shows the exact recorded text; one
 the reader lands on the displayed destination; Back returns. Since Core v0.3 the follow
 goes through the Core: the session line is present and at the page, every row shows the
 bond's offered wording, the follow commits one encounter (the journey record shows it,
-with the same offered wording), and Back starts a new journey at the page returned to.
+with the same offered wording). Since session 2 every manual move (the page list, Back)
+is a relocation in the SAME session: one more encounter, no bond, the session id unchanged
+across the whole phase.
 
-Phase 2 -- interaction scenarios with mocked provider behaviour, plus a server restart on
-the same data directory (same session, same revision, same encounter count afterwards).
+Phase 2 -- interaction scenarios with mocked provider behaviour, a server restart on the
+same data directory (same session, same revision, same encounter count afterwards), and
+the "mixed journey" (Q -> Next -> Previous -> page list -> in-app Back -> browser Back ->
+browser Forward -> Q, then refresh, then restart, an identical retry, a stale second tab,
+and the journey page): one session id throughout, encounters once and in order, the
+provenance of each encounter, an identical retry adding nothing.
 
 Usage:  .venv/bin/python tests/acceptance/run_browser_acceptance.py [--policy discovery] [--headed]
 Writes data/verification/browser_acceptance/<stamp>_<rev>.json and exits 1 on any failure.
@@ -104,16 +110,37 @@ class Reader:
                  follow_disabled: r.querySelector('[data-testid=option-follow]').disabled }))""")
 
     def session(self) -> dict:
-        """The Core session line: {session_id, revision, encounters, text}."""
+        """The Core session line: {session_id, revision, encounters, arrival: {kind, cause, index}, text}."""
         return self.page.evaluate(
             """() => { const s = document.querySelector('[data-testid=core-session]');
+                 const a = s.querySelector('[data-testid=last-arrival-kind]') || { dataset: {} };
                  return { session_id: s.dataset.sessionId, revision: s.dataset.revision, encounters: s.dataset.encounters,
-                          paused: s.dataset.paused, text: s.innerText }; }""")
+                          paused: s.dataset.paused, text: s.innerText,
+                          arrival: { kind: a.dataset.kind || '', cause: a.dataset.cause || '', index: a.dataset.encounterIndex || '' } }; }""")
 
     def wait_session_at(self, pid: str):
         self.page.wait_for_function(
             """pid => { const s = document.querySelector('[data-testid=core-session]');
                  return s.dataset.sessionId !== '' && s.innerText.includes('at ' + pid); }""", arg=pid, timeout=T)
+
+    def wait_encounters(self, n: int):
+        self.page.wait_for_function(
+            "n => document.querySelector('[data-testid=core-session]').dataset.encounters === String(n)", arg=n, timeout=T)
+
+    def move_status(self) -> str:
+        return norm(self.page.locator("[data-testid=move-status]").inner_text()) if self.page.locator("[data-testid=move-status]").is_visible() else ""
+
+    def wait_source(self, pid: str):
+        self.page.wait_for_function(
+            "pid => document.querySelector('[data-testid=source-id]').textContent.trim() === pid", arg=pid, timeout=T)
+
+    def next_id(self) -> str | None:
+        m = re.search(r"Next \((\S+)\)", self.page.locator("[data-testid=next-btn]").inner_text())
+        return m.group(1) if m else None
+
+    def previous_id(self) -> str | None:
+        m = re.search(r"Previous \((\S+)\)", self.page.locator("[data-testid=prev-btn]").inner_text())
+        return m.group(1) if m else None
 
     def journey(self, session_id: str) -> dict:
         """The journey record, read with a GET from inside the page (never a POST)."""
@@ -230,7 +257,13 @@ def check_combo(reader: Reader, atlas, pid: str, op: str, index: int) -> dict:
             elif [b["destination_page"] for b in (action.get("offer_set") or {}).get("bonds") or []] != ids:
                 problems.append("the journey's offer set does not list the destinations that were on screen, in order")
             reader.back(pid)
-            reader.wait_session_at(pid)  # Back is a manual arrival: a new journey starts here
+            reader.wait_session_at(pid)  # Back is a manual relocation in the SAME journey: one more encounter, no bond
+            reader.wait_encounters(int(session_after["encounters"]) + 1)
+            returned = reader.session()
+            if returned["session_id"] != session_after["session_id"]:
+                problems.append("Back changed the session id (a new journey started instead of a relocation)")
+            if returned["arrival"] != {"kind": "manual", "cause": "back", "index": str(int(session_after["encounters"]))}:
+                problems.append(f"after Back the session line says arrival {returned['arrival']}, not a manual relocation (back)")
     except PlaywrightTimeout as e:
         problems.append(f"timeout: {str(e).splitlines()[0]}")
     except Exception as e:  # noqa: BLE001 -- recorded as evidence, the run continues
@@ -262,7 +295,7 @@ def check_session_log(path: Path, followed: list[str]) -> list[str]:
     return problems
 
 
-def scenarios(reader: Reader, base: str, session_log: Path, new_context, restart_server=None) -> list[dict]:
+def scenarios(reader: Reader, base: str, session_log: Path, new_context, restart_server=None, only: str | None = None) -> list[dict]:
     out = []
     page = reader.page
 
@@ -288,6 +321,8 @@ def scenarios(reader: Reader, base: str, session_log: Path, new_context, restart
                 last, stable_since = now, time.monotonic()
 
     def run(name, fn):
+        if only and only not in name:
+            return
         record = {"scenario": name, "problems": []}
         quiesce()
         try:
@@ -511,17 +546,208 @@ def scenarios(reader: Reader, base: str, session_log: Path, new_context, restart
         if header.get_attribute("data-revision") != after["revision"] or header.get_attribute("data-session-id") != after["session_id"]:
             problems.append("the journey page header does not match the session line")
         page.locator("[data-testid=journey-encounter] > summary").last.click()  # step to the arrival (keyboard-openable <details>)
-        selected = page.locator("[data-testid=journey-bond][data-selected=true]")
+        last_encounter = page.locator("[data-testid=journey-encounter]").last  # the journey holds every earlier follow too
+        selected = last_encounter.locator("[data-testid=journey-bond][data-selected=true]")
         if selected.count() != 1 or dest not in (selected.first.text_content() or ""):
             problems.append("the journey page does not mark exactly the followed bond as selected")
-        if page.locator("[data-testid=journey-selected-wording]").count() != 1:
+        if last_encounter.locator("[data-testid=journey-selected-wording]").count() != 1:
             problems.append("the journey page does not show the selected bond's offered wording")
+        if norm(last_encounter.locator("[data-testid=encounter-kind]").inner_text()) != "literary bond selected":
+            problems.append("the journey page does not label the follow as a literary bond selected")
         reader.open()
         reader.wait_session_at(dest)
         if reader.session()["session_id"] != after["session_id"]:
             problems.append("returning to the reader did not resume the same session")
         reader.back("LF12")
 
+    def s_mixed_journey(problems, rec):
+        # One journey across Q follows and every kind of manual move. Each step asserts the
+        # session id, exactly one more encounter, and the provenance the session line shows;
+        # the journey page is checked at the end. `steps` is the evidence trail.
+        steps = rec["steps"] = []
+
+        def step(name, expect_kind, expect_cause, expect_page, before, *, expect_encounters=None):
+            reader.wait_source(expect_page)
+            want = int(before["encounters"]) + 1 if expect_encounters is None else expect_encounters
+            reader.wait_encounters(want)
+            now = reader.session()
+            steps.append({"step": name, "page": reader.source(), "session_id": now["session_id"], "revision": now["revision"],
+                          "encounters": now["encounters"], "arrival": now["arrival"]})
+            if now["session_id"] != before["session_id"]:
+                problems.append(f"{name}: the session id changed ({before['session_id']} -> {now['session_id']})")
+            if now["arrival"]["kind"] != expect_kind or now["arrival"]["cause"] != expect_cause:
+                problems.append(f"{name}: arrival {now['arrival']} is not {expect_kind}/{expect_cause}")
+            if reader.source() != expect_page:
+                problems.append(f"{name}: on {reader.source()}, not {expect_page}")
+            return now
+
+        reader.goto_page("P5"); reader.wait_session_at("P5")
+        s0 = reader.session()
+        sid = s0["session_id"]
+        n0 = int(s0["encounters"])
+        rec["session_id"], rec["encounters_before"] = sid, n0
+        journey0 = reader.journey(sid)
+
+        reader.click_operator("DEVELOP", "P5")
+        x = reader.rows()[0]["destination"]
+        reader.follow(x)
+        s1 = step("Q follow", "bond", "", x, s0)
+        # Next then Previous (or the reverse when x is the last page): away from x and back to it
+        away = ("[data-testid=next-btn]", "next", reader.next_id()) if reader.next_id() else ("[data-testid=prev-btn]", "previous", reader.previous_id())
+        back_to_x = ("[data-testid=prev-btn]", "previous") if away[1] == "next" else ("[data-testid=next-btn]", "next")
+        x_next = away[2]
+        page.click(away[0])
+        s2 = step(away[1].capitalize(), "manual", away[1], x_next, s1)
+        page.click(back_to_x[0])
+        s3 = step(back_to_x[1].capitalize(), "manual", back_to_x[1], x, s2)
+        page.select_option("#page-select", "P2")
+        s4 = step("page list", "manual", "page_list", "P2", s3)
+        page.click("[data-testid=back-btn]")
+        s5 = step("in-app Back", "manual", "back", x, s4)
+        page.go_back()
+        s6 = step("browser Back", "manual", "history_back", "P2", s5)
+        page.go_forward()
+        s7 = step("browser Forward", "manual", "history_forward", x, s6)
+        reader.click_operator("ECHO", x)
+        y = reader.rows()[0]["destination"]
+        reader.follow(y)
+        s8 = step("Q follow again", "bond", "", y, s7)
+
+        # refresh: a resume, no event
+        page.reload(); page.wait_for_selector("[data-testid=source-id]:not(:empty)", timeout=T); reader.wait_session_at(y)
+        s9 = step("refresh", "bond", "", y, s8, expect_encounters=int(s8["encounters"]))
+        if (s9["revision"], s9["encounters"]) != (s8["revision"], s8["encounters"]):
+            problems.append("the refresh changed the revision or encounter count")
+        # server restart on the same data dir: still a resume, no event
+        restart_server()
+        page.reload(); page.wait_for_selector("[data-testid=source-id]:not(:empty)", timeout=T); reader.wait_session_at(y)
+        s10 = step("restart + reload", "bond", "", y, s9, expect_encounters=int(s9["encounters"]))
+        if (s10["revision"], s10["encounters"]) != (s8["revision"], s8["encounters"]):
+            problems.append("the restart changed the revision or encounter count")
+
+        # identical retry (a): a scripted double POST with the SAME request id -> one encounter, one duplicate
+        target = reader.previous_id() or reader.next_id()
+        cause = "previous" if reader.previous_id() else "next"
+        pair = page.evaluate(
+            """async ([sid, target, cause, rev]) => {
+                 const body = { session_id: sid, page: target, expected_revision: rev, request_id: 'retry-' + Date.now(), cause };
+                 const post = () => fetch('/api/core/relocate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+                                    .then(async r => ({ status: r.status, json: await r.json() }));
+                 const [a, b] = await Promise.all([post(), post()]);
+                 return [a, b].map(r => ({ status: r.status, s: r.json.status, duplicate: r.json.duplicate, encounter_index: r.json.encounter_index, to_page: r.json.to_page })); }""",
+            [sid, target, cause, int(s10["revision"])])
+        rec["scripted_double_post"] = pair
+        if sorted(str(p["duplicate"]) for p in pair) != ["False", "True"] or any(p["status"] != 200 or p["s"] != "committed" for p in pair):
+            problems.append(f"a scripted double POST with one request id did not yield exactly one commit and one duplicate: {pair}")
+        if len({p["encounter_index"] for p in pair}) != 1:
+            problems.append(f"the two answers name different encounters: {pair}")
+        page.reload(); page.wait_for_selector("[data-testid=source-id]:not(:empty)", timeout=T); reader.wait_session_at(target)
+        s11 = step("scripted retry (resume shows it once)", "manual", cause, target, s10)
+        # identical retry (b): a double click on Next/Previous before the answer -> one encounter
+        control, cause2, dest2 = ("[data-testid=next-btn]", "next", reader.next_id()) if reader.next_id() else ("[data-testid=prev-btn]", "previous", reader.previous_id())
+        page.evaluate("sel => { const b = document.querySelector(sel); b.click(); b.click(); }", control)  # two clicks before any answer
+        s12 = step("double-clicked control", "manual", cause2, dest2, s11)
+        page.wait_for_timeout(600)
+        if reader.session()["encounters"] != s12["encounters"]:
+            problems.append("the double click added a second encounter after the first was rendered")
+
+        # a stale second tab: B moves the journey; A's next click is refused, A re-syncs to where the journey is
+        tab_b = page.context.new_page()
+        try:
+            other = Reader(tab_b, base, reader.policy)
+            other.open(); other.wait_session_at(dest2)
+            if other.session()["session_id"] != sid:
+                problems.append("a second tab in the same browser did not resume the same journey")
+            tab_b.click("[data-testid=next-btn]" if other.next_id() else "[data-testid=prev-btn]")
+            b_dest = other.next_id() or other.previous_id()
+            other.wait_source(b_dest); other.wait_encounters(int(s12["encounters"]) + 1)
+            sb = other.session()
+            a_before = reader.session()  # tab A still shows the old position and revision
+            page.click("[data-testid=prev-btn]" if reader.previous_id() else "[data-testid=next-btn]")  # refused: stale revision
+            page.wait_for_function("() => { const m = document.querySelector('[data-testid=move-status]'); return m && !m.hidden && /revision/.test(m.textContent); }", timeout=T)
+            reader.wait_source(b_dest)
+            sa = reader.session()
+            rec["stale_tab"] = {"tab_b": {k: sb[k] for k in ("revision", "encounters")}, "tab_a_before": {k: a_before[k] for k in ("revision", "encounters")},
+                                "tab_a_after": {k: sa[k] for k in ("revision", "encounters")}, "move_status": reader.move_status()[:220]}
+            if (sa["revision"], sa["encounters"]) != (sb["revision"], sb["encounters"]):
+                problems.append("after the stale refusal tab A did not re-sync to tab B's revision and encounter count")
+            if "revision" not in reader.move_status() or b_dest not in reader.move_status():
+                problems.append("tab A's stale refusal is not explained on screen")
+            if reader.source() != b_dest:
+                problems.append(f"tab A shows {reader.source()} after the stale refusal, not the journey's page {b_dest}")
+            # from the re-synced position, tab A's next move works
+            cause3 = "previous" if reader.previous_id() else "next"
+            a_next = reader.previous_id() or reader.next_id()
+            page.click(f"[data-testid={'prev' if cause3 == 'previous' else 'next'}-btn]")
+            step("move after re-sync", "manual", cause3, a_next, sa)
+        finally:
+            tab_b.close()
+
+        # the journey page: one session, every encounter once and in order, kinds as made
+        final = reader.session()
+        journey = reader.journey(sid)
+        indices = [e["encounter_index"] for e in journey["encounters"]]
+        if indices != list(range(len(indices))) or len(indices) != int(final["encounters"]):
+            problems.append(f"journey encounters are not exactly 0..{int(final['encounters']) - 1} once each: {indices[-12:]}")
+        made = [(e["kind_id"], e.get("cause"), e["page_id"]) for e in journey["encounters"][n0:]]
+        expected = [("bond", None, x), ("relocation", away[1], x_next), ("relocation", back_to_x[1], x), ("relocation", "page_list", "P2"),
+                    ("relocation", "back", x), ("relocation", "history_back", "P2"), ("relocation", "history_forward", x), ("bond", None, y),
+                    ("relocation", cause, target), ("relocation", cause2, dest2)]
+        rec["journey_kinds_after_start"] = made
+        if made[:len(expected)] != expected:
+            problems.append(f"journey provenance {made[:len(expected)]} != expected {expected}")
+        if len(made) != len(expected) + 2:  # + tab B's move + tab A's move after re-sync; A's stale click added none
+            problems.append(f"{len(made)} encounters were added for {len(expected) + 2} moves (the stale click or a retry added one)")
+        for e in journey["encounters"]:
+            if e["kind_id"] == "relocation" and (e["action"] is not None or (e.get("relocation") or {}).get("offer_set") is not None):
+                problems.append(f"relocation #{e['encounter_index']} carries an action or an offer set")
+        if journey["event_count"] <= journey0["event_count"]:
+            problems.append("the journal did not grow")
+        rejections = [r for r in journey["rejections"] if r["seq"] > journey0["last_seq"]]
+        rec["rejections_added"] = [(r["code"], r.get("kind"), r.get("relocate_to")) for r in rejections]
+        if [(r["code"], r.get("kind")) for r in rejections] != [("stale_revision", "relocation")]:
+            problems.append(f"expected exactly one journaled stale_revision relocation refusal, got {rec['rejections_added']}")
+        page.goto(f"{base}/journey?session_id={sid}")
+        page.wait_for_selector("[data-testid=journey-encounter]", timeout=T)
+        shown = page.evaluate(
+            """() => [...document.querySelectorAll('[data-testid=journey-encounter]')].map(e => ({
+                 index: e.dataset.index, page: e.dataset.pageId, kind: e.querySelector('[data-testid=encounter-kind]').textContent,
+                 kind_id: e.querySelector('[data-testid=encounter-kind]').dataset.kind, offer_sets: e.querySelectorAll('[data-testid=journey-offer-set]').length,
+                 relocation: e.querySelectorAll('[data-testid=journey-relocation]').length, returned: e.querySelectorAll('[data-testid=encounter-return]').length }))""")
+        rec["journey_page_encounters"] = len(shown)
+        if [s["index"] for s in shown] != [str(i) for i in indices]:
+            problems.append("the journey page does not list every encounter once, in order")
+        if page.locator("[data-testid=journey-header]").get_attribute("data-session-id") != sid:
+            problems.append("the journey page is not for the session in the session line")
+        for s in shown[n0:]:
+            if s["kind_id"] == "relocation":
+                if s["offer_sets"] or not s["relocation"] or not s["kind"].startswith("manual relocation — "):
+                    problems.append(f"journey page: relocation #{s['index']} shows an offer set or lacks its label: {s}")
+            elif s["kind_id"] == "bond" and (s["kind"] != "literary bond selected" or s["offer_sets"] != 1):
+                problems.append(f"journey page: bond #{s['index']} is not labeled with its offer set: {s}")
+        prev_step = shown[n0 + 2] if len(shown) > n0 + 2 else {}
+        if not prev_step.get("returned"):
+            problems.append("journey page: the Previous step (a return to a version seen before) carries no return marker")
+        if norm(page.locator("[data-testid=journey-encounter]").nth(n0 + 1).inner_text()).find("no bond, no operator, no offer set") < 0:
+            page.locator("[data-testid=journey-encounter] > summary").nth(n0 + 1).click()
+            if "no bond, no operator, no offer set" not in norm(page.locator("[data-testid=journey-encounter]").nth(n0 + 1).inner_text()):
+                problems.append("journey page: a relocation does not say 'no bond, no operator, no offer set'")
+        reader.open(); reader.wait_session_at(a_next)
+        if reader.session()["session_id"] != sid:
+            problems.append("returning from the journey page did not resume the same session")
+        # explicit new journey: in-page confirmation, a new server id, the old journey untouched
+        page.click("[data-testid=new-journey]")
+        page.click("[data-testid=new-journey-confirm]")
+        page.wait_for_function("sid => document.querySelector('[data-testid=core-session]').dataset.sessionId !== sid && document.querySelector('[data-testid=core-session]').dataset.sessionId !== ''", arg=sid, timeout=T)
+        fresh = reader.session()
+        rec["new_journey"] = {k: fresh[k] for k in ("session_id", "revision", "encounters", "arrival")}
+        if fresh["encounters"] != "1" or fresh["arrival"]["kind"] != "start" or reader.source() != a_next:
+            problems.append(f"'Start a new journey' did not start a one-encounter journey at {a_next}: {fresh}")
+        if reader.journey(sid)["encounter_count"] != int(final["encounters"]):
+            problems.append("starting a new journey changed the earlier one")
+
+    run("mixed journey: Q, Next, Previous, page list, Back, browser Back/Forward, Q, refresh, restart, retry, stale tab, journey page",
+        s_mixed_journey)
     run("switch operators while a refinement is pending", s_switch)
     run("navigate away before the response arrives", s_navigate_away)
     run("double click refine and follow", s_double_clicks)
@@ -583,6 +809,7 @@ def main() -> int:
     parser.add_argument("--headed", action="store_true")
     parser.add_argument("--pages", help="comma-separated subset, for debugging")
     parser.add_argument("--scenarios-only", action="store_true", help="skip the 164-combination phase")
+    parser.add_argument("--scenario", help="run only the phase-2 scenarios whose name contains this text (also with --pages)")
     args = parser.parse_args()
 
     atlas = independent.load_atlas()
@@ -629,8 +856,11 @@ def main() -> int:
                         print(f"FAIL {pid} {op}: {combos[-1]['problems']}", flush=True)
                         reader.open()  # recover the page so one failure cannot cascade
             log_problems = check_session_log(tmp / "data" / "session_log.jsonl", [c.get("followed") for c in combos if c.get("followed")])
-            scenario_results = [] if args.pages else scenarios(reader, base, tmp / "data" / "session_log.jsonl", new_context,
-                                                                restart_server=server.restart)
+            session_ids = {c.get("session_id") for c in combos if c.get("session_id")}
+            if len(session_ids) > 1:  # one journey across the whole phase: every manual move relocated, none restarted
+                log_problems.append(f"the combination phase ran in {len(session_ids)} sessions, not one")
+            scenario_results = [] if (args.pages and not args.scenario) else scenarios(
+                reader, base, tmp / "data" / "session_log.jsonl", new_context, restart_server=server.restart, only=args.scenario)
             context.close()
             browser.close()
         counters = http_json(base + "/__test/counters")

@@ -125,4 +125,6 @@ button.primary { font-weight: bold; border-color: var(--accent); background: var
 .session-line { font-size: 0.82rem; color: var(--text-secondary); font-family: Menlo, monospace; margin: 0 0 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
 .session-line .session-label { color: var(--text); font-weight: bold; }
 .session-line .session-toggle { font-size: 0.75rem; padding: 0.15rem 0.5rem; }
+.session-line .arrival-kind { color: var(--text); }
+#move-status { margin: 0.25rem 0 0.5rem; }
 .option-wording { margin: 0.4rem 0 0; padding: 0.2rem 0.75rem; border-left: 3px solid var(--border); font-style: italic; font-size: 0.95rem; color: var(--text); }

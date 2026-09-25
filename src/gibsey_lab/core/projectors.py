@@ -40,7 +40,8 @@ def _full_sha256(field: Field | None, page_id: str, version_id: str) -> str | No
 
 def mirror_to_legacy_stores(data_dir: Path, session_log_path: Path, *, field: Field | None = None) -> Callable:
     """Projector `(session_id, event, state)` mirroring `action_committed` (bond, history
-    entry, five session-log events) and `session_started` (one `page_viewed`) onto the
+    entry, five session-log events), `relocation_committed` (one `page_viewed` via the
+    cause, one history entry, no bond) and `session_started` (one `page_viewed`) onto the
     legacy stores under `data_dir` / `session_log_path`. Idempotent per event seq."""
     data_dir, session_log_path = Path(data_dir), Path(session_log_path)
     fields: dict[str, Field | None] = {}
@@ -60,8 +61,43 @@ def mirror_to_legacy_stores(data_dir: Path, session_log_path: Path, *, field: Fi
         kind = event.get("event")
         if kind == "action_committed":
             _mirror_action(session_id, event, state)
+        elif kind == "relocation_committed":
+            _mirror_relocation(session_id, event, state)
         elif kind == "session_started":
             _mirror_start(session_id, event, state)
+
+    def _mirror_relocation(session_id: str, event: dict, state) -> None:
+        """A manual move: ONE `page_viewed` (via = the relocation's cause) and ONE history
+        entry `{event: "relocation", ...}` plus the active page. No bond, no proposal, no
+        acceptance, no traversal: a relocation asserts no relationship."""
+        seq = event["seq"]
+        f = field_for(state)
+        to_page, to_version = event["to_page"], event["to_version"]
+        field_id = getattr(state, "field_id", None)
+        destination_sha = _full_sha256(f, to_page, to_version)
+        with legacy_state._STATE_LOCK:  # noqa: SLF001
+            paths = legacy_state._paths(data_dir)  # noqa: SLF001
+            reader = legacy_state._load(paths["reader_state"], {"active_page": None, "active_passage": None, "history": []})  # noqa: SLF001
+            history = reader.setdefault("history", [])
+            if not _has_mirror(session_log.read_events(session_log_path), session_id, seq, "page_viewed"):
+                session_log.append_event(
+                    "page_viewed", log_path=session_log_path, field=field_id, page_id=to_page, from_page=event.get("from_page"),
+                    via=event.get("cause") or "other", page_sha256=destination_sha, version_id=to_version,
+                    from_version=event.get("from_version"), request_id=event.get("request_id"), kind="relocation",
+                    session_id=session_id, core_event_seq=seq,
+                )
+            if any(h.get("session_id") == session_id and h.get("core_event_seq") == seq for h in history):
+                return  # already projected (a partial earlier run added the log line above only if it was missing)
+            history.append({
+                "event": "relocation", "cause": event.get("cause"), "from_page": event.get("from_page"),
+                "from_passage": event.get("from_page"), "to_id": to_page, "at": event.get("at"),
+                "request_id": event.get("request_id"), "from_version": event.get("from_version"), "to_version": to_version,
+                "bond_id": None, "kind": "core", "session_id": session_id, "core_event_seq": seq,
+                "encounter_index": event.get("encounter_index"),
+            })
+            reader["active_page"] = to_page
+            reader["active_passage"] = to_page
+            legacy_state._save(paths["reader_state"], reader)  # noqa: SLF001
 
     def _mirror_start(session_id: str, event: dict, state) -> None:
         seq = event["seq"]

@@ -167,13 +167,27 @@ function renderEncounter(encounter) {
   item.dataset.versionId = encounter.version_id || "";
   item.dataset.pageId = encounter.page_id || "";
   item.dataset.via = encounter.via || "";
+  item.dataset.kind = encounter.kind_id || "";
+  item.dataset.cause = encounter.cause || "";
   const summary = document.createElement("summary");
   summary.appendChild(textNode("span", `#${encounter.encounter_index} `, "option-rank"));
   summary.appendChild(textNode("span", encounter.page_id || "?", "page-tag"));
   summary.appendChild(textNode("span", encounter.version_id || "", "bond-meta"));
-  summary.appendChild(textNode("span", encounter.via === "Q" ? "Q follow" : `via ${encounter.via}`, `via-badge via-${encounter.via === "Q" ? "q" : "start"}`));
+  // The encounter's provenance, as labeled by the server: initial entry / literary bond
+  // selected / manual relocation — <cause>. A relocation never shows an offer set.
+  const kindId = encounter.kind_id || (encounter.via === "Q" ? "bond" : (encounter.via === "manual" ? "relocation" : "start"));
+  const kindText = encounter.kind || (kindId === "bond" ? "literary bond selected" : (kindId === "relocation" ? `manual relocation — ${encounter.cause || "other"}` : "initial entry"));
+  const kind = textNode("span", kindText, `via-badge via-${kindId === "bond" ? "q" : (kindId === "relocation" ? "manual" : "start")}`);
+  kind.dataset.testid = "encounter-kind";
+  kind.dataset.kind = kindId;
+  kind.dataset.cause = encounter.cause || "";
+  summary.appendChild(kind);
   if (encounter.is_return) {
-    summary.appendChild(textNode("span", `return: distance ${encounter.return_index_distance}, ${encounter.intervening_encounters} intervening`, "return-badge"));
+    const marker = textNode("span", `return to an earlier version: distance ${encounter.return_index_distance}, ${encounter.intervening_encounters} intervening`, "return-badge");
+    marker.dataset.testid = "encounter-return";
+    marker.dataset.distance = String(encounter.return_index_distance);
+    marker.dataset.intervening = String(encounter.intervening_encounters);
+    summary.appendChild(marker);
   }
   if (encounter.prose && encounter.prose.title) summary.appendChild(textNode("span", `  ${encounter.prose.title}`, "offer-title"));
   item.appendChild(summary);
@@ -182,7 +196,7 @@ function renderEncounter(encounter) {
   body.className = "encounter-body";
   body.appendChild(textNode("div", `arrived at ${encounter.at || "—"} (journal event ${encounter.event_seq}; wall time as recorded, not synthetic) · revision after ${encounter.revision_after} · encounters so far ${encounter.encounter_count_after} · this version seen ${encounter.count_for_version_after} time${encounter.count_for_version_after === 1 ? "" : "s"}`, "bond-meta"));
   if (encounter.is_return) {
-    body.appendChild(textNode("div", `earlier encounter of this exact version: #${encounter.previous_encounter_index}; index distance ${encounter.return_index_distance}; intervening encounters ${encounter.intervening_encounters}`, "bond-meta"));
+    body.appendChild(textNode("div", encounter.return_marker || `earlier encounter of this exact version: #${encounter.previous_encounter_index}; index distance ${encounter.return_index_distance}; intervening encounters ${encounter.intervening_encounters}`, "bond-meta"));
   }
 
   const prose = document.createElement("details");
@@ -223,8 +237,19 @@ function renderEncounter(encounter) {
     body.appendChild(textNode("h3", "State before → after"));
     body.appendChild(renderStateGrid(action));
     body.appendChild(renderOfferSet(action));
+  } else if (encounter.relocation) {
+    const move = encounter.relocation;
+    const block = document.createElement("div");
+    block.dataset.testid = "journey-relocation";
+    block.dataset.cause = move.cause || "";
+    block.appendChild(textNode("h3", `Manual relocation — ${move.cause || "other"}`));
+    block.appendChild(textNode("p", `No bond, no operator, no offer set: ${move.note || "a manual relocation asserts no literary relationship"}.`, "hint"));
+    block.appendChild(textNode("div", `from ${move.from_page || "?"} (${move.from_version || "?"}) to ${move.to_page || encounter.page_id} (${move.to_version || encounter.version_id}) · request id ${move.request_id} · expected revision ${move.expected_revision}`, "bond-meta"));
+    body.appendChild(block);
+    body.appendChild(textNode("h3", "State before → after"));
+    body.appendChild(renderStateGrid(move));
   } else {
-    body.appendChild(textNode("p", "The journey started here: no offer set, no selection, no transition.", "hint"));
+    body.appendChild(textNode("p", "Initial entry: the journey started here. No offer set, no selection, no transition.", "hint"));
   }
   item.appendChild(body);
   return item;
@@ -238,7 +263,8 @@ function renderRejections(journey) {
   el("rejections-count").textContent = String(rejections.length);
   panel.hidden = rejections.length === 0;
   for (const r of rejections) {
-    list.appendChild(textNode("li", `event ${r.seq} at ${r.at}: ${r.code} — ${r.reason} (request ${r.request_id}, expected revision ${r.expected_revision}, session was at ${r.revision_at_rejection})`));
+    const what = r.kind === "relocation" ? `relocation to ${r.relocate_to || "?"} (${r.cause || "?"})` : "follow";
+    list.appendChild(textNode("li", `event ${r.seq} at ${r.at}: ${what} refused — ${r.code}: ${r.reason} (request ${r.request_id}, expected revision ${r.expected_revision}, session was at ${r.revision_at_rejection})`));
   }
 }
 

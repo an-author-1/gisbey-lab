@@ -1,0 +1,437 @@
+{
+ "at": "2026-09-25T22:43:27.339309+00:00",
+ "build": {
+  "git_revision": "b737677a08f250242dce62d58a34c5fb86a3b1cf",
+  "dirty": true,
+  "app_js_sha256": "900570f57578a21605317d91bd8b338236bd55f5545ceca4e5d0927a55f40cba",
+  "server_started_at": "2026-09-25T22:43:19.299816+00:00"
+ },
+ "policy": "discovery",
+ "browser": "Chrome via Playwright (channel=chrome, headless)",
+ "isolated_data_dir": "/var/folders/zs/hx1cyk6910171fwj2bbx478r0000gn/T/gibsey-acceptance-ry25vt9q",
+ "provider": "MOCK only (tests/acceptance/serve_isolated.py); atlas = real live records, read-only",
+ "combinations": {
+  "total": 4,
+  "passed": 4,
+  "failed": 0,
+  "with_exploratory_rows": 1,
+  "follows_of_exploratory_rows": 1
+ },
+ "scenarios": {
+  "total": 1,
+  "passed": 0
+ },
+ "console_errors": [],
+ "http_409_refusals_seen": [
+  "Failed to load resource: the server responded with a status of 409 (Conflict)"
+ ],
+ "mock_counters": {
+  "contextual_dispatches": 0,
+  "single_pick_dispatches": 0,
+  "mode": "ok"
+ },
+ "session_log_problems": [],
+ "failed_combinations": [],
+ "scenario_results": [
+  {
+   "scenario": "mixed journey: Q, Next, Previous, page list, Back, browser Back/Forward, Q, refresh, restart, retry, stale tab, journey page",
+   "problems": [
+    "'Start a new journey' did not start a one-encounter journey at P5: {'session_id': 's_4bf68228f532', 'revision': '1', 'encounters': '1', 'paused': 'false', 'text': 'Journey\\ns_4bf68228f532\\n· revision 1 · 1 encounter · at P5\\n· arrived by new_journey\\nStart a new journey\\nPause session\\n(a new journey started here)', 'arrival': {'kind': 'new_journey', 'cause': '', 'index': '0'}}"
+   ],
+   "steps": [
+    {
+     "step": "Q follow",
+     "page": "P1",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "11",
+     "encounters": "11",
+     "arrival": {
+      "kind": "bond",
+      "cause": "",
+      "index": "10"
+     }
+    },
+    {
+     "step": "Next",
+     "page": "P2",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "12",
+     "encounters": "12",
+     "arrival": {
+      "kind": "manual",
+      "cause": "next",
+      "index": "11"
+     }
+    },
+    {
+     "step": "Previous",
+     "page": "P1",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "13",
+     "encounters": "13",
+     "arrival": {
+      "kind": "manual",
+      "cause": "previous",
+      "index": "12"
+     }
+    },
+    {
+     "step": "page list",
+     "page": "P2",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "14",
+     "encounters": "14",
+     "arrival": {
+      "kind": "manual",
+      "cause": "page_list",
+      "index": "13"
+     }
+    },
+    {
+     "step": "in-app Back",
+     "page": "P1",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "15",
+     "encounters": "15",
+     "arrival": {
+      "kind": "manual",
+      "cause": "back",
+      "index": "14"
+     }
+    },
+    {
+     "step": "browser Back",
+     "page": "P2",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "16",
+     "encounters": "16",
+     "arrival": {
+      "kind": "manual",
+      "cause": "history_back",
+      "index": "15"
+     }
+    },
+    {
+     "step": "browser Forward",
+     "page": "P1",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "17",
+     "encounters": "17",
+     "arrival": {
+      "kind": "manual",
+      "cause": "history_forward",
+      "index": "16"
+     }
+    },
+    {
+     "step": "Q follow again",
+     "page": "P5",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "18",
+     "encounters": "18",
+     "arrival": {
+      "kind": "bond",
+      "cause": "",
+      "index": "17"
+     }
+    },
+    {
+     "step": "refresh",
+     "page": "P5",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "18",
+     "encounters": "18",
+     "arrival": {
+      "kind": "bond",
+      "cause": "",
+      "index": "17"
+     }
+    },
+    {
+     "step": "restart + reload",
+     "page": "P5",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "18",
+     "encounters": "18",
+     "arrival": {
+      "kind": "bond",
+      "cause": "",
+      "index": "17"
+     }
+    },
+    {
+     "step": "scripted retry (resume shows it once)",
+     "page": "P4",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "19",
+     "encounters": "19",
+     "arrival": {
+      "kind": "manual",
+      "cause": "previous",
+      "index": "18"
+     }
+    },
+    {
+     "step": "double-clicked control",
+     "page": "P5",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "20",
+     "encounters": "20",
+     "arrival": {
+      "kind": "manual",
+      "cause": "next",
+      "index": "19"
+     }
+    },
+    {
+     "step": "move after re-sync",
+     "page": "P5",
+     "session_id": "s_fb82e304cc2c",
+     "revision": "22",
+     "encounters": "22",
+     "arrival": {
+      "kind": "manual",
+      "cause": "previous",
+      "index": "21"
+     }
+    }
+   ],
+   "session_id": "s_fb82e304cc2c",
+   "encounters_before": 10,
+   "scripted_double_post": [
+    {
+     "status": 200,
+     "s": "committed",
+     "duplicate": false,
+     "encounter_index": 18,
+     "to_page": "P4"
+    },
+    {
+     "status": 200,
+     "s": "committed",
+     "duplicate": true,
+     "encounter_index": 18,
+     "to_page": "P4"
+    }
+   ],
+   "stale_tab": {
+    "tab_b": {
+     "revision": "21",
+     "encounters": "21"
+    },
+    "tab_a_before": {
+     "revision": "20",
+     "encounters": "20"
+    },
+    "tab_a_after": {
+     "revision": "21",
+     "encounters": "21"
+    },
+    "move_status": "Not moved to P4: this tab expected revision 20, but the journey is at revision 21 (another tab or window moved it to P6). Showing P6, where the journey actually is; choose the move again from here."
+   },
+   "journey_kinds_after_start": [
+    [
+     "bond",
+     null,
+     "P1"
+    ],
+    [
+     "relocation",
+     "next",
+     "P2"
+    ],
+    [
+     "relocation",
+     "previous",
+     "P1"
+    ],
+    [
+     "relocation",
+     "page_list",
+     "P2"
+    ],
+    [
+     "relocation",
+     "back",
+     "P1"
+    ],
+    [
+     "relocation",
+     "history_back",
+     "P2"
+    ],
+    [
+     "relocation",
+     "history_forward",
+     "P1"
+    ],
+    [
+     "bond",
+     null,
+     "P5"
+    ],
+    [
+     "relocation",
+     "previous",
+     "P4"
+    ],
+    [
+     "relocation",
+     "next",
+     "P5"
+    ],
+    [
+     "relocation",
+     "next",
+     "P6"
+    ],
+    [
+     "relocation",
+     "previous",
+     "P5"
+    ]
+   ],
+   "rejections_added": [
+    [
+     "stale_revision",
+     "relocation",
+     "P4"
+    ]
+   ],
+   "journey_page_encounters": 22,
+   "new_journey": {
+    "session_id": "s_4bf68228f532",
+    "revision": "1",
+    "encounters": "1",
+    "arrival": {
+     "kind": "new_journey",
+     "cause": "",
+     "index": "0"
+    }
+   },
+   "ok": false
+  }
+ ],
+ "all_combinations": [
+  {
+   "page": "P5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "session_id": "s_fb82e304cc2c",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_fb82e304cc2c",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "P8",
+   "followed_tier": "exploratory",
+   "session_id": "s_fb82e304cc2c",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_fb82e304cc2c",
+   "ok": true
+  }
+ ]
+}

@@ -138,9 +138,27 @@ def test_start_without_a_page_uses_the_readers_last_recorded_page(isolated):
     assert Handlers.post_core_session({})["active_page"] == "LF4"
 
 
-def test_unknown_stored_session_id_starts_a_new_session_with_that_id(isolated):
+def test_unknown_stored_session_id_is_not_adopted_a_server_id_is_minted(isolated):
     view = Handlers.post_core_session({"session_id": "s_forgotten01", "page": "P2"})
-    assert view["started"] is True and view["session_id"] == "s_forgotten01" and view["active_page"] == "P2"
+    assert view["started"] is True and view["resumed"] is False and view["reason"] == "unknown_session"
+    assert view["session_id"] != "s_forgotten01" and view["previous_session_id"] == "s_forgotten01"
+    assert view["active_page"] == "P2" and view["session_id"].startswith("s_")
+    assert not (isolated / "core" / "sessions" / "s_forgotten01").exists()
+    # without a stored id at all: a plain start, said so
+    assert Handlers.post_core_session({"page": "P2"})["reason"] == "no_stored_session"
+
+
+def test_new_true_starts_a_fresh_session_even_when_the_stored_id_is_known(isolated):
+    first = _start("P1")
+    sid = first["session_id"]
+    resumed = Handlers.post_core_session({"session_id": sid, "page": "P6"})
+    assert resumed["resumed"] is True and resumed["session_id"] == sid and resumed["active_page"] == "P1"
+    fresh = Handlers.post_core_session({"session_id": sid, "page": "P6", "new": True})
+    assert fresh["started"] is True and fresh["resumed"] is False and fresh["reason"] == "new_journey"
+    assert fresh["session_id"] != sid and fresh["active_page"] == "P6" and fresh["encounter_count"] == 1
+    assert fresh["last_arrival"]["kind"] == "start"
+    assert len(_journal(isolated, sid)) == 1  # the earlier journey is untouched
+    assert Handlers.get_core_session({"session_id": [sid]})["active_page"] == "P1"
 
 
 def test_unknown_session_on_get_is_404_with_the_core_code(isolated):
@@ -523,6 +541,241 @@ def test_partial_mirror_is_completed_without_duplicating_what_exists(isolated):
     assert list(_bonds(isolated)) == [bond["bond_version_id"]]
 
 
+# --- relocation (session 2): manual moves in the same journey ------------------------------
+
+def _relocate(session_id, page, request_id, cause, expected_revision):
+    return Handlers.post_core_relocate({"session_id": session_id, "page": page, "request_id": request_id,
+                                        "cause": cause, "expected_revision": expected_revision})
+
+
+def _changed(before: dict, after: dict) -> set:
+    return {k for k in set(before) | set(after) if before.get(k) != after.get(k)}
+
+
+def test_relocate_commits_one_event_one_encounter_and_returns_the_committed_page(isolated):
+    session_id = _start("P1")["session_id"]
+    result = _relocate(session_id, "P2", "move-1", "next", 1)
+    assert result["status"] == "committed" and result["duplicate"] is False and result["noop"] is False
+    assert result["to_page"] == "P2" and result["to_version"] == identity.version_id("P2", FIELD.manifest["P2"].sha256)
+    assert result["revision_after"] == 2 and result["encounter_index"] == 1 and result["cause"] == "next"
+    assert result["projection_errors"] == []
+    view = result["session"]
+    assert view["session_id"] == session_id and view["active_page"] == "P2" and view["revision"] == 2
+    assert view["encounter_count"] == 2 and view["encounters"][1]["via"] == "manual" and view["encounters"][1]["cause"] == "next"
+    assert view["encounters"][1]["bond_version_id"] is None
+    assert view["last_arrival"] == {"kind": "manual", "via": "manual", "cause": "next", "encounter_index": 1, "page_id": "P2",
+                                    "version_id": result["to_version"], "is_return": False}
+    assert result["reader_state"]["active_page"] == "P2"
+    events = _journal(isolated, session_id)
+    assert [e["event"] for e in events] == ["session_started", "relocation_committed"]
+    moved = events[-1]
+    assert moved["operator"] is None and moved["bond_version_id"] is None and moved["offer_set_id"] is None
+    assert moved["from_page"] == "P1" and moved["to_page"] == "P2" and moved["revision_after"] == 2
+    assert Handlers.get_core_session({"session_id": [session_id]})["state"] == result["state"]
+    assert Handlers.get_core_status({"session_id": [session_id], "request_id": ["move-1"]})["kind"] == "relocation"
+
+
+def test_relocate_noop_duplicate_reused_and_stale_each_leave_the_session_view_as_it_is(isolated):
+    session_id = _start("P1")["session_id"]
+    first = _relocate(session_id, "P4", "n1", "page_list", 1)
+    after_first = _snapshot(isolated)
+    view_after_first = Handlers.get_core_session({"session_id": [session_id]})
+
+    # duplicate: the same click again -> the recorded result, nothing written
+    again = _relocate(session_id, "P4", "n1", "page_list", 1)
+    assert again["status"] == "committed" and again["duplicate"] is True and again["noop"] is False
+    assert again["to_page"] == "P4" and again["encounter_index"] == 1 and again["revision_after"] == 2
+    assert again["session"]["state"] == view_after_first["state"] and _snapshot(isolated) == after_first
+
+    # request_id reused for a different move -> 409, not even journaled
+    with pytest.raises(ApiError) as e:
+        _relocate(session_id, "P5", "n1", "page_list", 1)
+    assert e.value.status == 409 and e.value.payload["code"] == "request_id_reused"
+    assert e.value.payload["details"]["recorded"]["to_page"] == "P4"
+    assert _snapshot(isolated) == after_first
+
+    # noop: the already-active exact version -> 200, no event, no encounter
+    noop = _relocate(session_id, "P4", "n2", "page_list", 2)
+    assert noop["status"] == "noop" and noop["noop"] is True and noop["duplicate"] is False
+    assert noop["to_page"] == "P4" and noop["revision_after"] == 2 and noop["session"]["encounter_count"] == 2
+    assert noop["session"]["state"] == view_after_first["state"] and _snapshot(isolated) == after_first
+    assert Handlers.get_core_status({"session_id": [session_id], "request_id": ["n2"]})["status"] == "unknown"
+
+    # stale revision: refused, journaled as a rejection, the authoritative position returned
+    with pytest.raises(ApiError) as e:
+        _relocate(session_id, "P5", "n3", "next", 1)
+    assert e.value.status == 409 and e.value.payload["code"] == "stale_revision" and e.value.payload["current_revision"] == 2
+    assert e.value.payload["session"]["active_page"] == "P4" and e.value.payload["session"]["revision"] == 2
+    assert {**e.value.payload["session"]["state"], "last_seq": 1} == view_after_first["state"]  # only the rejection line was added
+    assert _changed(after_first, _snapshot(isolated)) == {f"core/sessions/{session_id}/events.jsonl"}
+    rejected = _journal(isolated, session_id)[-1]
+    assert rejected["event"] == "action_rejected" and rejected["kind"] == "relocation" and rejected["relocate_to"] == "P5"
+    assert {**Handlers.get_core_session({"session_id": [session_id]})["state"], "last_seq": 1} == view_after_first["state"]
+
+    # malformed
+    with pytest.raises(ApiError) as e:
+        Handlers.post_core_relocate({"session_id": session_id, "page": "P5", "request_id": "x", "cause": "next"})
+    assert e.value.status == 400
+    with pytest.raises(ApiError) as e:
+        _relocate(session_id, "P5", "x", "teleport", 2)
+    assert e.value.status == 400 and e.value.payload["code"] == "unknown_cause"
+    with pytest.raises(ApiError) as e:
+        _relocate(session_id, "ZZ9", "y", "next", 2)
+    assert e.value.status == 409 and e.value.payload["code"] == "unknown_page" and e.value.payload["session"]["active_page"] == "P4"
+
+
+def test_relocate_projector_writes_one_page_viewed_and_one_history_entry_and_no_bond(isolated):
+    session_id, offers, bond, _ = _followed(isolated)  # P1 -Q-> X
+    bonds_before = _bonds(isolated)
+    log_before = _log(isolated)
+    result = _relocate(session_id, "P3", "n1", "next", 2)
+    log = _log(isolated)
+    assert len(log) == len(log_before) + 1
+    line = log[-1]
+    assert line["event"] == "page_viewed" and line["via"] == "next" and line["page_id"] == "P3"
+    assert line["from_page"] == bond["destination_page"] and line["session_id"] == session_id
+    assert line["core_event_seq"] == result["event_seq"] and line["version_id"] == result["to_version"]
+    assert line["page_sha256"] == FIELD.manifest["P3"].sha256 and line["kind"] == "relocation"
+    assert [e["event"] for e in log].count("q_traversal") == 1  # no traversal, proposal or acceptance for the move
+    history = _reader_state(isolated)["history"]
+    assert len(history) == 2 and history[-1]["event"] == "relocation" and history[-1]["cause"] == "next"
+    assert history[-1]["to_id"] == "P3" and history[-1]["from_page"] == bond["destination_page"]
+    assert history[-1]["core_event_seq"] == result["event_seq"] and history[-1]["bond_id"] is None
+    assert _reader_state(isolated)["active_page"] == "P3"
+    assert _bonds(isolated) == bonds_before  # bonds.json untouched by a relocation
+
+    # idempotent: the projector run again over the journal changes nothing
+    before = _snapshot(isolated)
+    projector = projectors.mirror_to_legacy_stores(isolated / "data", isolated / "session_log.jsonl", field=FIELD)
+    projectors.rebuild(session_id, _journal(isolated, session_id), projector)
+    assert _snapshot(isolated) == before
+
+
+def test_relocate_crash_between_commit_and_projection_is_repaired_by_rebuild(isolated, monkeypatch):
+    session_id = _start("P1")["session_id"]
+
+    def exploding(*_a, **_k):
+        raise RuntimeError("simulated crash after the journal write")
+
+    real_core = reader_server._core
+    monkeypatch.setattr(reader_server, "_core", lambda field=None: Core(
+        core_dir=isolated / "core", field=real_core(field).field, projectors=[exploding]))
+    result = _relocate(session_id, "P6", "n-crash", "page_list", 1)
+    assert result["status"] == "committed" and result["projection_errors"] == ["RuntimeError: simulated crash after the journal write"]
+    monkeypatch.setattr(reader_server, "_core", real_core)
+    assert Handlers.get_core_session({"session_id": [session_id]})["active_page"] == "P6"
+    assert [e["event"] for e in _log(isolated)] == ["page_viewed"] and len(_reader_state(isolated)["history"]) == 0
+
+    projector = projectors.mirror_to_legacy_stores(isolated / "data", isolated / "session_log.jsonl", field=FIELD)
+    projectors.rebuild(session_id, _journal(isolated, session_id), projector)
+    assert [(e["event"], e["via"]) for e in _log(isolated)] == [("page_viewed", "start"), ("page_viewed", "page_list")]
+    assert [h["event"] for h in _reader_state(isolated)["history"]] == ["relocation"]
+    assert not (isolated / "data" / "bonds.json").exists()
+    repaired = _snapshot(isolated)
+    projectors.rebuild(session_id, _journal(isolated, session_id), projector)
+    assert _snapshot(isolated) == repaired
+    assert _relocate(session_id, "P6", "n-crash", "page_list", 1)["duplicate"] is True
+    assert _snapshot(isolated) == repaired
+
+
+def test_journey_labels_kinds_on_a_mixed_journal_and_relocations_carry_no_offer_set(isolated):
+    session_id, offers, bond, _ = _followed(isolated)             # #0 P1 start, #1 X via bond
+    _relocate(session_id, "P3", "n1", "next", 2)                    # #2 P3 manual next
+    _relocate(session_id, "P1", "b1", "back", 3)                    # #3 P1 manual back (a return to #0)
+    with pytest.raises(ApiError):
+        _relocate(session_id, "P2", "stale", "previous", 3)         # refused; no encounter
+    second = _options(session_id, "ECHO")
+    _execute(session_id, second, second["bonds"][0], "q2")          # #4 via bond
+    before = _snapshot(isolated)
+    journey = Handlers.get_core_journey({"session_id": [session_id]})
+    assert _snapshot(isolated) == before  # a GET writes nothing
+    kinds = [(e["kind"], e["kind_id"]) for e in journey["encounters"]]
+    assert kinds == [("initial entry", "start"), ("literary bond selected", "bond"), ("manual relocation — next", "relocation"),
+                     ("manual relocation — back", "relocation"), ("literary bond selected", "bond")]
+    assert [e["page_id"] for e in journey["encounters"]] == ["P1", bond["destination_page"], "P3", "P1", second["bonds"][0]["destination_page"]]
+    for e in journey["encounters"]:
+        assert e["prose"]["current"] is True and e["prose"]["text"] == FIELD.manifest[e["page_id"]].text
+    relocations = [e for e in journey["encounters"] if e["kind_id"] == "relocation"]
+    for e in relocations:
+        assert e["action"] is None
+        move = e["relocation"]
+        assert move["offer_set"] is None and move["offer_set_id"] is None and move["bond_version_id"] is None and move["operator"] is None
+        assert "no bond, no operator, no offer set" in move["note"]
+    assert relocations[0]["relocation"]["cause"] == "next" and relocations[0]["relocation"]["from_page"] == bond["destination_page"]
+    assert relocations[0]["relocation"]["state_before"]["revision"] == 2 and relocations[0]["relocation"]["state_after"]["revision"] == 3
+    back = relocations[1]
+    assert back["is_return"] is True and back["previous_encounter_index"] == 0
+    assert back["return_index_distance"] == 3 and back["intervening_encounters"] == 2
+    assert back["return_marker"] == "return to an earlier version: index distance 3, 2 intervening encounters (first seen at #0)"
+    assert back["relocation"]["state_after"]["count_for_version"] == 2
+    bonded = [e for e in journey["encounters"] if e["kind_id"] == "bond"]
+    assert bonded[0]["relocation"] is None and bonded[0]["action"]["offer_set"]["offer_set_id"] == offers["offer_set_id"]
+    assert bonded[1]["action"]["offer_set"]["operator"] == "ECHO" and bonded[1]["action"]["state_before"]["revision"] == 4
+    assert journey["encounters"][0]["return_marker"] is None and journey["encounters"][0]["relocation"] is None
+    assert [r["kind"] for r in journey["rejections"]] == ["relocation"] and journey["rejections"][0]["relocate_to"] == "P2"
+    assert journey["encounter_count"] == 5 and journey["revision"] == 5
+    # the session GET writes nothing either
+    Handlers.get_core_session({"session_id": [session_id]})
+    assert _snapshot(isolated) == before
+
+
+def test_offer_sets_made_before_a_relocation_are_stale_afterwards(isolated):
+    session_id = _start("P1")["session_id"]
+    offers = _options(session_id)
+    _relocate(session_id, "P2", "n1", "next", 1)
+    with pytest.raises(ApiError) as e:
+        _execute(session_id, offers, offers["bonds"][0], "q-old", expected_revision=2)
+    assert e.value.payload["code"] == "unknown_or_stale_offer_set"
+    fresh = _options(session_id, "ECHO")
+    assert fresh["source_page"] == "P2" and fresh["revision"] == 2
+    assert Handlers.get_core_session({"session_id": [session_id]})["encounter_count"] == 2
+
+
+def test_two_simultaneous_relocations_commit_exactly_one(isolated):
+    session_id = _start("P1")["session_id"]
+    outcomes: dict[str, object] = {}
+    gate = threading.Barrier(2)
+
+    def click(name, page):
+        gate.wait()
+        try:
+            outcomes[name] = _relocate(session_id, page, f"move-{name}", "page_list", 1)
+        except ApiError as e:
+            outcomes[name] = e
+
+    threads = [threading.Thread(target=click, args=("a", "P2")), threading.Thread(target=click, args=("b", "P3"))]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join(timeout=10)
+    committed = [v for v in outcomes.values() if isinstance(v, dict)]
+    refused = [v for v in outcomes.values() if isinstance(v, ApiError)]
+    assert len(committed) == 1 and len(refused) == 1 and refused[0].payload["code"] == "stale_revision"
+    assert Handlers.get_core_session({"session_id": [session_id]})["encounter_count"] == 2
+
+
+def test_reader_controls_relocate_through_the_core_and_never_log_page_views_themselves():
+    app = (STATIC / "app.js").read_text()
+    code = "\n".join(line for line in app.splitlines() if not line.strip().startswith("//"))
+    assert '"/api/core/relocate"' in code
+    for cause in ('"previous"', '"next"', '"page_list"', '"back"', '"history_back"', '"history_forward"', '"resume_here"'):
+        assert cause in code, cause
+    assert "history.pushState(" in code and 'addEventListener("popstate"' in code and 'addEventListener("pageshow"' in code
+    assert "window.confirm" not in code and "confirm(" not in code.replace("showNewJourneyConfirm(", "").replace("NewJourneyConfirm(", "")
+    assert 'new: fresh || undefined' in code  # the explicit fresh journey
+    # the only client page_viewed lines left are the legacy `reload` (resume) and `resume` (legacy conflict, noop) ones
+    views = [line for line in code.splitlines() if 'logNavigation("page_viewed"' in line]
+    assert len(views) == 2 and all('via: "reload"' in v or 'via: "resume"' in v for v in views)
+    assert 'logNavigation("back"' not in code and 'logNavigation(isBack' not in code
+    html = (STATIC / "index.html").read_text()
+    for hook in ('data-testid="move-status"', 'data-testid="prev-btn"', 'data-testid="next-btn"', 'id="new-journey-confirm"'):
+        assert hook in html, hook
+    assert 'testid = "new-journey"' in code and 'testid = "last-arrival-kind"' in code and 'testid = "new-journey-confirm"' in code
+    journey_js = (STATIC / "journey.js").read_text()
+    assert 'testid = "encounter-kind"' in journey_js and 'testid = "journey-relocation"' in journey_js
+    assert "/api/core/relocate" in reader_server.POST_ROUTES
+
+
 # --- HTTP surface ------------------------------------------------------------------------
 
 @pytest.fixture
@@ -563,10 +816,22 @@ def test_http_roundtrip_error_shape_and_journey_page(httpd):
     assert status == 200 and done["duplicate"] is False
     status, again = _http(httpd + "/api/core/execute", {**body, "expected_revision": 1, "request_id": "http-2"})
     assert status == 200 and again["duplicate"] is True
+    move = {"session_id": sid, "page": "P4", "expected_revision": 2, "request_id": "http-3", "cause": "back"}
+    status, moved = _http(httpd + "/api/core/relocate", move)
+    assert status == 200 and moved["status"] == "committed" and moved["to_page"] == "P4" and moved["session"]["encounter_count"] == 3
+    status, dup = _http(httpd + "/api/core/relocate", move)
+    assert status == 200 and dup["duplicate"] is True and dup["session"]["encounter_count"] == 3
+    status, noop = _http(httpd + "/api/core/relocate", {**move, "expected_revision": 3, "request_id": "http-4"})
+    assert status == 200 and noop["status"] == "noop"
+    status, stale = _http(httpd + "/api/core/relocate", {**move, "page": "P5", "request_id": "http-5"})
+    assert status == 409 and stale["code"] == "stale_revision" and stale["session"]["active_page"] == "P4"
+    status, fresh = _http(httpd + "/api/core/session", {"session_id": "s_nobody000", "page": "P2"})
+    assert status == 200 and fresh["resumed"] is False and fresh["reason"] == "unknown_session" and fresh["session_id"] != "s_nobody000"
     status, st = _http(httpd + f"/api/core/status?session_id={sid}&request_id=http-1")
     assert status == 200 and st["status"] == "rejected" and st["code"] == "stale_revision"
     status, journey = _http(httpd + f"/api/core/journey?session_id={sid}")
-    assert status == 200 and journey["encounter_count"] == 2 and len(journey["rejections"]) == 1
+    assert status == 200 and journey["encounter_count"] == 3 and len(journey["rejections"]) == 2
+    assert [e["kind_id"] for e in journey["encounters"]] == ["start", "bond", "relocation"]
     for path in ("/journey", "/inspect/journey", f"/journey?session_id={sid}"):
         with urllib.request.urlopen(httpd + path, timeout=5) as r:
             assert r.status == 200 and b"Journey inspection" in r.read()

@@ -132,3 +132,84 @@ test). Labeled "mathematical fixture check", separate from any corpus result. A 
 E@D vs D@E summary is written by `gibsey analysis-compose --ops ECHO,DEVELOP` to
 `data/analysis/` with the manifest id, and labeled "relation walks, not score-valid".
 CLI: `analysis-manifest`, `analysis-project`, `analysis-compose`.
+
+## Session 2 (2026-09-25): relocation — continuous journeys across manual navigation
+
+### Navigation behaviour BEFORE (observed in code and a real browser, build b737677)
+
+Every manual move (Previous, Next, page list, in-app Back, conflict "Go to", Core-conflict
+"Continue here") ran `navigateTo` → `ensureSession`, which POSTed `/api/core/session`
+without a session id and so **started a new Core session**; one 15-step sitting produced
+seven sessions, only the first holding a follow. No `pushState`/`popstate` existed:
+browser Back left the app, browser Forward was a full reload that resumed. Reload, second
+tab, direct URL and the journey link were pure resume (correct). A fresh browser context
+started a new session at the reader's last page. An unknown localStorage session id was
+adopted verbatim as the new session's id. Each manual move wrote two session-log lines
+(the client's `page_viewed via=<control>` and the projector's mirror `via=start`).
+
+### Relocation contract (Core, lead-owned, implemented)
+
+Journal event **`relocation_committed`** (additive; envelope `core-event/1` unchanged;
+Session-1 journals reduce identically): `{request_id, fingerprint, cause, operator: null,
+bond_version_id: null, offer_set_id: null, from_version, from_page, to_version, to_page,
+expected_revision, encounter_index}`. Reducer: bumps `r`, creates an encounter
+`via="manual"` with `cause`, records `requests[request_id] = {kind: "relocation", …}`,
+and — like every revision bump now, including pause/resume — marks all earlier offer sets
+stale. `Core.relocate(session_id, *, page_id, expected_revision, request_id, cause)`,
+`cause ∈ {previous, next, page_list, back, history_back, history_forward, resume_here, other}`.
+Order: dedup (identical retry → recorded result; reused id with different inputs →
+`request_id_reused`) → `paused` → `stale_revision` → `unknown_page` /
+`destination_version_unavailable` (empty text) → `source_version_changed` → destination
+version resolved from the current manifest and **pinned into the event** → **no-op
+without any event when the destination is the already-active exact version** → one
+atomic append → projections. Rejections are journaled (`action_rejected`, `kind:
+"relocation"`). A relocation asserts no relationship and never acquires a bond, an
+operator, or an offer set; decision replay recomputes only `offer_set_created` events.
+
+### Four situations, and what each does
+
+| Situation | Operation | Session |
+| --- | --- | --- |
+| Initial entry, no journey stored | `POST /api/core/session {page}` → `start_session` (server-minted id) | new |
+| Resume / render the committed location (reload, second tab, browser Forward after leaving, direct URL, back from `/journey`) | `GET /api/core/session` | same; **no event** |
+| Intentional move to another exact version (Previous, Next, page list, in-app Back, browser Back/Forward within the app, conflict "Go to", "Continue here") | `POST /api/core/relocate` | same; one event, one encounter |
+| Intentional fresh journey (explicit "Start a new journey" control; field change) | `POST /api/core/session {page, new: true}` | new |
+
+An unknown or deleted stored session id is **not** adopted: the server mints a fresh id
+and the response says `resumed: false, reason: unknown_session`.
+
+### Reader integration (R2 worker) — owns `reader/**`, `core/projectors.py`, `tests/test_reader_core*.py`, `tests/acceptance/**`
+
+- `POST /api/core/relocate {session_id, page, expected_revision, request_id, cause}` →
+  `Core.relocate`; CoreError → `{error, code, reason, details}` at its status; duplicate
+  → 200 `duplicate: true`; noop → 200 `status: "noop"`. Response carries the committed
+  `to_page`/`to_version` — the client renders **those**, never its own requested page.
+- All manual controls call it with a fresh `request_id` per click (reused only when no
+  response arrived) and `expected_revision` from the current session view; a
+  `stale_revision` reply re-syncs the session view and shows the authoritative page with
+  an explanation; nothing moves client-side before Core answers.
+- Browser history: `history.pushState({session_id, encounter_index})` after every
+  committed arrival (start, Q, relocation); `popstate` → `POST /api/core/relocate` with
+  cause `history_back` / `history_forward` to the page of that encounter's version (the
+  direction is decided by comparing the popped `encounter_index` with the current one);
+  the popstate handler never pushes, the click handlers never handle popstate, and a
+  reload (`performance.navigation` / `pageshow`) is a resume, so the same navigation is
+  never recorded twice. Landing on the active version is a Core no-op.
+- Client `logNavigation("page_viewed")` is removed for every move that goes through Core;
+  the projector mirror is the only session-log line for it. `via=reload` stays as a
+  legacy client line (it creates no encounter anywhere).
+- Projector for `relocation_committed`: one session-log `page_viewed` (`via=<cause>`,
+  `session_id`, `core_event_seq`, `version_id`, `page_sha256`, `from_page`) and one
+  `reader_state.json` history entry `{event: "relocation", cause, …}` + active page; **no**
+  bond, proposal, acceptance or traversal. Idempotent per `(session_id, core_event_seq)`.
+- `/journey` and `GET /api/core/journey`: each encounter labeled one of `initial entry` /
+  `literary bond selected` (with its offer set, selection, decision evidence) / `manual
+  relocation — <cause>` (explicitly "no bond, no operator, no offer set") / plus a
+  `return to an earlier version` marker with the spacing, on any encounter whose version
+  was seen before. `data-testid="encounter-kind"`.
+- "Start a new journey" control (explicit, confirms in-page, no browser dialog) → new
+  server-minted session at the current page.
+- Acceptance harness: a "mixed journey" scenario (Q → Next → Previous → page list → in-app
+  Back → browser Back → browser Forward → Q, then refresh, then server restart) asserting
+  one session id throughout, encounters once and in order, provenance per encounter,
+  identical retry adds nothing, and a journey-page check.

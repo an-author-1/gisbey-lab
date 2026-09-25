@@ -610,7 +610,9 @@ def test_the_continue_here_button_never_replays_the_refused_action():
     body = js[js.index("function showPositionConflict("):js.index("// --- single pick (research)")]
     assert "function showPositionConflict(error) {" in body and "retry" not in body
     handler = body[body.index('here.addEventListener("click"'):body.index("actions.appendChild(here)")]
-    assert 'via: "resume"' in handler
+    # Session 2: "Continue here" resumes the journey through Core (a `resume_here` relocation
+    # that is a no-op when already here); it still never replays the refused action.
+    assert "continueHere()" in handler
     for forbidden in ("postJson", "onFollowOption", "onRefineOptions", "onFollowOffer", "onAcceptAndFollow",
                       "onShowOffers", "requestSelection", "navigateTo"):
         assert forbidden not in handler, forbidden
@@ -622,7 +624,7 @@ def test_static_page_offers_the_two_honest_choices_for_a_second_tab_and_never_a_
     js = (reader_server.STATIC_DIR / "app.js").read_text()
     server_source = (reader_server.STATIC_DIR.parent / "server.py").read_text()
     assert 'data-testid="position-conflict"' in html
-    for needle in ("conflict-continue-here", "conflict-go-to-other", "Continue here on ", "Go to ", 'via: "resume"', "orderChanged"):
+    for needle in ("conflict-continue-here", "conflict-go-to-other", "Continue here on ", "Go to ", "continueHere()", "orderChanged"):
         assert needle in js, needle
     assert "reload the page" not in js and "reload the page" not in server_source
     assert "moderate" not in js  # level words come from the rubric level the score clears
@@ -635,7 +637,7 @@ def test_the_chosen_candidate_policy_is_restored_before_any_request_and_falls_ba
 
     js = (reader_server.STATIC_DIR / "app.js").read_text()
     init = js[js.index("async function init() {"):js.index("async function checkFieldStatus()")]
-    restore, first_page_request = init.index("choosePolicy(readStoredPolicy()"), init.index("navigateTo(")
+    restore, first_page_request = init.index("choosePolicy(readStoredPolicy()"), init.index("showPage(")
     assert restore < first_page_request and restore < init.index("loadPageList()")  # before any page/option request
     assert "policySelect.value = App.policy" in init and "storePolicy(App.policy)" in init
     for accessor in ("function readStoredPolicy()", "function storePolicy("):

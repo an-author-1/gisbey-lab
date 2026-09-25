@@ -1,0 +1,1 @@
+{"schema": "core-event/1", "seq": 0, "session_id": "s_8e87959b8046", "at": "2026-09-25T22:02:32.799925+00:00", "event": "session_started", "revision_after": 1, "field_id": "full-41", "version_id": "P6@441fc9e6c294", "page_id": "P6", "sha256": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346", "via": "session_start"}

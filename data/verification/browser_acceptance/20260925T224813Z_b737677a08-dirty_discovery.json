@@ -1,0 +1,691 @@
+{
+ "at": "2026-09-25T22:48:13.430557+00:00",
+ "build": {
+  "git_revision": "b737677a08f250242dce62d58a34c5fb86a3b1cf",
+  "dirty": true,
+  "app_js_sha256": "d5559fb4d67ba40ba55455daba08d991b20f635ef48aa2cc89e3ea8182565887",
+  "server_started_at": "2026-09-25T22:47:59.325886+00:00"
+ },
+ "policy": "discovery",
+ "browser": "Chrome via Playwright (channel=chrome, headless)",
+ "isolated_data_dir": "/var/folders/zs/hx1cyk6910171fwj2bbx478r0000gn/T/gibsey-acceptance-uv1v1beh",
+ "provider": "MOCK only (tests/acceptance/serve_isolated.py); atlas = real live records, read-only",
+ "combinations": {
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "with_exploratory_rows": 2,
+  "follows_of_exploratory_rows": 2
+ },
+ "scenarios": {
+  "total": 2,
+  "passed": 2
+ },
+ "console_errors": [],
+ "http_409_refusals_seen": [
+  "Failed to load resource: the server responded with a status of 409 (Conflict)"
+ ],
+ "mock_counters": {
+  "contextual_dispatches": 0,
+  "single_pick_dispatches": 0,
+  "mode": "ok"
+ },
+ "session_log_problems": [],
+ "failed_combinations": [],
+ "scenario_results": [
+  {
+   "scenario": "mixed journey: Q, Next, Previous, page list, Back, browser Back/Forward, Q, refresh, restart, retry, stale tab, journey page",
+   "problems": [],
+   "steps": [
+    {
+     "step": "Q follow",
+     "page": "P1",
+     "session_id": "s_e23d7e525586",
+     "revision": "29",
+     "encounters": "29",
+     "arrival": {
+      "kind": "bond",
+      "cause": "",
+      "index": "28"
+     }
+    },
+    {
+     "step": "Next",
+     "page": "P2",
+     "session_id": "s_e23d7e525586",
+     "revision": "30",
+     "encounters": "30",
+     "arrival": {
+      "kind": "manual",
+      "cause": "next",
+      "index": "29"
+     }
+    },
+    {
+     "step": "Previous",
+     "page": "P1",
+     "session_id": "s_e23d7e525586",
+     "revision": "31",
+     "encounters": "31",
+     "arrival": {
+      "kind": "manual",
+      "cause": "previous",
+      "index": "30"
+     }
+    },
+    {
+     "step": "page list",
+     "page": "P2",
+     "session_id": "s_e23d7e525586",
+     "revision": "32",
+     "encounters": "32",
+     "arrival": {
+      "kind": "manual",
+      "cause": "page_list",
+      "index": "31"
+     }
+    },
+    {
+     "step": "in-app Back",
+     "page": "P1",
+     "session_id": "s_e23d7e525586",
+     "revision": "33",
+     "encounters": "33",
+     "arrival": {
+      "kind": "manual",
+      "cause": "back",
+      "index": "32"
+     }
+    },
+    {
+     "step": "browser Back",
+     "page": "P2",
+     "session_id": "s_e23d7e525586",
+     "revision": "34",
+     "encounters": "34",
+     "arrival": {
+      "kind": "manual",
+      "cause": "history_back",
+      "index": "33"
+     }
+    },
+    {
+     "step": "browser Forward",
+     "page": "P1",
+     "session_id": "s_e23d7e525586",
+     "revision": "35",
+     "encounters": "35",
+     "arrival": {
+      "kind": "manual",
+      "cause": "history_forward",
+      "index": "34"
+     }
+    },
+    {
+     "step": "Q follow again",
+     "page": "P5",
+     "session_id": "s_e23d7e525586",
+     "revision": "36",
+     "encounters": "36",
+     "arrival": {
+      "kind": "bond",
+      "cause": "",
+      "index": "35"
+     }
+    },
+    {
+     "step": "refresh",
+     "page": "P5",
+     "session_id": "s_e23d7e525586",
+     "revision": "36",
+     "encounters": "36",
+     "arrival": {
+      "kind": "bond",
+      "cause": "",
+      "index": "35"
+     }
+    },
+    {
+     "step": "restart + reload",
+     "page": "P5",
+     "session_id": "s_e23d7e525586",
+     "revision": "36",
+     "encounters": "36",
+     "arrival": {
+      "kind": "bond",
+      "cause": "",
+      "index": "35"
+     }
+    },
+    {
+     "step": "scripted retry (resume shows it once)",
+     "page": "P4",
+     "session_id": "s_e23d7e525586",
+     "revision": "37",
+     "encounters": "37",
+     "arrival": {
+      "kind": "manual",
+      "cause": "previous",
+      "index": "36"
+     }
+    },
+    {
+     "step": "double-clicked control",
+     "page": "P5",
+     "session_id": "s_e23d7e525586",
+     "revision": "38",
+     "encounters": "38",
+     "arrival": {
+      "kind": "manual",
+      "cause": "next",
+      "index": "37"
+     }
+    },
+    {
+     "step": "move after re-sync",
+     "page": "P5",
+     "session_id": "s_e23d7e525586",
+     "revision": "40",
+     "encounters": "40",
+     "arrival": {
+      "kind": "manual",
+      "cause": "previous",
+      "index": "39"
+     }
+    }
+   ],
+   "session_id": "s_e23d7e525586",
+   "encounters_before": 28,
+   "scripted_double_post": [
+    {
+     "status": 200,
+     "s": "committed",
+     "duplicate": false,
+     "encounter_index": 36,
+     "to_page": "P4"
+    },
+    {
+     "status": 200,
+     "s": "committed",
+     "duplicate": true,
+     "encounter_index": 36,
+     "to_page": "P4"
+    }
+   ],
+   "stale_tab": {
+    "tab_b": {
+     "revision": "39",
+     "encounters": "39"
+    },
+    "tab_a_before": {
+     "revision": "38",
+     "encounters": "38"
+    },
+    "tab_a_after": {
+     "revision": "39",
+     "encounters": "39"
+    },
+    "move_status": "Not moved to P4: this tab expected revision 38, but the journey is at revision 39 (another tab or window moved it to P6). Showing P6, where the journey actually is; choose the move again from here."
+   },
+   "journey_kinds_after_start": [
+    [
+     "bond",
+     null,
+     "P1"
+    ],
+    [
+     "relocation",
+     "next",
+     "P2"
+    ],
+    [
+     "relocation",
+     "previous",
+     "P1"
+    ],
+    [
+     "relocation",
+     "page_list",
+     "P2"
+    ],
+    [
+     "relocation",
+     "back",
+     "P1"
+    ],
+    [
+     "relocation",
+     "history_back",
+     "P2"
+    ],
+    [
+     "relocation",
+     "history_forward",
+     "P1"
+    ],
+    [
+     "bond",
+     null,
+     "P5"
+    ],
+    [
+     "relocation",
+     "previous",
+     "P4"
+    ],
+    [
+     "relocation",
+     "next",
+     "P5"
+    ],
+    [
+     "relocation",
+     "next",
+     "P6"
+    ],
+    [
+     "relocation",
+     "previous",
+     "P5"
+    ]
+   ],
+   "rejections_added": [
+    [
+     "stale_revision",
+     "relocation",
+     "P4"
+    ]
+   ],
+   "journey_page_encounters": 40,
+   "new_journey": {
+    "session_id": "s_5a8fbc911531",
+    "revision": "1",
+    "encounters": "1",
+    "arrival": {
+     "kind": "start",
+     "cause": "",
+     "index": "0"
+    }
+   },
+   "ok": true
+  },
+  {
+   "scenario": "restart: kill the isolated server, restart on the same temp dir, reload",
+   "problems": [],
+   "before": {
+    "session_id": "s_5a8fbc911531",
+    "revision": "3",
+    "encounters": "3"
+   },
+   "after": {
+    "session_id": "s_5a8fbc911531",
+    "revision": "3",
+    "encounters": "3"
+   },
+   "journey_page_encounters": 3,
+   "ok": true
+  }
+ ],
+ "all_combinations": [
+  {
+   "page": "P1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F10",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_e23d7e525586",
+   "ok": true
+  }
+ ]
+}

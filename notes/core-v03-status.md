@@ -89,13 +89,10 @@ provider call was made in this session; no DSPy was installed.
 
 ## Known limitations and remaining failures
 
-1. **Manual navigation starts a new Core session.** Previous/Next, the page list, Back and
-   "Continue here" begin a fresh journal at that page (Core has no relocate event yet),
-   so a journey that mixes Follow with manual moves is split across sessions. Legacy
-   `reader_state.json` still records everything. **Next concrete task:** add a
-   `relocated` event (recorded action, bumps revision, creates an encounter with
-   `via=manual`) so one session holds the whole ordered journey; then Back is a
-   recorded action, not a new session.
+1. ~~Manual navigation starts a new Core session.~~ **Fixed in session 2** (see the
+   session-2 section below): every manual control is a `relocation_committed` event in
+   the same session; browser Back/Forward are handled; an explicit "Start a new journey"
+   control exists.
 2. **Bond wording is mechanical** (destination opening sentence). An authored offering
    sentence is an artistic decision — see the question below.
 3. `resolve_options` still applies the Discovery/adjacency policy inside the options
@@ -130,3 +127,77 @@ open http://127.0.0.1:8765/              # click an operator, Follow; then http:
 .venv/bin/gibsey analysis-manifest; analysis-project; analysis-compose --ops ECHO,DEVELOP --source P1
 .venv/bin/python tests/acceptance/run_browser_acceptance.py [--policy include-adjacent]
 ```
+
+
+---
+
+# Session 2 (2026-09-25): continuous journeys across manual navigation
+
+Commit: see `git log` (branch `atlas-memory-exploration`, after `b737677`). Tests: 448
+passed, 1 skipped. No provider call was made by the build; Brennan's own use of the
+reader between sessions made 6 live refinement attempts on the reader ledger (14 total),
+and created two Core sessions (`s_8e87959b8046` at P6, `s_d09a7820e595` at P1 with two
+offer sets) — preserved untouched and committed as his records.
+
+**Navigation before/after, the relocation contract, and the four situations** (initial
+entry / resume / intentional move / intentional new journey) are in
+`notes/core-v03-contracts.md`, "Session 2". In short: before, every manual control
+started a new Core session (seven sessions from one sitting; no browser-history handling;
+an unknown stored id was adopted verbatim). After: Previous, Next, page list, in-app Back,
+browser Back/Forward, "Go to" and "Continue here" are `POST /api/core/relocate` in the
+same session, with a `cause`; reload / second tab / direct URL / back from `/journey` are
+pure resume with no event; a fresh context or the explicit "Start a new journey" control
+starts a server-minted session; an unknown stored id is never adopted.
+
+**Core changes (lead):** `relocation_committed` event (additive; `core-event/1`
+unchanged; Session-1 journals reduce identically — pinned by a test on a copy of
+`s_d09a7820e595`); `Core.relocate` with the same order as `execute_action` (dedup →
+paused → stale_revision → unknown_page / destination_version_unavailable →
+source_version_changed → pin destination version → no-op if already there → one atomic
+append → projections); a relocation carries `operator: null, bond_version_id: null,
+offer_set_id: null`; **every** revision bump now invalidates earlier offer sets (a latent
+bug: pause/resume had not); `reduce` is linear (no per-event deep copy); CLI
+`core-relocate`; `core-journey` labels encounter kinds.
+**Reader (worker R2):** `/api/core/relocate`; `/api/core/session` with `new: true` and
+`resumed:false, reason: unknown_session`; all controls through Core with a fresh
+`request_id` per click, rendering the page Core returns; `pushState` per committed
+arrival and `popstate` → relocation (never double-recorded: the popstate handler never
+pushes, reload/pageshow are resume); client `page_viewed` lines removed for Core moves;
+projector mirrors a relocation as one `page_viewed via=<cause>` + one history entry, no
+bond; `/journey` labels `initial entry` / `literary bond selected` / `manual relocation —
+<cause>` and marks returns with spacing; `data-testid="last-arrival-kind"`,
+`"encounter-kind"`, `"new-journey"`.
+
+**Verification.** Unit: `tests/test_core_transactions.py` (19: relocation provenance,
+dedup/reuse/stale/noop/offer invalidation, replay over a mixed journal, Session-1 journal
+compatibility, pause/resume invalidation), `tests/test_reader_core.py` (34). Browser
+(worker, Chrome, isolated): 164/164 combinations in ONE session, 12/12 scenarios incl.
+the mixed journey and restart — `data/verification/browser_acceptance/20260925T225129Z_*`.
+Lead's own browser demonstration + provider-disabled replay:
+`data/verification/core_v03_session2_demo_2026-09-25/` (README there lists every step;
+one session id across 11 arrivals; refresh and SIGTERM restart preserve revision 9 /
+9 encounters at that point; identical retry → duplicate on the same encounter;
+conflicting reuse → 409 `request_id_reused`; stale tab → 409 `stale_revision` with a
+useful explanation and re-sync; state replay OK, decision replay OK over 2 offer sets with
+none invented for manual moves; 0 console errors).
+
+**Remaining / unverified.** Legacy research follows (single pick, advanced hand) bring
+the journey along as a relocation with cause `other` — they still create legacy bonds
+outside Core. `history_back`/`history_forward` are only distinguishable by comparing
+encounter indices (a popstate to a non-adjacent history entry is labeled by direction,
+not distance). Field change starts a new journey by design. Policy eligibility is not
+checked for manual moves (unrestricted, as before). No score decides yet whether a
+relocation is permitted or affects movement progress — the action distinction is
+preserved for that later decision. Not verified: Firefox/Safari; keyboard-only.
+
+**Try the mixed journey.** Open http://127.0.0.1:8765/, click **Start a new journey**
+(the session line shows the id, revision, encounters), click DEVELOP and Follow a bond,
+press Next, Previous, pick a page from the list, press Back, use the browser's Back and
+Forward buttons, Follow another bond, then reload — the session line is unchanged and
+`/journey` lists every arrival once with its kind. `gibsey core-replay <session_id>`
+replays it with providers disabled.
+
+**Next bounded task:** the executable-score slice — neutral behaviour, a synthetic
+recurrence score, history-dependent eligibility with logged exclusion codes (including
+whether a relocation is permitted / counts toward a movement), and a concrete literary
+pilot proposal for Brennan's review.

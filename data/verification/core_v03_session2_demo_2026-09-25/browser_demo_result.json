@@ -1,0 +1,237 @@
+{
+ "build": "b737677a08",
+ "session": "s_10169fa2df45",
+ "steps": [
+  {
+   "step": "start P1 (via page list into the new journey)",
+   "page": "P1",
+   "session": "s_10169fa2df45",
+   "rev": "1",
+   "enc": "1",
+   "arrival": "start",
+   "cause": ""
+  },
+  {
+   "step": "Q follow -> P5",
+   "page": "P5",
+   "session": "s_10169fa2df45",
+   "rev": "2",
+   "enc": "2",
+   "arrival": "bond",
+   "cause": ""
+  },
+  {
+   "step": "Next",
+   "page": "P6",
+   "session": "s_10169fa2df45",
+   "rev": "3",
+   "enc": "3",
+   "arrival": "manual",
+   "cause": "next"
+  },
+  {
+   "step": "Previous (return)",
+   "page": "P5",
+   "session": "s_10169fa2df45",
+   "rev": "4",
+   "enc": "4",
+   "arrival": "manual",
+   "cause": "previous"
+  },
+  {
+   "step": "page list -> P1 (return)",
+   "page": "P1",
+   "session": "s_10169fa2df45",
+   "rev": "5",
+   "enc": "5",
+   "arrival": "manual",
+   "cause": "page_list"
+  },
+  {
+   "step": "in-app Back",
+   "page": "P5",
+   "session": "s_10169fa2df45",
+   "rev": "6",
+   "enc": "6",
+   "arrival": "manual",
+   "cause": "back"
+  },
+  {
+   "step": "browser Back",
+   "page": "P1",
+   "session": "s_10169fa2df45",
+   "rev": "7",
+   "enc": "7",
+   "arrival": "manual",
+   "cause": "history_back"
+  },
+  {
+   "step": "browser Forward",
+   "page": "P5",
+   "session": "s_10169fa2df45",
+   "rev": "8",
+   "enc": "8",
+   "arrival": "manual",
+   "cause": "history_forward"
+  },
+  {
+   "step": "Q follow ECHO -> P1",
+   "page": "P1",
+   "session": "s_10169fa2df45",
+   "rev": "9",
+   "enc": "9",
+   "arrival": "bond",
+   "cause": ""
+  },
+  {
+   "step": "refresh",
+   "page": "P1",
+   "session": "s_10169fa2df45",
+   "rev": "9",
+   "enc": "9",
+   "arrival": "bond",
+   "cause": ""
+  },
+  {
+   "step": "server restart + reload",
+   "page": "P1",
+   "session": "s_10169fa2df45",
+   "rev": "9",
+   "enc": "9",
+   "arrival": "bond",
+   "cause": ""
+  },
+  {
+   "step": "scripted identical retry",
+   "first": {
+    "status": "committed",
+    "duplicate": false,
+    "encounter_index": 9
+   },
+   "second": {
+    "status": "committed",
+    "duplicate": true,
+    "encounter_index": 9
+   }
+  },
+  {
+   "step": "conflicting reuse",
+   "http": 409,
+   "code": "request_id_reused"
+  },
+  {
+   "step": "stale tab after tab2 moved",
+   "tab1_status": "Not moved to P2: this tab expected revision 9, but the journey is at revision 11 (another tab or window moved it to P5). Showing P5, where t",
+   "tab1_page": "P5",
+   "tab2_page": "P5",
+   "session": "s_10169fa2df45",
+   "rev": "11",
+   "enc": "11"
+  },
+  {
+   "step": "journey page kinds",
+   "kinds": [
+    "initial entry",
+    "literary bond selected",
+    "manual relocation — next",
+    "manual relocation — previous",
+    "manual relocation — page_list",
+    "manual relocation — back",
+    "manual relocation — history_back",
+    "manual relocation — history_forward",
+    "literary bond selected",
+    "manual relocation — page_list",
+    "manual relocation — next"
+   ],
+   "returns": 7
+  }
+ ],
+ "console_errors": [],
+ "sessions_in_store": 2,
+ "journal": [
+  [
+   0,
+   "session_started",
+   "P1",
+   ""
+  ],
+  [
+   1,
+   "offer_set_created",
+   "DEVELOP",
+   ""
+  ],
+  [
+   2,
+   "action_committed",
+   "P5",
+   ""
+  ],
+  [
+   3,
+   "relocation_committed",
+   "P6",
+   "next"
+  ],
+  [
+   4,
+   "relocation_committed",
+   "P5",
+   "previous"
+  ],
+  [
+   5,
+   "relocation_committed",
+   "P1",
+   "page_list"
+  ],
+  [
+   6,
+   "relocation_committed",
+   "P5",
+   "back"
+  ],
+  [
+   7,
+   "relocation_committed",
+   "P1",
+   "history_back"
+  ],
+  [
+   8,
+   "relocation_committed",
+   "P5",
+   "history_forward"
+  ],
+  [
+   9,
+   "offer_set_created",
+   "ECHO",
+   ""
+  ],
+  [
+   10,
+   "action_committed",
+   "P1",
+   ""
+  ],
+  [
+   11,
+   "relocation_committed",
+   "P4",
+   "page_list"
+  ],
+  [
+   12,
+   "relocation_committed",
+   "P5",
+   "next"
+  ],
+  [
+   13,
+   "action_rejected",
+   "",
+   "next"
+  ]
+ ]
+}

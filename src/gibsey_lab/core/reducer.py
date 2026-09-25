@@ -16,7 +16,8 @@ State S_t = (v, z, H, c, ell, u, r):
           order, separate from event seq).
 
 Which events change state (and so bump r): session_started, action_committed (which
-carries the arrival), paused, resumed. Which do not: offer_set_created, presented,
+carries the arrival), relocation_committed (a manual move: an arrival with no bond and
+no operator, `via="manual"` plus its `cause`), paused, resumed. Which do not: offer_set_created, presented,
 action_rejected. Refresh, replay and retries add no events at all, so they cannot add
 encounters.
 """
@@ -63,12 +64,13 @@ class ReduceError(Exception):
 
 
 def _arrive(state: State, *, version_id: str, page_id: str, via: str, event_seq: int,
-            bond_version_id: str | None, from_version: str | None, request_id: str | None) -> None:
+            bond_version_id: str | None, from_version: str | None, request_id: str | None,
+            cause: str | None = None) -> None:
     index = len(state.H)
     entry = {
         "encounter_index": index, "version_id": version_id, "page_id": page_id, "via": via,
         "event_seq": event_seq, "from_version": from_version, "bond_version_id": bond_version_id,
-        "request_id": request_id,
+        "request_id": request_id, "cause": cause,
         "previous_encounter_index": state.ell.get(version_id),
     }
     if entry["previous_encounter_index"] is not None:
@@ -82,9 +84,21 @@ def _arrive(state: State, *, version_id: str, page_id: str, via: str, event_seq:
     state.page = page_id
 
 
+def _bump(s: State) -> None:
+    """Every state revision change makes earlier offer sets stale: an offer set is only
+    valid at the revision it was created for (plan §6)."""
+    s.r += 1
+    s.offer_sets = {k: v for k, v in s.offer_sets.items() if v["revision"] == s.r}
+
+
 def apply(state: State, event: dict) -> State:
-    """Return a NEW state with `event` applied. Raises on an event that cannot follow."""
-    s = copy.deepcopy(state)
+    """Return a NEW state with `event` applied; the input is untouched."""
+    return _apply_in_place(copy.deepcopy(state), event)
+
+
+def _apply_in_place(s: State, event: dict) -> State:
+    """Mutating form used by `reduce` over a fresh State (linear in the number of events
+    instead of copying the whole state per event). Raises on an event that cannot follow."""
     kind = event.get("event")
     seq = event.get("seq")
     if seq != s.last_seq + 1:
@@ -96,7 +110,7 @@ def apply(state: State, event: dict) -> State:
             raise ReduceError("session already started")
         s.session_id = event["session_id"]
         s.field_id = event.get("field_id")
-        s.r += 1
+        _bump(s)
         _arrive(s, version_id=event["version_id"], page_id=event["page_id"], via=event.get("via", "start"),
                 event_seq=seq, bond_version_id=None, from_version=None, request_id=None)
     elif kind == "offer_set_created":
@@ -111,24 +125,41 @@ def apply(state: State, event: dict) -> State:
             raise ReduceError("session is paused")
         if event["from_version"] != s.v:
             raise ReduceError(f"action from {event['from_version']} but active version is {s.v}")
-        s.r += 1
+        _bump(s)
         _arrive(s, version_id=event["to_version"], page_id=event["to_page"], via="Q",
                 event_seq=seq, bond_version_id=event["bond_version_id"], from_version=event["from_version"],
                 request_id=event.get("request_id"))
         s.requests[event["request_id"]] = {
-            "fingerprint": event["fingerprint"], "event_seq": seq, "bond_version_id": event["bond_version_id"],
+            "kind": "action", "fingerprint": event["fingerprint"], "event_seq": seq, "bond_version_id": event["bond_version_id"],
             "to_version": event["to_version"], "to_page": event["to_page"], "revision_after": s.r,
             "encounter_index": len(s.H) - 1,
         }
-        s.offer_sets = {k: v for k, v in s.offer_sets.items() if v["revision"] == s.r}  # earlier offers are stale
+    elif kind == "relocation_committed":
+        if s.v is None:
+            raise ReduceError("no active version")
+        if s.paused:
+            raise ReduceError("session is paused")
+        if event["from_version"] != s.v:
+            raise ReduceError(f"relocation from {event['from_version']} but active version is {s.v}")
+        if event.get("bond_version_id") is not None or event.get("operator") is not None:
+            raise ReduceError("a relocation carries no bond and no operator")
+        _bump(s)
+        _arrive(s, version_id=event["to_version"], page_id=event["to_page"], via="manual",
+                event_seq=seq, bond_version_id=None, from_version=event["from_version"],
+                request_id=event.get("request_id"), cause=event.get("cause"))
+        s.requests[event["request_id"]] = {
+            "kind": "relocation", "fingerprint": event["fingerprint"], "event_seq": seq, "bond_version_id": None,
+            "cause": event.get("cause"), "to_version": event["to_version"], "to_page": event["to_page"],
+            "revision_after": s.r, "encounter_index": len(s.H) - 1,
+        }
     elif kind == "action_rejected":
         pass  # recorded, never applied
     elif kind == "paused":
         s.paused = True
-        s.r += 1
+        _bump(s)
     elif kind == "resumed":
         s.paused = False
-        s.r += 1
+        _bump(s)
     elif kind == "presented":
         pass
     else:
@@ -141,9 +172,9 @@ def apply(state: State, event: dict) -> State:
 
 
 def reduce(events: list[dict], initial: State | None = None) -> State:
-    state = initial if initial is not None else State()
+    state = copy.deepcopy(initial) if initial is not None else State()
     for event in events:
-        state = apply(state, event)
+        _apply_in_place(state, event)
     return state
 
 
@@ -151,6 +182,6 @@ def reduce_with_trace(events: list[dict]) -> list[dict]:
     """Canonical state after every event -- the 'state replay' check of plan §7."""
     state, trace = State(), []
     for event in events:
-        state = apply(state, event)
-        trace.append({"seq": event["seq"], "event": event["event"], "state": state.canonical()})
+        _apply_in_place(state, event)
+        trace.append({"seq": event["seq"], "event": event["event"], "state": copy.deepcopy(state.canonical())})
     return trace

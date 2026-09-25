@@ -319,3 +319,103 @@ def test_state_and_decision_replay_agree_and_detect_drift(core, tmp_path):
                                                       "options": list(reversed(fake_options(f, p, o, policy)["options"]))}
     drifted = replay.decision_replay("sess9", core)
     assert not drifted["ok"] and len(drifted["drift"]) == 2
+
+
+# ------------------------------------------------------------------ relocation (session 2)
+
+
+def mixed_journey(core: Core, session: str = "mixed01") -> dict:
+    """start P1 -> Q to first DEVELOP bond -> manual next -> manual back to P1 -> Q ECHO."""
+    core.start_session("P1", session_id=session)
+    offer, bond = first_bond(core, session)
+    core.execute_action(session, offer_set_id=offer["offer_set_id"], bond_version_id=bond["bond_version_id"],
+                        expected_revision=1, request_id="q1")
+    core.relocate(session, page_id="P3", expected_revision=2, request_id="n1", cause="next")
+    core.relocate(session, page_id="P1", expected_revision=3, request_id="b1", cause="back")
+    offer2, bond2 = first_bond(core, session, "ECHO")
+    core.execute_action(session, offer_set_id=offer2["offer_set_id"], bond_version_id=bond2["bond_version_id"],
+                        expected_revision=4, request_id="q2")
+    return {"offer": offer, "bond": bond, "offer2": offer2}
+
+
+def test_relocation_keeps_one_session_with_distinct_provenance_and_return_spacing(core):
+    mixed_journey(core)
+    state = core.state("mixed01")
+    assert [(h["page_id"], h["via"], h.get("cause"), h["bond_version_id"] is not None) for h in state.H] == [
+        ("P1", "start", None, False), ("F1", "Q", None, True), ("P3", "manual", "next", False),
+        ("P1", "manual", "back", False), ("F1", "Q", None, True)]
+    back = state.H[3]
+    assert back["return_index_distance"] == 3 and back["intervening_encounters"] == 2
+    assert state.r == 5 and state.c["P1@" + core.field.manifest["P1"].sha256[:12]] == 2
+    kinds = [e["event"] for e in journal.read_events("mixed01", core.core_dir)]
+    assert kinds.count("relocation_committed") == 2 and kinds.count("action_committed") == 2
+    relocation = next(e for e in journal.read_events("mixed01", core.core_dir) if e["event"] == "relocation_committed")
+    assert relocation["operator"] is None and relocation["bond_version_id"] is None and relocation["offer_set_id"] is None
+
+
+def test_relocation_dedup_reuse_stale_noop_and_offer_invalidation(core):
+    core.start_session("P1", session_id="mixed02")
+    offer, bond = first_bond(core, "mixed02")
+    first = core.relocate("mixed02", page_id="P4", expected_revision=1, request_id="n1", cause="page_list")
+    assert first["status"] == "committed" and first["revision_after"] == 2
+    events_after = len(journal.read_events("mixed02", core.core_dir))
+    again = core.relocate("mixed02", page_id="P4", expected_revision=1, request_id="n1", cause="page_list")
+    assert again["duplicate"] is True and len(journal.read_events("mixed02", core.core_dir)) == events_after
+    assert len(core.state("mixed02").H) == 2
+    with pytest.raises(CoreError) as e:
+        core.relocate("mixed02", page_id="P5", expected_revision=1, request_id="n1", cause="page_list")
+    assert e.value.code == "request_id_reused"
+    with pytest.raises(CoreError) as e:
+        core.relocate("mixed02", page_id="P5", expected_revision=1, request_id="stale", cause="next")
+    assert e.value.code == "stale_revision" and len(core.state("mixed02").H) == 2
+    noop = core.relocate("mixed02", page_id="P4", expected_revision=2, request_id="same", cause="page_list")
+    assert noop["status"] == "noop" and len(core.state("mixed02").H) == 2
+    assert core.get_action_status("mixed02", "same")["status"] == "unknown"  # a no-op journals nothing
+    with pytest.raises(CoreError) as e:  # the offer set made before the move is stale now
+        core.execute_action("mixed02", offer_set_id=offer["offer_set_id"], bond_version_id=bond["bond_version_id"],
+                            expected_revision=2, request_id="q-old")
+    assert e.value.code == "unknown_or_stale_offer_set"
+    with pytest.raises(CoreError) as e:
+        core.relocate("mixed02", page_id="ZZ9", expected_revision=2, request_id="bad", cause="page_list")
+    assert e.value.code == "unknown_page"
+    with pytest.raises(CoreError) as e:
+        core.relocate("mixed02", page_id="P5", expected_revision=2, request_id="c", cause="teleport")
+    assert e.value.code == "unknown_cause"
+    core.pause("mixed02")
+    with pytest.raises(CoreError) as e:
+        core.relocate("mixed02", page_id="P5", expected_revision=3, request_id="p", cause="next")
+    assert e.value.code == "paused"
+
+
+def test_replay_understands_relocations_and_invents_no_offer_set(core, tmp_path):
+    from gibsey_lab.core import replay
+
+    mixed_journey(core, "mixed03")
+    result = replay.replay("mixed03", core)
+    assert result["ok"] and result["decision_replay"]["offer_sets"] == 2  # the two Q offer sets only
+    trace = reducer.reduce_with_trace(journal.read_events("mixed03", core.core_dir))
+    assert [t["state"]["r"] for t in trace] == [1, 1, 2, 3, 4, 4, 5]
+    bundle = json.loads(replay.export_bundle("mixed03", core, tmp_path / "b").read_text())
+    assert len(bundle["versions"]) == 3 and bundle["replay"]["ok"]
+
+
+def test_session_1_journal_without_relocations_still_reduces_identically():
+    """A copy of a real session-1 journal (two offer sets, no action) is read-only fixture data."""
+    real = Path(__file__).resolve().parents[1] / "data" / "core" / "sessions" / "s_d09a7820e595" / "events.jsonl"
+    if not real.exists():
+        pytest.skip("real session-1 journal not present")
+    events = [json.loads(line) for line in real.read_text().splitlines() if line.strip()]
+    state = reducer.reduce(events)
+    assert [e["event"] for e in events] == ["session_started", "offer_set_created", "offer_set_created"]
+    assert state.r == 1 and len(state.H) == 1 and state.page == "P1" and len(state.offer_sets) == 2
+
+
+def test_pause_and_resume_make_earlier_offer_sets_stale(core):
+    core.start_session("P1", session_id="mixed04")
+    offer, bond = first_bond(core, "mixed04")
+    core.pause("mixed04")
+    core.unpause("mixed04")
+    with pytest.raises(CoreError) as e:
+        core.execute_action("mixed04", offer_set_id=offer["offer_set_id"], bond_version_id=bond["bond_version_id"],
+                            expected_revision=3, request_id="after-pause")
+    assert e.value.code == "unknown_or_stale_offer_set"

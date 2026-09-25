@@ -634,13 +634,60 @@ def _git(*args: str) -> str | None:
 _CORE_LOCK = threading.RLock()
 
 
+class _StateCache:
+    """Reduced state per session, extended incrementally as the journal grows.
+
+    The journal stays the only authority: a call re-reads the file and reduces every event
+    it has not reduced yet with the same pure reducer; a file that shrank or changed under
+    the cached prefix is reduced from scratch. Only a cost matters here -- `reducer.apply`
+    copies the whole state per event, so a session that now spans a whole sitting (hundreds
+    of manual moves) would otherwise be re-reduced end to end four or five times per
+    request. The cached State is never mutated by any caller (the Core reads it and
+    `canonical()` builds a new dict), so it is handed out as is."""
+
+    def __init__(self):
+        self._lock = threading.Lock()
+        self._states: dict[tuple, tuple[int, reducer.State]] = {}  # (core_dir, session_id) -> (events reduced, state)
+
+    def state(self, core_dir: Path, session_id: str, events: list[dict]) -> reducer.State:
+        key = (str(core_dir), session_id)
+        with self._lock:
+            cached = self._states.get(key)
+            if cached is not None:
+                count, state = cached
+                if count <= len(events) and (count == 0 or events[count - 1].get("seq") == state.last_seq):
+                    for event in events[count:]:
+                        state = reducer.apply(state, event)
+                    self._states[key] = (len(events), state)
+                    return state
+            state = reducer.reduce(events)
+            self._states[key] = (len(events), state)
+            return state
+
+
+_STATE_CACHE = _StateCache()
+
+
+class ReaderCore(core_module.Core):
+    """The Core as the reader serves it: identical behaviour, with `state()` served from the
+    incremental cache above (a pure function of the journal either way)."""
+
+    def state(self, session_id: str) -> reducer.State:
+        if not core_module.SESSION_ID_RE.match(session_id or ""):
+            raise CoreError("invalid_session", f"invalid session id {session_id!r}", status=400)
+        events = journal.read_events(session_id, self.core_dir)
+        if not events:
+            raise CoreError("unknown_session", f"no such session: {session_id}", status=404)
+        return _STATE_CACHE.state(self.core_dir, session_id, events)
+
+
 def _core(field=None) -> core_module.Core:
     """A Core over CORE_DIR. Offers come from the same options provider the ranked lists use
     (never a dispatch); after every commit the legacy stores under DATA_DIR / SESSION_LOG_PATH
     are mirrored so the existing panels keep working. Stateless: the journal is re-read on
     every call, so a new instance per request is a restart-equivalent."""
     field = field if field is not None else _load_field(fields_module.DEFAULT_FIELD)
-    return core_module.Core(
+    return ReaderCore(
         core_dir=Path(CORE_DIR), field=field,
         options_provider=lambda f, page_id, operator, policy: OPTIONS_PROVIDER(f, page_id, operator, policy=policy, mode=OPTIONS_MODE),
         projectors=[projectors.mirror_to_legacy_stores(Path(DATA_DIR), Path(SESSION_LOG_PATH), field=field)],
@@ -676,9 +723,24 @@ def _position_advisory(field_id: str, session_page: str | None) -> dict:
             "agrees": logged is None or session_page is None or logged == session_page}
 
 
+ARRIVAL_KIND = {"start": "start", "Q": "bond", "manual": "manual"}  # encounter `via` -> what the session line says
+
+
+def _arrival(entry: dict | None) -> dict | None:
+    """How the session arrived at its current position: `start` (initial entry), `bond`
+    (a literary bond selected) or `manual` (a relocation, with its cause)."""
+    if not entry:
+        return None
+    return {"kind": ARRIVAL_KIND.get(entry.get("via"), entry.get("via")), "via": entry.get("via"),
+            "cause": entry.get("cause"), "encounter_index": entry.get("encounter_index"),
+            "page_id": entry.get("page_id"), "version_id": entry.get("version_id"),
+            "is_return": entry.get("previous_encounter_index") is not None}
+
+
 def _session_view(core: core_module.Core, session_id: str, **extra) -> dict:
     view = core.resume_session(session_id)
     view["encounter_count"] = len(view["encounters"])
+    view["last_arrival"] = _arrival(view["encounters"][-1] if view["encounters"] else None)
     view["field"] = core.field.id
     # The offer sets resolved at the current revision, in creation order (a reload can show
     # the last one again with a plain re-resolve, which creates nothing).
@@ -1707,17 +1769,20 @@ class Handlers:
 
     @staticmethod
     def post_core_session(body: dict) -> dict:
-        """Start or resume. A known `session_id` resumes (nothing written). Otherwise a new
-        session starts at `page` (default: the page the reader was last recorded on) --
-        the one `session_started` event, mirrored as a `page_viewed(via="start")`."""
+        """Start or resume. Without `new`, a known `session_id` resumes (nothing written).
+        Otherwise a new session starts at `page` (default: the page the reader was last
+        recorded on) with a SERVER-minted id -- a stored id the server does not know is
+        never adopted (`resumed: false, reason: "unknown_session"`); `new: true` is the
+        explicit fresh journey ("Start a new journey", a field change). The start is the
+        one `session_started` event, mirrored as a `page_viewed(via="start")`."""
         session_id = body.get("session_id") or None
         if session_id is not None and not isinstance(session_id, str):
             raise ApiError("session_id must be a string")
-        via = body.get("via") if isinstance(body.get("via"), str) and body.get("via") else "start"
-        via = via[:32]
+        new = body.get("new") is True
         with _CORE_LOCK:
             try:
-                if session_id and _session_events(session_id):
+                known = bool(session_id) and bool(_session_events(session_id))
+                if known and not new:
                     core = _core_for_session(session_id)
                     return _session_view(core, session_id, started=False, resumed=True)
                 field = _load_field(body.get("field") or fields_module.DEFAULT_FIELD)
@@ -1725,8 +1790,10 @@ class Handlers:
                 if page_id not in field.manifest:
                     raise ApiError(f"page {page_id!r} not in field {field.id!r}", status=404)
                 core = _core(field)
-                started = core.start_session(page_id, session_id=session_id or None, via=via)
-                return _session_view(core, started["session_id"], started=True, resumed=False)
+                started = core.start_session(page_id)  # via="start": the first encounter is always the initial entry
+                reason = "new_journey" if new else ("unknown_session" if session_id else "no_stored_session")
+                return _session_view(core, started["session_id"], started=True, resumed=False, reason=reason,
+                                     previous_session_id=session_id if session_id != started["session_id"] else None)
             except CoreError as e:
                 raise _core_error(e) from e
             except journal.JournalError as e:
@@ -1794,6 +1861,44 @@ class Handlers:
                 error.payload["current_revision"] = e.details.get("current_revision")
                 if e.code in ("stale_revision", "paused", "unknown_or_stale_offer_set", "source_mismatch"):
                     try:  # so the client can show where the session actually is, without a second round trip
+                        error.payload["session"] = _session_view(_core_for_session(session_id), session_id)
+                    except (CoreError, ApiError):
+                        pass
+                raise error from e
+            except journal.JournalError as e:
+                raise ApiError(f"journal conflict: {e}", status=409, payload={"code": "journal_conflict"}) from e
+            view = dict(result)
+            view["session"] = _session_view(core, session_id)
+        view["reader_state"] = state.reader_state(data_dir=DATA_DIR)
+        view["position"] = view["session"]["position"]
+        return view
+
+    @staticmethod
+    def post_core_relocate(body: dict) -> dict:
+        """An intentional manual move (Previous, Next, page list, Back, browser history,
+        "Continue here") within the SAME session: `Core.relocate`. No bond, no operator, no
+        offer set. Dedup first (identical retry -> the recorded result, `duplicate: true`),
+        then the Core's validation; a refusal is a 409 with {code, reason, details} and
+        nothing moves; landing on the already-active exact version is a 200 `noop` with no
+        event. The response carries the committed `to_page`/`to_version`: the client renders
+        those, never the page it asked for."""
+        session_id = body.get("session_id")
+        missing = [k for k in ("session_id", "page", "request_id", "cause") if not body.get(k)]
+        if missing:
+            raise ApiError(f"missing {missing}")
+        expected = body.get("expected_revision")
+        if not isinstance(expected, int) or isinstance(expected, bool):
+            raise ApiError("expected_revision must be an integer")
+        with _CORE_LOCK:
+            try:
+                core = _core_for_session(session_id)
+                result = core.relocate(session_id, page_id=str(body["page"]), expected_revision=expected,
+                                       request_id=str(body["request_id"]), cause=str(body["cause"]))
+            except CoreError as e:
+                error = _core_error(e)
+                error.payload["current_revision"] = e.details.get("current_revision")
+                if e.code in ("stale_revision", "paused", "unknown_page", "destination_version_unavailable", "source_version_changed"):
+                    try:  # the authoritative position, so the client can show it without a second round trip
                         error.payload["session"] = _session_view(_core_for_session(session_id), session_id)
                     except (CoreError, ApiError):
                         pass
@@ -1877,6 +1982,19 @@ def _prose(field, page_id: str, version_id: str) -> dict:
     return {"text": page.text, "current": True, "sha256": page.sha256, "title": _title_of(page_id), "note": None}
 
 
+ENCOUNTER_KIND_ID = {"session_started": "start", "action_committed": "bond", "relocation_committed": "relocation"}
+RELOCATION_NOTE = "no bond, no operator, no offer set: a manual relocation asserts no literary relationship"
+
+
+def _encounter_kind(event_kind: str, event: dict) -> str:
+    """The label the journey page shows for an encounter's provenance."""
+    if event_kind == "session_started":
+        return "initial entry"
+    if event_kind == "action_committed":
+        return "literary bond selected"
+    return f"manual relocation — {event.get('cause') or 'other'}"
+
+
 def _journey(session_id: str, events: list[dict], field) -> dict:
     offer_sets: dict[str, dict] = {}
     rejections: list[dict] = []
@@ -1892,16 +2010,36 @@ def _journey(session_id: str, events: list[dict], field) -> dict:
                 atlas_config_ids.add(event["atlas_config_id"])
         elif kind == "action_rejected":
             rejections.append({k: event.get(k) for k in ("seq", "at", "request_id", "code", "reason", "offer_set_id",
-                                                            "bond_version_id", "expected_revision", "revision_at_rejection")})
-        elif kind in ("session_started", "action_committed"):
+                                                            "bond_version_id", "expected_revision", "revision_at_rejection",
+                                                            "kind", "cause", "relocate_to")})
+        elif kind in ("session_started", "action_committed", "relocation_committed"):
             entry = dict(after.H[-1])
             version_id = entry["version_id"]
+            is_return = entry.get("previous_encounter_index") is not None
             record = {
                 **entry, "at": event.get("at"), "prose": _prose(field, entry["page_id"], version_id),
                 "revision_after": after.r, "encounter_count_after": len(after.H),
-                "count_for_version_after": after.c.get(version_id), "is_return": entry.get("previous_encounter_index") is not None,
-                "action": None,
+                "count_for_version_after": after.c.get(version_id), "is_return": is_return,
+                "kind": _encounter_kind(kind, event), "kind_id": ENCOUNTER_KIND_ID[kind],
+                "return_marker": (f"return to an earlier version: index distance {entry.get('return_index_distance')}, "
+                                  f"{entry.get('intervening_encounters')} intervening encounter"
+                                  f"{'' if entry.get('intervening_encounters') == 1 else 's'} "
+                                  f"(first seen at #{entry.get('previous_encounter_index')})") if is_return else None,
+                "action": None, "relocation": None,
             }
+            state_before = {"revision": before.r, "encounter_count": len(before.H),
+                            "count_for_version": before.c.get(version_id, 0), "active_version": before.v}
+            state_after = {"revision": after.r, "encounter_count": len(after.H),
+                           "count_for_version": after.c.get(version_id), "active_version": after.v}
+            if kind == "relocation_committed":
+                record["relocation"] = {
+                    "request_id": event.get("request_id"), "cause": event.get("cause"),
+                    "from_version": event.get("from_version"), "from_page": event.get("from_page"),
+                    "to_version": event.get("to_version"), "to_page": event.get("to_page"),
+                    "expected_revision": event.get("expected_revision"), "fingerprint": event.get("fingerprint"),
+                    "operator": None, "bond_version_id": None, "offer_set_id": None, "offer_set": None,
+                    "note": RELOCATION_NOTE, "state_before": state_before, "state_after": state_after,
+                }
             if kind == "action_committed":
                 offer = offer_sets.get(event.get("offer_set_id")) or {}
                 bonds = []
@@ -1923,10 +2061,7 @@ def _journey(session_id: str, events: list[dict], field) -> dict:
                         "bonds": bonds,
                     },
                     "offer_set_missing": not offer,
-                    "state_before": {"revision": before.r, "encounter_count": len(before.H),
-                                     "count_for_version": before.c.get(version_id, 0), "active_version": before.v},
-                    "state_after": {"revision": after.r, "encounter_count": len(after.H),
-                                    "count_for_version": after.c.get(version_id), "active_version": after.v},
+                    "state_before": state_before, "state_after": state_after,
                 }
             encounters.append(record)
         before = after
@@ -1962,6 +2097,7 @@ POST_ROUTES = {
     "/api/core/session": Handlers.post_core_session,
     "/api/core/options": Handlers.post_core_options,
     "/api/core/execute": Handlers.post_core_execute,
+    "/api/core/relocate": Handlers.post_core_relocate,
     "/api/core/pause": Handlers.post_core_pause,
     "/api/core/resume": Handlers.post_core_resume,
     "/api/request-selection": Handlers.post_request_selection,

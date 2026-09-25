@@ -41,8 +41,13 @@ def cmd_journey(args: argparse.Namespace) -> int:
     print(f"session {args.session_id}  revision {s['revision']}  {len(s['encounters'])} encounter(s)  paused={s['paused']}")
     for h in s["encounters"]:
         ret = f"  return: distance {h['return_index_distance']}, {h['intervening_encounters']} intervening" if "return_index_distance" in h else ""
-        via = h["via"] if h["via"] != "Q" else f"Q via bond {h['bond_version_id']} (request {h['request_id']})"
-        print(f"  #{h['encounter_index']}  {h['version_id']}  {via}{ret}")
+        if h["via"] == "Q":
+            kind = f"literary bond selected  {h['bond_version_id']}  (request {h['request_id']})"
+        elif h["via"] == "manual":
+            kind = f"manual relocation — {h.get('cause')}  (no bond, no operator; request {h['request_id']})"
+        else:
+            kind = "initial entry"
+        print(f"  #{h['encounter_index']}  {h['version_id']}  {kind}{ret}")
     return 0
 
 
@@ -87,6 +92,17 @@ def cmd_execute(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_relocate(args: argparse.Namespace) -> int:
+    try:
+        r = _core().relocate(args.session_id, page_id=args.page, expected_revision=args.expected_revision,
+                             request_id=args.request_id, cause=args.cause)
+    except CoreError as e:
+        print(f"rejected: {e.code}: {e}", file=sys.stderr)
+        return 1
+    print(json.dumps({k: r.get(k) for k in ("status", "duplicate", "noop", "to_page", "to_version", "revision_after", "encounter_index")}))
+    return 0
+
+
 def register_cli(sub) -> None:
     sub.add_parser("core-sessions", help="list Core sessions").set_defaults(func=cmd_sessions)
     p = sub.add_parser("core-journey", help="ordered encounters of a session (read-only)")
@@ -112,3 +128,10 @@ def register_cli(sub) -> None:
     p.add_argument("--expected-revision", type=int, required=True)
     p.add_argument("--request-id", required=True)
     p.set_defaults(func=cmd_execute)
+    p = sub.add_parser("core-relocate", help="manual move within a session (no bond, no operator)")
+    p.add_argument("session_id")
+    p.add_argument("page")
+    p.add_argument("--cause", default="page_list", choices=["previous", "next", "page_list", "back", "history_back", "history_forward", "resume_here", "other"])
+    p.add_argument("--expected-revision", type=int, required=True)
+    p.add_argument("--request-id", required=True)
+    p.set_defaults(func=cmd_relocate)

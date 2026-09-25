@@ -13,11 +13,29 @@
 //   fresh request_id per click (the same id again only when that click got no response).
 //   A stale revision is a refusal that moves nothing: the current revision is shown and
 //   the options are re-resolved. A paused session says so.
-// - The Core session id lives in localStorage; on load the session is resumed. Manual
-//   navigation (page list, Previous/Next, Back) starts a new journey at that page, because
-//   the Core only records Q follows. The old /api/operator-options and /api/follow-option
-//   endpoints are no longer used by the buttons (the explicit Refine action still reads
-//   the legacy option set it needs).
+// - The Core session id lives in localStorage; on load the session is resumed (a reload,
+//   a second tab, a direct URL, coming back from /journey: GET, no event). A stored id the
+//   server does not know is not adopted: the server mints a fresh one and says so.
+// - Every manual move (Previous, Next, the page list, in-app Back, browser Back/Forward,
+//   the conflict "Go to" / "Continue here") is POST /api/core/relocate in the SAME session:
+//   one event, one encounter, no bond, no operator, no offer set. Each click sends a fresh
+//   request_id (reused only when the same click got no response) and the revision of the
+//   current session view; nothing moves on screen before the Core answers, and what is
+//   rendered is the page the Core committed, never the page that was asked for. A stale
+//   revision re-syncs the session view and shows the authoritative page with a note; a
+//   move to the already-active version is a no-op (rendered, not recorded).
+// - Browser history: one pushState({session_id, encounter_index}) after every committed
+//   arrival (start, follow, relocation). popstate never pushes: it relocates with cause
+//   history_back / history_forward (decided by comparing the popped encounter index with
+//   the entry the tab was on) to the page of that encounter's version. A reload or a
+//   bfcache restore (pageshow) is a resume, so no navigation is ever recorded twice.
+// - A fresh journey is explicit: "Start a new journey" (confirmed in-page, never a
+//   browser dialog) or a field change -> POST /api/core/session {page, new: true}.
+// - The client no longer logs page_viewed for any move that goes through the Core; the
+//   projector's mirror line is the only session-log line for it. `via=reload` stays as a
+//   legacy client line on a resume (it creates no encounter anywhere).
+// - The old /api/operator-options and /api/follow-option endpoints are no longer used by
+//   the buttons (the explicit Refine action still reads the legacy option set it needs).
 // - Only three actions ever cause provider work, all explicit clicks: "Refine order using
 //   my reading history" (POST /api/refine-options), "Ask Jev for a single pick (research)"
 //   / "Ask Jev again" (POST /api/request-selection) and the advanced hand (POST
@@ -57,10 +75,15 @@ const App = {
   navLogged: Promise.resolve(),
   atlasSort: { column: "destination_id", direction: 1 },
   atlasData: null,
-  session: null,         // Core session view: {session_id, revision, active_page, paused, encounter_count, field}
+  session: null,         // Core session view: {session_id, revision, active_page, paused, encounter_count, encounters, field, last_arrival}
   sessionReady: Promise.resolve(),
   sessionError: null,
+  sessionNote: "",       // e.g. "a stored journey id was unknown; a new journey started"
   executeAttempts: {},   // "offer_set|bond" -> request_id of a click whose response was lost (reused on retry)
+  relocateAttempts: {},  // "session|page|cause|revision" -> request_id of a move whose response was lost (reused on retry)
+  relocation: null,      // {key, promise} while one relocation is outstanding; an identical click joins it
+  historyPosition: null, // encounter_index carried by the browser-history entry this tab is on
+  loadType: null,        // navigate | reload | back_forward (performance navigation type of this load)
 };
 
 const el = (id) => document.getElementById(id);
@@ -187,15 +210,19 @@ function applySession(view) {
   renderSessionLine();
 }
 
-async function resumeOrStartSession(fallbackPage) {
-  // On load: resume the stored session; an absent or unknown id starts a new journey at
-  // the reader's last recorded page (the server's choice when `page` is omitted).
+async function resumeOrStartSession(fallbackPage, options) {
+  // On load: resume the stored session (GET-equivalent: no event). An absent or unknown
+  // id starts a new journey at the reader's last recorded page with a SERVER-minted id
+  // (an unknown stored id is never adopted). `{new: true}` is the explicit fresh journey.
   const stored = readStoredSessionId();
+  const fresh = !!(options && options.new);
   try {
     const view = await postJson("/api/core/session", {
-      session_id: stored || undefined, page: fallbackPage || undefined, field: App.field,
-      via: stored ? "reload" : "session_start",
+      session_id: stored || undefined, page: fallbackPage || undefined, field: App.field, new: fresh || undefined,
     });
+    App.sessionNote = view.reason === "unknown_session"
+      ? `the stored journey id ${view.previous_session_id || ""} was unknown to the server, so a new journey started here`
+      : (view.reason === "new_journey" ? "a new journey started here" : "");
     applySession(view);
   } catch (e) {
     App.session = null;
@@ -205,20 +232,170 @@ async function resumeOrStartSession(fallbackPage) {
   return App.session;
 }
 
-async function ensureSession(pageId, via) {
-  // The Core session must be AT the page the reader is looking at before options can be
-  // resolved from it. A manual arrival somewhere else starts a new journey there; a
-  // traversal already moved the session. Never called with via "traversal".
-  if (App.session && App.session.active_page === pageId && App.session.field === App.field) return App.session; // (a paused session is shown as such, not replaced)
-  try {
-    const view = await postJson("/api/core/session", { page: pageId, field: App.field, via: via || "dropdown" });
-    applySession(view);
-  } catch (e) {
-    App.session = null;
-    App.sessionError = e.message;
-    renderSessionLine();
+async function startNewJourney(pageId) {
+  // Explicit fresh journey at `pageId` (the "Start a new journey" control, a field change).
+  // The earlier journey stays recorded; this tab's browser history from it stays too, but
+  // its entries belong to that session and are only ever resumed, never relocated into.
+  const session = await resumeOrStartSession(pageId, { new: true });
+  if (!session) return null;
+  App.viewHistory = [];
+  saveViewHistory();
+  el("back-btn").disabled = true;
+  await showPage(session.active_page);
+  recordArrival(session.encounter_count - 1);
+  setMoveStatus("", "");
+  return session;
+}
+
+// --- relocation: every manual move is one committed Core event in the same session ---
+
+function setMoveStatus(text, kind) {
+  const line = el("move-status");
+  line.textContent = text || "";
+  line.className = `status-line ${kind === "error" ? "state-error" : (kind ? "state-info" : "")}`;
+  line.dataset.state = text ? (kind || "info") : "";
+  line.hidden = !text;
+}
+
+async function relocate(pageId, cause, options) {
+  // POST /api/core/relocate and render what the Core committed. `options.fromHistory` is
+  // set by the popstate handler, which never pushes a history entry. Returns the outcome
+  // (`noop: true` when the session was already at that exact version), or null when
+  // nothing moved (a refusal, or no response).
+  if (!pageId) return null;
+  const fromHistory = !!(options && options.fromHistory);
+  if (!App.session) {
+    await resumeOrStartSession(App.source || pageId); // a lost session is re-resumed (or started) before the move
+    if (!App.session) {
+      setMoveStatus(`Not moved to ${pageId}: there is no Core session (${App.sessionError || "unknown error"}). Try again.`, "error");
+      return null;
+    }
   }
-  return App.session;
+  const session = App.session;
+  const key = [session.session_id, pageId, cause, session.revision].join("|");
+  if (App.relocation && App.relocation.key === key) return App.relocation.promise; // the same click again before the answer: one move
+  // One request_id per click; reused only when that click got NO response, so a retry is
+  // the same move and the Core answers with its recorded result instead of a second one.
+  const requestId = App.relocateAttempts[key] || newRequestId();
+  App.relocateAttempts[key] = requestId;
+  const previous = App.source;
+  const promise = (async () => {
+    let outcome = null;
+    let error = null;
+    try {
+      outcome = await postJson("/api/core/relocate", {
+        session_id: session.session_id, page: pageId, expected_revision: session.revision, request_id: requestId, cause,
+      });
+    } catch (e) {
+      error = e;
+    }
+    if (!error || error.status !== undefined) delete App.relocateAttempts[key]; // answered: the next click is a new move
+
+    if (outcome) {
+      if (outcome.session) applySession(outcome.session);
+      if (!outcome.noop && cause !== "back" && previous && previous !== outcome.to_page) {
+        App.viewHistory.push(previous); // the in-app Back stack (per tab); nothing server-side
+        saveViewHistory();
+      }
+      await showPage(outcome.to_page); // the committed page, never the requested one
+      if (outcome.noop) {
+        setMoveStatus(`Already at ${outcome.to_page} (${outcome.to_version}): rendering it again is not a new encounter.`, "info");
+      } else {
+        setMoveStatus("", "");
+        if (!fromHistory) recordArrival(outcome.encounter_index);
+        if (outcome.duplicate) setMoveStatus(`This move was already recorded (encounter #${outcome.encounter_index}); nothing moved twice.`, "info");
+      }
+      return outcome;
+    }
+
+    const refusal = error.data || {};
+    if (refusal.session) applySession(refusal.session);
+    if (refusal.code === "stale_revision") {
+      // Another tab or window moved this journey on. Re-sync and show where it actually is.
+      const current = refusal.session || await refreshSession();
+      if (current) {
+        await showPage(current.active_page);
+        syncHistoryEntry(current.encounter_count - 1);
+        setMoveStatus(`Not moved to ${pageId}: this tab expected revision ${session.revision}, but the journey is at revision ${current.revision} ` +
+          `(another tab or window moved it to ${current.active_page}). Showing ${current.active_page}, where the journey actually is; choose the move again from here.`, "error");
+      } else {
+        setMoveStatus(`Not moved to ${pageId}: the journey moved on (revision ${refusal.current_revision}) and could not be re-read. Reload to resume it.`, "error");
+      }
+      return null;
+    }
+    if (refusal.code === "paused") {
+      setMoveStatus(`Not moved to ${pageId}: the session is paused. Resume it (above) to keep navigating.`, "error");
+      return null;
+    }
+    if (error.status === undefined) {
+      setMoveStatus(`Not moved to ${pageId}: no response arrived. The same move again retries with the same request id, so it is recorded at most once.`, "error");
+      return null;
+    }
+    setMoveStatus(`Not moved to ${pageId}: ${refusal.reason || error.message}`, "error");
+    return null;
+  })();
+  App.relocation = { key, promise };
+  try {
+    return await promise;
+  } finally {
+    if (App.relocation && App.relocation.promise === promise) App.relocation = null;
+  }
+}
+
+// --- browser history: one entry per committed arrival; popstate relocates, never pushes ---
+
+function historyState(encounterIndex) {
+  return { session_id: App.session ? App.session.session_id : null, encounter_index: encounterIndex };
+}
+
+function recordArrival(encounterIndex) {
+  // Called by the click and follow paths after the Core committed an arrival. Never by
+  // popstate. The guard makes a duplicate answer (same encounter) a single entry.
+  if (typeof encounterIndex !== "number" || !App.session) return;
+  if (App.historyPosition === encounterIndex && window.history.state && window.history.state.session_id === App.session.session_id) return;
+  window.history.pushState(historyState(encounterIndex), "", window.location.href);
+  App.historyPosition = encounterIndex;
+}
+
+function syncHistoryEntry(encounterIndex) {
+  // A resume (load, reload, pageshow, re-sync after a stale revision) labels the CURRENT
+  // entry with where the journey is; it adds no entry.
+  if (typeof encounterIndex !== "number" || !App.session) return;
+  window.history.replaceState(historyState(encounterIndex), "", window.location.href);
+  App.historyPosition = encounterIndex;
+}
+
+async function resumeHere(note) {
+  // Render the journey's committed position without any event (reload, pageshow, an
+  // entry from another journey): GET the session view, show its active page.
+  const session = App.session ? await refreshSession() : await resumeOrStartSession(App.source);
+  if (!session) return;
+  await showPage(session.active_page);
+  syncHistoryEntry(session.encounter_count - 1);
+  if (note) setMoveStatus(note, "info");
+}
+
+async function onPopState(event) {
+  const state = event.state;
+  if (!state || typeof state.encounter_index !== "number") return; // not one of this app's entries
+  if (!App.session || state.session_id !== App.session.session_id) {
+    await resumeHere(`That history entry belongs to another journey (${state.session_id || "unknown"}); this one is shown where it is.`);
+    return;
+  }
+  const from = App.historyPosition;
+  const cause = typeof from === "number" && state.encounter_index < from ? "history_back" : "history_forward";
+  App.historyPosition = state.encounter_index;
+  const target = (App.session.encounters || [])[state.encounter_index];
+  if (!target) {
+    await resumeHere(`That history entry (#${state.encounter_index}) is not in this journey's encounters; the journey is shown where it is.`);
+    return;
+  }
+  await relocate(target.page_id, cause, { fromHistory: true });
+}
+
+function onPageShow(event) {
+  // A bfcache restore keeps this script's state but the journey may have moved on: resume.
+  if (event.persisted) resumeHere("Restored from the browser cache: the journey was re-read, nothing was recorded.");
 }
 
 async function refreshSession() {
@@ -241,7 +418,7 @@ function renderSessionLine() {
   line.dataset.encounters = s ? String(s.encounter_count) : "";
   line.dataset.paused = s && s.paused ? "true" : "false";
   if (!s) {
-    line.textContent = App.sessionError ? `No Core session: ${App.sessionError}. Following is unavailable until one starts; Previous, Next and the page list still work.` : "Starting a journey...";
+    line.textContent = App.sessionError ? `No Core session: ${App.sessionError}. Nothing can move or be followed until one starts; the next Previous, Next or page-list click tries to start one.` : "Starting a journey...";
     return;
   }
   line.appendChild(textNode("span", "Journey ", "session-label"));
@@ -254,6 +431,19 @@ function renderSessionLine() {
   line.appendChild(link);
   const n = s.encounter_count;
   line.appendChild(textNode("span", ` · revision ${s.revision} · ${n} encounter${n === 1 ? "" : "s"} · at ${s.active_page}${s.paused ? " · PAUSED" : ""}`));
+  const arrival = s.last_arrival || {};
+  const kind = arrival.kind || "";
+  const arrivalText = kind === "manual" ? `manual (${arrival.cause || "other"})` : (kind === "bond" ? "literary bond" : (kind === "start" ? "initial entry" : kind));
+  const arrivalEl = textNode("span", ` · arrived by ${arrivalText}${arrival.is_return ? " · a return" : ""}`, "arrival-kind");
+  arrivalEl.dataset.testid = "last-arrival-kind";
+  arrivalEl.dataset.kind = kind;
+  arrivalEl.dataset.cause = arrival.cause || "";
+  arrivalEl.dataset.encounterIndex = typeof arrival.encounter_index === "number" ? String(arrival.encounter_index) : "";
+  line.appendChild(arrivalEl);
+  const fresh = textNode("button", "Start a new journey", "session-toggle");
+  fresh.dataset.testid = "new-journey";
+  fresh.addEventListener("click", () => showNewJourneyConfirm());
+  line.appendChild(fresh);
   const toggle = textNode("button", s.paused ? "Resume session" : "Pause session", "session-toggle");
   toggle.dataset.testid = s.paused ? "session-resume" : "session-pause";
   toggle.addEventListener("click", async () => {
@@ -267,9 +457,45 @@ function renderSessionLine() {
     }
   });
   line.appendChild(toggle);
+  if (App.sessionNote) {
+    const note = textNode("span", ` (${App.sessionNote})`, "kind-note");
+    note.dataset.testid = "session-note";
+    line.appendChild(note);
+  }
   if (s.position && s.position.agrees === false) {
     line.appendChild(textNode("span", ` (the session log last placed the reader on ${s.position.logged_page}; the Core session is the authority for follows)`, "kind-note"));
   }
+}
+
+function showNewJourneyConfirm() {
+  // In-page confirmation (never window.confirm): the current journey stays recorded and
+  // readable at its journey link; a new one starts at the page on screen.
+  const box = el("new-journey-confirm");
+  box.replaceChildren();
+  box.hidden = false;
+  const current = App.session ? App.session.session_id : "none";
+  box.appendChild(textNode("p", `Start a new journey from ${App.source}? The current journey (${current}, ${App.session ? App.session.encounter_count : 0} encounter${App.session && App.session.encounter_count === 1 ? "" : "s"}) stays recorded and can still be inspected; nothing is deleted. The new journey begins with ${App.source} as its initial entry.`));
+  const actions = document.createElement("div");
+  actions.className = "action-row";
+  const yes = textNode("button", "Yes, start a new journey here");
+  yes.dataset.testid = "new-journey-confirm";
+  yes.addEventListener("click", async () => {
+    yes.disabled = true;
+    await startNewJourney(App.source);
+    box.hidden = true;
+    if (App.operator) { delete App.refine[App.operator]; delete App.options[App.operator]; }
+    renderOptions();
+    renderOffers();
+    renderOperatorPanel();
+    if (App.operator) loadOptions(App.operator);
+  });
+  const no = textNode("button", "Keep this journey");
+  no.dataset.testid = "new-journey-cancel";
+  no.addEventListener("click", () => { box.hidden = true; });
+  actions.appendChild(yes);
+  actions.appendChild(no);
+  box.appendChild(actions);
+  box.scrollIntoView({ block: "center" });
 }
 
 async function init() {
@@ -304,19 +530,17 @@ async function init() {
   renderOperatorButtons(fieldsData.operators, fieldsData.operator_version);
 
   fieldSelect.addEventListener("change", async () => {
+    // A field is another corpus: a new journey starts at its first page (explicitly `new`).
     const previousField = App.field;
     App.field = fieldSelect.value;
     App.navGeneration++;
-    App.viewHistory = [];
-    saveViewHistory();
-    el("back-btn").disabled = true;
     logNavigation("field_selected", { from_field: previousField });
     await checkFieldStatus();
     await loadPageList();
     const groups = el("page-select").querySelectorAll("optgroup");
     const firstPage = groups.length ? groups[0].querySelector("option").value : null;
     App.source = null;
-    await navigateTo(firstPage, "dropdown");
+    await startNewJourney(firstPage);
   });
   policySelect.addEventListener("change", () => {
     App.policy = policySelect.value;
@@ -336,14 +560,22 @@ async function init() {
     // Re-reading the saved atlas under the new policy is a GET; nothing is asked of Jev.
     if (App.operator) selectOperator(App.operator); else renderOperatorPanel();
   });
+  // Every manual control is a relocation in the same journey, with its cause. The click
+  // handlers never touch history themselves beyond recordArrival after the commit.
   el("back-btn").addEventListener("click", onBack);
   el("prev-btn").addEventListener("click", () => {
-    if (App.currentPage && App.currentPage.previous_id) navigateTo(App.currentPage.previous_id, "previous");
+    if (App.currentPage && App.currentPage.previous_id) relocate(App.currentPage.previous_id, "previous");
   });
   el("next-btn").addEventListener("click", () => {
-    if (App.currentPage && App.currentPage.next_id) navigateTo(App.currentPage.next_id, "next");
+    if (App.currentPage && App.currentPage.next_id) relocate(App.currentPage.next_id, "next");
   });
-  el("page-select").addEventListener("change", () => navigateTo(el("page-select").value, "dropdown"));
+  el("page-select").addEventListener("change", () => {
+    const chosen = el("page-select").value;
+    el("page-select").value = App.source || chosen; // the list shows the committed page until the Core answers
+    relocate(chosen, "page_list");
+  });
+  window.addEventListener("popstate", onPopState);
+  window.addEventListener("pageshow", onPageShow);
   el("follow-immediately-toggle").addEventListener("change", (e) => {
     App.followImmediately = e.target.checked;
   });
@@ -365,31 +597,37 @@ async function init() {
   await checkFieldStatus();
   await loadPageList();
   loadViewHistory();
+  try {
+    const nav = performance.getEntriesByType("navigation")[0];
+    App.loadType = nav ? nav.type : null; // navigate | reload | back_forward: all of them resume
+  } catch (e) { App.loadType = null; }
 
-  // Start where the reader actually was: the last page recorded in the session log, else
-  // the recorded Q position, else the first page. Loading never requests anything from Jev.
+  // A fallback start page for a NEW journey only: the last page recorded in the session
+  // log, else the recorded Q position, else the first page. Loading never asks Jev anything.
   const readerState = await api("/api/reader-state");
   const last = readerState.last_viewed;
   let start = null;
-  let via = "session_start";
-  if (last && last.page_id && (!last.field || last.field === App.field)) {
-    start = last.page_id;
-    via = "reload";
-  }
+  if (last && last.page_id && (!last.field || last.field === App.field)) start = last.page_id;
   if (!start) start = readerState.active_passage || readerState.active_page;
   if (start && !el("page-select").querySelector(`option[value="${CSS.escape(start)}"]`)) start = null;
   if (!start) {
     const firstGroup = el("page-select").querySelector("optgroup");
     start = firstGroup ? firstGroup.querySelector("option").value : null;
   }
-  // The Core session is resumed first; where it is, the reader is. A stored id that the
-  // server no longer knows starts a new journey at the page found above.
-  const session = await resumeOrStartSession(start);
-  if (session && session.field === App.field && el("page-select").querySelector(`option[value="${CSS.escape(session.active_page)}"]`)) {
-    start = session.active_page;
-    via = session.resumed ? "reload" : via;
+  // The Core session is resumed first (no event); where it is, the reader is. A stored
+  // id the server does not know is replaced by a fresh server-minted session at `start`.
+  let session = await resumeOrStartSession(start);
+  if (session && (session.field !== App.field || !el("page-select").querySelector(`option[value="${CSS.escape(session.active_page)}"]`))) {
+    session = await resumeOrStartSession(start, { new: true }); // the stored journey is in another field
   }
-  await navigateTo(start, via);
+  if (session) {
+    await showPage(session.active_page);
+    syncHistoryEntry(session.encounter_count - 1);
+    if (session.resumed) App.navLogged = logNavigation("page_viewed", { page_id: session.active_page, via: "reload" }); // legacy line; no encounter anywhere
+  } else {
+    await showPage(start); // no Core session could be started: the page is shown, nothing is recorded
+    setMoveStatus(`No Core session could be started (${App.sessionError || "unknown error"}); ${start} is shown but nothing is recorded until one starts.`, "error");
+  }
   renderTraversalHistory(readerState);
   // Reload: show again the operator list the reader had open at this revision (a GET only,
   // and the same persisted offer set: resolving again at one revision creates nothing).
@@ -472,18 +710,14 @@ function updateOperatorBadges() {
   });
 }
 
-async function navigateTo(pageId, via) {
-  if (!pageId) return;
+async function showPage(pageId) {
+  // Render a page the Core has already committed (or resumed) as the session's position.
+  // Rendering only: no session-log line, no session start, no history entry. Every
+  // arrival reaches here through relocate(), afterFollow(), startNewJourney() or a resume.
+  if (!pageId) return false;
   App.navGeneration++;
   const myGeneration = App.navGeneration;
   App.visitId = randomId();
-
-  const previous = App.source;
-  const isBack = via === "back";
-  if (!isBack && previous && previous !== pageId) {
-    App.viewHistory.push(previous);
-    saveViewHistory();
-  }
   el("back-btn").disabled = App.viewHistory.length === 0;
 
   // Displayed results belong to the page they were requested from. Leaving the page
@@ -501,7 +735,7 @@ async function navigateTo(pageId, via) {
 
   el("page-select").value = pageId;
   const page = await api(`/api/page?field=${encodeURIComponent(App.field)}&id=${encodeURIComponent(pageId)}`);
-  if (myGeneration !== App.navGeneration) return; // a newer navigation superseded this one
+  if (myGeneration !== App.navGeneration) return false; // a newer navigation superseded this one
 
   App.currentPage = page;
   el("source-id").textContent = page.id;
@@ -516,31 +750,30 @@ async function navigateTo(pageId, via) {
   el("operator-criterion").hidden = true;
   el("postfollow-panel").hidden = true;
   el("position-conflict").hidden = true;
+  el("new-journey-confirm").hidden = true;
   updateOperatorBadges();
   renderOptions();
   renderOperatorPanel();
   renderOffers();
 
-  // A followed route's page view is logged by the server itself, in order, right after
-  // the traversal; every other arrival is logged here.
-  if (via !== "traversal") {
-    App.navLogged = logNavigation(isBack ? "back" : "page_viewed", {
-      page_id: pageId, from_page: previous && previous !== pageId ? previous : null, via: via || "dropdown",
-    });
-    // A manual arrival: the Core session must be here before options can be resolved
-    // (a new journey starts here unless the session already is here).
-    App.sessionReady = ensureSession(pageId, via || "dropdown");
-  }
+  // No session-log line here: every arrival's line is the projector's mirror of the Core
+  // event (a resume's legacy `via=reload` line is written by init, once).
   loadLatestOffers();
   if (el("atlas-details").open) loadAtlas();
-  await App.sessionReady;
+  return true;
 }
 
 async function onBack() {
+  // In-app Back: a relocation (cause `back`) to the page on top of this tab's stack. The
+  // stack entry is taken only once the Core has committed the move.
   if (App.viewHistory.length === 0) return;
-  const prev = App.viewHistory.pop();
-  saveViewHistory();
-  await navigateTo(prev, "back");
+  const prev = App.viewHistory[App.viewHistory.length - 1];
+  const outcome = await relocate(prev, "back");
+  if (outcome && App.viewHistory[App.viewHistory.length - 1] === prev) {
+    App.viewHistory.pop();
+    saveViewHistory();
+    el("back-btn").disabled = App.viewHistory.length === 0;
+  }
 }
 
 // --- operator requests ---
@@ -601,7 +834,7 @@ async function loadOptions(operator) {
   if (!stillCurrent(ctx)) return;
   const session = App.session;
   if (!session || session.active_page !== ctx.source) {
-    data = { state: "error", options: [], counts: {}, message: `No Core session is at ${ctx.source}${App.sessionError ? ` (${App.sessionError})` : ""}. Previous, Next and the page list still work; click the operator again to retry.`, ordering_line: "" };
+    data = { state: "error", options: [], counts: {}, message: `No Core session is at ${ctx.source}${App.sessionError ? ` (${App.sessionError})` : ""}. Any Previous, Next or page-list click brings the journey here first; click the operator again to retry.`, ordering_line: "" };
   } else {
     try {
       data = await postJson("/api/core/options", { session_id: session.session_id, operator, policy: ctx.policy });
@@ -610,8 +843,8 @@ async function loadOptions(operator) {
     } catch (e) {
       const code = e.data && e.data.code;
       const message = code === "paused"
-        ? "The session is paused, so no destinations are offered: resume it to keep navigating. Previous, Next and the page list still work."
-        : `The ranked destinations could not be loaded: ${e.message}. Previous, Next and the page list still work; click the operator again to retry.`;
+        ? "The session is paused, so no destinations are offered and no move is recorded: resume it to keep navigating."
+        : `The ranked destinations could not be loaded: ${e.message}. Click the operator again to retry.`;
       data = { state: "error", code, options: [], counts: {}, message, ordering_line: "" };
     }
   }
@@ -912,7 +1145,7 @@ async function onFollowOption(data, option) {
   if (outcome) {
     if (outcome.session) applySession(outcome.session);
     await afterFollow({ proposal_id: null, bond_id: outcome.bond_version_id, reader_state: outcome.reader_state },
-                      outcome.to_page || option.destination_id, null);
+                      outcome.to_page || option.destination_id, null, outcome.encounter_index);
     if (outcome.duplicate) el("postfollow-panel").querySelector("h2").appendChild(textNode("span", " (this click was already recorded; nothing moved twice)", "kind-note"));
     return;
   }
@@ -952,34 +1185,50 @@ async function onFollowOption(data, option) {
   }
 }
 
+async function continueHere() {
+  // "Continue here on <this page>": an intentional move of the SAME journey back to the
+  // page this tab shows (cause `resume_here`). The reader has just been told the journey
+  // moved on elsewhere, so the session view is re-read first and the relocation is made
+  // against the current revision; the Core still decides (a no-op if it is already here).
+  const here = App.source;
+  const operator = App.operator;
+  await refreshSession();
+  const outcome = await relocate(here, "resume_here");
+  if (outcome && outcome.noop && App.session && App.session.position && App.session.position.agrees === false) {
+    // The journey was already here; only the legacy session log placed the reader elsewhere.
+    App.navLogged = logNavigation("page_viewed", { page_id: here, via: "resume" });
+    await App.navLogged;
+  }
+  if (!outcome || App.source !== here) return outcome;
+  App.operator = operator; // showPage cleared the panels; the reader's operator choice is kept
+  if (operator) { delete App.refine[operator]; delete App.options[operator]; }
+  updateOperatorBadges();
+  renderOptions();
+  renderOffers();
+  renderOperatorPanel();
+  if (operator) { el("operator-criterion").hidden = false; el("operator-criterion").textContent = App.criteria[operator] || ""; loadOptions(operator); }
+  return outcome;
+}
+
 function showCoreSessionConflict(session) {
-  // The Core session moved on (another tab or window followed something). Nothing here has
-  // moved. The reader chooses: continue reading HERE, which starts a new journey from this
-  // page (the Core records only committed follows), or go to where the session is.
+  // The Core session moved on (another tab or window moved it). Nothing here has moved.
+  // The reader chooses: continue reading HERE (a relocation of the same journey back to
+  // this page), or go to where the journey is (a relocation that is a no-op there).
   const box = el("position-conflict");
   box.replaceChildren();
   box.hidden = false;
   const sessionPage = session ? session.active_page : null;
   box.appendChild(textNode("p", sessionPage
-    ? `Nothing was followed and nothing has moved. This tab shows ${App.source}, but the journey moved on to ${sessionPage} (revision ${session.revision}; another tab or window followed something). Choose "Continue here on ${App.source}" to start a new journey from this page, then choose the action again yourself, or go to ${sessionPage}.`
-    : `Nothing was followed and nothing has moved. The journey is no longer at ${App.source}. Choose "Continue here on ${App.source}" to start a new journey from this page, then choose the action again yourself.`));
+    ? `Nothing was followed and nothing has moved. This tab shows ${App.source}, but the journey moved on to ${sessionPage} (revision ${session.revision}; another tab or window moved it). Choose "Continue here on ${App.source}" to bring the journey back to this page (one recorded manual move), then choose the action again yourself, or go to ${sessionPage}.`
+    : `Nothing was followed and nothing has moved. The journey is no longer at ${App.source}. Choose "Continue here on ${App.source}" to bring the journey back to this page (one recorded manual move), then choose the action again yourself.`));
   const actions = document.createElement("div");
   actions.className = "action-row";
   const here = textNode("button", `Continue here on ${App.source}`);
   here.dataset.testid = "conflict-continue-here";
   here.addEventListener("click", async () => {
     here.disabled = true;
-    App.navLogged = logNavigation("page_viewed", { page_id: App.source, via: "resume" });
-    App.session = null; // a new journey from this page, started explicitly by the reader
-    App.sessionReady = ensureSession(App.source, "resume");
-    await App.navLogged;
-    await App.sessionReady;
     box.hidden = true;
-    if (App.operator) { delete App.refine[App.operator]; delete App.options[App.operator]; }
-    renderOptions();
-    renderOffers();
-    renderOperatorPanel();
-    if (App.operator) loadOptions(App.operator);
+    await continueHere();
   });
   actions.appendChild(here);
   if (sessionPage) {
@@ -987,7 +1236,7 @@ function showCoreSessionConflict(session) {
     go.dataset.testid = "conflict-go-to-other";
     go.addEventListener("click", () => {
       box.hidden = true;
-      navigateTo(sessionPage, "dropdown");
+      relocate(sessionPage, "other");
     });
     actions.appendChild(go);
   }
@@ -1014,13 +1263,8 @@ function showPositionConflict(error) {
   here.dataset.testid = "conflict-continue-here";
   here.addEventListener("click", async () => {
     here.disabled = true;
-    App.navLogged = logNavigation("page_viewed", { page_id: App.source, via: "resume" });
-    await App.navLogged;
     box.hidden = true;
-    if (App.operator) delete App.refine[App.operator]; // drop the "choose above" note; the list itself is untouched
-    renderOptions();
-    renderOffers();
-    renderOperatorPanel();
+    await continueHere(); // the same journey, brought back here through the Core (a no-op if it is here)
   });
   actions.appendChild(here);
   if (conflict.logged_page) {
@@ -1028,7 +1272,7 @@ function showPositionConflict(error) {
     go.dataset.testid = "conflict-go-to-other";
     go.addEventListener("click", () => {
       box.hidden = true;
-      navigateTo(conflict.logged_page, "dropdown");
+      relocate(conflict.logged_page, "other");
     });
     actions.appendChild(go);
   }
@@ -1230,11 +1474,24 @@ async function loadEarlier(operator) {
 
 // --- following (the only thing that moves the reader) ---
 
-async function afterFollow(outcome, destination, runDir) {
+async function afterFollow(outcome, destination, runDir, encounterIndex) {
+  // `encounterIndex` is set when the Core committed the arrival (a followed bond): the
+  // page is rendered and one history entry is pushed. The legacy research paths
+  // (single pick, advanced hand) moved the reader without the Core, so the journey is
+  // brought along with a manual relocation (cause `other`) -- an arrival with no Core
+  // bond asserted, rendered as whatever the Core commits.
   App.currentBond = { proposal_id: outcome.proposal_id, bond_id: outcome.bond_id };
   const bond = App.currentBond;
   renderTraversalHistory(outcome.reader_state);
-  await navigateTo(destination, "traversal");
+  const previous = App.source;
+  if (typeof encounterIndex === "number") {
+    if (previous && previous !== destination) { App.viewHistory.push(previous); saveViewHistory(); }
+    await showPage(destination);
+    recordArrival(encounterIndex);
+  } else {
+    const moved = await relocate(destination, "other");
+    if (!moved) return;
+  }
   App.currentBond = bond;
   App.followedRun = runDir ? { run_dir: runDir } : null;
 
