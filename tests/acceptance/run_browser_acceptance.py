@@ -10,9 +10,13 @@ eligible destinations are displayed; they are exactly what memory.operator_optio
 computes from the atlas (ids, order, tiers); supported/exploratory is visible; every
 displayed destination resolves; every preview shows the exact recorded text; one option
 (rotating through positions, so exploratory rows are followed too) can be followed and
-the reader lands on the displayed destination; Back returns.
+the reader lands on the displayed destination; Back returns. Since Core v0.3 the follow
+goes through the Core: the session line is present and at the page, every row shows the
+bond's offered wording, the follow commits one encounter (the journey record shows it,
+with the same offered wording), and Back starts a new journey at the page returned to.
 
-Phase 2 -- interaction scenarios with mocked provider behaviour.
+Phase 2 -- interaction scenarios with mocked provider behaviour, plus a server restart on
+the same data directory (same session, same revision, same encounter count afterwards).
 
 Usage:  .venv/bin/python tests/acceptance/run_browser_acceptance.py [--policy discovery] [--headed]
 Writes data/verification/browser_acceptance/<stamp>_<rev>.json and exits 1 on any failure.
@@ -92,11 +96,30 @@ class Reader:
                  destination: r.dataset.destination, tier: r.dataset.tier,
                  tier_text: (r.querySelector('[data-testid=option-tier]') || {}).innerText || '',
                  text: r.innerText,
+                 wording: (r.querySelector('[data-testid=option-wording]') || {}).innerText || '',
                  visible: [r, r.querySelector('[data-testid=option-tier]'), r.querySelector('[data-testid=option-follow]'),
-                           r.querySelector('[data-testid=option-preview]')].every(e => { if (!e) return false;
+                           r.querySelector('[data-testid=option-preview]'), r.querySelector('[data-testid=option-wording]')].every(e => { if (!e) return false;
                      const b = e.getBoundingClientRect(), c = getComputedStyle(e);
                      return b.width > 0 && b.height > 0 && c.visibility !== 'hidden' && c.display !== 'none' && parseFloat(c.opacity) > 0.1; }),
                  follow_disabled: r.querySelector('[data-testid=option-follow]').disabled }))""")
+
+    def session(self) -> dict:
+        """The Core session line: {session_id, revision, encounters, text}."""
+        return self.page.evaluate(
+            """() => { const s = document.querySelector('[data-testid=core-session]');
+                 return { session_id: s.dataset.sessionId, revision: s.dataset.revision, encounters: s.dataset.encounters,
+                          paused: s.dataset.paused, text: s.innerText }; }""")
+
+    def wait_session_at(self, pid: str):
+        self.page.wait_for_function(
+            """pid => { const s = document.querySelector('[data-testid=core-session]');
+                 return s.dataset.sessionId !== '' && s.innerText.includes('at ' + pid); }""", arg=pid, timeout=T)
+
+    def journey(self, session_id: str) -> dict:
+        """The journey record, read with a GET from inside the page (never a POST)."""
+        return self.page.evaluate(
+            "async sid => { const r = await fetch(`/api/core/journey?session_id=${encodeURIComponent(sid)}`); return await r.json(); }",
+            session_id)
 
     def row(self, dest: str):
         return self.page.locator(f"[data-testid=option-row][data-destination={dest}]")
@@ -127,9 +150,16 @@ def check_combo(reader: Reader, atlas, pid: str, op: str, index: int) -> dict:
     expected_rows = [(o["destination"], o["tier"]) for o in oracle]
     try:
         reader.goto_page(pid)
+        reader.wait_session_at(pid)
+        session_before = reader.session()
         reader.click_operator(op, pid)
         rows = reader.rows()
         shown = [(r["destination"], r["tier"]) for r in rows]
+        for r in rows:  # every offered bond shows its exact wording: the destination's opening sentence, verbatim
+            quoted = norm(r["wording"])
+            sentence = quoted[len("Offered: «"):-1] if quoted.startswith("Offered: «") and quoted.endswith("»") else ""
+            if not sentence or not norm(independent.vault_text(r["destination"])).startswith(sentence):
+                problems.append(f"{r['destination']}: offered wording {r['wording'][:60]!r} is not the destination's opening sentence")
         result["shown"] = shown
         ids = [d for d, _ in shown]
         if len(eligible) >= 3 and len(ids) < 3:
@@ -175,11 +205,32 @@ def check_combo(reader: Reader, atlas, pid: str, op: str, index: int) -> dict:
             target = ids[index % len(ids)]
             result["followed"] = target
             result["followed_tier"] = dict(shown)[target]
+            wording = norm(next(r["wording"] for r in rows if r["destination"] == target))[len("Offered: «"):-1]
             reader.follow(target)
             landed = norm(reader.page.locator("#source-text").inner_text())
             if landed != norm(independent.vault_text(target)):
                 problems.append(f"after Follow the reader does not show {target}'s recorded text")
+            reader.wait_session_at(target)
+            session_after = reader.session()
+            result["session_id"] = session_after["session_id"]
+            if session_after["session_id"] != session_before["session_id"]:
+                problems.append("the follow changed the session id")
+            if (int(session_after["revision"]), int(session_after["encounters"])) != \
+                    (int(session_before["revision"]) + 1, int(session_before["encounters"]) + 1):
+                problems.append(f"session line before {session_before} after {session_after}: not exactly one committed encounter")
+            journey = reader.journey(session_after["session_id"])
+            last = (journey.get("encounters") or [{}])[-1]
+            action = last.get("action") or {}
+            if last.get("page_id") != target or last.get("via") != "Q":
+                problems.append(f"journey's last encounter is {last.get('page_id')!r} via {last.get('via')!r}, not a Q follow to {target}")
+            elif norm(action.get("wording") or "") != wording:
+                problems.append("the journey's selected wording differs from the wording that was offered on screen")
+            elif norm((last.get("prose") or {}).get("text") or "") != norm(independent.vault_text(target)):
+                problems.append("the journey's prose for the arrival is not the recorded page text")
+            elif [b["destination_page"] for b in (action.get("offer_set") or {}).get("bonds") or []] != ids:
+                problems.append("the journey's offer set does not list the destinations that were on screen, in order")
             reader.back(pid)
+            reader.wait_session_at(pid)  # Back is a manual arrival: a new journey starts here
     except PlaywrightTimeout as e:
         problems.append(f"timeout: {str(e).splitlines()[0]}")
     except Exception as e:  # noqa: BLE001 -- recorded as evidence, the run continues
@@ -211,7 +262,7 @@ def check_session_log(path: Path, followed: list[str]) -> list[str]:
     return problems
 
 
-def scenarios(reader: Reader, base: str, session_log: Path, new_context) -> list[dict]:
+def scenarios(reader: Reader, base: str, session_log: Path, new_context, restart_server=None) -> list[dict]:
     out = []
     page = reader.page
 
@@ -423,6 +474,54 @@ def scenarios(reader: Reader, base: str, session_log: Path, new_context) -> list
         if len(reader.rows()) < 3:
             problems.append("no options after returning with Back")
 
+    def s_restart(problems, rec):
+        # A journey with one committed follow; then the isolated server is killed and
+        # restarted on the same temp dir. The reloaded reader must be on the same page, in
+        # the same session, at the same revision with the same encounter count -- and the
+        # restart itself must add no encounter and no journal event.
+        reader.goto_page("LF12"); reader.wait_session_at("LF12"); reader.click_operator("CONTRADICT", "LF12")
+        dest = reader.rows()[0]["destination"]
+        reader.follow(dest); reader.wait_session_at(dest)
+        before = reader.session()
+        journey_before = reader.journey(before["session_id"])
+        rec["before"] = {k: before[k] for k in ("session_id", "revision", "encounters")}
+        restart_server()
+        page.reload()
+        page.wait_for_selector("[data-testid=source-id]:not(:empty)", timeout=T)
+        reader.wait_session_at(dest)
+        after = reader.session()
+        rec["after"] = {k: after[k] for k in ("session_id", "revision", "encounters")}
+        if reader.source() != dest:
+            problems.append(f"after the restart the reader is on {reader.source()}, not {dest}")
+        if rec["after"] != rec["before"]:
+            problems.append(f"session line changed across the restart: {rec['before']} -> {rec['after']}")
+        journey_after = reader.journey(after["session_id"])
+        if journey_after.get("encounters") != journey_before.get("encounters") or journey_after.get("event_count") != journey_before.get("event_count"):
+            problems.append("the journey record differs after the restart (an encounter or event was added)")
+        if journey_after.get("state") != journey_before.get("state"):
+            problems.append("the reduced state differs after the restart")
+        # the journey page itself, in the browser, shows the same encounters after the restart
+        page.goto(f"{base}/journey?session_id={after['session_id']}")
+        page.wait_for_selector("[data-testid=journey-encounter]", timeout=T)
+        shown = page.locator("[data-testid=journey-encounter]").count()
+        rec["journey_page_encounters"] = shown
+        if shown != int(after["encounters"]):
+            problems.append(f"the journey page shows {shown} encounters, the session line says {after['encounters']}")
+        header = page.locator("[data-testid=journey-header]")
+        if header.get_attribute("data-revision") != after["revision"] or header.get_attribute("data-session-id") != after["session_id"]:
+            problems.append("the journey page header does not match the session line")
+        page.locator("[data-testid=journey-encounter] > summary").last.click()  # step to the arrival (keyboard-openable <details>)
+        selected = page.locator("[data-testid=journey-bond][data-selected=true]")
+        if selected.count() != 1 or dest not in (selected.first.text_content() or ""):
+            problems.append("the journey page does not mark exactly the followed bond as selected")
+        if page.locator("[data-testid=journey-selected-wording]").count() != 1:
+            problems.append("the journey page does not show the selected bond's offered wording")
+        reader.open()
+        reader.wait_session_at(dest)
+        if reader.session()["session_id"] != after["session_id"]:
+            problems.append("returning to the reader did not resume the same session")
+        reader.back("LF12")
+
     run("switch operators while a refinement is pending", s_switch)
     run("navigate away before the response arrives", s_navigate_away)
     run("double click refine and follow", s_double_clicks)
@@ -433,7 +532,49 @@ def scenarios(reader: Reader, base: str, session_log: Path, new_context) -> list
     run("single-pick research abstention NONE (MOCK)", s_pick_none)
     run("session reload in a new browser context", s_session_reload)
     run("repeated encounters with the same page", s_repeat)
+    if restart_server is not None:
+        run("restart: kill the isolated server, restart on the same temp dir, reload", s_restart)
     return out
+
+
+class IsolatedServer:
+    """The isolated reader as a child process on one temp dir + port; restartable."""
+
+    def __init__(self, tmp: Path, port: int):
+        self.tmp, self.port, self.process = tmp, port, None
+        self.base = f"http://127.0.0.1:{port}"
+
+    def start(self) -> dict:
+        self.process = subprocess.Popen(
+            [sys.executable, str(Path(__file__).with_name("serve_isolated.py")), str(self.tmp), str(self.port)],
+            cwd=REPO, stdout=subprocess.DEVNULL, stderr=open(self.tmp / "server.log", "a"))
+        for _ in range(80):
+            try:
+                return http_json(self.base + "/api/build")
+            except Exception:  # noqa: BLE001
+                time.sleep(0.25)
+        raise RuntimeError("isolated reader did not start")
+
+    def stop(self) -> None:
+        if self.process is None:
+            return
+        self.process.terminate()
+        try:
+            self.process.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            self.process.kill()
+            self.process.wait(timeout=10)
+        self.process = None
+
+    def restart(self) -> dict:
+        self.stop()
+        for _ in range(40):  # the port must be free again before the new process binds it
+            try:
+                http_json(self.base + "/api/build")
+                time.sleep(0.25)
+            except Exception:  # noqa: BLE001
+                break
+        return self.start()
 
 
 def main() -> int:
@@ -449,27 +590,31 @@ def main() -> int:
     port = free_port()
     base = f"http://127.0.0.1:{port}"
     tmp = Path(tempfile.mkdtemp(prefix="gibsey-acceptance-"))
-    server = subprocess.Popen([sys.executable, str(Path(__file__).with_name("serve_isolated.py")), str(tmp), str(port)],
-                              cwd=REPO, stdout=subprocess.DEVNULL, stderr=open(tmp / "server.log", "w"))
+    server = IsolatedServer(tmp, port)
     console_errors: list[str] = []
+    refusals_seen: list[str] = []
     try:
-        for _ in range(60):
-            try:
-                build = http_json(base + "/api/build")
-                break
-            except Exception:  # noqa: BLE001
-                time.sleep(0.25)
-        else:
-            raise RuntimeError("isolated reader did not start")
+        build = server.start()
 
         with sync_playwright() as p:
             browser = p.chromium.launch(channel="chrome", headless=not args.headed)
+
+            def on_console(m):
+                if m.type != "error":
+                    return
+                # A 409 is the server's designed refusal (position conflict, stale revision,
+                # paused): nothing moved, and the scenarios assert that themselves. Chrome
+                # still logs the response as a resource error; it is recorded, not failed.
+                if "status of 409" in m.text:
+                    refusals_seen.append(m.text)
+                else:
+                    console_errors.append(f"console.error: {m.text}")
 
             def new_context():
                 context = browser.new_context()
                 pg = context.new_page()
                 pg.on("pageerror", lambda e: console_errors.append(f"pageerror: {e}"))
-                pg.on("console", lambda m: console_errors.append(f"console.error: {m.text}") if m.type == "error" else None)
+                pg.on("console", on_console)
                 return context, pg
 
             context, page = new_context()
@@ -484,12 +629,13 @@ def main() -> int:
                         print(f"FAIL {pid} {op}: {combos[-1]['problems']}", flush=True)
                         reader.open()  # recover the page so one failure cannot cascade
             log_problems = check_session_log(tmp / "data" / "session_log.jsonl", [c.get("followed") for c in combos if c.get("followed")])
-            scenario_results = [] if args.pages else scenarios(reader, base, tmp / "data" / "session_log.jsonl", new_context)
+            scenario_results = [] if args.pages else scenarios(reader, base, tmp / "data" / "session_log.jsonl", new_context,
+                                                                restart_server=server.restart)
             context.close()
             browser.close()
         counters = http_json(base + "/__test/counters")
     finally:
-        server.terminate()
+        server.stop()
 
     failed = [c for c in combos if not c["ok"]]
     failed_scenarios = [s for s in scenario_results if not s["ok"]]
@@ -502,7 +648,8 @@ def main() -> int:
                          "with_exploratory_rows": sum(1 for c in combos if any(t == "exploratory" for _, t in c.get("shown", []))),
                          "follows_of_exploratory_rows": followed_exploratory},
         "scenarios": {"total": len(scenario_results), "passed": len(scenario_results) - len(failed_scenarios)},
-        "console_errors": console_errors[:40], "mock_counters": counters, "session_log_problems": log_problems,
+        "console_errors": console_errors[:40], "http_409_refusals_seen": refusals_seen[:40], "mock_counters": counters,
+        "session_log_problems": log_problems,
         "failed_combinations": failed, "scenario_results": scenario_results, "all_combinations": combos,
     }
     out_dir = REPO / "data" / "verification" / "browser_acceptance"
@@ -512,7 +659,7 @@ def main() -> int:
     out.write_text(json.dumps(report, indent=1, ensure_ascii=False) + "\n")
     print(f"combinations: {report['combinations']}")
     print(f"scenarios: {report['scenarios']}  failed: {[s['scenario'] + ': ' + '; '.join(s['problems']) for s in failed_scenarios]}")
-    print(f"console errors: {len(console_errors)}   build: {build}")
+    print(f"console errors: {len(console_errors)}   designed 409 refusals seen: {len(refusals_seen)}   build: {build}")
     print(f"report: {out}")
     print(f"session log: {log_problems or 'exactly the follows made, each proposal -> acceptance -> traversal -> view'}")
     return 1 if (failed or failed_scenarios or console_errors or log_problems) else 0

@@ -1,0 +1,395 @@
+{
+ "at": "2026-09-25T21:48:01.693011+00:00",
+ "build": {
+  "git_revision": "f5847b02c423694c56c1b53f1a6f01638ccd8bad",
+  "dirty": true,
+  "app_js_sha256": "003fb551771afe793e2808bc29078122cfecbf92df7044694217740beb3e1d15",
+  "server_started_at": "2026-09-25T21:47:55.914681+00:00"
+ },
+ "policy": "discovery",
+ "browser": "Chrome via Playwright (channel=chrome, headless)",
+ "isolated_data_dir": "/var/folders/zs/hx1cyk6910171fwj2bbx478r0000gn/T/gibsey-acceptance-_c1febpc",
+ "provider": "MOCK only (tests/acceptance/serve_isolated.py); atlas = real live records, read-only",
+ "combinations": {
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "with_exploratory_rows": 2,
+  "follows_of_exploratory_rows": 2
+ },
+ "scenarios": {
+  "total": 0,
+  "passed": 0
+ },
+ "console_errors": [],
+ "mock_counters": {
+  "contextual_dispatches": 0,
+  "single_pick_dispatches": 0,
+  "mode": "ok"
+ },
+ "session_log_problems": [],
+ "failed_combinations": [],
+ "scenario_results": [],
+ "all_combinations": [
+  {
+   "page": "P1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "session_id": "s_dec2d46739fb",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "session_id": "s_39f2a92e4e3d",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_4362c7e55318",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_c08bfff21dc1",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "session_id": "s_521fa552b897",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "session_id": "s_dc0f6d64ac50",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_68f32770a2d6",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_79e3e4b32936",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F10",
+   "followed_tier": "supported",
+   "session_id": "s_261aaac9b3d2",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_8fdb28f8a5ba",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "session_id": "s_63bfe0acfe49",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_9344f7bd687e",
+   "ok": true
+  }
+ ]
+}

@@ -1,0 +1,4959 @@
+{
+ "at": "2026-09-25T21:50:11.575692+00:00",
+ "build": {
+  "git_revision": "f5847b02c423694c56c1b53f1a6f01638ccd8bad",
+  "dirty": true,
+  "app_js_sha256": "003fb551771afe793e2808bc29078122cfecbf92df7044694217740beb3e1d15",
+  "server_started_at": "2026-09-25T21:48:07.098764+00:00"
+ },
+ "policy": "discovery",
+ "browser": "Chrome via Playwright (channel=chrome, headless)",
+ "isolated_data_dir": "/var/folders/zs/hx1cyk6910171fwj2bbx478r0000gn/T/gibsey-acceptance-jmwi5tu1",
+ "provider": "MOCK only (tests/acceptance/serve_isolated.py); atlas = real live records, read-only",
+ "combinations": {
+  "total": 164,
+  "passed": 164,
+  "failed": 0,
+  "with_exploratory_rows": 45,
+  "follows_of_exploratory_rows": 43
+ },
+ "scenarios": {
+  "total": 11,
+  "passed": 10
+ },
+ "console_errors": [
+  "console.error: Failed to load resource: the server responded with a status of 409 (Conflict)"
+ ],
+ "mock_counters": {
+  "contextual_dispatches": 0,
+  "single_pick_dispatches": 0,
+  "mode": "ok"
+ },
+ "session_log_problems": [],
+ "failed_combinations": [],
+ "scenario_results": [
+  {
+   "scenario": "switch operators while a refinement is pending",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "navigate away before the response arrives",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "double click refine and follow",
+   "problems": [],
+   "contextual_dispatches": 5,
+   "traversals_from_double_click": 1,
+   "ok": true
+  },
+  {
+   "scenario": "refresh",
+   "problems": [],
+   "policy_after_refresh": "discovery",
+   "restored": [
+    "LF14",
+    "P4",
+    "P6",
+    "P7",
+    "PR3"
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "provider error during refinement (MOCK)",
+   "problems": [],
+   "refine_status": "History refinement failed or was refused, so the base order is kept and every option stays usable. First error: MOCK TypeSafeAPIError: HTTP 529 service overloaded. You can try again.",
+   "ordering_line": "Ordering: base atlas assessments — the history refinement did not complete, so these options were NOT newly assessed against your reading history",
+   "ok": true
+  },
+  {
+   "scenario": "provider timeout during refinement (MOCK)",
+   "problems": [],
+   "refine_status": "History refinement failed or was refused, so the base order is kept and every option stays usable. First error: MOCK TypeSafeAPITimeoutError: request exceeded its timeout. You can try again.",
+   "ordering_line": "Ordering: base atlas assessments — the history refinement did not complete, so these options were NOT newly assessed against your reading history",
+   "ok": true
+  },
+  {
+   "scenario": "contextual abstention: every answer weakest (MOCK)",
+   "problems": [],
+   "ordering_line": "Ordering: base atlas order — your reading history was assessed for all 3 options (6 encounters supplied) but did not change the order. Jev found no support in this history for any of these moves; every option stays available.",
+   "ok": true
+  },
+  {
+   "scenario": "single-pick research abstention NONE (MOCK)",
+   "problems": [],
+   "single_pick_status": "Jev was asked and chose NONE: it declined all 38 eligible candidates. An abstention is a recorded answer, not an error and not an empty candidate list. — MOCK r",
+   "ok": true
+  },
+  {
+   "scenario": "session reload in a new browser context",
+   "problems": [],
+   "page_after_reload": "F7",
+   "ok": true
+  },
+  {
+   "scenario": "repeated encounters with the same page",
+   "problems": [],
+   "ok": true
+  },
+  {
+   "scenario": "restart: kill the isolated server, restart on the same temp dir, reload",
+   "problems": [
+    "the journey page does not mark exactly the followed bond as selected"
+   ],
+   "before": {
+    "session_id": "s_9f8615eb0075",
+    "revision": "2",
+    "encounters": "2"
+   },
+   "after": {
+    "session_id": "s_9f8615eb0075",
+    "revision": "2",
+    "encounters": "2"
+   },
+   "journey_page_encounters": 2,
+   "ok": false
+  }
+ ],
+ "all_combinations": [
+  {
+   "page": "P1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "session_id": "s_3afb87dc0b09",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "session_id": "s_692132836477",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_96071a0d8835",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_5e35d30cb552",
+   "ok": true
+  },
+  {
+   "page": "P2",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_e670a8245b5e",
+   "ok": true
+  },
+  {
+   "page": "P2",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF15",
+   "followed_tier": "supported",
+   "session_id": "s_91630794a377",
+   "ok": true
+  },
+  {
+   "page": "P2",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "F11",
+     "exploratory"
+    ],
+    [
+     "PR4",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_0d2dbae765bd",
+   "ok": true
+  },
+  {
+   "page": "P2",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ]
+   ],
+   "followed": "LF8",
+   "followed_tier": "supported",
+   "session_id": "s_2da5e24718af",
+   "ok": true
+  },
+  {
+   "page": "P3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_cf0b41fc11d7",
+   "ok": true
+  },
+  {
+   "page": "P3",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_97f5acffd485",
+   "ok": true
+  },
+  {
+   "page": "P3",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "session_id": "s_b6335c19efdc",
+   "ok": true
+  },
+  {
+   "page": "P3",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_359b5ca75a9b",
+   "ok": true
+  },
+  {
+   "page": "P4",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ]
+   ],
+   "followed": "P8",
+   "followed_tier": "supported",
+   "session_id": "s_727e2d503ed8",
+   "ok": true
+  },
+  {
+   "page": "P4",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ],
+    [
+     "LF9",
+     "exploratory"
+    ]
+   ],
+   "followed": "P8",
+   "followed_tier": "exploratory",
+   "session_id": "s_ce229b9fc8ff",
+   "ok": true
+  },
+  {
+   "page": "P4",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF11",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "exploratory",
+   "session_id": "s_2c8d4a18211d",
+   "ok": true
+  },
+  {
+   "page": "P4",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "P7",
+   "followed_tier": "supported",
+   "session_id": "s_4b3265c1b4cf",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "P2",
+   "followed_tier": "supported",
+   "session_id": "s_e54bf88b704b",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_29cabeffe29c",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_ff28bc64de56",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF6",
+   "followed_tier": "supported",
+   "session_id": "s_ed5bdf95e068",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "PR4",
+   "followed_tier": "supported",
+   "session_id": "s_f3e82206fcfa",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "session_id": "s_8662b9cc6b23",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "session_id": "s_6d2ecb527d94",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF15",
+   "followed_tier": "supported",
+   "session_id": "s_0731726fb119",
+   "ok": true
+  },
+  {
+   "page": "P7",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_b70f819cadf7",
+   "ok": true
+  },
+  {
+   "page": "P7",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "session_id": "s_12d9ab13bab3",
+   "ok": true
+  },
+  {
+   "page": "P7",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "LF13",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "session_id": "s_482a35c395bf",
+   "ok": true
+  },
+  {
+   "page": "P7",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P4",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_29e9437601f7",
+   "ok": true
+  },
+  {
+   "page": "P8",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "session_id": "s_e8ec62289782",
+   "ok": true
+  },
+  {
+   "page": "P8",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_f28152af5991",
+   "ok": true
+  },
+  {
+   "page": "P8",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "exploratory",
+   "session_id": "s_bce9f1b8dd72",
+   "ok": true
+  },
+  {
+   "page": "P8",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_b9fc1cca68fc",
+   "ok": true
+  },
+  {
+   "page": "F1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F5",
+   "followed_tier": "supported",
+   "session_id": "s_c7b675e55691",
+   "ok": true
+  },
+  {
+   "page": "F1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "session_id": "s_ab30bc354cfd",
+   "ok": true
+  },
+  {
+   "page": "F1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "F5",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_d23b800b4c47",
+   "ok": true
+  },
+  {
+   "page": "F1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_3233308ad3e1",
+   "ok": true
+  },
+  {
+   "page": "F2",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "F4",
+   "followed_tier": "supported",
+   "session_id": "s_da1f196a9937",
+   "ok": true
+  },
+  {
+   "page": "F2",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ]
+   ],
+   "followed": "F5",
+   "followed_tier": "supported",
+   "session_id": "s_f5ec500f8850",
+   "ok": true
+  },
+  {
+   "page": "F2",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P6",
+     "exploratory"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "exploratory",
+   "session_id": "s_06a19b3e17a2",
+   "ok": true
+  },
+  {
+   "page": "F2",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ]
+   ],
+   "followed": "P7",
+   "followed_tier": "supported",
+   "session_id": "s_6c4764b36f23",
+   "ok": true
+  },
+  {
+   "page": "F3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F9",
+   "followed_tier": "supported",
+   "session_id": "s_68e5efc5b052",
+   "ok": true
+  },
+  {
+   "page": "F3",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_9636b7784fbc",
+   "ok": true
+  },
+  {
+   "page": "F3",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "F8",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_5caac9454a00",
+   "ok": true
+  },
+  {
+   "page": "F3",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF8",
+   "followed_tier": "supported",
+   "session_id": "s_39b07a494fec",
+   "ok": true
+  },
+  {
+   "page": "F4",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ]
+   ],
+   "followed": "P2",
+   "followed_tier": "supported",
+   "session_id": "s_cc464eeb78a2",
+   "ok": true
+  },
+  {
+   "page": "F4",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "session_id": "s_668c726e5230",
+   "ok": true
+  },
+  {
+   "page": "F4",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF15",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "session_id": "s_110181f34e27",
+   "ok": true
+  },
+  {
+   "page": "F4",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_e808f9bb13b9",
+   "ok": true
+  },
+  {
+   "page": "F5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ]
+   ],
+   "followed": "F1",
+   "followed_tier": "supported",
+   "session_id": "s_20bc84ac78d8",
+   "ok": true
+  },
+  {
+   "page": "F5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ]
+   ],
+   "followed": "F2",
+   "followed_tier": "supported",
+   "session_id": "s_58a0a8e50a72",
+   "ok": true
+  },
+  {
+   "page": "F5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "F8",
+     "exploratory"
+    ],
+    [
+     "P6",
+     "exploratory"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "exploratory",
+   "session_id": "s_3fcc941ea54f",
+   "ok": true
+  },
+  {
+   "page": "F5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "session_id": "s_a8b3e5ea2b19",
+   "ok": true
+  },
+  {
+   "page": "F6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F2",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "session_id": "s_e10e1d0d4877",
+   "ok": true
+  },
+  {
+   "page": "F6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "F2",
+   "followed_tier": "supported",
+   "session_id": "s_25aa56661dd2",
+   "ok": true
+  },
+  {
+   "page": "F6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_598cb33fb33f",
+   "ok": true
+  },
+  {
+   "page": "F6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_24ce32685059",
+   "ok": true
+  },
+  {
+   "page": "F7",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ]
+   ],
+   "followed": "F9",
+   "followed_tier": "supported",
+   "session_id": "s_246c28395a2d",
+   "ok": true
+  },
+  {
+   "page": "F7",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F1",
+     "exploratory"
+    ]
+   ],
+   "followed": "F5",
+   "followed_tier": "supported",
+   "session_id": "s_1822e1661685",
+   "ok": true
+  },
+  {
+   "page": "F7",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P6",
+     "exploratory"
+    ],
+    [
+     "F9",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "F9",
+   "followed_tier": "exploratory",
+   "session_id": "s_2568ef140a05",
+   "ok": true
+  },
+  {
+   "page": "F7",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "P6",
+     "exploratory"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "exploratory",
+   "session_id": "s_34808c654955",
+   "ok": true
+  },
+  {
+   "page": "F8",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F1",
+   "followed_tier": "supported",
+   "session_id": "s_1555b5029ee7",
+   "ok": true
+  },
+  {
+   "page": "F8",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F1",
+   "followed_tier": "supported",
+   "session_id": "s_ce95e4d3a6a1",
+   "ok": true
+  },
+  {
+   "page": "F8",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_9813cec7f2f2",
+   "ok": true
+  },
+  {
+   "page": "F8",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ]
+   ],
+   "followed": "PR5",
+   "followed_tier": "supported",
+   "session_id": "s_c0e3f6d28ae4",
+   "ok": true
+  },
+  {
+   "page": "F9",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ]
+   ],
+   "followed": "F7",
+   "followed_tier": "supported",
+   "session_id": "s_4c9f9555861b",
+   "ok": true
+  },
+  {
+   "page": "F9",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F7",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "session_id": "s_9ed4d565ad68",
+   "ok": true
+  },
+  {
+   "page": "F9",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P6",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "session_id": "s_76661f1a46e1",
+   "ok": true
+  },
+  {
+   "page": "F9",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_0df8e43e2d88",
+   "ok": true
+  },
+  {
+   "page": "F10",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F2",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ]
+   ],
+   "followed": "F6",
+   "followed_tier": "supported",
+   "session_id": "s_1f4b8c50e3f0",
+   "ok": true
+  },
+  {
+   "page": "F10",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ]
+   ],
+   "followed": "F4",
+   "followed_tier": "supported",
+   "session_id": "s_a2f7cfefd01d",
+   "ok": true
+  },
+  {
+   "page": "F10",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "session_id": "s_49e6371fc48f",
+   "ok": true
+  },
+  {
+   "page": "F10",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_27fa864e22c4",
+   "ok": true
+  },
+  {
+   "page": "F11",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "session_id": "s_e44decff3595",
+   "ok": true
+  },
+  {
+   "page": "F11",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F3",
+     "supported"
+    ]
+   ],
+   "followed": "P2",
+   "followed_tier": "supported",
+   "session_id": "s_7cc195e298f8",
+   "ok": true
+  },
+  {
+   "page": "F11",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_a5c7c95c6d8e",
+   "ok": true
+  },
+  {
+   "page": "F11",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_0bef5767c30c",
+   "ok": true
+  },
+  {
+   "page": "F12",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ]
+   ],
+   "followed": "PR4",
+   "followed_tier": "supported",
+   "session_id": "s_3d2cb32fede1",
+   "ok": true
+  },
+  {
+   "page": "F12",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_dd6b6622d273",
+   "ok": true
+  },
+  {
+   "page": "F12",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ],
+    [
+     "PR4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "session_id": "s_80d4c937bbdd",
+   "ok": true
+  },
+  {
+   "page": "F12",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF12",
+   "followed_tier": "supported",
+   "session_id": "s_8c164f088a28",
+   "ok": true
+  },
+  {
+   "page": "LF1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ]
+   ],
+   "followed": "LF9",
+   "followed_tier": "supported",
+   "session_id": "s_2cf7557270e9",
+   "ok": true
+  },
+  {
+   "page": "LF1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_99740bb6c39f",
+   "ok": true
+  },
+  {
+   "page": "LF1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "LF16",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_cd3be84420f1",
+   "ok": true
+  },
+  {
+   "page": "LF1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "supported",
+   "session_id": "s_65595cc5e1b1",
+   "ok": true
+  },
+  {
+   "page": "LF2",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_bb18d0f9f6f6",
+   "ok": true
+  },
+  {
+   "page": "LF2",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "supported",
+   "session_id": "s_db1d705696b9",
+   "ok": true
+  },
+  {
+   "page": "LF2",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF13",
+     "exploratory"
+    ],
+    [
+     "LF5",
+     "exploratory"
+    ],
+    [
+     "LF12",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF12",
+   "followed_tier": "exploratory",
+   "session_id": "s_ed8919bbad19",
+   "ok": true
+  },
+  {
+   "page": "LF2",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "supported",
+   "session_id": "s_6a784d8da191",
+   "ok": true
+  },
+  {
+   "page": "LF3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF5",
+     "supported"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "supported",
+   "session_id": "s_002b8e27f09d",
+   "ok": true
+  },
+  {
+   "page": "LF3",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "session_id": "s_d7dfb5005966",
+   "ok": true
+  },
+  {
+   "page": "LF3",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_1fcc38571193",
+   "ok": true
+  },
+  {
+   "page": "LF3",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ]
+   ],
+   "followed": "P3",
+   "followed_tier": "supported",
+   "session_id": "s_8007b31f7e5e",
+   "ok": true
+  },
+  {
+   "page": "LF4",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ],
+    [
+     "LF16",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "exploratory",
+   "session_id": "s_1a568d925776",
+   "ok": true
+  },
+  {
+   "page": "LF4",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_26f0e3fee188",
+   "ok": true
+  },
+  {
+   "page": "LF4",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "exploratory"
+    ],
+    [
+     "LF10",
+     "exploratory"
+    ],
+    [
+     "LF16",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "exploratory",
+   "session_id": "s_fd783b7f8080",
+   "ok": true
+  },
+  {
+   "page": "LF4",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_befc6a05c6c5",
+   "ok": true
+  },
+  {
+   "page": "LF5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "supported",
+   "session_id": "s_35641b495684",
+   "ok": true
+  },
+  {
+   "page": "LF5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_9e61079636ef",
+   "ok": true
+  },
+  {
+   "page": "LF5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF13",
+     "exploratory"
+    ],
+    [
+     "LF16",
+     "exploratory"
+    ],
+    [
+     "LF2",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF2",
+   "followed_tier": "exploratory",
+   "session_id": "s_64e7bd87ea3c",
+   "ok": true
+  },
+  {
+   "page": "LF5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_aa2387fb9bd7",
+   "ok": true
+  },
+  {
+   "page": "LF6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF9",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "supported",
+   "session_id": "s_8e319e4414f5",
+   "ok": true
+  },
+  {
+   "page": "LF6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_70b02d611792",
+   "ok": true
+  },
+  {
+   "page": "LF6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_da9d5acb7dee",
+   "ok": true
+  },
+  {
+   "page": "LF6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_cca14b3f59b8",
+   "ok": true
+  },
+  {
+   "page": "LF7",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "supported",
+   "session_id": "s_dad61cd8e432",
+   "ok": true
+  },
+  {
+   "page": "LF7",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_fc9f7c4e050f",
+   "ok": true
+  },
+  {
+   "page": "LF7",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "session_id": "s_2cde2c28c76c",
+   "ok": true
+  },
+  {
+   "page": "LF7",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "PR2",
+   "followed_tier": "supported",
+   "session_id": "s_fb269f8ae567",
+   "ok": true
+  },
+  {
+   "page": "LF8",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "PR5",
+   "followed_tier": "supported",
+   "session_id": "s_ddb959797c32",
+   "ok": true
+  },
+  {
+   "page": "LF8",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF6",
+   "followed_tier": "supported",
+   "session_id": "s_1aab81d6bd5d",
+   "ok": true
+  },
+  {
+   "page": "LF8",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "exploratory",
+   "session_id": "s_5f1ab6151586",
+   "ok": true
+  },
+  {
+   "page": "LF8",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ]
+   ],
+   "followed": "PR2",
+   "followed_tier": "supported",
+   "session_id": "s_1fceb5ce5f0d",
+   "ok": true
+  },
+  {
+   "page": "LF9",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "P8",
+   "followed_tier": "supported",
+   "session_id": "s_d0c265d271e5",
+   "ok": true
+  },
+  {
+   "page": "LF9",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_8ecd9d6cdd70",
+   "ok": true
+  },
+  {
+   "page": "LF9",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "exploratory",
+   "session_id": "s_23846cbad4c5",
+   "ok": true
+  },
+  {
+   "page": "LF9",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_6d68a739a8ed",
+   "ok": true
+  },
+  {
+   "page": "LF10",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_0952c11dccb3",
+   "ok": true
+  },
+  {
+   "page": "LF10",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "session_id": "s_5c82de2338cb",
+   "ok": true
+  },
+  {
+   "page": "LF10",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF4",
+   "followed_tier": "exploratory",
+   "session_id": "s_45146b70a243",
+   "ok": true
+  },
+  {
+   "page": "LF10",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "F12",
+   "followed_tier": "supported",
+   "session_id": "s_e2b2b7921d51",
+   "ok": true
+  },
+  {
+   "page": "LF11",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_0fec945dc39f",
+   "ok": true
+  },
+  {
+   "page": "LF11",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_77e975b0e5e7",
+   "ok": true
+  },
+  {
+   "page": "LF11",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P3",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "P8",
+   "followed_tier": "exploratory",
+   "session_id": "s_a13525ad5566",
+   "ok": true
+  },
+  {
+   "page": "LF11",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ]
+   ],
+   "followed": "LF15",
+   "followed_tier": "supported",
+   "session_id": "s_fc7e195e9617",
+   "ok": true
+  },
+  {
+   "page": "LF12",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF2",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "session_id": "s_63a1cc702a2c",
+   "ok": true
+  },
+  {
+   "page": "LF12",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF5",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF16",
+   "followed_tier": "supported",
+   "session_id": "s_246804ee6127",
+   "ok": true
+  },
+  {
+   "page": "LF12",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF2",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF2",
+   "followed_tier": "exploratory",
+   "session_id": "s_62ca6465d21c",
+   "ok": true
+  },
+  {
+   "page": "LF12",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "supported",
+   "session_id": "s_92f7ca968528",
+   "ok": true
+  },
+  {
+   "page": "LF13",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF5",
+     "supported"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "supported",
+   "session_id": "s_8c3b89a9292c",
+   "ok": true
+  },
+  {
+   "page": "LF13",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF5",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF3",
+     "supported"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "supported",
+   "session_id": "s_8b2e6b723dae",
+   "ok": true
+  },
+  {
+   "page": "LF13",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "exploratory",
+   "session_id": "s_219bce0d611e",
+   "ok": true
+  },
+  {
+   "page": "LF13",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "P3",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF15",
+   "followed_tier": "supported",
+   "session_id": "s_b6a7c1a421c5",
+   "ok": true
+  },
+  {
+   "page": "LF14",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "session_id": "s_3ffa14b862f9",
+   "ok": true
+  },
+  {
+   "page": "LF14",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_87f8e9a736e3",
+   "ok": true
+  },
+  {
+   "page": "LF14",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "exploratory",
+   "session_id": "s_cbb54394b979",
+   "ok": true
+  },
+  {
+   "page": "LF14",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_79361b4688f7",
+   "ok": true
+  },
+  {
+   "page": "LF15",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF2",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "F2",
+     "supported"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "supported",
+   "session_id": "s_6a087ee4ab6d",
+   "ok": true
+  },
+  {
+   "page": "LF15",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF13",
+   "followed_tier": "supported",
+   "session_id": "s_a2dac61554a3",
+   "ok": true
+  },
+  {
+   "page": "LF15",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_5bd2bed6c60e",
+   "ok": true
+  },
+  {
+   "page": "LF15",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "LF13",
+     "supported"
+    ],
+    [
+     "LF1",
+     "supported"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "supported",
+   "session_id": "s_1afd22bf3baa",
+   "ok": true
+  },
+  {
+   "page": "LF16",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_a09215ecd4ea",
+   "ok": true
+  },
+  {
+   "page": "LF16",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_16fb7492de80",
+   "ok": true
+  },
+  {
+   "page": "LF16",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF1",
+     "exploratory"
+    ],
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "LF4",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "exploratory",
+   "session_id": "s_a33ed58ef3ef",
+   "ok": true
+  },
+  {
+   "page": "LF16",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "F4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ]
+   ],
+   "followed": "PR2",
+   "followed_tier": "supported",
+   "session_id": "s_3d88f75853e8",
+   "ok": true
+  },
+  {
+   "page": "PR1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_89035a43d25a",
+   "ok": true
+  },
+  {
+   "page": "PR1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_ac36595ffae2",
+   "ok": true
+  },
+  {
+   "page": "PR1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "LF8",
+     "exploratory"
+    ],
+    [
+     "F11",
+     "exploratory"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "exploratory",
+   "session_id": "s_2ced9c1e5a7a",
+   "ok": true
+  },
+  {
+   "page": "PR1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_e704ed292739",
+   "ok": true
+  },
+  {
+   "page": "PR2",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_01a2fbe90891",
+   "ok": true
+  },
+  {
+   "page": "PR2",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "session_id": "s_0fdfaecabae9",
+   "ok": true
+  },
+  {
+   "page": "PR2",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF3",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF3",
+   "followed_tier": "exploratory",
+   "session_id": "s_63915763158a",
+   "ok": true
+  },
+  {
+   "page": "PR2",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF16",
+     "supported"
+    ]
+   ],
+   "followed": "LF8",
+   "followed_tier": "supported",
+   "session_id": "s_e721e30be55e",
+   "ok": true
+  },
+  {
+   "page": "PR3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ]
+   ],
+   "followed": "P6",
+   "followed_tier": "supported",
+   "session_id": "s_1a9c2f33af05",
+   "ok": true
+  },
+  {
+   "page": "PR3",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "supported",
+   "session_id": "s_760776baa44d",
+   "ok": true
+  },
+  {
+   "page": "PR3",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "session_id": "s_8adea2439d8c",
+   "ok": true
+  },
+  {
+   "page": "PR3",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_51534ed0938b",
+   "ok": true
+  },
+  {
+   "page": "PR4",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "supported",
+   "session_id": "s_ce78a93e0e56",
+   "ok": true
+  },
+  {
+   "page": "PR4",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "PR2",
+   "followed_tier": "supported",
+   "session_id": "s_17519790730d",
+   "ok": true
+  },
+  {
+   "page": "PR4",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "LF15",
+     "exploratory"
+    ],
+    [
+     "LF1",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF1",
+   "followed_tier": "exploratory",
+   "session_id": "s_e3e7945ac4fc",
+   "ok": true
+  },
+  {
+   "page": "PR4",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "F9",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF12",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_39243e5e89c4",
+   "ok": true
+  },
+  {
+   "page": "PR5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_7474ca467ba6",
+   "ok": true
+  },
+  {
+   "page": "PR5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "PR2",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "F1",
+     "supported"
+    ]
+   ],
+   "followed": "PR2",
+   "followed_tier": "supported",
+   "session_id": "s_7e53907f05eb",
+   "ok": true
+  },
+  {
+   "page": "PR5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "exploratory",
+   "session_id": "s_99cc25bb92be",
+   "ok": true
+  },
+  {
+   "page": "PR5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P7",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "P6",
+     "supported"
+    ]
+   ],
+   "followed": "LF8",
+   "followed_tier": "supported",
+   "session_id": "s_7b24324cd6eb",
+   "ok": true
+  }
+ ]
+}

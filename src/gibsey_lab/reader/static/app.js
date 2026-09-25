@@ -5,9 +5,19 @@
 //   offers:   not_requested | loading | offers | no_qualified | no_candidates | atlas_incomplete | error
 //
 // Rules this file keeps:
-// - An operator button shows ranked destinations from the saved atlas (GET
-//   /api/operator-options): no provider work, never an empty unexplained panel, and
+// - An operator button shows ranked destinations from the saved atlas (POST
+//   /api/core/options: the Core's persisted offer set at the session's current revision --
+//   no provider work, no session-log write, never an empty unexplained panel), and
 //   exploratory (weak-fit) options preview and follow exactly like supported ones.
+// - Follow is POST /api/core/execute with the revision the offer set was made at and a
+//   fresh request_id per click (the same id again only when that click got no response).
+//   A stale revision is a refusal that moves nothing: the current revision is shown and
+//   the options are re-resolved. A paused session says so.
+// - The Core session id lives in localStorage; on load the session is resumed. Manual
+//   navigation (page list, Previous/Next, Back) starts a new journey at that page, because
+//   the Core only records Q follows. The old /api/operator-options and /api/follow-option
+//   endpoints are no longer used by the buttons (the explicit Refine action still reads
+//   the legacy option set it needs).
 // - Only three actions ever cause provider work, all explicit clicks: "Refine order using
 //   my reading history" (POST /api/refine-options), "Ask Jev for a single pick (research)"
 //   / "Ask Jev again" (POST /api/request-selection) and the advanced hand (POST
@@ -47,6 +57,10 @@ const App = {
   navLogged: Promise.resolve(),
   atlasSort: { column: "destination_id", direction: 1 },
   atlasData: null,
+  session: null,         // Core session view: {session_id, revision, active_page, paused, encounter_count, field}
+  sessionReady: Promise.resolve(),
+  sessionError: null,
+  executeAttempts: {},   // "offer_set|bond" -> request_id of a click whose response was lost (reused on retry)
 };
 
 const el = (id) => document.getElementById(id);
@@ -149,6 +163,113 @@ function readStoredPolicy() {
 
 function storePolicy(policy) {
   try { window.localStorage.setItem(POLICY_STORAGE_KEY, policy); } catch (e) { /* the page works without it */ }
+}
+
+// --- the Core session: one journey of committed follows, resumed on load ---
+
+const SESSION_STORAGE_KEY = "gibsey.coreSessionId";
+
+function readStoredSessionId() {
+  try { return window.localStorage.getItem(SESSION_STORAGE_KEY) || null; } catch (e) { return null; }
+}
+
+function storeSessionId(sessionId) {
+  try {
+    if (sessionId) window.localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
+    else window.localStorage.removeItem(SESSION_STORAGE_KEY);
+  } catch (e) { /* a fresh session is started next time instead */ }
+}
+
+function applySession(view) {
+  App.session = view;
+  App.sessionError = null;
+  storeSessionId(view.session_id);
+  renderSessionLine();
+}
+
+async function resumeOrStartSession(fallbackPage) {
+  // On load: resume the stored session; an absent or unknown id starts a new journey at
+  // the reader's last recorded page (the server's choice when `page` is omitted).
+  const stored = readStoredSessionId();
+  try {
+    const view = await postJson("/api/core/session", {
+      session_id: stored || undefined, page: fallbackPage || undefined, field: App.field,
+      via: stored ? "reload" : "session_start",
+    });
+    applySession(view);
+  } catch (e) {
+    App.session = null;
+    App.sessionError = e.message;
+    renderSessionLine();
+  }
+  return App.session;
+}
+
+async function ensureSession(pageId, via) {
+  // The Core session must be AT the page the reader is looking at before options can be
+  // resolved from it. A manual arrival somewhere else starts a new journey there; a
+  // traversal already moved the session. Never called with via "traversal".
+  if (App.session && App.session.active_page === pageId && App.session.field === App.field) return App.session; // (a paused session is shown as such, not replaced)
+  try {
+    const view = await postJson("/api/core/session", { page: pageId, field: App.field, via: via || "dropdown" });
+    applySession(view);
+  } catch (e) {
+    App.session = null;
+    App.sessionError = e.message;
+    renderSessionLine();
+  }
+  return App.session;
+}
+
+async function refreshSession() {
+  if (!App.session) return null;
+  try {
+    applySession(await api(`/api/core/session?session_id=${encodeURIComponent(App.session.session_id)}`));
+  } catch (e) {
+    App.sessionError = e.message;
+    renderSessionLine();
+  }
+  return App.session;
+}
+
+function renderSessionLine() {
+  const line = el("core-session");
+  const s = App.session;
+  line.replaceChildren();
+  line.dataset.sessionId = s ? s.session_id : "";
+  line.dataset.revision = s ? String(s.revision) : "";
+  line.dataset.encounters = s ? String(s.encounter_count) : "";
+  line.dataset.paused = s && s.paused ? "true" : "false";
+  if (!s) {
+    line.textContent = App.sessionError ? `No Core session: ${App.sessionError}. Following is unavailable until one starts; Previous, Next and the page list still work.` : "Starting a journey...";
+    return;
+  }
+  line.appendChild(textNode("span", "Journey ", "session-label"));
+  const link = document.createElement("a");
+  link.href = `/journey?session_id=${encodeURIComponent(s.session_id)}`;
+  link.target = "_blank";
+  link.rel = "noopener";
+  link.textContent = s.session_id;
+  link.dataset.testid = "journey-link";
+  line.appendChild(link);
+  const n = s.encounter_count;
+  line.appendChild(textNode("span", ` · revision ${s.revision} · ${n} encounter${n === 1 ? "" : "s"} · at ${s.active_page}${s.paused ? " · PAUSED" : ""}`));
+  const toggle = textNode("button", s.paused ? "Resume session" : "Pause session", "session-toggle");
+  toggle.dataset.testid = s.paused ? "session-resume" : "session-pause";
+  toggle.addEventListener("click", async () => {
+    toggle.disabled = true;
+    try {
+      applySession(await postJson(s.paused ? "/api/core/resume" : "/api/core/pause", { session_id: s.session_id }));
+      if (App.operator) { delete App.options[App.operator]; loadOptions(App.operator); }
+    } catch (e) {
+      App.sessionError = e.message;
+      renderSessionLine();
+    }
+  });
+  line.appendChild(toggle);
+  if (s.position && s.position.agrees === false) {
+    line.appendChild(textNode("span", ` (the session log last placed the reader on ${s.position.logged_page}; the Core session is the authority for follows)`, "kind-note"));
+  }
 }
 
 async function init() {
@@ -261,13 +382,27 @@ async function init() {
     const firstGroup = el("page-select").querySelector("optgroup");
     start = firstGroup ? firstGroup.querySelector("option").value : null;
   }
+  // The Core session is resumed first; where it is, the reader is. A stored id that the
+  // server no longer knows starts a new journey at the page found above.
+  const session = await resumeOrStartSession(start);
+  if (session && session.field === App.field && el("page-select").querySelector(`option[value="${CSS.escape(session.active_page)}"]`)) {
+    start = session.active_page;
+    via = session.resumed ? "reload" : via;
+  }
   await navigateTo(start, via);
   renderTraversalHistory(readerState);
-  // Reload: show again the operator list the reader had open on this page (a GET only).
-  const lastOptions = readerState.last_operator_options;
-  if (lastOptions && lastOptions.page_id === App.source && lastOptions.field === App.field &&
-      lastOptions.policy === App.policy && lastOptions.operator) {
-    await selectOperator(lastOptions.operator);
+  // Reload: show again the operator list the reader had open at this revision (a GET only,
+  // and the same persisted offer set: resolving again at one revision creates nothing).
+  const current = App.session && App.session.current_offer_sets ? App.session.current_offer_sets : [];
+  const lastOffer = [...current].reverse().find((o) => o.operator && o.policy === App.policy);
+  if (lastOffer && App.session.active_page === App.source) {
+    await selectOperator(lastOffer.operator);  // never under a policy the reader did not choose
+  } else {
+    const lastOptions = readerState.last_operator_options;
+    if (lastOptions && lastOptions.page_id === App.source && lastOptions.field === App.field &&
+        lastOptions.policy === App.policy && lastOptions.operator) {
+      await selectOperator(lastOptions.operator);
+    }
   }
 }
 
@@ -392,9 +527,13 @@ async function navigateTo(pageId, via) {
     App.navLogged = logNavigation(isBack ? "back" : "page_viewed", {
       page_id: pageId, from_page: previous && previous !== pageId ? previous : null, via: via || "dropdown",
     });
+    // A manual arrival: the Core session must be here before options can be resolved
+    // (a new journey starts here unless the session already is here).
+    App.sessionReady = ensureSession(pageId, via || "dropdown");
   }
   loadLatestOffers();
   if (el("atlas-details").open) loadAtlas();
+  await App.sessionReady;
 }
 
 async function onBack() {
@@ -452,21 +591,35 @@ async function selectOperator(operator) {
 }
 
 async function loadOptions(operator) {
+  // The Core's offer set at the session's current revision: the ordered bonds, each with its
+  // exact offered wording. Resolving twice at one revision returns the same set.
   const ctx = snapshotContext();
   App.options[operator] = { loading: true };
   if (App.operator === operator) renderOptions();
   let data;
-  try {
-    data = await api(
-      `/api/operator-options?field=${encodeURIComponent(ctx.field)}&page=${encodeURIComponent(ctx.source)}` +
-      `&operator=${encodeURIComponent(operator)}&policy=${encodeURIComponent(ctx.policy)}`
-    );
-  } catch (e) {
-    data = { state: "error", options: [], counts: {}, message: `The ranked destinations could not be loaded: ${e.message}. Previous, Next and the page list still work; click the operator again to retry.`, ordering_line: "" };
+  await App.sessionReady;
+  if (!stillCurrent(ctx)) return;
+  const session = App.session;
+  if (!session || session.active_page !== ctx.source) {
+    data = { state: "error", options: [], counts: {}, message: `No Core session is at ${ctx.source}${App.sessionError ? ` (${App.sessionError})` : ""}. Previous, Next and the page list still work; click the operator again to retry.`, ordering_line: "" };
+  } else {
+    try {
+      data = await postJson("/api/core/options", { session_id: session.session_id, operator, policy: ctx.policy });
+      data.options = data.bonds; // the same row UI as before: one row per offered bond
+      data.page_id = data.source_page;
+    } catch (e) {
+      const code = e.data && e.data.code;
+      const message = code === "paused"
+        ? "The session is paused, so no destinations are offered: resume it to keep navigating. Previous, Next and the page list still work."
+        : `The ranked destinations could not be loaded: ${e.message}. Previous, Next and the page list still work; click the operator again to retry.`;
+      data = { state: "error", code, options: [], counts: {}, message, ordering_line: "" };
+    }
   }
   if (!stillCurrent(ctx)) return;
+  if (typeof data.current_revision === "number" && App.session && App.session.session_id === data.session_id && App.session.revision !== data.current_revision) {
+    refreshSession();
+  }
   App.options[operator] = data;
-  if (data.state === "error") delete App.options[operator].option_set_id;
   if (App.operator === operator) renderOptions();
   if (data.state === "error") delete App.options[operator]; // a later click retries
 }
@@ -495,8 +648,12 @@ function optionDetails(data, option) {
   }
   const details = {
     rank: option.rank, tier: option.tier, operator_fit: option.operator_fit, cautions: option.cautions,
+    evidence: "decision evidence (model distribution) — no textual evidence span recorded",
     base_profile_scores: base, base_assessment_id: option.assessment_id,
     is_authored_neighbor: option.is_authored_neighbor, rank_reasons: option.rank_reasons,
+    bond_version_id: option.bond_version_id, source_version: option.source_version, destination_version: option.destination_version,
+    wording: option.wording, wording_source: option.wording_source,
+    offer_set_id: data.offer_set_id, offer_set_revision: data.revision, session_id: data.session_id,
     option_set_id: data.option_set_id, ordering_basis: data.ordering_basis, counts: data.counts,
     atlas_mode: data.mode, atlas_config_id: data.atlas_config_id, destination_sha256: option.destination_sha256,
   };
@@ -524,6 +681,13 @@ function renderOptionRow(data, option, position) {
   badge.dataset.testid = "option-tier";
   row.appendChild(badge);
   if (option.is_authored_neighbor) row.appendChild(textNode("span", "authored neighbor", "relation-label"));
+  if (typeof option.wording === "string" && option.wording) {
+    // The exact sentence this bond offers (this session: the destination's own opening sentence, verbatim).
+    const wording = textNode("blockquote", `Offered: «${option.wording}»`, "option-wording");
+    wording.dataset.testid = "option-wording";
+    wording.title = option.wording_source === "destination_opening_sentence" ? "the destination's opening sentence, quoted exactly" : (option.wording_source || "");
+    row.appendChild(wording);
+  }
   row.appendChild(textNode("div", fitLine(data.operator, option.operator_fit, option.fit_level), "option-fit"));
   const cautions = document.createElement("div");
   for (const caution of option.cautions || []) {
@@ -583,6 +747,9 @@ function renderOptions() {
   list.dataset.page = App.source || "";
   list.dataset.orderingBasis = data.ordering_basis || "";
   list.dataset.optionSetId = data.option_set_id || "";
+  list.dataset.offerSetId = data.offer_set_id || "";
+  list.dataset.revision = typeof data.revision === "number" ? String(data.revision) : "";
+  list.dataset.sessionId = data.session_id || "";
   list.dataset.state = data.loading ? "loading" : (data.state || "");
   list.dataset.orderChanged = data.order_changed === true ? "true" : "false";
 
@@ -610,7 +777,7 @@ function renderOptions() {
 
   (data.options || []).forEach((option, index) => list.appendChild(renderOptionRow(data, option, index + 1)));
 
-  const canRefine = (data.options || []).length > 0 && !!data.option_set_id;
+  const canRefine = (data.options || []).length > 0 && !!(data.offer_set_id || data.option_set_id);
   el("refine-button").hidden = !canRefine;
   el("refine-button").disabled = !!refine.loading;
   el("refine-button").textContent = refine.state && !String(refine.state).startsWith("refined") ? "Try the history refinement again" : "Refine order using my reading history";
@@ -625,6 +792,9 @@ function renderOptions() {
     state: data.state, operator: data.operator, dimension: data.dimension, policy: data.policy,
     ordering_basis: data.ordering_basis, counts: data.counts, could_not_be_ranked: data.unusable,
     support_floor: data.support_floor, atlas_mode: data.mode, atlas_config_id: data.atlas_config_id,
+    offer_set_id: data.offer_set_id, offer_set_revision: data.revision, session_id: data.session_id,
+    source_version: data.source_version, options_policy_version: data.options_policy_version,
+    reused_offer_set: data.reused, exclusions: data.exclusions, evidence: data.evidence_note,
     option_set_id: data.option_set_id, page_sha256: data.page_sha256, refinement: data.refinement,
   }, null, 2);
 }
@@ -632,8 +802,8 @@ function renderOptions() {
 async function onRefineOptions() {
   const operator = App.operator;
   const shown = App.options[operator];
-  if (!operator || !shown || !shown.option_set_id) return;
-  const key = ["refine", App.field, App.source, operator, App.policy, shown.option_set_id].join("|");
+  if (!operator || !shown || !(shown.offer_set_id || shown.option_set_id)) return;
+  const key = ["refine", App.field, App.source, operator, App.policy, shown.offer_set_id || shown.option_set_id].join("|");
   if (App.inFlight[key]) return;
   const ctx = snapshotContext();
   const requestId = newRequestId();
@@ -645,7 +815,23 @@ async function onRefineOptions() {
   let data;
   try {
     await App.navLogged;
-    data = await postJson("/api/refine-options", { option_set_id: shown.option_set_id, request_id: requestId });
+    // The refinement is keyed on the legacy ranked option set, which is read (and persisted,
+    // idempotently) only here, at this explicit click -- never when the offers are shown. It
+    // must list exactly the destinations on screen, in the same base order.
+    let optionSetId = shown.option_set_id;
+    if (!optionSetId) {
+      const legacy = await api(
+        `/api/operator-options?field=${encodeURIComponent(ctx.field)}&page=${encodeURIComponent(ctx.source)}` +
+        `&operator=${encodeURIComponent(operator)}&policy=${encodeURIComponent(ctx.policy)}`);
+      const legacyIds = (legacy.options || []).map((o) => o.destination_id);
+      const shownIds = (shown.options || []).map((o) => o.destination_id);
+      if (!legacy.option_set_id || legacyIds.join("|") !== shownIds.join("|")) {
+        throw new Error("the saved ranked list does not match the offered bonds, so nothing was refined");
+      }
+      optionSetId = legacy.option_set_id;
+    }
+    data = await postJson("/api/refine-options", { option_set_id: optionSetId, request_id: requestId });
+    data.legacy_option_set_id = optionSetId;
   } catch (e) {
     data = e.data && e.data.refine_state ? e.data : { refine_state: "error", refine_message: `History refinement could not run; the base order is kept and every option stays usable. ${e.message} You can try again.` };
     if (stillCurrent(ctx) && showPositionConflict(e)) {
@@ -661,12 +847,20 @@ async function onRefineOptions() {
   if (App.latestRequest[key] !== requestId) return;
   if (data.request_id && data.request_id !== requestId) return;
   const current = App.options[operator];
-  if (!current || current.option_set_id !== shown.option_set_id) return;
+  if (!current || (current.offer_set_id || current.option_set_id) !== (shown.offer_set_id || shown.option_set_id)) return;
 
+  const byDestination = new Map((current.options || []).map((o) => [o.destination_id, o]));
   const usable = data.refine_state === "refined" && data.applicable !== false && data.memory_current !== false &&
-    Array.isArray(data.options) && data.options.length === (current.options || []).length;
+    Array.isArray(data.options) && data.options.length === (current.options || []).length &&
+    data.options.every((o) => byDestination.has(o.destination_id));
   if (usable) {
-    App.options[operator] = data;
+    // The same offered bonds (same offer set, same ids, same wording), shown in the refined
+    // order with each one's history-conditioned answers; nothing is added or removed.
+    App.options[operator] = {
+      ...current, ordering_basis: data.ordering_basis, order_changed: data.order_changed, ordering_line: data.ordering_line,
+      refinement: data.refinement, option_set_id: data.legacy_option_set_id || current.option_set_id,
+      options: data.options.map((o) => ({ ...byDestination.get(o.destination_id), contextual: o.contextual, contextual_error: o.contextual_error })),
+    };
     App.refine[operator] = { state: data.order_changed ? "refined" : "refined_unchanged", message: data.refine_message };
   } else {
     // Keep the base list untouched; say plainly that it was NOT newly assessed.
@@ -682,33 +876,123 @@ async function onRefineOptions() {
 
 async function onFollowOption(data, option) {
   if (App.following) return;
-  // A list belongs to the page it was computed for; never follow it from anywhere else.
-  if (data.page_id !== App.source || data.field !== App.field) return;
-  const ctx = snapshotContext();
-  App.following = true;
+  // An offer set belongs to the session, page and revision it was resolved at; never
+  // follow it from anywhere else.
+  if (data.page_id !== App.source || data.field !== App.field || !data.offer_set_id) return;
+  App.following = true; // set before any await: a double click is one click
   renderOptions();
+  const ctx = snapshotContext();
+  const operator = App.operator;
+  // One request_id per click. It is reused only when that same click got NO response
+  // (network failure), so a retry is the same action and the Core answers with its
+  // recorded result instead of a second traversal.
+  const attemptKey = `${data.offer_set_id}|${option.bond_version_id}`;
+  const requestId = App.executeAttempts[attemptKey] || newRequestId();
+  App.executeAttempts[attemptKey] = requestId;
+  let outcome = null;
+  let error = null;
   try {
-    await App.navLogged;
-    const outcome = await postJson("/api/follow-option", {
-      option_set_id: data.option_set_id, destination_id: option.destination_id,
-      from_page: ctx.source, client_page: ctx.source, ordering_basis: data.ordering_basis,
-      follow_token: `${App.visitId}:${data.option_set_id}:${option.destination_id}`,
-    });
-    if (!stillCurrent(ctx)) return;
-    App.following = false;
-    await afterFollow(outcome, outcome.destination || option.destination_id, null);
-  } catch (e) {
-    if (stillCurrent(ctx)) {
-      App.following = false;
-      renderOptions();
-      if (!showPositionConflict(e)) {
-        el("options-status").className = "status-line state-error";
-        el("options-status").textContent = `Not followed — you have not moved. ${e.message}`;
-      }
+    await App.sessionReady;
+    if (!App.session || App.session.session_id !== data.session_id) {
+      throw Object.assign(new Error("these options belong to another journey; choose the operator again"), { status: 0, data: { code: "session_changed" } });
     }
+    await App.navLogged;
+    outcome = await postJson("/api/core/execute", {
+      session_id: data.session_id, offer_set_id: data.offer_set_id, bond_version_id: option.bond_version_id,
+      expected_revision: data.revision, request_id: requestId,
+    });
+  } catch (e) {
+    error = e;
   } finally {
     App.following = false;
   }
+  if (!error || error.status !== undefined) delete App.executeAttempts[attemptKey]; // answered: the next click is a new action
+  if (!stillCurrent(ctx)) return;
+
+  if (outcome) {
+    if (outcome.session) applySession(outcome.session);
+    await afterFollow({ proposal_id: null, bond_id: outcome.bond_version_id, reader_state: outcome.reader_state },
+                      outcome.to_page || option.destination_id, null);
+    if (outcome.duplicate) el("postfollow-panel").querySelector("h2").appendChild(textNode("span", " (this click was already recorded; nothing moved twice)", "kind-note"));
+    return;
+  }
+
+  const refusal = error.data || {};
+  const statusEl = el("options-status");
+  statusEl.className = "status-line state-error";
+  statusEl.dataset.refusal = refusal.code || "";
+  if (refusal.session) applySession(refusal.session);
+  if (refusal.code === "stale_revision") {
+    const session = refusal.session || App.session;
+    const where = session ? ` (at ${session.active_page}, ${session.encounter_count} encounter${session.encounter_count === 1 ? "" : "s"})` : "";
+    statusEl.textContent = `Not followed — you have not moved. These options were offered at revision ${data.revision}, but the session is now at revision ${refusal.current_revision}${where}. `;
+    if (session && session.active_page === App.source) {
+      statusEl.appendChild(textNode("span", "The options were re-resolved at the current revision."));
+      delete App.options[operator];
+      renderOptions();
+      await loadOptions(operator);
+    } else {
+      renderOptions();
+      showCoreSessionConflict(session);
+    }
+    return;
+  }
+  renderOptions();
+  if (refusal.code === "paused") {
+    statusEl.textContent = "Not followed — you have not moved. The session is paused; resume it (above) to keep navigating.";
+    return;
+  }
+  const reason = refusal.reason || error.message;
+  statusEl.textContent = `Not followed — you have not moved. ${reason}`;
+  if (error.status === undefined) {
+    statusEl.appendChild(textNode("span", " No response arrived; clicking Follow again retries this same action (same request id)."));
+  } else if (["unknown_or_stale_offer_set", "not_offered", "source_mismatch", "destination_version_changed", "source_version_changed", "policy_ineligible", "session_changed"].includes(refusal.code)) {
+    delete App.options[operator];
+    await loadOptions(operator);
+  }
+}
+
+function showCoreSessionConflict(session) {
+  // The Core session moved on (another tab or window followed something). Nothing here has
+  // moved. The reader chooses: continue reading HERE, which starts a new journey from this
+  // page (the Core records only committed follows), or go to where the session is.
+  const box = el("position-conflict");
+  box.replaceChildren();
+  box.hidden = false;
+  const sessionPage = session ? session.active_page : null;
+  box.appendChild(textNode("p", sessionPage
+    ? `Nothing was followed and nothing has moved. This tab shows ${App.source}, but the journey moved on to ${sessionPage} (revision ${session.revision}; another tab or window followed something). Choose "Continue here on ${App.source}" to start a new journey from this page, then choose the action again yourself, or go to ${sessionPage}.`
+    : `Nothing was followed and nothing has moved. The journey is no longer at ${App.source}. Choose "Continue here on ${App.source}" to start a new journey from this page, then choose the action again yourself.`));
+  const actions = document.createElement("div");
+  actions.className = "action-row";
+  const here = textNode("button", `Continue here on ${App.source}`);
+  here.dataset.testid = "conflict-continue-here";
+  here.addEventListener("click", async () => {
+    here.disabled = true;
+    App.navLogged = logNavigation("page_viewed", { page_id: App.source, via: "resume" });
+    App.session = null; // a new journey from this page, started explicitly by the reader
+    App.sessionReady = ensureSession(App.source, "resume");
+    await App.navLogged;
+    await App.sessionReady;
+    box.hidden = true;
+    if (App.operator) { delete App.refine[App.operator]; delete App.options[App.operator]; }
+    renderOptions();
+    renderOffers();
+    renderOperatorPanel();
+    if (App.operator) loadOptions(App.operator);
+  });
+  actions.appendChild(here);
+  if (sessionPage) {
+    const go = textNode("button", `Go to ${sessionPage}`);
+    go.dataset.testid = "conflict-go-to-other";
+    go.addEventListener("click", () => {
+      box.hidden = true;
+      navigateTo(sessionPage, "dropdown");
+    });
+    actions.appendChild(go);
+  }
+  box.appendChild(actions);
+  box.scrollIntoView({ block: "center" });
 }
 
 // --- second tab: the session log places the reader on another page ---

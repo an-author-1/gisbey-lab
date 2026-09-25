@@ -121,3 +121,8 @@ button.primary { font-weight: bold; border-color: var(--accent); background: var
 .caution-chip { display: inline-block; font-size: 0.7rem; background: var(--bad-bg); color: var(--bad); padding: 0.05rem 0.45rem; border-radius: 8px; margin: 0.25rem 0.3rem 0 0; }
 .build-id { font-size: 0.7rem; color: var(--text-secondary); font-family: Menlo, monospace; text-align: center; margin-top: 2rem; }
 .position-conflict p { margin: 0 0 0.5rem; }
+/* Core session line (one journey of committed follows) and the exact offered wording of a bond */
+.session-line { font-size: 0.82rem; color: var(--text-secondary); font-family: Menlo, monospace; margin: 0 0 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.session-line .session-label { color: var(--text); font-weight: bold; }
+.session-line .session-toggle { font-size: 0.75rem; padding: 0.15rem 0.5rem; }
+.option-wording { margin: 0.4rem 0 0; padding: 0.2rem 0.75rem; border-left: 3px solid var(--border); font-style: italic; font-size: 0.95rem; color: var(--text); }

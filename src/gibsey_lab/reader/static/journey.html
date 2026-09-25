@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gibsey Lab — Journey inspection</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/style.css">
+<style>
+  /* Read-only step-through of one recorded journey. Reuses the reader's theme tokens. */
+  .journey-header { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; align-items: baseline; font-size: 0.85rem; color: var(--text-secondary); font-family: Menlo, monospace; }
+  .journey-header dt { display: inline; color: var(--text); font-weight: bold; }
+  .journey-header dd { display: inline; margin: 0; }
+  .journey-header div { white-space: nowrap; }
+  .encounter { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.9rem; background: var(--surface); }
+  .encounter > summary { padding: 0.7rem 1rem; cursor: pointer; font-size: 0.95rem; }
+  .encounter > summary:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 8px; }
+  .encounter[open] > summary { border-bottom: 1px solid var(--border-soft); }
+  .encounter-body { padding: 0.75rem 1rem 1rem; }
+  .encounter .page-tag { margin-right: 0.35rem; }
+  .via-badge { display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.55rem; border-radius: 10px; margin-left: 0.4rem; background: var(--accent-soft-bg); color: var(--accent-soft-text); }
+  .via-badge.via-start { background: var(--tag-bg); color: var(--tag-text); }
+  .return-badge { display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.55rem; border-radius: 10px; margin-left: 0.4rem; background: var(--warn-bg); color: var(--warn); }
+  .state-grid { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr) minmax(0, 1fr); gap: 0.15rem 0.75rem; font-size: 0.82rem; font-family: Menlo, monospace; margin: 0.5rem 0 0.75rem; }
+  .state-grid span { overflow-wrap: anywhere; }
+  .state-grid .head { color: var(--text-secondary); }
+  .prose-details > summary, .offer-details > summary { cursor: pointer; font-size: 0.9rem; margin: 0.5rem 0 0.25rem; }
+  .prose-details > summary:focus-visible, .offer-details > summary:focus-visible, .bond > summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .bond { border: 1px solid var(--border-soft); border-radius: 6px; padding: 0.5rem 0.8rem; margin-top: 0.5rem; background: var(--surface-inset); }
+  .bond.selected { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+  .bond > summary { cursor: pointer; font-size: 0.9rem; }
+  .bond-meta { font-size: 0.8rem; color: var(--text-secondary); font-family: Menlo, monospace; word-break: break-all; }
+  .bond-wording { margin: 0.35rem 0; padding: 0.15rem 0.7rem; border-left: 3px solid var(--border); font-style: italic; }
+  .selected-mark { font-size: 0.72rem; padding: 0.1rem 0.55rem; border-radius: 10px; background: var(--good-bg); color: var(--good); margin-left: 0.4rem; }
+  .evidence-note { font-size: 0.78rem; color: var(--stale); display: block; margin-top: 0.2rem; }
+  .missing { color: var(--stale); font-size: 0.88rem; }
+  .rejections { font-size: 0.82rem; font-family: Menlo, monospace; }
+  .rejections li { margin: 0.25rem 0; }
+  .controls { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; margin: 0.75rem 0; }
+  .controls input { font-family: Menlo, monospace; font-size: 0.85rem; padding: 0.35rem 0.5rem; border-radius: 5px; border: 1px solid var(--control-border); background: var(--control-bg); color: var(--text); min-width: 12rem; }
+  @media (max-width: 520px) { .state-grid { font-size: 0.74rem; gap: 0.15rem 0.5rem; } .journey-header div { white-space: normal; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Journey inspection</h1>
+  <a class="header-link" href="/">Back to the reader</a>
+</header>
+
+<section class="panel panel-compact">
+  <p class="hint">Read-only. Every encounter of one recorded Core journey, in arrival order, with the exact prose of the version arrived at, the offer set that produced it, the selection, and the state before and after. This page only ever reads <code>GET /api/core/journey</code>; it never commits, follows or asks a provider anything. Every score shown is <strong>decision evidence (model distribution) &mdash; no textual evidence span recorded</strong>.</p>
+  <form class="controls" id="session-form">
+    <label class="inline-label">Session id <input id="session-input" name="session_id" autocomplete="off" spellcheck="false"></label>
+    <button type="submit">Open</button>
+    <span id="load-status" class="status-line" data-testid="journey-status"></span>
+  </form>
+  <dl class="journey-header" id="journey-header" data-testid="journey-header" hidden></dl>
+</section>
+
+<section id="encounters" data-testid="journey-encounters"></section>
+
+<section class="panel panel-compact" id="rejections-panel" hidden>
+  <details>
+    <summary>Recorded refusals (<span id="rejections-count">0</span>) &mdash; requests the Core rejected; none of them moved anything</summary>
+    <ul class="rejections" id="rejections"></ul>
+  </details>
+</section>
+
+<section class="panel panel-compact" id="raw-panel" hidden>
+  <details>
+    <summary>Raw journey record (as returned)</summary>
+    <pre id="raw-body"></pre>
+  </details>
+</section>
+
+<footer id="build-id" class="build-id" data-testid="build-id"></footer>
+
+<script src="/journey.js"></script>
+</body>
+</html>

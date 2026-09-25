@@ -53,6 +53,9 @@ from .. import fields as fields_module
 from .. import reader_context, relational_operators, saved_runs, session_log, state
 from ..config import load_config
 from ..context import CaseError
+from ..core import core as core_module
+from ..core import identity, journal, projectors, reducer
+from ..core.core import CoreError
 from ..corpus import REPO_ROOT
 from ..fields import FieldError
 from ..jev_client import JevError
@@ -69,6 +72,8 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 DATA_DIR = state.DEFAULT_DATA_DIR
 RUNS_DIR = RUNS_DIR
 SESSION_LOG_PATH = session_log.DEFAULT_LOG_PATH
+# Where the Core's per-session journals live (data/core/sessions/<id>/events.jsonl).
+CORE_DIR = journal.DEFAULT_CORE_DIR
 # None = "<DATA_DIR>/<file>", resolved at call time, so pointing DATA_DIR at a temp
 # directory isolates these too. Set explicitly to override.
 OUTCOMES_PATH: Path | None = None
@@ -619,6 +624,112 @@ def _git(*args: str) -> str | None:
     except Exception:  # noqa: BLE001 -- build identity is informational only
         return None
     return out.stdout if out.returncode == 0 else None
+
+
+# --- Core (v0.3): validated actions, one atomic journal append per commit, legacy mirrors ---
+
+# One Core call at a time in this process: the journal's own expected-seq check would turn
+# a concurrent second tab into a JournalError; serialized, it becomes the Core's own
+# `stale_revision` refusal instead. Re-entrant so a handler may compose helpers.
+_CORE_LOCK = threading.RLock()
+
+
+def _core(field=None) -> core_module.Core:
+    """A Core over CORE_DIR. Offers come from the same options provider the ranked lists use
+    (never a dispatch); after every commit the legacy stores under DATA_DIR / SESSION_LOG_PATH
+    are mirrored so the existing panels keep working. Stateless: the journal is re-read on
+    every call, so a new instance per request is a restart-equivalent."""
+    field = field if field is not None else _load_field(fields_module.DEFAULT_FIELD)
+    return core_module.Core(
+        core_dir=Path(CORE_DIR), field=field,
+        options_provider=lambda f, page_id, operator, policy: OPTIONS_PROVIDER(f, page_id, operator, policy=policy, mode=OPTIONS_MODE),
+        projectors=[projectors.mirror_to_legacy_stores(Path(DATA_DIR), Path(SESSION_LOG_PATH), field=field)],
+    )
+
+
+def _session_events(session_id: str | None) -> list[dict]:
+    if not session_id or not core_module.SESSION_ID_RE.match(session_id):
+        return []
+    try:
+        return journal.read_events(session_id, Path(CORE_DIR))
+    except journal.JournalError as e:
+        raise ApiError(f"the session journal is unreadable: {e}", status=500) from e
+
+
+def _core_for_session(session_id: str | None) -> core_module.Core:
+    """The Core for an existing session, over the field the session was started in."""
+    events = _session_events(session_id)
+    field_id = events[0].get("field_id") if events else None
+    return _core(_load_field(field_id) if field_id in fields_module.KNOWN_FIELDS else None)
+
+
+def _core_error(e: CoreError) -> ApiError:
+    return ApiError(str(e), status=e.status, payload={"code": e.code, "reason": str(e), "details": e.details})
+
+
+def _position_advisory(field_id: str, session_page: str | None) -> dict:
+    """Where the legacy session log last placed the reader, next to where the Core session
+    is. Advisory only: the Core's revision check is the authority on whether an action runs."""
+    last = session_log.last_encounter(SESSION_LOG_PATH, field=field_id)
+    logged = last.get("page_id") if last else None
+    return {"logged_page": logged, "session_page": session_page,
+            "agrees": logged is None or session_page is None or logged == session_page}
+
+
+def _session_view(core: core_module.Core, session_id: str, **extra) -> dict:
+    view = core.resume_session(session_id)
+    view["encounter_count"] = len(view["encounters"])
+    view["field"] = core.field.id
+    # The offer sets resolved at the current revision, in creation order (a reload can show
+    # the last one again with a plain re-resolve, which creates nothing).
+    view["current_offer_sets"] = [{"offer_set_id": k, **v} for k, v in view["state"]["offer_sets"].items()]
+    view["position"] = _position_advisory(core.field.id, view.get("active_page"))
+    view["journey_url"] = f"/journey?session_id={session_id}"
+    view.update(extra)
+    return view
+
+
+def _reader_last_page(field) -> str:
+    """The page the reader was last recorded on: the session log, else the recorded Q
+    position, else the field's first page."""
+    last = session_log.last_encounter(SESSION_LOG_PATH, field=field.id)
+    if last and last.get("page_id") in field.manifest:
+        return last["page_id"]
+    active = state.reader_state(data_dir=DATA_DIR).get("active_page")
+    if active in field.manifest:
+        return active
+    return field.all_ids()[0]
+
+
+def _core_options_view(offer_set: dict, field) -> dict:
+    """What the browser gets for a Core offer set: the persisted set, plus per bond the exact
+    CURRENT text of its destination (withheld if the version no longer matches), the rubric
+    level word its score clears, and the same status/ordering lines the ranked list shows."""
+    view = copy.deepcopy(offer_set)
+    display = {}
+    for bond in view.get("bonds") or []:
+        dest_id = bond.get("destination_page")
+        dest = field.manifest.get(dest_id)
+        matches = dest is not None and identity.version_id(dest_id, dest.sha256) == bond.get("destination_version")
+        bond["destination_id"] = dest_id
+        bond["destination_sha256"] = dest.sha256 if matches else None
+        display[dest_id] = {"title": _title_of(dest_id) if dest_id else None,
+                            "text": dest.text if matches else None, "version_matches": matches}
+        fit = bond.get("operator_fit") if isinstance(bond.get("operator_fit"), dict) else {}
+        bond["fit_level"] = {"level_cleared": outcomes.level_cleared(fit.get("score")),
+                             "name": outcomes.level_name(fit.get("dimension"), fit.get("score"))}
+    view["reader_display"] = display
+    view["ordering_basis"] = "base_assessments"
+    view["order_changed"] = False
+    view["field"] = field.id
+    view["page_id"] = view.get("source_page")
+    view["state"] = view.get("options_state")
+    described = {"state": view["state"], "counts": view.get("counts"), "options": view.get("bonds"),
+                 "operator": view.get("operator"), "page_id": view.get("source_page"), "policy": view.get("policy")}
+    view["message"] = outcomes.describe_option_set(described)
+    view["ordering_line"] = outcomes.describe_ordering(described)
+    view["evidence_note"] = ("decision evidence (model distribution) — no textual evidence span recorded")
+    return view
 
 
 class Handlers:
@@ -1592,6 +1703,244 @@ class Handlers:
         )
         return record
 
+    # --- Core (v0.3): session, options, execute, status, journey ---
+
+    @staticmethod
+    def post_core_session(body: dict) -> dict:
+        """Start or resume. A known `session_id` resumes (nothing written). Otherwise a new
+        session starts at `page` (default: the page the reader was last recorded on) --
+        the one `session_started` event, mirrored as a `page_viewed(via="start")`."""
+        session_id = body.get("session_id") or None
+        if session_id is not None and not isinstance(session_id, str):
+            raise ApiError("session_id must be a string")
+        via = body.get("via") if isinstance(body.get("via"), str) and body.get("via") else "start"
+        via = via[:32]
+        with _CORE_LOCK:
+            try:
+                if session_id and _session_events(session_id):
+                    core = _core_for_session(session_id)
+                    return _session_view(core, session_id, started=False, resumed=True)
+                field = _load_field(body.get("field") or fields_module.DEFAULT_FIELD)
+                page_id = body.get("page") or _reader_last_page(field)
+                if page_id not in field.manifest:
+                    raise ApiError(f"page {page_id!r} not in field {field.id!r}", status=404)
+                core = _core(field)
+                started = core.start_session(page_id, session_id=session_id or None, via=via)
+                return _session_view(core, started["session_id"], started=True, resumed=False)
+            except CoreError as e:
+                raise _core_error(e) from e
+            except journal.JournalError as e:
+                raise ApiError(f"journal conflict: {e}", status=409, payload={"code": "journal_conflict"}) from e
+
+    @staticmethod
+    def get_core_session(query: dict) -> dict:
+        session_id = query.get("session_id", [None])[0]
+        if not session_id:
+            raise ApiError("missing 'session_id'")
+        try:
+            return _session_view(_core_for_session(session_id), session_id, started=False, resumed=True)
+        except CoreError as e:
+            raise _core_error(e) from e
+
+    @staticmethod
+    def post_core_options(body: dict) -> dict:
+        """The ordered bonds available at the session's current revision. Pure read of the
+        saved atlas plus ONE non-bumping journal event (none at all when the same set was
+        already resolved at this revision). Writes nothing to the session log, the
+        outcomes file or the option-set file."""
+        session_id, operator = body.get("session_id"), body.get("operator")
+        policy = body.get("policy") or fields_module.DEFAULT_POLICY
+        if not session_id or not operator:
+            raise ApiError("missing 'session_id' or 'operator'")
+        operator = str(operator).upper()
+        if policy not in fields_module.KNOWN_POLICIES:
+            raise ApiError(f"unknown candidate policy: {policy!r}")
+        with _CORE_LOCK:
+            try:
+                core = _core_for_session(session_id)
+                offer_set = core.resolve_options(session_id, operator, policy=policy)
+                state_now = core.state(session_id)
+            except CoreError as e:
+                raise _core_error(e) from e
+            except journal.JournalError as e:
+                raise ApiError(f"journal conflict: {e}", status=409, payload={"code": "journal_conflict"}) from e
+        view = _core_options_view(offer_set, core.field)
+        view["session_id"] = session_id
+        view["current_revision"] = state_now.r
+        view["position"] = _position_advisory(core.field.id, state_now.page)
+        return view
+
+    @staticmethod
+    def post_core_execute(body: dict) -> dict:
+        """Follow one offered bond. Dedup first (identical retry -> the recorded result with
+        `duplicate: true`), then the Core's own validation; a refusal is a 409 with
+        {code, reason, details} and nothing moves. The commit is one journal append; the
+        legacy mirrors are written after it by the projector."""
+        session_id = body.get("session_id")
+        missing = [k for k in ("session_id", "offer_set_id", "bond_version_id", "request_id") if not body.get(k)]
+        if missing:
+            raise ApiError(f"missing {missing}")
+        expected = body.get("expected_revision")
+        if not isinstance(expected, int) or isinstance(expected, bool):
+            raise ApiError("expected_revision must be an integer")
+        with _CORE_LOCK:
+            try:
+                core = _core_for_session(session_id)
+                result = core.execute_action(session_id, offer_set_id=str(body["offer_set_id"]),
+                                             bond_version_id=str(body["bond_version_id"]), expected_revision=expected,
+                                             request_id=str(body["request_id"]))
+            except CoreError as e:
+                error = _core_error(e)
+                error.payload["current_revision"] = e.details.get("current_revision")
+                if e.code in ("stale_revision", "paused", "unknown_or_stale_offer_set", "source_mismatch"):
+                    try:  # so the client can show where the session actually is, without a second round trip
+                        error.payload["session"] = _session_view(_core_for_session(session_id), session_id)
+                    except (CoreError, ApiError):
+                        pass
+                raise error from e
+            except journal.JournalError as e:
+                raise ApiError(f"journal conflict: {e}", status=409, payload={"code": "journal_conflict"}) from e
+            view = dict(result)
+            view["session"] = _session_view(core, session_id)
+        view["reader_state"] = state.reader_state(data_dir=DATA_DIR)
+        view["position"] = view["session"]["position"]
+        return view
+
+    @staticmethod
+    def get_core_status(query: dict) -> dict:
+        session_id, request_id = query.get("session_id", [None])[0], query.get("request_id", [None])[0]
+        if not session_id or not request_id:
+            raise ApiError("missing 'session_id' or 'request_id'")
+        try:
+            return _core_for_session(session_id).get_action_status(session_id, request_id)
+        except CoreError as e:
+            raise _core_error(e) from e
+
+    @staticmethod
+    def post_core_pause(body: dict) -> dict:
+        session_id = body.get("session_id")
+        if not session_id:
+            raise ApiError("missing 'session_id'")
+        with _CORE_LOCK:
+            try:
+                core = _core_for_session(session_id)
+                core.pause(session_id)
+                return _session_view(core, session_id)
+            except CoreError as e:
+                raise _core_error(e) from e
+            except journal.JournalError as e:
+                raise ApiError(f"journal conflict: {e}", status=409, payload={"code": "journal_conflict"}) from e
+
+    @staticmethod
+    def post_core_resume(body: dict) -> dict:
+        session_id = body.get("session_id")
+        if not session_id:
+            raise ApiError("missing 'session_id'")
+        with _CORE_LOCK:
+            try:
+                core = _core_for_session(session_id)
+                core.unpause(session_id)
+                return _session_view(core, session_id)
+            except CoreError as e:
+                raise _core_error(e) from e
+            except journal.JournalError as e:
+                raise ApiError(f"journal conflict: {e}", status=409, payload={"code": "journal_conflict"}) from e
+
+    @staticmethod
+    def get_core_journey(query: dict) -> dict:
+        """Read-only step-through of a recorded journey: every encounter with its exact
+        prose (from the field manifest by version id; a version that is no longer current
+        is said so and shows nothing), the offer set that produced it, the selection and
+        the state before/after. Replays the journal with the pure reducer; writes nothing."""
+        session_id = query.get("session_id", [None])[0]
+        if not session_id:
+            raise ApiError("missing 'session_id'")
+        if not core_module.SESSION_ID_RE.match(session_id):
+            raise ApiError(f"invalid session id {session_id!r}", payload={"code": "invalid_session"})
+        events = _session_events(session_id)
+        if not events:
+            raise ApiError(f"no such session: {session_id}", status=404, payload={"code": "unknown_session"})
+        field_id = events[0].get("field_id")
+        field = _load_field(field_id if field_id in fields_module.KNOWN_FIELDS else fields_module.DEFAULT_FIELD)
+        return _journey(session_id, events, field)
+
+
+def _prose(field, page_id: str, version_id: str) -> dict:
+    page = field.manifest.get(page_id)
+    if page is None:
+        return {"text": None, "current": False, "note": f"{page_id} is not in field {field.id}; nothing is shown"}
+    if identity.version_id(page_id, page.sha256) != version_id:
+        return {"text": None, "current": False, "sha256": None,
+                "note": f"{version_id} is no longer the current text of {page_id} "
+                        f"(now {identity.version_id(page_id, page.sha256)}); the exact prose of that version is not "
+                        "in the manifest, so nothing is shown"}
+    return {"text": page.text, "current": True, "sha256": page.sha256, "title": _title_of(page_id), "note": None}
+
+
+def _journey(session_id: str, events: list[dict], field) -> dict:
+    offer_sets: dict[str, dict] = {}
+    rejections: list[dict] = []
+    encounters: list[dict] = []
+    before = reducer.State()
+    atlas_config_ids: set[str] = set()
+    for event in events:
+        kind = event.get("event")
+        after = reducer.apply(before, event)
+        if kind == "offer_set_created":
+            offer_sets[event["offer_set_id"]] = event
+            if event.get("atlas_config_id"):
+                atlas_config_ids.add(event["atlas_config_id"])
+        elif kind == "action_rejected":
+            rejections.append({k: event.get(k) for k in ("seq", "at", "request_id", "code", "reason", "offer_set_id",
+                                                            "bond_version_id", "expected_revision", "revision_at_rejection")})
+        elif kind in ("session_started", "action_committed"):
+            entry = dict(after.H[-1])
+            version_id = entry["version_id"]
+            record = {
+                **entry, "at": event.get("at"), "prose": _prose(field, entry["page_id"], version_id),
+                "revision_after": after.r, "encounter_count_after": len(after.H),
+                "count_for_version_after": after.c.get(version_id), "is_return": entry.get("previous_encounter_index") is not None,
+                "action": None,
+            }
+            if kind == "action_committed":
+                offer = offer_sets.get(event.get("offer_set_id")) or {}
+                bonds = []
+                for bond in offer.get("bonds") or []:
+                    bonds.append({**bond, "selected": bond.get("bond_version_id") == event.get("bond_version_id"),
+                                  "evidence_note": "decision evidence (model distribution) — no textual evidence span recorded"})
+                record["action"] = {
+                    "request_id": event.get("request_id"), "bond_version_id": event.get("bond_version_id"),
+                    "operator": event.get("operator"), "wording": event.get("wording"), "tier": event.get("tier"),
+                    "operator_fit": event.get("operator_fit"), "assessment_id": event.get("assessment_id"),
+                    "expected_revision": event.get("expected_revision"), "fingerprint": event.get("fingerprint"),
+                    "offer_set": None if not offer else {
+                        "offer_set_id": offer.get("offer_set_id"), "revision": offer.get("revision"),
+                        "operator": offer.get("operator"), "policy": offer.get("policy"),
+                        "source_version": offer.get("source_version"), "source_page": offer.get("source_page"),
+                        "atlas_config_id": offer.get("atlas_config_id"), "options_policy_version": offer.get("options_policy_version"),
+                        "options_state": offer.get("options_state"), "counts": offer.get("counts"),
+                        "exclusions": offer.get("exclusions"), "event_seq": offer.get("seq"), "at": offer.get("at"),
+                        "bonds": bonds,
+                    },
+                    "offer_set_missing": not offer,
+                    "state_before": {"revision": before.r, "encounter_count": len(before.H),
+                                     "count_for_version": before.c.get(version_id, 0), "active_version": before.v},
+                    "state_after": {"revision": after.r, "encounter_count": len(after.H),
+                                    "count_for_version": after.c.get(version_id), "active_version": after.v},
+                }
+            encounters.append(record)
+        before = after
+    final = before
+    return {
+        "schema": "core-journey/1", "session_id": session_id, "field": field.id, "field_id": final.field_id,
+        "atlas_config_ids": sorted(atlas_config_ids), "revision": final.r, "paused": final.paused,
+        "encounter_count": len(final.H), "event_count": len(events), "last_seq": final.last_seq,
+        "started_at": events[0].get("at"), "last_event_at": events[-1].get("at"),
+        "encounters": encounters, "rejections": rejections, "state": final.canonical(),
+        "evidence_note": "decision evidence (model distribution) — no textual evidence span recorded",
+        "clock_note": "wall time is the journal's recorded `at`; encounter order is the arrival index; neither is synthetic timing",
+    }
+
 
 GET_ROUTES = {
     "/api/fields": Handlers.get_fields,
@@ -1605,8 +1954,16 @@ GET_ROUTES = {
     "/api/atlas/profiles": Handlers.get_atlas_profiles,
     "/api/operator-options": Handlers.get_operator_options,
     "/api/build": Handlers.get_build,
+    "/api/core/session": Handlers.get_core_session,
+    "/api/core/status": Handlers.get_core_status,
+    "/api/core/journey": Handlers.get_core_journey,
 }
 POST_ROUTES = {
+    "/api/core/session": Handlers.post_core_session,
+    "/api/core/options": Handlers.post_core_options,
+    "/api/core/execute": Handlers.post_core_execute,
+    "/api/core/pause": Handlers.post_core_pause,
+    "/api/core/resume": Handlers.post_core_resume,
     "/api/request-selection": Handlers.post_request_selection,
     "/api/offers": Handlers.post_offers,
     "/api/propose": Handlers.post_propose,
@@ -1699,6 +2056,8 @@ class ReaderRequestHandler(BaseHTTPRequestHandler):
 
         if parsed.path == "/":
             self._send_static("index.html")
+        elif parsed.path in ("/journey", "/inspect/journey"):
+            self._send_static("journey.html")  # read-only inspection page; it only ever GETs /api/core/journey
         elif parsed.path == "/demo/pr2" or parsed.path.startswith("/demo/pr2/"):
             self._send_demo(parsed.path[len("/demo/pr2"):].lstrip("/"))
         else:

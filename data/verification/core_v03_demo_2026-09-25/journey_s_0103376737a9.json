@@ -1,0 +1,348 @@
+{
+ "schema": "journey-bundle/1",
+ "session_id": "s_0103376737a9",
+ "events": [
+  {
+   "schema": "core-event/1",
+   "seq": 0,
+   "session_id": "s_0103376737a9",
+   "at": "2026-09-25T21:58:05.749558+00:00",
+   "event": "session_started",
+   "revision_after": 1,
+   "field_id": "full-41",
+   "version_id": "P1@c8adbba7f4ed",
+   "page_id": "P1",
+   "sha256": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+   "via": "session_start"
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 1,
+   "session_id": "s_0103376737a9",
+   "at": "2026-09-25T21:58:05.918688+00:00",
+   "event": "offer_set_created",
+   "revision_after": 1,
+   "offer_set_id": "offers_78f41848a4401d2987e4",
+   "revision": 1,
+   "source_version": "P1@c8adbba7f4ed",
+   "source_page": "P1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "bond_version_ids": [
+    "bond_248987c718f4b6934a8a",
+    "bond_94472bf793e11dc9a39f",
+    "bond_0d477b5cf0cc7e7ae172",
+    "bond_49fe4bc49af66e9f32f6",
+    "bond_ba0aa01b2e7d90106a75"
+   ],
+   "bonds": [
+    {
+     "bond_version_id": "bond_248987c718f4b6934a8a",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "P5@23fc2364ab4a",
+     "destination_page": "P5",
+     "operator": "DEVELOP",
+     "wording": "As such, I do suppose that there is a fourth and other unspoken option.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.75,
+      "score_norm": 0.9166666666666666,
+      "confidence": 0.75,
+      "nearest_level": 3
+     },
+     "cautions": [],
+     "assessment_id": "as-cc43d39d632a4ff7823ba3ba4dda9cbb",
+     "rank": 1,
+     "rank_reasons": [
+      "development score_norm 0.92 is at or above the support floor 0.667: supported",
+      "ordered by development 0.92, then direct_q_fit 0.94, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_94472bf793e11dc9a39f",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "F11@5729f5fec994",
+     "destination_page": "F11",
+     "operator": "DEVELOP",
+     "wording": "As such here is the Table of Contents and Edit Decision List to aid you in your journey.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.54,
+      "score_norm": 0.8466666666666667,
+      "confidence": 0.54,
+      "nearest_level": 3
+     },
+     "cautions": [],
+     "assessment_id": "as-f6877fbd59914954bce2ffe4f8d7f7e4",
+     "rank": 2,
+     "rank_reasons": [
+      "development score_norm 0.85 is at or above the support floor 0.667: supported",
+      "ordered by development 0.85, then direct_q_fit 0.79, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_0d477b5cf0cc7e7ae172",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "LF6@7eb9b361c6ed",
+     "destination_page": "LF6",
+     "operator": "DEVELOP",
+     "wording": "And in this way, Synchromy-S.S.S.T.E.R.Y was to be the hoax to end all hoaxes.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.5,
+      "score_norm": 0.8333333333333334,
+      "confidence": 0.5,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "high_missing_context"
+     ],
+     "assessment_id": "as-1156bbd104214b14b03d6deca9139174",
+     "rank": 3,
+     "rank_reasons": [
+      "development score_norm 0.83 is at or above the support floor 0.667: supported",
+      "ordered by development 0.83, then direct_q_fit 0.64, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_49fe4bc49af66e9f32f6",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "F5@7c5bde18887b",
+     "destination_page": "F5",
+     "operator": "DEVELOP",
+     "wording": "As an author, despite my own authority and authorizations, I exist in The Outskirts like any other.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.26,
+      "score_norm": 0.7533333333333333,
+      "confidence": 0.26,
+      "nearest_level": 2
+     },
+     "cautions": [
+      "low_confidence",
+      "high_missing_context"
+     ],
+     "assessment_id": "as-674845427b8545f9be294ee2110b303a",
+     "rank": 4,
+     "rank_reasons": [
+      "development score_norm 0.75 is at or above the support floor 0.667: supported",
+      "ordered by development 0.75, then direct_q_fit 0.81, then field page order"
+     ]
+    },
+    {
+     "bond_version_id": "bond_ba0aa01b2e7d90106a75",
+     "source_version": "P1@c8adbba7f4ed",
+     "destination_version": "P8@af6c1a9a22f3",
+     "destination_page": "P8",
+     "operator": "DEVELOP",
+     "wording": "As a work of fiction, all of the characters and events contained within this text are also fictional, as well.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Supported",
+     "operator_fit": {
+      "dimension": "development",
+      "score": 2.07,
+      "score_norm": 0.69,
+      "confidence": 0.4,
+      "nearest_level": 2
+     },
+     "cautions": [
+      "low_confidence"
+     ],
+     "assessment_id": "as-725bffff06a64ff980601fe48d666990",
+     "rank": 5,
+     "rank_reasons": [
+      "development score_norm 0.69 is at or above the support floor 0.667: supported",
+      "ordered by development 0.69, then direct_q_fit 0.68, then field page order"
+     ]
+    }
+   ],
+   "options_policy_version": "operator-options-v1",
+   "options_state": "options",
+   "counts": {
+    "eligible": 39,
+    "usable": 39,
+    "unusable": 0,
+    "supported": 5,
+    "supported_shown": 5,
+    "exploratory_shown": 0,
+    "ineligible_policy": 1
+   },
+   "atlas_config_id": "cfg-5a7766c6c2012139e7bab61f",
+   "unusable": [],
+   "exclusions": {
+    "ineligible_policy": 1,
+    "unusable": 0
+   }
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 2,
+   "session_id": "s_0103376737a9",
+   "at": "2026-09-25T21:58:06.059657+00:00",
+   "event": "action_committed",
+   "revision_after": 2,
+   "request_id": "req_muhi5b6x_1_1hofw2rn",
+   "fingerprint": "4dcb3be8a475f76f510c34a4e849a5181581d3f66649ba47b57e282cbbbdc61a",
+   "offer_set_id": "offers_78f41848a4401d2987e4",
+   "bond_version_id": "bond_248987c718f4b6934a8a",
+   "operator": "DEVELOP",
+   "wording": "As such, I do suppose that there is a fourth and other unspoken option.",
+   "from_version": "P1@c8adbba7f4ed",
+   "from_page": "P1",
+   "to_version": "P5@23fc2364ab4a",
+   "to_page": "P5",
+   "expected_revision": 1,
+   "encounter_index": 1,
+   "tier": "supported",
+   "operator_fit": {
+    "dimension": "development",
+    "score": 2.75,
+    "score_norm": 0.9166666666666666,
+    "confidence": 0.75,
+    "nearest_level": 3
+   },
+   "assessment_id": "as-cc43d39d632a4ff7823ba3ba4dda9cbb"
+  }
+ ],
+ "final_state": {
+  "session_id": "s_0103376737a9",
+  "v": "P5@23fc2364ab4a",
+  "page": "P5",
+  "z": {
+   "score_id": "neutral",
+   "score_version": 1,
+   "movement": "open"
+  },
+  "H": [
+   {
+    "encounter_index": 0,
+    "version_id": "P1@c8adbba7f4ed",
+    "page_id": "P1",
+    "via": "session_start",
+    "event_seq": 0,
+    "from_version": null,
+    "bond_version_id": null,
+    "request_id": null,
+    "previous_encounter_index": null
+   },
+   {
+    "encounter_index": 1,
+    "version_id": "P5@23fc2364ab4a",
+    "page_id": "P5",
+    "via": "Q",
+    "event_seq": 2,
+    "from_version": "P1@c8adbba7f4ed",
+    "bond_version_id": "bond_248987c718f4b6934a8a",
+    "request_id": "req_muhi5b6x_1_1hofw2rn",
+    "previous_encounter_index": null
+   }
+  ],
+  "c": {
+   "P1@c8adbba7f4ed": 1,
+   "P5@23fc2364ab4a": 1
+  },
+  "ell": {
+   "P1@c8adbba7f4ed": 0,
+   "P5@23fc2364ab4a": 1
+  },
+  "u": [],
+  "r": 2,
+  "paused": false,
+  "field_id": "full-41",
+  "requests": {
+   "req_muhi5b6x_1_1hofw2rn": {
+    "fingerprint": "4dcb3be8a475f76f510c34a4e849a5181581d3f66649ba47b57e282cbbbdc61a",
+    "event_seq": 2,
+    "bond_version_id": "bond_248987c718f4b6934a8a",
+    "to_version": "P5@23fc2364ab4a",
+    "to_page": "P5",
+    "revision_after": 2,
+    "encounter_index": 1
+   }
+  },
+  "offer_sets": {},
+  "last_seq": 2
+ },
+ "versions": {
+  "P1@c8adbba7f4ed": {
+   "page_id": "P1",
+   "text": "I didn't write this.\n\nThis is a found text, and thus far, the identity of The Author—the original author—has yet to be definitively located.\n\nIn this way, the content of this novel resembles the Giallo films of Italian cinema where a killer's identity is withheld from the audience until the film's final act in order to intensify a great and ruinous mystery. Alternatively, this collection may also resemble an American detective novel such as Raymond Chandler's The Big Sleep, famous for its author's confessed bewilderment regarding the identity of the killer deeply entwined within Chandler's very own intricately constructed and labyrinthian plot.",
+   "sha256": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+   "retained": true,
+   "note": null
+  },
+  "P5@23fc2364ab4a": {
+   "page_id": "P5",
+   "text": "As such, I do suppose that there is a fourth and other unspoken option. \n\nThis fourth option likely refers to a set of individuals, of both human and non-human origin, whom I suspect may, in fact, be The Author of these very pages. Many of these suspects are, very unfortunately, the characters that make up the theme park whose Entrance Way you are about to approach—if you haven't already—thus complicating even further one's ability to locate the identity of any such suspects as either The Author or an author of these tales. \n\nThese suspects may be an author, such as myself, or they could also very well be the other characters which precede me, such as London Fox, Glyph Marrow, Philip Bafflemint, Jacklyn Variance, Oren Progresso, the Original Natalie Weissman, the animatronic reality show star Princhetta, the chatbot Cop‑E‑Right, the recently cloned version of Natalie Weissman, the shape‑shifter Arieol Owlist, Jack Parlance, Manny Valentinas, Shamrock Stillman, the podcaster Todd Fishbone, or even The Author themselves, or an additional unspoken character hidden either among or between them.",
+   "sha256": "23fc2364ab4ab9333e9873f4f73d6f6ee41f49e4157213bd9ae73fb5ef6bf74f",
+   "retained": true,
+   "note": null
+  }
+ },
+ "atlas_config": {
+  "schema": "atlas-config/1",
+  "mode": "live",
+  "frozen": true,
+  "field": "full-41",
+  "rubric_version": "atlas-rubric-v2",
+  "rubric_sha256": "a1a93f0176f7d456ace427bec5432c7952d348d6e12f571e74ef408d046485a9",
+  "dimensions": [
+   "direct_q_fit",
+   "echo",
+   "development",
+   "contradiction",
+   "bridge_relation",
+   "redundancy",
+   "missing_context"
+  ],
+  "state_layout": {
+   "source_page": [
+    "text"
+   ],
+   "destination_page": [
+    "text"
+   ]
+  },
+  "requested_model": "jev-1.13.0",
+  "pinned_returned_model": "jev-1.13.0",
+  "config_id": "cfg-5a7766c6c2012139e7bab61f",
+  "frozen_at": "2026-09-20T19:10:53Z",
+  "note": "Frozen 2026-09-20 after the 8-pair pilot and one bridge-only rubric revision (v1->v2). See notes/atlas-pilot-calibration.md."
+ },
+ "dspy_used": false,
+ "replay": {
+  "session_id": "s_0103376737a9",
+  "provider_calls": 0,
+  "state_replay": {
+   "check": "state_replay",
+   "session_id": "s_0103376737a9",
+   "events": 3,
+   "per_event_mismatches": [],
+   "final_equal": true,
+   "final_revision": 2,
+   "encounters": 2,
+   "ok": true
+  },
+  "decision_replay": {
+   "check": "decision_replay",
+   "session_id": "s_0103376737a9",
+   "offer_sets": 1,
+   "drift": [],
+   "ok": true
+  },
+  "ok": true
+ }
+}

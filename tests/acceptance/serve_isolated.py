@@ -92,6 +92,7 @@ def main() -> None:
     server.DATA_DIR = base / "data"
     server.RUNS_DIR = base / "runs"
     server.SESSION_LOG_PATH = base / "data" / "session_log.jsonl"
+    server.CORE_DIR = base / "data" / "core"  # the Core journals: never the real data/core
     contextual.ASSESSMENTS_PATH = base / "data" / "contextual_assessments.jsonl"
     offers.OFFER_SETS_PATH = base / "data" / "offer_sets.jsonl"
     server.OFFER_DISPATCH_FACTORY = lambda: (mock_contextual_dispatch, "mock", "mock-requested-model")

@@ -303,6 +303,17 @@ def build_parser() -> argparse.ArgumentParser:
     memory_cli.register_cli(sub)
     live_gateway.wire_cli_hooks()
 
+    # Core v0.3 (sessions, replay) and analysis (index manifest, projections, composition).
+    from .core import cli as core_cli
+
+    core_cli.register_cli(sub)
+    try:
+        from .analysis import cli as analysis_cli
+    except ImportError:  # the analysis package is being added this session
+        analysis_cli = None
+    if analysis_cli is not None:
+        analysis_cli.register_cli(sub)
+
     p = sub.add_parser("live-usage", help="attempts/tokens spent against each live budget ledger")
     p.set_defaults(func=cmd_live_usage)
 

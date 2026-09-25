@@ -1,0 +1,670 @@
+{
+ "at": "2026-09-25T21:47:45.337197+00:00",
+ "build": {
+  "git_revision": "f5847b02c423694c56c1b53f1a6f01638ccd8bad",
+  "dirty": true,
+  "app_js_sha256": "003fb551771afe793e2808bc29078122cfecbf92df7044694217740beb3e1d15",
+  "server_started_at": "2026-09-25T21:47:39.041429+00:00"
+ },
+ "policy": "discovery",
+ "browser": "Chrome via Playwright (channel=chrome, headless)",
+ "isolated_data_dir": "/var/folders/zs/hx1cyk6910171fwj2bbx478r0000gn/T/gibsey-acceptance-qmomad0l",
+ "provider": "MOCK only (tests/acceptance/serve_isolated.py); atlas = real live records, read-only",
+ "combinations": {
+  "total": 12,
+  "passed": 4,
+  "failed": 8,
+  "with_exploratory_rows": 2,
+  "follows_of_exploratory_rows": 2
+ },
+ "scenarios": {
+  "total": 0,
+  "passed": 0
+ },
+ "console_errors": [],
+ "mock_counters": {
+  "contextual_dispatches": 0,
+  "single_pick_dispatches": 0,
+  "mode": "ok"
+ },
+ "session_log_problems": [],
+ "failed_combinations": [
+  {
+   "page": "P1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [
+    "PR5: offered wording 'Offered: «Wait.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "session_id": "s_0c9b64b4d57f",
+   "ok": false
+  },
+  {
+   "page": "P1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [
+    "PR1: offered wording 'Offered: «This is not a piece of writing.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_54e89b3fccf2",
+   "ok": false
+  },
+  {
+   "page": "P5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [
+    "P1: offered wording \"Offered: «I didn't write this.»\" is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "session_id": "s_adbf399b46b0",
+   "ok": false
+  },
+  {
+   "page": "P5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [
+    "P1: offered wording \"Offered: «I didn't write this.»\" is not the destination's opening sentence",
+    "LF14: offered wording 'Offered: «Come closer.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "session_id": "s_e1695ebea30c",
+   "ok": false
+  },
+  {
+   "page": "P5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [
+    "PR1: offered wording 'Offered: «This is not a piece of writing.»' is not the destination's opening sentence",
+    "P1: offered wording \"Offered: «I didn't write this.»\" is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_9fa4c5fafdea",
+   "ok": false
+  },
+  {
+   "page": "P6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [
+    "F12: offered wording 'Offered: «Return to texts often.»' is not the destination's opening sentence",
+    "PR1: offered wording 'Offered: «This is not a piece of writing.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_cc74e74f344c",
+   "ok": false
+  },
+  {
+   "page": "P6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [
+    "F1: offered wording 'Offered: «As an author, I exist outside of time.»' is not the destination's opening sentence",
+    "LF14: offered wording 'Offered: «Come closer.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "session_id": "s_f79d856a6d75",
+   "ok": false
+  },
+  {
+   "page": "P6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [
+    "LF15: offered wording 'Offered: «I will remake you.»' is not the destination's opening sentence",
+    "LF14: offered wording 'Offered: «Come closer.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_1bc89fe32a83",
+   "ok": false
+  }
+ ],
+ "scenario_results": [],
+ "all_combinations": [
+  {
+   "page": "P1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [
+    "PR5: offered wording 'Offered: «Wait.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "PR5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "P4",
+     "supported"
+    ]
+   ],
+   "followed": "P5",
+   "followed_tier": "supported",
+   "session_id": "s_0c9b64b4d57f",
+   "ok": false
+  },
+  {
+   "page": "P1",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "P5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "session_id": "s_a2bb8f185e66",
+   "ok": true
+  },
+  {
+   "page": "P1",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [
+    "PR1: offered wording 'Offered: «This is not a piece of writing.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "PR3",
+   "followed_tier": "supported",
+   "session_id": "s_54e89b3fccf2",
+   "ok": false
+  },
+  {
+   "page": "P1",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF6",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_dfb7fe9ac6b6",
+   "ok": true
+  },
+  {
+   "page": "P5",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [
+    "P1: offered wording \"Offered: «I didn't write this.»\" is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "P2",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ]
+   ],
+   "followed": "F11",
+   "followed_tier": "supported",
+   "session_id": "s_adbf399b46b0",
+   "ok": false
+  },
+  {
+   "page": "P5",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [
+    "P1: offered wording \"Offered: «I didn't write this.»\" is not the destination's opening sentence",
+    "LF14: offered wording 'Offered: «Come closer.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "P1",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F11",
+     "supported"
+    ],
+    [
+     "F5",
+     "supported"
+    ]
+   ],
+   "followed": "P1",
+   "followed_tier": "supported",
+   "session_id": "s_e1695ebea30c",
+   "ok": false
+  },
+  {
+   "page": "P5",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [
+    "PR1: offered wording 'Offered: «This is not a piece of writing.»' is not the destination's opening sentence",
+    "P1: offered wording \"Offered: «I didn't write this.»\" is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "PR1",
+     "exploratory"
+    ],
+    [
+     "P1",
+     "exploratory"
+    ],
+    [
+     "P8",
+     "exploratory"
+    ]
+   ],
+   "followed": "PR1",
+   "followed_tier": "exploratory",
+   "session_id": "s_9fa4c5fafdea",
+   "ok": false
+  },
+  {
+   "page": "P5",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "LF8",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF7",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "LF6",
+     "supported"
+    ]
+   ],
+   "followed": "LF7",
+   "followed_tier": "supported",
+   "session_id": "s_8f30dee2f06b",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "problems": [],
+   "shown": [
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "P8",
+     "supported"
+    ],
+    [
+     "F8",
+     "supported"
+    ],
+    [
+     "F10",
+     "supported"
+    ],
+    [
+     "F6",
+     "supported"
+    ]
+   ],
+   "followed": "F10",
+   "followed_tier": "supported",
+   "session_id": "s_d183a983d96d",
+   "ok": true
+  },
+  {
+   "page": "P6",
+   "operator": "DEVELOP",
+   "policy": "discovery",
+   "problems": [
+    "F12: offered wording 'Offered: «Return to texts often.»' is not the destination's opening sentence",
+    "PR1: offered wording 'Offered: «This is not a piece of writing.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "F12",
+     "supported"
+    ],
+    [
+     "PR4",
+     "supported"
+    ],
+    [
+     "PR1",
+     "supported"
+    ],
+    [
+     "LF11",
+     "supported"
+    ]
+   ],
+   "followed": "LF11",
+   "followed_tier": "supported",
+   "session_id": "s_cc74e74f344c",
+   "ok": false
+  },
+  {
+   "page": "P6",
+   "operator": "CONTRADICT",
+   "policy": "discovery",
+   "problems": [
+    "F1: offered wording 'Offered: «As an author, I exist outside of time.»' is not the destination's opening sentence",
+    "LF14: offered wording 'Offered: «Come closer.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "F1",
+     "exploratory"
+    ],
+    [
+     "LF14",
+     "exploratory"
+    ],
+    [
+     "PR3",
+     "exploratory"
+    ]
+   ],
+   "followed": "LF14",
+   "followed_tier": "exploratory",
+   "session_id": "s_f79d856a6d75",
+   "ok": false
+  },
+  {
+   "page": "P6",
+   "operator": "BRIDGE",
+   "policy": "discovery",
+   "problems": [
+    "LF15: offered wording 'Offered: «I will remake you.»' is not the destination's opening sentence",
+    "LF14: offered wording 'Offered: «Come closer.»' is not the destination's opening sentence"
+   ],
+   "shown": [
+    [
+     "LF11",
+     "supported"
+    ],
+    [
+     "LF10",
+     "supported"
+    ],
+    [
+     "PR3",
+     "supported"
+    ],
+    [
+     "LF15",
+     "supported"
+    ],
+    [
+     "LF14",
+     "supported"
+    ]
+   ],
+   "followed": "LF10",
+   "followed_tier": "supported",
+   "session_id": "s_1bc89fe32a83",
+   "ok": false
+  }
+ ]
+}

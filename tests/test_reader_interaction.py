@@ -300,7 +300,12 @@ def test_a_response_for_a_page_the_reader_has_left_is_flagged_not_applicable(iso
 
 def test_get_endpoints_and_page_loads_never_dispatch_provider_work(isolated, monkeypatch):
     monkeypatch.setattr(reader_server, "run_case", _must_not_dispatch)
+    monkeypatch.setattr(reader_server, "CORE_DIR", isolated / "core")  # never the real data/core
+    session_id = Handlers.post_core_session({"page": "PR2"})["session_id"]
     queries = {
+        "/api/core/session": {"session_id": [session_id]},
+        "/api/core/status": {"session_id": [session_id], "request_id": ["none"]},
+        "/api/core/journey": {"session_id": [session_id]},
         "/api/fields": {},
         "/api/field-status": {"field": ["full-41"]},
         "/api/pages": {"field": ["full-41"]},

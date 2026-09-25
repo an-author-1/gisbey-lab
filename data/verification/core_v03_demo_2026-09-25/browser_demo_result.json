@@ -1,0 +1,104 @@
+{
+ "build": {
+  "git_revision": "f5847b02c423694c56c1b53f1a6f01638ccd8bad",
+  "dirty": true,
+  "app_js_sha256": "003fb551771afe793e2808bc29078122cfecbf92df7044694217740beb3e1d15",
+  "server_started_at": "2026-09-25T21:58:04.940970+00:00"
+ },
+ "steps": [
+  {
+   "step": "open P1",
+   "session_id": "s_0103376737a9",
+   "revision": "1",
+   "encounters": "1"
+  },
+  {
+   "step": "DEVELOP options shown",
+   "rows": [
+    {
+     "dest": "P5",
+     "tier": "supported",
+     "wording": "Offered: «As such, I do suppose that there is a fourth and other unspoken option.»",
+     "fit": "DEVELOP fit (development): strong development — 2.75 of 3, confidence 0.75"
+    },
+    {
+     "dest": "F11",
+     "tier": "supported",
+     "wording": "Offered: «As such here is the Table of Contents and Edit Decision List to aid you in your journey.»",
+     "fit": "DEVELOP fit (development): strong development — 2.54 of 3, confidence 0.54"
+    },
+    {
+     "dest": "LF6",
+     "tier": "supported",
+     "wording": "Offered: «And in this way, Synchromy-S.S.S.T.E.R.Y was to be the hoax to end all hoaxes.»",
+     "fit": "DEVELOP fit (development): strong development — 2.5 of 3, confidence 0.5"
+    },
+    {
+     "dest": "F5",
+     "tier": "supported",
+     "wording": "Offered: «As an author, despite my own authority and authorizations, I exist in The Outskirts like any other.»",
+     "fit": "DEVELOP fit (development): definite development — 2.26 of 3, confidence 0.26"
+    },
+    {
+     "dest": "P8",
+     "tier": "supported",
+     "wording": "Offered: «As a work of fiction, all of the characters and events contained within this text are also fictional, as well.»",
+     "fit": "DEVELOP fit (development): definite development — 2.07 of 3, confidence 0.4"
+    }
+   ]
+  },
+  {
+   "step": "preview",
+   "equals_vault_P5": true
+  },
+  {
+   "step": "followed",
+   "now": "P5",
+   "revision": "2",
+   "encounters": "2",
+   "prose_is_P5": true
+  },
+  {
+   "step": "refresh",
+   "now": "P5",
+   "same_session": true,
+   "revision": "2",
+   "encounters": "2"
+  },
+  {
+   "step": "server restart + reload",
+   "now": "P5",
+   "same_session": true,
+   "revision": "2",
+   "encounters": "2",
+   "build_after_restart": "f5847b02c4"
+  }
+ ],
+ "journey_api_keys": [
+  "atlas_config_ids",
+  "clock_note",
+  "encounter_count",
+  "encounters",
+  "event_count",
+  "evidence_note",
+  "field",
+  "field_id",
+  "last_event_at",
+  "last_seq",
+  "paused",
+  "rejections"
+ ],
+ "journey_page": {
+  "mentions_offered_wording": false,
+  "mentions_P5": true,
+  "no_textual_evidence_label": true,
+  "length": 957
+ },
+ "console_errors": [],
+ "journal_events": [
+  "session_started",
+  "offer_set_created",
+  "action_committed"
+ ],
+ "session_log_page_viewed_after_follow": 6
+}
