@@ -498,11 +498,12 @@ in place. In the reader: **Show possible next pages** asks for a hand of up to t
 routes informed by how you got to the page; the atlas panel lists the page's 40 base
 profiles; the header links to the PR2 memory demonstration at `/demo/pr2`.
 
-### Core v0.3 (2026-09-25, session 1)
+### Core v0.3 (2026-09-25, sessions 1–3)
 
 Persistent Q now runs through `src/gibsey_lab/core/`: a per-session append-only journal,
 a pure reducer, deduplicated and atomically committed actions, and provider-disabled
-replay. Read `notes/core-v03-status.md` first, then `notes/core-v03-contracts.md`.
+replay. Read `notes/core-v03-session3.md` for the executable-score handoff, and
+`notes/core-v03-status.md` / `notes/core-v03-contracts.md` for the earlier baseline.
 
 ```
 gibsey core-sessions | core-journey ID | core-replay ID [--export DIR]
@@ -511,6 +512,22 @@ gibsey analysis-manifest | analysis-project | analysis-compose --ops ECHO,DEVELO
 
 In the reader, the session line shows the Core session id, revision and encounter count;
 `/journey` is the read-only inspection of one recorded journey.
+
+**Try the synthetic recurrence demonstration:** start the current reader with
+`.venv/bin/gibsey serve-reader`, then click **Try neutral choices**. Follow RX3
+and choose ECHO: RX1 is available immediately. Leave the demonstration, click
+**Try outward and return**, follow RX3, and choose ECHO again: RX1 is excluded
+because another new passage is required. Follow RX5, choose ECHO, then follow RX1 to
+complete the return. The journey link shows the exact rules, earlier encounters and
+spacing. Pause/restart preserves progress. **Leave demonstration** records the exit
+and restores the preceding literary journey. Synthetic pages and relationships never
+enter the authored corpus or its legacy reader stores.
+
+New score configurations, prose, candidate inputs and decision reasons are retained
+with the journal. `gibsey core-replay-bundle PATH` checks a new export without the live
+atlas; add `--legacy-atlas` explicitly for original Session 1/2 exports, which lack
+complete frozen candidate inputs. No replay calls providers. The literary route in
+`notes/core-v03-literary-pilot.md` remains a proposal for Brennan's review.
 
 ### Verified so far
 

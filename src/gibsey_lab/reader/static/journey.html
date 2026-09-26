@@ -50,7 +50,7 @@
 </header>
 
 <section class="panel panel-compact">
-  <p class="hint">Read-only. Every encounter of one recorded Core journey, in arrival order, with the exact prose of the version arrived at and how it was reached: an <em>initial entry</em>, a <em>literary bond selected</em> (with the offer set that produced it, the selection and the decision evidence) or a <em>manual relocation</em> (Previous, Next, the page list, Back, browser history: no bond, no operator, no offer set), plus a return marker whenever a version was seen before. This page only ever reads <code>GET /api/core/journey</code>; it never commits, follows or asks a provider anything. Every score shown is <strong>decision evidence (model distribution) &mdash; no textual evidence span recorded</strong>.</p>
+  <p class="hint">Read-only. Every encounter of one recorded Core journey, in arrival order, with the exact prose of the version arrived at and how it was reached: an <em>initial entry</em>, a <em>literary bond selected</em> (with the offer set that produced it, the selection and the decision evidence) or a <em>manual relocation</em> (Previous, Next, the page list, Back, browser history: no bond, no operator, no offer set), plus a return marker whenever a version was seen before. This page only ever reads <code>GET /api/core/journey</code>; it never commits, follows or asks a provider anything. Every score shown is <strong>decision evidence (model distribution) — no textual evidence span recorded</strong>. Synthetic relationships are declared fixture edges; performance rules are the pinned executable score.</p>
   <form class="controls" id="session-form">
     <label class="inline-label">Session id <input id="session-input" name="session_id" autocomplete="off" spellcheck="false"></label>
     <button type="submit">Open</button>
@@ -59,6 +59,7 @@
   <dl class="journey-header" id="journey-header" data-testid="journey-header" hidden></dl>
 </section>
 
+<section class="panel panel-compact" id="score-inspection" data-testid="score-inspection" hidden></section>
 <section id="encounters" data-testid="journey-encounters"></section>
 
 <section class="panel panel-compact" id="rejections-panel" hidden>

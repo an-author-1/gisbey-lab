@@ -1,0 +1,595 @@
+{
+  "kind": "synthetic_ordered_history_comparison",
+  "provider_calls": 0,
+  "ok": true,
+  "checks": {
+    "same_source_version": true,
+    "same_visit_counts": true,
+    "same_frozen_relationships": true,
+    "same_resolver_inputs": true,
+    "distinct_ordered_histories": true,
+    "older_allowed_newer_denied": true,
+    "candidate_arrival_indices": true,
+    "intervening_boundary": true,
+    "offline_replay": true
+  },
+  "histories": [
+    {
+      "label": "older",
+      "ordered_encounters": [
+        {
+          "encounter_index": 0,
+          "version_id": "RX1@9013e3e18fb9",
+          "page_id": "RX1",
+          "via": "start",
+          "event_seq": 0,
+          "from_version": null,
+          "bond_version_id": null,
+          "request_id": null,
+          "cause": null,
+          "previous_encounter_index": null
+        },
+        {
+          "encounter_index": 1,
+          "version_id": "RX7@cb01ce8b6def",
+          "page_id": "RX7",
+          "via": "manual",
+          "event_seq": 1,
+          "from_version": "RX1@9013e3e18fb9",
+          "bond_version_id": null,
+          "request_id": "arrival_0",
+          "cause": "page_list",
+          "previous_encounter_index": null
+        },
+        {
+          "encounter_index": 2,
+          "version_id": "RX3@6fb19fb9535d",
+          "page_id": "RX3",
+          "via": "manual",
+          "event_seq": 2,
+          "from_version": "RX7@cb01ce8b6def",
+          "bond_version_id": null,
+          "request_id": "arrival_1",
+          "cause": "page_list",
+          "previous_encounter_index": null
+        },
+        {
+          "encounter_index": 3,
+          "version_id": "RX5@70c726eb9ba5",
+          "page_id": "RX5",
+          "via": "manual",
+          "event_seq": 3,
+          "from_version": "RX3@6fb19fb9535d",
+          "bond_version_id": null,
+          "request_id": "arrival_2",
+          "cause": "page_list",
+          "previous_encounter_index": null
+        }
+      ],
+      "visit_counts": {
+        "RX1@9013e3e18fb9": 1,
+        "RX7@cb01ce8b6def": 1,
+        "RX3@6fb19fb9535d": 1,
+        "RX5@70c726eb9ba5": 1
+      },
+      "source_version": "RX5@70c726eb9ba5",
+      "score": {
+        "score_id": "spacing_history_fixture",
+        "score_version": 1,
+        "config": {
+          "schema_version": 1,
+          "score_id": "spacing_history_fixture",
+          "score_version": 1,
+          "entry_version": null,
+          "initial_movement": "open",
+          "global_actions": [
+            "pause",
+            "resume",
+            "end_journey",
+            "exit"
+          ],
+          "relocation": {
+            "permitted": true,
+            "advances": false
+          },
+          "evidence": "assessed",
+          "movements": {
+            "open": {
+              "allowed_functions": [
+                "Q"
+              ],
+              "allowed_operators": [
+                "ECHO",
+                "DEVELOP",
+                "CONTRADICT",
+                "BRIDGE"
+              ],
+              "guards": [
+                {
+                  "min_intervening_encounters": 2
+                }
+              ],
+              "advance_after": null,
+              "advance_on": [
+                "Q"
+              ],
+              "next": null
+            }
+          },
+          "terminal_movements": [],
+          "empty_offer_behavior": "blocked_with_explanation"
+        },
+        "config_sha256": "58cd940237d1554ba6d5acd2372c7eb89bb5af1f52799e3e99c867cfc0483cdd",
+        "entry_version": "RX1@9013e3e18fb9",
+        "movement": "open",
+        "counter": 0,
+        "counters": {
+          "open": 0
+        },
+        "status": "active",
+        "blocked": null
+      },
+      "offered_destinations": [
+        "RX1",
+        "RX7"
+      ],
+      "deciding_guard": {
+        "candidate_id": "bond_c3cb8f379214f8627aef",
+        "bond_version_id": "bond_c3cb8f379214f8627aef",
+        "destination_page": "RX7",
+        "score_id": "spacing_history_fixture",
+        "score_version": 1,
+        "score_config_sha256": "58cd940237d1554ba6d5acd2372c7eb89bb5af1f52799e3e99c867cfc0483cdd",
+        "rule_id": "spacing_history_fixture@1/open/min_intervening_encounters",
+        "code": "return_spacing_satisfied",
+        "allowed": true,
+        "encounter_refs": [
+          {
+            "encounter_index": 1,
+            "event_seq": 1,
+            "version_id": "RX7@cb01ce8b6def"
+          }
+        ],
+        "values": {
+          "target_version": "RX7@cb01ce8b6def",
+          "candidate_arrival_index": 4,
+          "previous_encounter_index": 1,
+          "return_index_distance": 3,
+          "intervening_encounters": 2,
+          "minimum": 2
+        }
+      },
+      "candidate_inputs": [
+        {
+          "bond_version_id": "bond_7baf87692de74130c351",
+          "source_version": "RX5@70c726eb9ba5",
+          "destination_version": "RX1@9013e3e18fb9",
+          "destination_page": "RX1",
+          "operator": "ECHO",
+          "wording": "The lamp waits in the window.",
+          "wording_source": "destination_opening_sentence",
+          "tier": "supported",
+          "tier_label": "Synthetic fixture relationship",
+          "operator_fit": {
+            "dimension": "echo",
+            "score": 3.0,
+            "score_norm": 1.0,
+            "confidence": null,
+            "nearest_level": 3
+          },
+          "cautions": [
+            "synthetic_fixture_not_a_model_assessment"
+          ],
+          "assessment_id": "fixture-recurrence-v1-RX5-RX1-ECHO",
+          "rank": 1,
+          "rank_reasons": [
+            "Declared synthetic relationship; ordered by fixture page identity."
+          ],
+          "evidence_allowed": true,
+          "policy_allowed": true,
+          "evidence_code": "assessed_exact_versions",
+          "evidence": null,
+          "evidence_kind": "synthetic_declared_relationship"
+        },
+        {
+          "bond_version_id": "bond_b1886c5e041b91be27aa",
+          "source_version": "RX5@70c726eb9ba5",
+          "destination_version": "RX3@6fb19fb9535d",
+          "destination_page": "RX3",
+          "operator": "ECHO",
+          "wording": "A small lamp shines beside the garden gate.",
+          "wording_source": "destination_opening_sentence",
+          "tier": "supported",
+          "tier_label": "Synthetic fixture relationship",
+          "operator_fit": {
+            "dimension": "echo",
+            "score": 3.0,
+            "score_norm": 1.0,
+            "confidence": null,
+            "nearest_level": 3
+          },
+          "cautions": [
+            "synthetic_fixture_not_a_model_assessment"
+          ],
+          "assessment_id": "fixture-recurrence-v1-RX5-RX3-ECHO",
+          "rank": 2,
+          "rank_reasons": [
+            "Declared synthetic relationship; ordered by fixture page identity."
+          ],
+          "evidence_allowed": true,
+          "policy_allowed": true,
+          "evidence_code": "assessed_exact_versions",
+          "evidence": null,
+          "evidence_kind": "synthetic_declared_relationship"
+        },
+        {
+          "bond_version_id": "bond_c3cb8f379214f8627aef",
+          "source_version": "RX5@70c726eb9ba5",
+          "destination_version": "RX7@cb01ce8b6def",
+          "destination_page": "RX7",
+          "operator": "ECHO",
+          "wording": "A shaded lamp lights a narrow stair.",
+          "wording_source": "destination_opening_sentence",
+          "tier": "supported",
+          "tier_label": "Synthetic fixture relationship",
+          "operator_fit": {
+            "dimension": "echo",
+            "score": 3.0,
+            "score_norm": 1.0,
+            "confidence": null,
+            "nearest_level": 3
+          },
+          "cautions": [
+            "synthetic_fixture_not_a_model_assessment"
+          ],
+          "assessment_id": "fixture-recurrence-v1-RX5-RX7-ECHO",
+          "rank": 3,
+          "rank_reasons": [
+            "Declared synthetic relationship; ordered by fixture page identity."
+          ],
+          "evidence_allowed": true,
+          "policy_allowed": true,
+          "evidence_code": "assessed_exact_versions",
+          "evidence": null,
+          "evidence_kind": "synthetic_declared_relationship"
+        }
+      ],
+      "resolver_inputs": {
+        "operator": "ECHO",
+        "policy": "discovery",
+        "max_supported": 3,
+        "min_shown": 0
+      },
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "older",
+        "events": 5,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 4,
+        "encounters": 4,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "older",
+        "offer_sets": 1,
+        "results": [
+          {
+            "offer_set_id": "offers_245011347a4749fa6b19",
+            "seq": 4,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7baf87692de74130c351",
+              "bond_c3cb8f379214f8627aef"
+            ],
+            "recomputed": [
+              "bond_7baf87692de74130c351",
+              "bond_c3cb8f379214f8627aef"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      }
+    },
+    {
+      "label": "newer",
+      "ordered_encounters": [
+        {
+          "encounter_index": 0,
+          "version_id": "RX1@9013e3e18fb9",
+          "page_id": "RX1",
+          "via": "start",
+          "event_seq": 0,
+          "from_version": null,
+          "bond_version_id": null,
+          "request_id": null,
+          "cause": null,
+          "previous_encounter_index": null
+        },
+        {
+          "encounter_index": 1,
+          "version_id": "RX3@6fb19fb9535d",
+          "page_id": "RX3",
+          "via": "manual",
+          "event_seq": 1,
+          "from_version": "RX1@9013e3e18fb9",
+          "bond_version_id": null,
+          "request_id": "arrival_0",
+          "cause": "page_list",
+          "previous_encounter_index": null
+        },
+        {
+          "encounter_index": 2,
+          "version_id": "RX7@cb01ce8b6def",
+          "page_id": "RX7",
+          "via": "manual",
+          "event_seq": 2,
+          "from_version": "RX3@6fb19fb9535d",
+          "bond_version_id": null,
+          "request_id": "arrival_1",
+          "cause": "page_list",
+          "previous_encounter_index": null
+        },
+        {
+          "encounter_index": 3,
+          "version_id": "RX5@70c726eb9ba5",
+          "page_id": "RX5",
+          "via": "manual",
+          "event_seq": 3,
+          "from_version": "RX7@cb01ce8b6def",
+          "bond_version_id": null,
+          "request_id": "arrival_2",
+          "cause": "page_list",
+          "previous_encounter_index": null
+        }
+      ],
+      "visit_counts": {
+        "RX1@9013e3e18fb9": 1,
+        "RX3@6fb19fb9535d": 1,
+        "RX7@cb01ce8b6def": 1,
+        "RX5@70c726eb9ba5": 1
+      },
+      "source_version": "RX5@70c726eb9ba5",
+      "score": {
+        "score_id": "spacing_history_fixture",
+        "score_version": 1,
+        "config": {
+          "schema_version": 1,
+          "score_id": "spacing_history_fixture",
+          "score_version": 1,
+          "entry_version": null,
+          "initial_movement": "open",
+          "global_actions": [
+            "pause",
+            "resume",
+            "end_journey",
+            "exit"
+          ],
+          "relocation": {
+            "permitted": true,
+            "advances": false
+          },
+          "evidence": "assessed",
+          "movements": {
+            "open": {
+              "allowed_functions": [
+                "Q"
+              ],
+              "allowed_operators": [
+                "ECHO",
+                "DEVELOP",
+                "CONTRADICT",
+                "BRIDGE"
+              ],
+              "guards": [
+                {
+                  "min_intervening_encounters": 2
+                }
+              ],
+              "advance_after": null,
+              "advance_on": [
+                "Q"
+              ],
+              "next": null
+            }
+          },
+          "terminal_movements": [],
+          "empty_offer_behavior": "blocked_with_explanation"
+        },
+        "config_sha256": "58cd940237d1554ba6d5acd2372c7eb89bb5af1f52799e3e99c867cfc0483cdd",
+        "entry_version": "RX1@9013e3e18fb9",
+        "movement": "open",
+        "counter": 0,
+        "counters": {
+          "open": 0
+        },
+        "status": "active",
+        "blocked": null
+      },
+      "offered_destinations": [
+        "RX1",
+        "RX3"
+      ],
+      "deciding_guard": {
+        "candidate_id": "bond_c3cb8f379214f8627aef",
+        "bond_version_id": "bond_c3cb8f379214f8627aef",
+        "destination_page": "RX7",
+        "score_id": "spacing_history_fixture",
+        "score_version": 1,
+        "score_config_sha256": "58cd940237d1554ba6d5acd2372c7eb89bb5af1f52799e3e99c867cfc0483cdd",
+        "rule_id": "spacing_history_fixture@1/open/min_intervening_encounters",
+        "code": "return_too_soon",
+        "allowed": false,
+        "encounter_refs": [
+          {
+            "encounter_index": 2,
+            "event_seq": 2,
+            "version_id": "RX7@cb01ce8b6def"
+          }
+        ],
+        "values": {
+          "target_version": "RX7@cb01ce8b6def",
+          "candidate_arrival_index": 4,
+          "previous_encounter_index": 2,
+          "return_index_distance": 2,
+          "intervening_encounters": 1,
+          "minimum": 2
+        }
+      },
+      "candidate_inputs": [
+        {
+          "bond_version_id": "bond_7baf87692de74130c351",
+          "source_version": "RX5@70c726eb9ba5",
+          "destination_version": "RX1@9013e3e18fb9",
+          "destination_page": "RX1",
+          "operator": "ECHO",
+          "wording": "The lamp waits in the window.",
+          "wording_source": "destination_opening_sentence",
+          "tier": "supported",
+          "tier_label": "Synthetic fixture relationship",
+          "operator_fit": {
+            "dimension": "echo",
+            "score": 3.0,
+            "score_norm": 1.0,
+            "confidence": null,
+            "nearest_level": 3
+          },
+          "cautions": [
+            "synthetic_fixture_not_a_model_assessment"
+          ],
+          "assessment_id": "fixture-recurrence-v1-RX5-RX1-ECHO",
+          "rank": 1,
+          "rank_reasons": [
+            "Declared synthetic relationship; ordered by fixture page identity."
+          ],
+          "evidence_allowed": true,
+          "policy_allowed": true,
+          "evidence_code": "assessed_exact_versions",
+          "evidence": null,
+          "evidence_kind": "synthetic_declared_relationship"
+        },
+        {
+          "bond_version_id": "bond_b1886c5e041b91be27aa",
+          "source_version": "RX5@70c726eb9ba5",
+          "destination_version": "RX3@6fb19fb9535d",
+          "destination_page": "RX3",
+          "operator": "ECHO",
+          "wording": "A small lamp shines beside the garden gate.",
+          "wording_source": "destination_opening_sentence",
+          "tier": "supported",
+          "tier_label": "Synthetic fixture relationship",
+          "operator_fit": {
+            "dimension": "echo",
+            "score": 3.0,
+            "score_norm": 1.0,
+            "confidence": null,
+            "nearest_level": 3
+          },
+          "cautions": [
+            "synthetic_fixture_not_a_model_assessment"
+          ],
+          "assessment_id": "fixture-recurrence-v1-RX5-RX3-ECHO",
+          "rank": 2,
+          "rank_reasons": [
+            "Declared synthetic relationship; ordered by fixture page identity."
+          ],
+          "evidence_allowed": true,
+          "policy_allowed": true,
+          "evidence_code": "assessed_exact_versions",
+          "evidence": null,
+          "evidence_kind": "synthetic_declared_relationship"
+        },
+        {
+          "bond_version_id": "bond_c3cb8f379214f8627aef",
+          "source_version": "RX5@70c726eb9ba5",
+          "destination_version": "RX7@cb01ce8b6def",
+          "destination_page": "RX7",
+          "operator": "ECHO",
+          "wording": "A shaded lamp lights a narrow stair.",
+          "wording_source": "destination_opening_sentence",
+          "tier": "supported",
+          "tier_label": "Synthetic fixture relationship",
+          "operator_fit": {
+            "dimension": "echo",
+            "score": 3.0,
+            "score_norm": 1.0,
+            "confidence": null,
+            "nearest_level": 3
+          },
+          "cautions": [
+            "synthetic_fixture_not_a_model_assessment"
+          ],
+          "assessment_id": "fixture-recurrence-v1-RX5-RX7-ECHO",
+          "rank": 3,
+          "rank_reasons": [
+            "Declared synthetic relationship; ordered by fixture page identity."
+          ],
+          "evidence_allowed": true,
+          "policy_allowed": true,
+          "evidence_code": "assessed_exact_versions",
+          "evidence": null,
+          "evidence_kind": "synthetic_declared_relationship"
+        }
+      ],
+      "resolver_inputs": {
+        "operator": "ECHO",
+        "policy": "discovery",
+        "max_supported": 3,
+        "min_shown": 0
+      },
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "newer",
+        "events": 5,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 4,
+        "encounters": 4,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "newer",
+        "offer_sets": 1,
+        "results": [
+          {
+            "offer_set_id": "offers_62de56a2dfac4c3279dc",
+            "seq": 4,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7baf87692de74130c351",
+              "bond_b1886c5e041b91be27aa"
+            ],
+            "recomputed": [
+              "bond_7baf87692de74130c351",
+              "bond_b1886c5e041b91be27aa"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      }
+    }
+  ],
+  "explanation": "RX7 was last encountered at index 1 versus 2. The same candidate arrival at index 4 has index distance 3 versus 2 and intervening count 2 versus 1. Only the older visit meets the minimum of two.",
+  "code_references": [
+    "src/gibsey_lab/core/scores.py:evaluate",
+    "tests/test_core_scores.py:test_ordered_histories_with_equal_counts_change_return_eligibility"
+  ]
+}

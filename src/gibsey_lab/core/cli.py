@@ -12,15 +12,23 @@ from . import journal, replay
 from .core import Core, CoreError
 
 
-def _core() -> Core:
+def _core(session_id: str | None = None) -> Core:
     from ..session_log import DEFAULT_LOG_PATH
     from ..state import DEFAULT_DATA_DIR
+    from ..fields import load_field
+    from . import fixtures
+
+    events = journal.read_events(session_id) if session_id else []
+    field_id = events[0].get("field_id") if events else "full-41"
+    if field_id == fixtures.FIELD_ID:
+        return Core(field=fixtures.demo_field(), options_provider=fixtures.fixture_options)
+    field = load_field(field_id)
 
     try:
         from . import projectors  # mirrors committed actions into the legacy reader stores
     except ImportError:
-        return Core()
-    return Core(projectors=[projectors.mirror_to_legacy_stores(DEFAULT_DATA_DIR, DEFAULT_LOG_PATH)])
+        return Core(field=field)
+    return Core(field=field, projectors=[projectors.mirror_to_legacy_stores(DEFAULT_DATA_DIR, DEFAULT_LOG_PATH, field=field)])
 
 
 def cmd_sessions(args: argparse.Namespace) -> int:
@@ -32,13 +40,16 @@ def cmd_sessions(args: argparse.Namespace) -> int:
 
 
 def cmd_journey(args: argparse.Namespace) -> int:
-    core = _core()
+    core = _core(args.session_id)
     try:
         s = core.resume_session(args.session_id)
     except CoreError as e:
         print(str(e), file=sys.stderr)
         return 1
     print(f"session {args.session_id}  revision {s['revision']}  {len(s['encounters'])} encounter(s)  paused={s['paused']}")
+    score = s["state"]["z"]
+    print(f"score {score['score_id']}@{score['score_version']}  movement={score['movement']}  "
+          f"counter={score.get('counter', 'legacy')}  outcome={score.get('status', 'legacy neutral')}")
     for h in s["encounters"]:
         ret = f"  return: distance {h['return_index_distance']}, {h['intervening_encounters']} intervening" if "return_index_distance" in h else ""
         if h["via"] == "Q":
@@ -52,7 +63,7 @@ def cmd_journey(args: argparse.Namespace) -> int:
 
 
 def cmd_replay(args: argparse.Namespace) -> int:
-    core = _core()
+    core = _core(args.session_id)
     result = replay.replay(args.session_id, core)
     s, d = result["state_replay"], result["decision_replay"]
     print(f"state replay: {'OK' if s['ok'] else 'MISMATCH'} ({s['events']} events, final revision {s['final_revision']}, "
@@ -65,6 +76,12 @@ def cmd_replay(args: argparse.Namespace) -> int:
     return 0 if result["ok"] else 1
 
 
+def cmd_replay_bundle(args: argparse.Namespace) -> int:
+    result = replay.replay_bundle(Path(args.bundle), legacy_core=_core() if args.legacy_atlas else None)
+    print(json.dumps(result, indent=2))
+    return 0 if result["ok"] else 1
+
+
 def cmd_start(args: argparse.Namespace) -> int:
     s = _core().start_session(args.page, session_id=args.session_id)
     print(json.dumps({k: s[k] for k in ("session_id", "revision", "active_version")}))
@@ -72,18 +89,18 @@ def cmd_start(args: argparse.Namespace) -> int:
 
 
 def cmd_options(args: argparse.Namespace) -> int:
-    o = _core().resolve_options(args.session_id, args.operator.upper(), policy=args.policy)
+    o = _core(args.session_id).resolve_options(args.session_id, args.operator.upper(), policy=args.policy)
     print(f"offer set {o['offer_set_id']} at revision {o['revision']} from {o['source_version']} ({'reused' if o.get('reused') else 'new'})")
     for b in o["bonds"]:
         fit = b["operator_fit"]
-        print(f"  {b['bond_version_id']}  -> {b['destination_version']}  {b['tier']:11s} fit {fit.get('score_norm'):.2f} conf {fit.get('confidence'):.2f}")
+        print(f"  {b['bond_version_id']}  -> {b['destination_version']}  {b['tier']:11s} fit {fit.get('score_norm')} conf {fit.get('confidence')}")
         print(f"      offered: «{b['wording']}»")
     return 0
 
 
 def cmd_execute(args: argparse.Namespace) -> int:
     try:
-        r = _core().execute_action(args.session_id, offer_set_id=args.offer_set_id, bond_version_id=args.bond_version_id,
+        r = _core(args.session_id).execute_action(args.session_id, offer_set_id=args.offer_set_id, bond_version_id=args.bond_version_id,
                                    expected_revision=args.expected_revision, request_id=args.request_id)
     except CoreError as e:
         print(f"rejected: {e.code}: {e}", file=sys.stderr)
@@ -94,7 +111,7 @@ def cmd_execute(args: argparse.Namespace) -> int:
 
 def cmd_relocate(args: argparse.Namespace) -> int:
     try:
-        r = _core().relocate(args.session_id, page_id=args.page, expected_revision=args.expected_revision,
+        r = _core(args.session_id).relocate(args.session_id, page_id=args.page, expected_revision=args.expected_revision,
                              request_id=args.request_id, cause=args.cause)
     except CoreError as e:
         print(f"rejected: {e.code}: {e}", file=sys.stderr)
@@ -112,6 +129,10 @@ def register_cli(sub) -> None:
     p.add_argument("session_id")
     p.add_argument("--export", help="also write a self-contained journey bundle to this directory")
     p.set_defaults(func=cmd_replay)
+    p = sub.add_parser("core-replay-bundle", help="replay a retained journey bundle with providers disabled")
+    p.add_argument("bundle")
+    p.add_argument("--legacy-atlas", action="store_true", help="explicitly use the local atlas for old bundles without frozen candidates")
+    p.set_defaults(func=cmd_replay_bundle)
     p = sub.add_parser("core-start", help="start a session at a page (same operation as the reader)")
     p.add_argument("page")
     p.add_argument("--session-id")

@@ -44,6 +44,7 @@ EVENT_TYPES = (
     "action_rejected",     # recorded refusal (never changes state): {request_id, code, reason}
     "paused",
     "resumed",
+    "performance_ended",
     "presented",           # reader-render acknowledgement of an offer set; not attention, not an encounter
 )
 

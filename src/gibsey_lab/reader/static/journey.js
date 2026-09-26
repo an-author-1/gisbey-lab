@@ -70,6 +70,8 @@ function renderHeader(journey, build) {
   header.dataset.paused = journey.paused ? "true" : "false";
   header.appendChild(headerItem("session", journey.session_id, "journey-session-id"));
   header.appendChild(headerItem("field", journey.field, "journey-field"));
+  const score = journey.score || {};
+  header.appendChild(headerItem("performance", score.score_id ? `${score.score_id} v${score.score_version} · ${score.movement} · ${score.status}` : "Historical neutral journey", "journey-score"));
   header.appendChild(headerItem("atlas config", (journey.atlas_config_ids || []).join(", ") || "none resolved yet", "journey-atlas-config"));
   header.appendChild(headerItem("revision", journey.revision, "journey-revision"));
   header.appendChild(headerItem("paused", journey.paused ? "yes" : "no", "journey-paused"));
@@ -113,7 +115,7 @@ function renderBond(bond, position) {
   summary.appendChild(textNode("span", `${position}. `, "option-rank"));
   summary.appendChild(textNode("span", bond.destination_page || "?", "page-tag"));
   summary.appendChild(textNode("span", ` ${bond.destination_version || ""}`, "bond-meta"));
-  const tier = bond.tier === "supported" ? "Supported" : (bond.tier_label || "Exploratory — weak or uncertain fit");
+  const tier = bond.tier_label || (bond.tier === "supported" ? "Supported" : "Exploratory — weak or uncertain fit");
   summary.appendChild(textNode("span", tier, `tier-badge tier-${bond.tier === "supported" ? "supported" : "exploratory"}`));
   if (bond.selected) summary.appendChild(textNode("span", "selected", "selected-mark"));
   item.appendChild(summary);
@@ -125,7 +127,7 @@ function renderBond(bond, position) {
     body.appendChild(wording);
   }
   body.appendChild(textNode("div", `${fitText(bond.operator_fit)}${bond.operator_fit && bond.operator_fit.nearest_level !== undefined && bond.operator_fit.nearest_level !== null ? ` (nearest level ${bond.operator_fit.nearest_level})` : ""}`, "option-fit"));
-  body.appendChild(textNode("span", EVIDENCE_NOTE, "evidence-note"));
+  body.appendChild(textNode("span", bond.evidence_note || EVIDENCE_NOTE, "evidence-note"));
   const cautions = (bond.cautions || []).join(", ");
   if (cautions) body.appendChild(textNode("div", `cautions: ${cautions}`, "bond-meta"));
   body.appendChild(textNode("div", `bond version: ${bond.bond_version_id || "—"}`, "bond-meta"));
@@ -154,7 +156,7 @@ function renderOfferSet(action) {
   const exclusions = offer.exclusions || {};
   meta.appendChild(textNode("div", `counts: eligible ${counts.eligible ?? "—"}, usable ${counts.usable ?? "—"}, supported ${counts.supported ?? "—"}, shown ${bonds.length} · excluded by policy ${exclusions.ineligible_policy ?? "—"}, unusable ${exclusions.unusable ?? "—"}`));
   details.appendChild(meta);
-  details.appendChild(textNode("span", `Scores below are ${EVIDENCE_NOTE}.`, "evidence-note"));
+  details.appendChild(textNode("span", action.evidence_note || EVIDENCE_NOTE, "evidence-note"));
   bonds.forEach((bond, index) => details.appendChild(renderBond(bond, index + 1)));
   return details;
 }
@@ -194,6 +196,10 @@ function renderEncounter(encounter) {
 
   const body = document.createElement("div");
   body.className = "encounter-body";
+  if (encounter.score_after && encounter.score_after.score_id) {
+    const score = encounter.score_after;
+    body.appendChild(textNode("p", `Performance after arrival: ${score.movement} · ${score.counter || 0} moves in this movement · ${score.status}`, "bond-meta"));
+  }
   body.appendChild(textNode("div", `arrived at ${encounter.at || "—"} (journal event ${encounter.event_seq}; wall time as recorded, not synthetic) · revision after ${encounter.revision_after} · encounters so far ${encounter.encounter_count_after} · this version seen ${encounter.count_for_version_after} time${encounter.count_for_version_after === 1 ? "" : "s"}`, "bond-meta"));
   if (encounter.is_return) {
     body.appendChild(textNode("div", encounter.return_marker || `earlier encounter of this exact version: #${encounter.previous_encounter_index}; index distance ${encounter.return_index_distance}; intervening encounters ${encounter.intervening_encounters}`, "bond-meta"));
@@ -232,7 +238,7 @@ function renderEncounter(encounter) {
       selection.appendChild(wording);
     }
     selection.appendChild(textNode("div", `${action.tier === "supported" ? "Supported" : "Exploratory"} · ${fitText(action.operator_fit)} · assessment id ${action.assessment_id || "none recorded"}`, "option-fit"));
-    selection.appendChild(textNode("span", EVIDENCE_NOTE, "evidence-note"));
+    selection.appendChild(textNode("span", action.evidence_note || EVIDENCE_NOTE, "evidence-note"));
     body.appendChild(selection);
     body.appendChild(textNode("h3", "State before → after"));
     body.appendChild(renderStateGrid(action));
@@ -268,6 +274,28 @@ function renderRejections(journey) {
   }
 }
 
+function renderScoreInspection(journey) {
+  const panel = el("score-inspection");
+  panel.replaceChildren();
+  panel.hidden = !journey.score || !journey.score.score_id;
+  if (panel.hidden) return;
+  panel.appendChild(textNode("h2", journey.synthetic ? "Synthetic performance and choice rules" : "Performance and choice rules"));
+  const config = document.createElement("details");
+  config.appendChild(textNode("summary", "Pinned score configuration and lifecycle"));
+  config.appendChild(textNode("pre", JSON.stringify({ score: journey.score, lifecycle_events: journey.lifecycle_events }, null, 2)));
+  panel.appendChild(config);
+  for (const offer of journey.offer_sets || []) {
+    const details = document.createElement("details");
+    details.dataset.testid = "journey-score-decisions";
+    details.appendChild(textNode("summary", `${offer.source_page} · ${offer.operator} · revision ${offer.revision}: ${(offer.bonds || []).length} available choices`));
+    for (const decision of offer.decisions || []) {
+      details.appendChild(textNode("p", `${decision.destination_page || decision.candidate_id} — ${decision.allowed ? "rule passed" : "excluded by rule"}: ${decision.reason || decision.code} (${decision.rule_id})`));
+      details.appendChild(textNode("pre", JSON.stringify(decision, null, 2)));
+    }
+    panel.appendChild(details);
+  }
+}
+
 async function load(sessionId) {
   const status = el("load-status");
   const container = el("encounters");
@@ -293,6 +321,7 @@ async function load(sessionId) {
   let build = null;
   try { build = await getJson("/api/build"); } catch (e) { /* informational */ }
   renderHeader(journey, build);
+  renderScoreInspection(journey);
   status.className = "status-line state-selected";
   status.textContent = `${journey.encounter_count} encounter${journey.encounter_count === 1 ? "" : "s"} from ${journey.event_count} journal events; nothing was written by this page.`;
   for (const encounter of journey.encounters || []) container.appendChild(renderEncounter(encounter));

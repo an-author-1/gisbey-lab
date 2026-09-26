@@ -1,0 +1,420 @@
+{
+  "browser": "Chrome via Playwright",
+  "isolated_store": "/Users/ghostradongus/gibsey-lab/gisbey-lab/data/verification/core_v03_session3_demo_2026-09-25/20260926T012138680016Z/isolated-store",
+  "browser_observations": [
+    "Literary neutral Q and page-list relocation share a session; only Q advances its counter.",
+    "Neutral synthetic RX3 offers immediate return to RX1 and permits page-list relocation; Leave records exit and restores the literary journey.",
+    "At the same synthetic RX3, recurrence excludes RX1 and shows the explanation and outward progress 1 of 2.",
+    "Previous, Next, in-app Back, page list and browser Back are refused before arrival; direct URL reload resumes RX3 with unchanged score.",
+    "Pause and resume retain two encounters and outward counter 1.",
+    "Server process restart and reload preserve exact RX3 text, session, score configuration, movement, counters and encounters.",
+    "A stale second tab cannot follow its old RX3 offer after the first tab reaches RX5.",
+    "RX5 permits RX1; Follow completes recurrence. Journey inspector exposes the rule, encounter references, candidate index 3, index distance 3 and two intervening encounters.",
+    "Choosing an unavailable operator shows blocked without relaxing rules; End this performance records reader ending, and Leave restores the literary journey."
+  ],
+  "api_observations": [
+    "Seven legacy research POST routes and two legacy GET routes return 409 during the demonstration without arrivals or provider dispatch.",
+    "Pre-pause offer remains invalid after resume, even when sent with the current revision.",
+    "Identical accepted-action retry returns duplicate before staleness; conflicting request ID returns 409; neither advances score."
+  ],
+  "page_errors": [],
+  "build": {
+    "git_revision": "6e7221c66d06d689611a4af9e1aed82e33df9ab1",
+    "dirty": true,
+    "app_js_sha256": "345d200b22e446172888bf9bfa193aaebc92a5f1f58b7767c0bd5427a0e3d5da",
+    "server_started_at": "2026-09-26T01:21:38.735527+00:00"
+  },
+  "comparison": {
+    "source": "RX3",
+    "neutral_choices": [
+      "RX1",
+      "RX5",
+      "RX7"
+    ],
+    "recurrence_choices": [
+      "RX5",
+      "RX7"
+    ]
+  },
+  "provider_counters_before_restart": {
+    "contextual_dispatches": 0,
+    "single_pick_dispatches": 0,
+    "mode": "ok"
+  },
+  "restart_build": {
+    "git_revision": "6e7221c66d06d689611a4af9e1aed82e33df9ab1",
+    "dirty": true,
+    "app_js_sha256": "345d200b22e446172888bf9bfa193aaebc92a5f1f58b7767c0bd5427a0e3d5da",
+    "server_started_at": "2026-09-26T01:21:40.962509+00:00"
+  },
+  "provider_counters_after_restart": {
+    "contextual_dispatches": 0,
+    "single_pick_dispatches": 0,
+    "mode": "ok"
+  },
+  "replays": {
+    "literary_neutral": {
+      "session_id": "s_cec36c04919b",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "s_cec36c04919b",
+        "events": 4,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 3,
+        "encounters": 3,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "s_cec36c04919b",
+        "offer_sets": 1,
+        "results": [
+          {
+            "offer_set_id": "offers_ae6d49a3dc47172d7126",
+            "seq": 1,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_ba0aa01b2e7d90106a75"
+            ],
+            "recomputed": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_ba0aa01b2e7d90106a75"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "all_frozen_candidates",
+        "versions_required": 41,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "score/1",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true
+    },
+    "synthetic_neutral": {
+      "session_id": "s_e27973795a9a",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "s_e27973795a9a",
+        "events": 6,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 4,
+        "encounters": 3,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "s_e27973795a9a",
+        "offer_sets": 2,
+        "results": [
+          {
+            "offer_set_id": "offers_6e98f57f0de498c1308d",
+            "seq": 1,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "recomputed": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_5091f259c490782805e1",
+            "seq": 3,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_620f5ae143a4b2296e4d",
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "recomputed": [
+              "bond_620f5ae143a4b2296e4d",
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "all_frozen_candidates",
+        "versions_required": 4,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "score/1",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true
+    },
+    "recurrence": {
+      "session_id": "s_788099e5bc0b",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "s_788099e5bc0b",
+        "events": 18,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 7,
+        "encounters": 4,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "s_788099e5bc0b",
+        "offer_sets": 4,
+        "results": [
+          {
+            "offer_set_id": "offers_6e566a230851161619fa",
+            "seq": 1,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "recomputed": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_ada161b7269d3a06a54d",
+            "seq": 3,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "recomputed": [
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_443954b0481d2641c103",
+            "seq": 11,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "recomputed": [
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_c04cdaa63d1736378eda",
+            "seq": 15,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7baf87692de74130c351"
+            ],
+            "recomputed": [
+              "bond_7baf87692de74130c351"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "all_frozen_candidates",
+        "versions_required": 4,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "score/1",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true
+    },
+    "blocked_ended": {
+      "session_id": "s_b39478a25521",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "s_b39478a25521",
+        "events": 7,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 3,
+        "encounters": 1,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "s_b39478a25521",
+        "offer_sets": 4,
+        "results": [
+          {
+            "offer_set_id": "offers_9f636a71147af6597673",
+            "seq": 1,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "recomputed": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_c929b606328d0a4df574",
+            "seq": 2,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [],
+            "recomputed": [],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_9f636a71147af6597673",
+            "seq": 3,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "recomputed": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_c929b606328d0a4df574",
+            "seq": 4,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [],
+            "recomputed": [],
+            "reasons_equal": true,
+            "blocked_equal": true
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "all_frozen_candidates",
+        "versions_required": 4,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "score/1",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true
+    }
+  },
+  "sessions": {
+    "literary_neutral": "s_cec36c04919b",
+    "synthetic_neutral": "s_e27973795a9a",
+    "recurrence": "s_788099e5bc0b",
+    "blocked_ended": "s_b39478a25521"
+  },
+  "ok": true
+}

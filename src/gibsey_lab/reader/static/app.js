@@ -131,6 +131,7 @@ function stillCurrent(ctx) {
 }
 
 function logNavigation(event, extra) {
+  if (isDemo()) return Promise.resolve();
   // passive logging: never blocks or breaks the reading flow
   return postJson("/api/session/navigation", { event, field: App.field, policy: App.policy, ...extra }).catch(() => {});
 }
@@ -191,6 +192,112 @@ function storePolicy(policy) {
 // --- the Core session: one journey of committed follows, resumed on load ---
 
 const SESSION_STORAGE_KEY = "gibsey.coreSessionId";
+const PRIOR_SESSION_KEY = "gibsey.preDemoSessionId";
+
+function isDemo() {
+  return !!(App.session && App.session.synthetic);
+}
+
+async function adoptSessionField(session) {
+  App.field = session.field;
+  const select = el("field-select");
+  if (![...select.options].some((option) => option.value === App.field)) {
+    const option = document.createElement("option");
+    option.value = App.field;
+    option.textContent = "Synthetic recurrence demonstration";
+    select.appendChild(option);
+  }
+  select.value = App.field;
+  await loadPageList();
+  await checkFieldStatus();
+}
+
+async function startDemo(mode) {
+  try {
+    const previous = App.session && App.session.session_id;
+    const session = await postJson("/api/core/demo", { mode, session_id: previous });
+    if (previous) localStorage.setItem(PRIOR_SESSION_KEY, previous);
+    applySession(session);
+    await adoptSessionField(session);
+    App.viewHistory = [];
+    saveViewHistory();
+    await showPage(session.active_page);
+    recordArrival(session.encounter_count - 1);
+    await selectOperator("ECHO");
+    el("score-demo-status").textContent = "Synthetic material only. Choose Follow, then choose an operator on each arrival.";
+  } catch (error) {
+    el("score-demo-status").textContent = error.message;
+  }
+}
+
+async function scoreLifecycle(action, resumeSessionId) {
+  const session = App.session;
+  const view = await postJson("/api/core/lifecycle", {
+    session_id: session.session_id, action, expected_revision: session.revision, request_id: newRequestId(),
+    resume_session_id: resumeSessionId || undefined,
+  });
+  applySession(view);
+  return view;
+}
+
+async function leaveDemo() {
+  try {
+    const demonstration = App.session.session_id;
+    const previous = localStorage.getItem(PRIOR_SESSION_KEY);
+    await scoreLifecycle("exit", previous);
+    const session = await postJson("/api/core/session", { session_id: previous || undefined });
+    applySession(session);
+    await adoptSessionField(session);
+    localStorage.removeItem(PRIOR_SESSION_KEY);
+    App.viewHistory = [];
+    saveViewHistory();
+    await showPage(session.active_page);
+    syncHistoryEntry(session.encounter_count - 1);
+    const status = el("score-demo-status");
+    status.textContent = "Your literary journey is restored. ";
+    const link = textNode("a", "Inspect the demonstration you just left");
+    link.href = `/journey?session_id=${encodeURIComponent(demonstration)}`;
+    status.appendChild(link);
+  } catch (error) {
+    el("score-demo-status").textContent = error.message;
+  }
+}
+
+function renderScore() {
+  const demo = isDemo();
+  const score = (App.session && App.session.score) || {};
+  el("start-neutral-demo").disabled = demo;
+  el("start-recurrence-demo").disabled = demo;
+  el("leave-demo").hidden = !demo;
+  el("field-select").disabled = demo;
+  el("offers-panel").hidden = demo;
+  el("atlas-panel").hidden = demo;
+  el("history-panel").hidden = demo;
+  el("mode-panel").hidden = demo;
+  const progress = el("score-progress");
+  progress.dataset.movement = score.movement || "";
+  progress.dataset.status = score.status || "";
+  progress.dataset.counter = String(score.counter || 0);
+  if (!demo) {
+    progress.textContent = "";
+    return;
+  }
+  const movement = ((score.config || {}).movements || {})[score.movement] || {};
+  const completed = score.status === "complete";
+  const status = { complete: "Complete — you returned to the starting passage.", ended_by_reader: "Ended by you before completion.", exited: "You left this demonstration.", blocked: "No choice satisfies this part of the demonstration." }[score.status];
+  const neutral = score.score_id === "neutral";
+  const label = neutral ? "Neutral choices" : (score.movement === "outward" ? "Outward — visit two new passages" : "Return — come back to the starting passage");
+  progress.textContent = `${App.session.paused ? "Paused. " : ""}${status || label}${!status && movement.advance_after ? ` · ${score.counter || 0} of ${movement.advance_after} moves` : ""}${completed ? " You may leave or inspect the journey." : ""}`;
+  if (!neutral && !status) progress.appendChild(textNode("span", " Manual navigation is unavailable here; use the offered choices or Leave demonstration."));
+  if (score.status === "active" || score.status === "blocked") {
+    const end = textNode("button", "End this performance", "session-toggle");
+    end.dataset.testid = "score-end";
+    end.addEventListener("click", async () => {
+      try { await scoreLifecycle("end_journey"); } catch (error) { el("score-demo-status").textContent = error.message; }
+    });
+    progress.appendChild(end);
+  }
+}
 
 function readStoredSessionId() {
   try { return window.localStorage.getItem(SESSION_STORAGE_KEY) || null; } catch (e) { return null; }
@@ -208,6 +315,7 @@ function applySession(view) {
   App.sessionError = null;
   storeSessionId(view.session_id);
   renderSessionLine();
+  renderScore();
 }
 
 async function resumeOrStartSession(fallbackPage, options) {
@@ -442,10 +550,12 @@ function renderSessionLine() {
   line.appendChild(arrivalEl);
   const fresh = textNode("button", "Start a new journey", "session-toggle");
   fresh.dataset.testid = "new-journey";
+  fresh.disabled = isDemo();
   fresh.addEventListener("click", () => showNewJourneyConfirm());
   line.appendChild(fresh);
   const toggle = textNode("button", s.paused ? "Resume session" : "Pause session", "session-toggle");
   toggle.dataset.testid = s.paused ? "session-resume" : "session-pause";
+  toggle.disabled = ["complete", "ended_by_reader", "exited"].includes((s.score || {}).status);
   toggle.addEventListener("click", async () => {
     toggle.disabled = true;
     try {
@@ -579,6 +689,9 @@ async function init() {
   el("follow-immediately-toggle").addEventListener("change", (e) => {
     App.followImmediately = e.target.checked;
   });
+  el("start-neutral-demo").addEventListener("click", () => startDemo("neutral"));
+  el("start-recurrence-demo").addEventListener("click", () => startDemo("recurrence"));
+  el("leave-demo").addEventListener("click", leaveDemo);
   el("request-new-btn").addEventListener("click", () => { if (App.operator) requestSelection(App.operator); });
   el("single-pick-button").addEventListener("click", () => singlePick(App.operator));
   el("refine-button").addEventListener("click", onRefineOptions);
@@ -617,7 +730,9 @@ async function init() {
   // The Core session is resumed first (no event); where it is, the reader is. A stored
   // id the server does not know is replaced by a fresh server-minted session at `start`.
   let session = await resumeOrStartSession(start);
-  if (session && (session.field !== App.field || !el("page-select").querySelector(`option[value="${CSS.escape(session.active_page)}"]`))) {
+  if (session && session.synthetic) {
+    await adoptSessionField(session);
+  } else if (session && (session.field !== App.field || !el("page-select").querySelector(`option[value="${CSS.escape(session.active_page)}"]`))) {
     session = await resumeOrStartSession(start, { new: true }); // the stored journey is in another field
   }
   if (session) {
@@ -734,7 +849,7 @@ async function showPage(pageId) {
   App.followedRun = null;
 
   el("page-select").value = pageId;
-  const page = await api(`/api/page?field=${encodeURIComponent(App.field)}&id=${encodeURIComponent(pageId)}`);
+  const page = await api(`/api/page?field=${encodeURIComponent(App.field)}&id=${encodeURIComponent(pageId)}&session_id=${encodeURIComponent(App.session ? App.session.session_id : "")}`);
   if (myGeneration !== App.navGeneration) return false; // a newer navigation superseded this one
 
   App.currentPage = page;
@@ -755,6 +870,7 @@ async function showPage(pageId) {
   renderOptions();
   renderOperatorPanel();
   renderOffers();
+  renderScore();
 
   // No session-log line here: every arrival's line is the projector's mirror of the Core
   // event (a resume's legacy `via=reload` line is written by init, once).
@@ -814,13 +930,15 @@ async function selectOperator(operator) {
   }
   App.operator = operator;
   el("operator-criterion").hidden = false;
-  el("operator-criterion").textContent = App.criteria[operator] || "";
+  el("operator-criterion").textContent = isDemo()
+    ? "These relationships are declared for the synthetic material. The current part of the demonstration determines which choices are available."
+    : App.criteria[operator] || "";
   el("postfollow-panel").hidden = true;
   updateOperatorBadges();
   renderOptions();
   renderOperatorPanel();
   loadEarlier(operator);
-  if (!App.options[operator]) await loadOptions(operator);
+  if (!App.options[operator] || isDemo()) await loadOptions(operator);
 }
 
 async function loadOptions(operator) {
@@ -851,6 +969,8 @@ async function loadOptions(operator) {
   if (!stillCurrent(ctx)) return;
   if (typeof data.current_revision === "number" && App.session && App.session.session_id === data.session_id && App.session.revision !== data.current_revision) {
     refreshSession();
+  } else if (data.score && App.session && App.session.session_id === data.session_id) {
+    applySession({ ...App.session, score: data.score });
   }
   App.options[operator] = data;
   if (App.operator === operator) renderOptions();
@@ -862,6 +982,7 @@ const CAUTION_TEXT = {
   high_redundancy: "may largely repeat this page",
   high_missing_context: "may need context you have not read",
   low_direct_q_fit: "weak direct fit as a next page",
+  synthetic_fixture_not_a_model_assessment: "Invented relationship for this demonstration",
 };
 
 function fitLine(operator, fit, fitLevel) {
@@ -881,11 +1002,12 @@ function optionDetails(data, option) {
   }
   const details = {
     rank: option.rank, tier: option.tier, operator_fit: option.operator_fit, cautions: option.cautions,
-    evidence: "decision evidence (model distribution) — no textual evidence span recorded",
+    evidence: data.evidence_note || "decision evidence (model distribution) — no textual evidence span recorded",
     base_profile_scores: base, base_assessment_id: option.assessment_id,
     is_authored_neighbor: option.is_authored_neighbor, rank_reasons: option.rank_reasons,
     bond_version_id: option.bond_version_id, source_version: option.source_version, destination_version: option.destination_version,
     wording: option.wording, wording_source: option.wording_source,
+    score_decisions: (data.decisions || []).filter((decision) => decision.bond_version_id === option.bond_version_id),
     offer_set_id: data.offer_set_id, offer_set_revision: data.revision, session_id: data.session_id,
     option_set_id: data.option_set_id, ordering_basis: data.ordering_basis, counts: data.counts,
     atlas_mode: data.mode, atlas_config_id: data.atlas_config_id, destination_sha256: option.destination_sha256,
@@ -1009,8 +1131,27 @@ function renderOptions() {
   el("ordering-line").textContent = data.ordering_line || "";
 
   (data.options || []).forEach((option, index) => list.appendChild(renderOptionRow(data, option, index + 1)));
+  const excluded = (data.decisions || []).filter((decision) => !decision.allowed);
+  if (excluded.length) {
+    const explanation = document.createElement("details");
+    explanation.dataset.testid = "score-exclusions";
+    explanation.open = isDemo();
+    explanation.appendChild(textNode("summary", "Why other choices are unavailable"));
+    for (const decision of excluded) {
+      const descriptions = {
+        target_already_visited: "Already visited on this journey; choose a passage you have not visited yet.",
+        target_not_entry_version: "This part asks you to return to the starting passage.",
+        return_too_soon: "The return needs more arrivals between visits.",
+        target_not_previously_encountered: "A return only applies to a passage already visited on this journey.",
+        operator_forbidden: "This kind of choice is unavailable in the current part of the demonstration.",
+      };
+      const reason = descriptions[decision.code] || decision.reason || decision.code.replaceAll("_", " ");
+      explanation.appendChild(textNode("p", `${decision.destination_page || decision.candidate_id}: ${reason}`));
+    }
+    list.appendChild(explanation);
+  }
 
-  const canRefine = (data.options || []).length > 0 && !!(data.offer_set_id || data.option_set_id);
+  const canRefine = !isDemo() && (data.options || []).length > 0 && !!(data.offer_set_id || data.option_set_id);
   el("refine-button").hidden = !canRefine;
   el("refine-button").disabled = !!refine.loading;
   el("refine-button").textContent = refine.state && !String(refine.state).startsWith("refined") ? "Try the history refinement again" : "Refine order using my reading history";
@@ -1028,11 +1169,13 @@ function renderOptions() {
     offer_set_id: data.offer_set_id, offer_set_revision: data.revision, session_id: data.session_id,
     source_version: data.source_version, options_policy_version: data.options_policy_version,
     reused_offer_set: data.reused, exclusions: data.exclusions, evidence: data.evidence_note,
+    score_config_sha256: data.score_config_sha256, decisions: data.decisions, blocked: data.blocked,
     option_set_id: data.option_set_id, page_sha256: data.page_sha256, refinement: data.refinement,
   }, null, 2);
 }
 
 async function onRefineOptions() {
+  if (isDemo()) return;
   const operator = App.operator;
   const shown = App.options[operator];
   if (!operator || !shown || !(shown.offer_set_id || shown.option_set_id)) return;
@@ -1284,6 +1427,7 @@ function showPositionConflict(error) {
 // --- single pick (research): the secondary, explicit Choice request ---
 
 async function singlePick(operator) {
+  if (isDemo()) return;
   // Explicit click only. Shows a matching recorded pick if one exists, otherwise makes one
   // live request. Whatever it returns, the ranked options above are untouched.
   if (!operator) return;
@@ -1328,6 +1472,7 @@ async function singlePick(operator) {
 }
 
 async function requestSelection(operator) {
+  if (isDemo()) return;
   const key = operatorKey(operator);
   if (App.inFlight[key]) return; // a duplicate click joins nothing client-side: the button is disabled
 
@@ -1388,6 +1533,7 @@ const PROVENANCE_LABEL = {
 };
 
 function renderOperatorPanel() {
+  if (isDemo()) { el("result-panel").hidden = true; return; }
   const operator = App.operator;
   const panel = el("result-panel");
   if (!operator) {
@@ -1440,6 +1586,7 @@ function renderOperatorPanel() {
 }
 
 async function loadEarlier(operator) {
+  if (isDemo()) return;
   const ctx = snapshotContext();
   let data;
   try {
@@ -1519,6 +1666,7 @@ async function onAcceptAndFollow(automatic) {
   try {
     await App.navLogged;
     const outcome = await postJson("/api/accept-and-follow", {
+      session_id: App.session && App.session.session_id,
       run_dir: view.record.run_dir, field: ctx.field, source: ctx.source, operator,
       from_page: ctx.source, client_page: ctx.source,
       follow_token: `${App.visitId}:${view.record.run_id || view.record.run_dir}`,
@@ -1549,6 +1697,7 @@ function renderOperatorPanelButtonsOnly() {
 // --- offers: a small hand of possible next pages ---
 
 async function loadLatestOffers() {
+  if (isDemo()) return;
   // Read-only: shows the last persisted hand for this page after a refresh. Never dispatches.
   const ctx = snapshotContext();
   let data;
@@ -1565,6 +1714,7 @@ async function loadLatestOffers() {
 }
 
 async function onShowOffers() {
+  if (isDemo()) return;
   const key = offersKey();
   if (App.inFlight[key]) return;
   const ctx = snapshotContext();
@@ -1745,6 +1895,7 @@ async function onFollowOffer(data, offer) {
   try {
     await App.navLogged;
     const outcome = await postJson("/api/follow-offer", {
+      session_id: App.session && App.session.session_id,
       offer_set_id: data.offer_set_id, destination_id: offer.destination_id,
       from_page: ctx.source, client_page: ctx.source,
       follow_token: `${App.visitId}:${data.offer_set_id}:${offer.destination_id}`,
@@ -1769,6 +1920,7 @@ async function onFollowOffer(data, offer) {
 // --- atlas inspection: the active page's 40 base pair profiles ---
 
 async function loadAtlas() {
+  if (isDemo()) return;
   const ctx = snapshotContext();
   const mode = el("atlas-mode").value;
   el("atlas-coverage").textContent = "Loading profiles...";

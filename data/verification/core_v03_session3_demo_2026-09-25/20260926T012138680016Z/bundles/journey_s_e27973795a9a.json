@@ -1,0 +1,2561 @@
+{
+ "schema": "journey-bundle/2",
+ "session_id": "s_e27973795a9a",
+ "events": [
+  {
+   "schema": "core-event/1",
+   "seq": 0,
+   "session_id": "s_e27973795a9a",
+   "at": "2026-09-26T01:21:39.887542+00:00",
+   "event": "session_started",
+   "revision_after": 1,
+   "field_id": "recurrence-demo",
+   "version_id": "RX1@9013e3e18fb9",
+   "page_id": "RX1",
+   "sha256": "9013e3e18fb9145f995acb59b8c97912e33c44e2935c4f5681e8087493b24ddf",
+   "via": "start",
+   "score_contract": "score/1",
+   "score_snapshot": {
+    "schema_version": 1,
+    "score_id": "neutral",
+    "score_version": 1,
+    "entry_version": null,
+    "initial_movement": "open",
+    "global_actions": [
+     "pause",
+     "resume",
+     "end_journey",
+     "exit"
+    ],
+    "relocation": {
+     "permitted": true,
+     "advances": false
+    },
+    "evidence": "assessed",
+    "movements": {
+     "open": {
+      "allowed_functions": [
+       "Q"
+      ],
+      "allowed_operators": [
+       "ECHO",
+       "DEVELOP",
+       "CONTRADICT",
+       "BRIDGE"
+      ],
+      "guards": [],
+      "advance_after": null,
+      "advance_on": [
+       "Q"
+      ],
+      "next": null
+     }
+    },
+    "terminal_movements": [],
+    "empty_offer_behavior": "blocked_with_explanation"
+   },
+   "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+   "score_after": {
+    "score_id": "neutral",
+    "score_version": 1,
+    "config": {
+     "schema_version": 1,
+     "score_id": "neutral",
+     "score_version": 1,
+     "entry_version": null,
+     "initial_movement": "open",
+     "global_actions": [
+      "pause",
+      "resume",
+      "end_journey",
+      "exit"
+     ],
+     "relocation": {
+      "permitted": true,
+      "advances": false
+     },
+     "evidence": "assessed",
+     "movements": {
+      "open": {
+       "allowed_functions": [
+        "Q"
+       ],
+       "allowed_operators": [
+        "ECHO",
+        "DEVELOP",
+        "CONTRADICT",
+        "BRIDGE"
+       ],
+       "guards": [],
+       "advance_after": null,
+       "advance_on": [
+        "Q"
+       ],
+       "next": null
+      }
+     },
+     "terminal_movements": [],
+     "empty_offer_behavior": "blocked_with_explanation"
+    },
+    "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+    "entry_version": "RX1@9013e3e18fb9",
+    "movement": "open",
+    "counter": 0,
+    "counters": {
+     "open": 0
+    },
+    "status": "active",
+    "blocked": null
+   },
+   "retained_content": {
+    "RX1@9013e3e18fb9": {
+     "page_id": "RX1",
+     "text": "The lamp waits in the window.\n\nSynthetic demonstration — The starting room.\n\nTake two paths into rooms you have not visited, then return here. The same lamp will be waiting; your recorded route will be different.",
+     "sha256": "9013e3e18fb9145f995acb59b8c97912e33c44e2935c4f5681e8087493b24ddf",
+     "retained": true
+    },
+    "RX3@6fb19fb9535d": {
+     "page_id": "RX3",
+     "text": "A small lamp shines beside the garden gate.\n\nSynthetic demonstration — The garden.\n\nThe window is still visible behind you. In an ordinary journey you could return now. In the recurrence demonstration, visit one more new room first.",
+     "sha256": "6fb19fb9535d8025d99c13860c92a5f967c7ec3e83c796b8346e39e101e9ca71",
+     "retained": true
+    },
+    "RX5@70c726eb9ba5": {
+     "page_id": "RX5",
+     "text": "A lamp is reflected in the water.\n\nSynthetic demonstration — The pool.\n\nYou can see the starting window in the reflection. After two outward arrivals, the return to that exact room becomes available.",
+     "sha256": "70c726eb9ba5fc7cd85ba0e452e5a33e28dbd6008635ef78b1a11e7c27c2aa9e",
+     "retained": true
+    },
+    "RX7@cb01ce8b6def": {
+     "page_id": "RX7",
+     "text": "A shaded lamp lights a narrow stair.\n\nSynthetic demonstration — The stair.\n\nThis is another outward choice. A room already visited cannot count as a new room; the journey remembers each arrival in order.",
+     "sha256": "cb01ce8b6def4ba44f57f39a11b6e38270edda66d9da93b1348ec5a15c0286ee",
+     "retained": true
+    }
+   }
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 1,
+   "session_id": "s_e27973795a9a",
+   "at": "2026-09-26T01:21:39.902982+00:00",
+   "event": "offer_set_created",
+   "revision_after": 1,
+   "offer_set_id": "offers_6e98f57f0de498c1308d",
+   "revision": 1,
+   "source_version": "RX1@9013e3e18fb9",
+   "source_page": "RX1",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "bond_version_ids": [
+    "bond_7ba1b5c133b3b186c19e",
+    "bond_caf4154172b1f3c1b480",
+    "bond_9fe26ef38ce709a0d625"
+   ],
+   "bonds": [
+    {
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "source_version": "RX1@9013e3e18fb9",
+     "destination_version": "RX3@6fb19fb9535d",
+     "destination_page": "RX3",
+     "operator": "ECHO",
+     "wording": "A small lamp shines beside the garden gate.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX1-RX3-ECHO",
+     "rank": 1,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    },
+    {
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "source_version": "RX1@9013e3e18fb9",
+     "destination_version": "RX5@70c726eb9ba5",
+     "destination_page": "RX5",
+     "operator": "ECHO",
+     "wording": "A lamp is reflected in the water.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX1-RX5-ECHO",
+     "rank": 2,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    },
+    {
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "source_version": "RX1@9013e3e18fb9",
+     "destination_version": "RX7@cb01ce8b6def",
+     "destination_page": "RX7",
+     "operator": "ECHO",
+     "wording": "A shaded lamp lights a narrow stair.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX1-RX7-ECHO",
+     "rank": 3,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    }
+   ],
+   "decisions": [
+    {
+     "candidate_id": "bond_7ba1b5c133b3b186c19e",
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "destination_page": "RX3",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/grounded",
+     "code": "assessed_exact_versions",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_7ba1b5c133b3b186c19e",
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "destination_page": "RX3",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/source_matches",
+     "code": "source_matches",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_7ba1b5c133b3b186c19e",
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "destination_page": "RX3",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/field_policy",
+     "code": "policy_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "policy": "discovery"
+     }
+    },
+    {
+     "candidate_id": "bond_7ba1b5c133b3b186c19e",
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "destination_page": "RX3",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/performance_active",
+     "code": "active",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_7ba1b5c133b3b186c19e",
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "destination_page": "RX3",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_functions",
+     "code": "function_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_7ba1b5c133b3b186c19e",
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "destination_page": "RX3",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_operators",
+     "code": "operator_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "operator": "ECHO",
+      "allowed_operators": [
+       "ECHO",
+       "DEVELOP",
+       "CONTRADICT",
+       "BRIDGE"
+      ]
+     }
+    },
+    {
+     "candidate_id": "bond_caf4154172b1f3c1b480",
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/grounded",
+     "code": "assessed_exact_versions",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_caf4154172b1f3c1b480",
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/source_matches",
+     "code": "source_matches",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_caf4154172b1f3c1b480",
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/field_policy",
+     "code": "policy_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "policy": "discovery"
+     }
+    },
+    {
+     "candidate_id": "bond_caf4154172b1f3c1b480",
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/performance_active",
+     "code": "active",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_caf4154172b1f3c1b480",
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_functions",
+     "code": "function_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_caf4154172b1f3c1b480",
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_operators",
+     "code": "operator_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "operator": "ECHO",
+      "allowed_operators": [
+       "ECHO",
+       "DEVELOP",
+       "CONTRADICT",
+       "BRIDGE"
+      ]
+     }
+    },
+    {
+     "candidate_id": "bond_9fe26ef38ce709a0d625",
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/grounded",
+     "code": "assessed_exact_versions",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_9fe26ef38ce709a0d625",
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/source_matches",
+     "code": "source_matches",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_9fe26ef38ce709a0d625",
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/field_policy",
+     "code": "policy_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "policy": "discovery"
+     }
+    },
+    {
+     "candidate_id": "bond_9fe26ef38ce709a0d625",
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/performance_active",
+     "code": "active",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_9fe26ef38ce709a0d625",
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_functions",
+     "code": "function_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_9fe26ef38ce709a0d625",
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_operators",
+     "code": "operator_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "operator": "ECHO",
+      "allowed_operators": [
+       "ECHO",
+       "DEVELOP",
+       "CONTRADICT",
+       "BRIDGE"
+      ]
+     }
+    },
+    {
+     "candidate_id": "bond_7ba1b5c133b3b186c19e",
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "destination_page": "RX3",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/display_limit",
+     "code": "included",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_caf4154172b1f3c1b480",
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/display_limit",
+     "code": "included",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_9fe26ef38ce709a0d625",
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/display_limit",
+     "code": "included",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    }
+   ],
+   "blocked": null,
+   "candidate_inputs": [
+    {
+     "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+     "source_version": "RX1@9013e3e18fb9",
+     "destination_version": "RX3@6fb19fb9535d",
+     "destination_page": "RX3",
+     "operator": "ECHO",
+     "wording": "A small lamp shines beside the garden gate.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX1-RX3-ECHO",
+     "rank": 1,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    },
+    {
+     "bond_version_id": "bond_caf4154172b1f3c1b480",
+     "source_version": "RX1@9013e3e18fb9",
+     "destination_version": "RX5@70c726eb9ba5",
+     "destination_page": "RX5",
+     "operator": "ECHO",
+     "wording": "A lamp is reflected in the water.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX1-RX5-ECHO",
+     "rank": 2,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    },
+    {
+     "bond_version_id": "bond_9fe26ef38ce709a0d625",
+     "source_version": "RX1@9013e3e18fb9",
+     "destination_version": "RX7@cb01ce8b6def",
+     "destination_page": "RX7",
+     "operator": "ECHO",
+     "wording": "A shaded lamp lights a narrow stair.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX1-RX7-ECHO",
+     "rank": 3,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    }
+   ],
+   "resolver_inputs": {
+    "operator": "ECHO",
+    "policy": "discovery",
+    "max_supported": 3,
+    "min_shown": 0
+   },
+   "resolver_version": "score-resolver/1",
+   "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+   "decision_fingerprint": "aa263ba5fbdee69a6551bf2427885464351bcbb76e2fe60be6293b629adbdb08",
+   "options_policy_version": "recurrence-fixture-options-v1",
+   "options_state": "options",
+   "counts": {
+    "eligible": 3,
+    "usable": 3,
+    "supported": 3,
+    "supported_shown": 3,
+    "exploratory_shown": 0,
+    "ineligible_policy": 0
+   },
+   "atlas_config_id": "recurrence-material/1",
+   "atlas_rubric_version": "synthetic-declared-edges-v1",
+   "pinned_returned_model": null,
+   "field_policy_version": "field-policy/1",
+   "support_floor": null,
+   "retained_content": {},
+   "unusable": [],
+   "exclusions": {
+    "ineligible_policy": 0,
+    "unusable": 0
+   },
+   "score_after": {
+    "score_id": "neutral",
+    "score_version": 1,
+    "config": {
+     "schema_version": 1,
+     "score_id": "neutral",
+     "score_version": 1,
+     "entry_version": null,
+     "initial_movement": "open",
+     "global_actions": [
+      "pause",
+      "resume",
+      "end_journey",
+      "exit"
+     ],
+     "relocation": {
+      "permitted": true,
+      "advances": false
+     },
+     "evidence": "assessed",
+     "movements": {
+      "open": {
+       "allowed_functions": [
+        "Q"
+       ],
+       "allowed_operators": [
+        "ECHO",
+        "DEVELOP",
+        "CONTRADICT",
+        "BRIDGE"
+       ],
+       "guards": [],
+       "advance_after": null,
+       "advance_on": [
+        "Q"
+       ],
+       "next": null
+      }
+     },
+     "terminal_movements": [],
+     "empty_offer_behavior": "blocked_with_explanation"
+    },
+    "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+    "entry_version": "RX1@9013e3e18fb9",
+    "movement": "open",
+    "counter": 0,
+    "counters": {
+     "open": 0
+    },
+    "status": "active",
+    "blocked": null
+   }
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 2,
+   "session_id": "s_e27973795a9a",
+   "at": "2026-09-26T01:21:39.951228+00:00",
+   "event": "action_committed",
+   "revision_after": 2,
+   "request_id": "req_muhpf3hp_3_u91aamn1",
+   "fingerprint": "732a998343159c17320bd50f0bc118af5c0fb00fad4ae3ab05e3f49974215110",
+   "offer_set_id": "offers_6e98f57f0de498c1308d",
+   "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+   "operator": "ECHO",
+   "wording": "A small lamp shines beside the garden gate.",
+   "from_version": "RX1@9013e3e18fb9",
+   "from_page": "RX1",
+   "to_version": "RX3@6fb19fb9535d",
+   "to_page": "RX3",
+   "expected_revision": 1,
+   "encounter_index": 1,
+   "tier": "supported",
+   "operator_fit": {
+    "dimension": "echo",
+    "score": 3.0,
+    "score_norm": 1.0,
+    "confidence": null,
+    "nearest_level": 3
+   },
+   "assessment_id": "fixture-recurrence-v1-RX1-RX3-ECHO",
+   "score_after": {
+    "score_id": "neutral",
+    "score_version": 1,
+    "config": {
+     "schema_version": 1,
+     "score_id": "neutral",
+     "score_version": 1,
+     "entry_version": null,
+     "initial_movement": "open",
+     "global_actions": [
+      "pause",
+      "resume",
+      "end_journey",
+      "exit"
+     ],
+     "relocation": {
+      "permitted": true,
+      "advances": false
+     },
+     "evidence": "assessed",
+     "movements": {
+      "open": {
+       "allowed_functions": [
+        "Q"
+       ],
+       "allowed_operators": [
+        "ECHO",
+        "DEVELOP",
+        "CONTRADICT",
+        "BRIDGE"
+       ],
+       "guards": [],
+       "advance_after": null,
+       "advance_on": [
+        "Q"
+       ],
+       "next": null
+      }
+     },
+     "terminal_movements": [],
+     "empty_offer_behavior": "blocked_with_explanation"
+    },
+    "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+    "entry_version": "RX1@9013e3e18fb9",
+    "movement": "open",
+    "counter": 1,
+    "counters": {
+     "open": 1
+    },
+    "status": "active",
+    "blocked": null
+   }
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 3,
+   "session_id": "s_e27973795a9a",
+   "at": "2026-09-26T01:21:40.017820+00:00",
+   "event": "offer_set_created",
+   "revision_after": 2,
+   "offer_set_id": "offers_5091f259c490782805e1",
+   "revision": 2,
+   "source_version": "RX3@6fb19fb9535d",
+   "source_page": "RX3",
+   "operator": "ECHO",
+   "policy": "discovery",
+   "bond_version_ids": [
+    "bond_620f5ae143a4b2296e4d",
+    "bond_41a8539d4be8ab4a8a62",
+    "bond_be7f29003664b46eb14b"
+   ],
+   "bonds": [
+    {
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "source_version": "RX3@6fb19fb9535d",
+     "destination_version": "RX1@9013e3e18fb9",
+     "destination_page": "RX1",
+     "operator": "ECHO",
+     "wording": "The lamp waits in the window.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX3-RX1-ECHO",
+     "rank": 1,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    },
+    {
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "source_version": "RX3@6fb19fb9535d",
+     "destination_version": "RX5@70c726eb9ba5",
+     "destination_page": "RX5",
+     "operator": "ECHO",
+     "wording": "A lamp is reflected in the water.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX3-RX5-ECHO",
+     "rank": 2,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    },
+    {
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "source_version": "RX3@6fb19fb9535d",
+     "destination_version": "RX7@cb01ce8b6def",
+     "destination_page": "RX7",
+     "operator": "ECHO",
+     "wording": "A shaded lamp lights a narrow stair.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX3-RX7-ECHO",
+     "rank": 3,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    }
+   ],
+   "decisions": [
+    {
+     "candidate_id": "bond_620f5ae143a4b2296e4d",
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "destination_page": "RX1",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/grounded",
+     "code": "assessed_exact_versions",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_620f5ae143a4b2296e4d",
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "destination_page": "RX1",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/source_matches",
+     "code": "source_matches",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_620f5ae143a4b2296e4d",
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "destination_page": "RX1",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/field_policy",
+     "code": "policy_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "policy": "discovery"
+     }
+    },
+    {
+     "candidate_id": "bond_620f5ae143a4b2296e4d",
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "destination_page": "RX1",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/performance_active",
+     "code": "active",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_620f5ae143a4b2296e4d",
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "destination_page": "RX1",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_functions",
+     "code": "function_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_620f5ae143a4b2296e4d",
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "destination_page": "RX1",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_operators",
+     "code": "operator_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "operator": "ECHO",
+      "allowed_operators": [
+       "ECHO",
+       "DEVELOP",
+       "CONTRADICT",
+       "BRIDGE"
+      ]
+     }
+    },
+    {
+     "candidate_id": "bond_41a8539d4be8ab4a8a62",
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/grounded",
+     "code": "assessed_exact_versions",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_41a8539d4be8ab4a8a62",
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/source_matches",
+     "code": "source_matches",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_41a8539d4be8ab4a8a62",
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/field_policy",
+     "code": "policy_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "policy": "discovery"
+     }
+    },
+    {
+     "candidate_id": "bond_41a8539d4be8ab4a8a62",
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/performance_active",
+     "code": "active",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_41a8539d4be8ab4a8a62",
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_functions",
+     "code": "function_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_41a8539d4be8ab4a8a62",
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_operators",
+     "code": "operator_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "operator": "ECHO",
+      "allowed_operators": [
+       "ECHO",
+       "DEVELOP",
+       "CONTRADICT",
+       "BRIDGE"
+      ]
+     }
+    },
+    {
+     "candidate_id": "bond_be7f29003664b46eb14b",
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/grounded",
+     "code": "assessed_exact_versions",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_be7f29003664b46eb14b",
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/source_matches",
+     "code": "source_matches",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_be7f29003664b46eb14b",
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/field_policy",
+     "code": "policy_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "policy": "discovery"
+     }
+    },
+    {
+     "candidate_id": "bond_be7f29003664b46eb14b",
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/performance_active",
+     "code": "active",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_be7f29003664b46eb14b",
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_functions",
+     "code": "function_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_be7f29003664b46eb14b",
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/allowed_operators",
+     "code": "operator_allowed",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {
+      "operator": "ECHO",
+      "allowed_operators": [
+       "ECHO",
+       "DEVELOP",
+       "CONTRADICT",
+       "BRIDGE"
+      ]
+     }
+    },
+    {
+     "candidate_id": "bond_620f5ae143a4b2296e4d",
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "destination_page": "RX1",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/display_limit",
+     "code": "included",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_41a8539d4be8ab4a8a62",
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "destination_page": "RX5",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/display_limit",
+     "code": "included",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    },
+    {
+     "candidate_id": "bond_be7f29003664b46eb14b",
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "destination_page": "RX7",
+     "score_id": "neutral",
+     "score_version": 1,
+     "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "rule_id": "neutral@1/open/display_limit",
+     "code": "included",
+     "allowed": true,
+     "encounter_refs": [],
+     "values": {}
+    }
+   ],
+   "blocked": null,
+   "candidate_inputs": [
+    {
+     "bond_version_id": "bond_620f5ae143a4b2296e4d",
+     "source_version": "RX3@6fb19fb9535d",
+     "destination_version": "RX1@9013e3e18fb9",
+     "destination_page": "RX1",
+     "operator": "ECHO",
+     "wording": "The lamp waits in the window.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX3-RX1-ECHO",
+     "rank": 1,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    },
+    {
+     "bond_version_id": "bond_41a8539d4be8ab4a8a62",
+     "source_version": "RX3@6fb19fb9535d",
+     "destination_version": "RX5@70c726eb9ba5",
+     "destination_page": "RX5",
+     "operator": "ECHO",
+     "wording": "A lamp is reflected in the water.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX3-RX5-ECHO",
+     "rank": 2,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    },
+    {
+     "bond_version_id": "bond_be7f29003664b46eb14b",
+     "source_version": "RX3@6fb19fb9535d",
+     "destination_version": "RX7@cb01ce8b6def",
+     "destination_page": "RX7",
+     "operator": "ECHO",
+     "wording": "A shaded lamp lights a narrow stair.",
+     "wording_source": "destination_opening_sentence",
+     "tier": "supported",
+     "tier_label": "Synthetic fixture relationship",
+     "operator_fit": {
+      "dimension": "echo",
+      "score": 3.0,
+      "score_norm": 1.0,
+      "confidence": null,
+      "nearest_level": 3
+     },
+     "cautions": [
+      "synthetic_fixture_not_a_model_assessment"
+     ],
+     "assessment_id": "fixture-recurrence-v1-RX3-RX7-ECHO",
+     "rank": 3,
+     "rank_reasons": [
+      "Declared synthetic relationship; ordered by fixture page identity."
+     ],
+     "evidence_allowed": true,
+     "policy_allowed": true,
+     "evidence_code": "assessed_exact_versions",
+     "evidence": null,
+     "evidence_kind": "synthetic_declared_relationship"
+    }
+   ],
+   "resolver_inputs": {
+    "operator": "ECHO",
+    "policy": "discovery",
+    "max_supported": 3,
+    "min_shown": 0
+   },
+   "resolver_version": "score-resolver/1",
+   "score_config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+   "decision_fingerprint": "ab589b72a3f7c9b970426f8262a00b8d42640cd96596ca5156415939eaf5592e",
+   "options_policy_version": "recurrence-fixture-options-v1",
+   "options_state": "options",
+   "counts": {
+    "eligible": 3,
+    "usable": 3,
+    "supported": 3,
+    "supported_shown": 3,
+    "exploratory_shown": 0,
+    "ineligible_policy": 0
+   },
+   "atlas_config_id": "recurrence-material/1",
+   "atlas_rubric_version": "synthetic-declared-edges-v1",
+   "pinned_returned_model": null,
+   "field_policy_version": "field-policy/1",
+   "support_floor": null,
+   "retained_content": {},
+   "unusable": [],
+   "exclusions": {
+    "ineligible_policy": 0,
+    "unusable": 0
+   },
+   "score_after": {
+    "score_id": "neutral",
+    "score_version": 1,
+    "config": {
+     "schema_version": 1,
+     "score_id": "neutral",
+     "score_version": 1,
+     "entry_version": null,
+     "initial_movement": "open",
+     "global_actions": [
+      "pause",
+      "resume",
+      "end_journey",
+      "exit"
+     ],
+     "relocation": {
+      "permitted": true,
+      "advances": false
+     },
+     "evidence": "assessed",
+     "movements": {
+      "open": {
+       "allowed_functions": [
+        "Q"
+       ],
+       "allowed_operators": [
+        "ECHO",
+        "DEVELOP",
+        "CONTRADICT",
+        "BRIDGE"
+       ],
+       "guards": [],
+       "advance_after": null,
+       "advance_on": [
+        "Q"
+       ],
+       "next": null
+      }
+     },
+     "terminal_movements": [],
+     "empty_offer_behavior": "blocked_with_explanation"
+    },
+    "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+    "entry_version": "RX1@9013e3e18fb9",
+    "movement": "open",
+    "counter": 1,
+    "counters": {
+     "open": 1
+    },
+    "status": "active",
+    "blocked": null
+   }
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 4,
+   "session_id": "s_e27973795a9a",
+   "at": "2026-09-26T01:21:40.142491+00:00",
+   "event": "relocation_committed",
+   "revision_after": 3,
+   "request_id": "req_muhpf3n0_4_rkghwm1p",
+   "fingerprint": "2f10e99afacc60bafafc3f3333553e16d91e31f0d34371c11c4ffdcfeb66af05",
+   "cause": "page_list",
+   "operator": null,
+   "bond_version_id": null,
+   "offer_set_id": null,
+   "from_version": "RX3@6fb19fb9535d",
+   "from_page": "RX3",
+   "to_version": "RX1@9013e3e18fb9",
+   "to_page": "RX1",
+   "expected_revision": 2,
+   "encounter_index": 2,
+   "retained_content": {},
+   "score_after": {
+    "score_id": "neutral",
+    "score_version": 1,
+    "config": {
+     "schema_version": 1,
+     "score_id": "neutral",
+     "score_version": 1,
+     "entry_version": null,
+     "initial_movement": "open",
+     "global_actions": [
+      "pause",
+      "resume",
+      "end_journey",
+      "exit"
+     ],
+     "relocation": {
+      "permitted": true,
+      "advances": false
+     },
+     "evidence": "assessed",
+     "movements": {
+      "open": {
+       "allowed_functions": [
+        "Q"
+       ],
+       "allowed_operators": [
+        "ECHO",
+        "DEVELOP",
+        "CONTRADICT",
+        "BRIDGE"
+       ],
+       "guards": [],
+       "advance_after": null,
+       "advance_on": [
+        "Q"
+       ],
+       "next": null
+      }
+     },
+     "terminal_movements": [],
+     "empty_offer_behavior": "blocked_with_explanation"
+    },
+    "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+    "entry_version": "RX1@9013e3e18fb9",
+    "movement": "open",
+    "counter": 1,
+    "counters": {
+     "open": 1
+    },
+    "status": "active",
+    "blocked": null
+   }
+  },
+  {
+   "schema": "core-event/1",
+   "seq": 5,
+   "session_id": "s_e27973795a9a",
+   "at": "2026-09-26T01:21:40.185198+00:00",
+   "event": "performance_ended",
+   "revision_after": 4,
+   "request_id": "req_muhpf3o6_5_23chgk72",
+   "fingerprint": "0a7eded49e1606a42120633229a2f12807af855f543a9d0323e7d67061da86ab",
+   "action": "exit",
+   "prior_outcome": "active",
+   "expected_revision": 3,
+   "continuation": {
+    "kind": "resume_existing_journey",
+    "session_id": "s_cec36c04919b"
+   },
+   "score_after": {
+    "score_id": "neutral",
+    "score_version": 1,
+    "config": {
+     "schema_version": 1,
+     "score_id": "neutral",
+     "score_version": 1,
+     "entry_version": null,
+     "initial_movement": "open",
+     "global_actions": [
+      "pause",
+      "resume",
+      "end_journey",
+      "exit"
+     ],
+     "relocation": {
+      "permitted": true,
+      "advances": false
+     },
+     "evidence": "assessed",
+     "movements": {
+      "open": {
+       "allowed_functions": [
+        "Q"
+       ],
+       "allowed_operators": [
+        "ECHO",
+        "DEVELOP",
+        "CONTRADICT",
+        "BRIDGE"
+       ],
+       "guards": [],
+       "advance_after": null,
+       "advance_on": [
+        "Q"
+       ],
+       "next": null
+      }
+     },
+     "terminal_movements": [],
+     "empty_offer_behavior": "blocked_with_explanation"
+    },
+    "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+    "entry_version": "RX1@9013e3e18fb9",
+    "movement": "open",
+    "counter": 1,
+    "counters": {
+     "open": 1
+    },
+    "status": "exited",
+    "blocked": null
+   }
+  }
+ ],
+ "final_state": {
+  "session_id": "s_e27973795a9a",
+  "v": "RX1@9013e3e18fb9",
+  "page": "RX1",
+  "z": {
+   "score_id": "neutral",
+   "score_version": 1,
+   "config": {
+    "schema_version": 1,
+    "score_id": "neutral",
+    "score_version": 1,
+    "entry_version": null,
+    "initial_movement": "open",
+    "global_actions": [
+     "pause",
+     "resume",
+     "end_journey",
+     "exit"
+    ],
+    "relocation": {
+     "permitted": true,
+     "advances": false
+    },
+    "evidence": "assessed",
+    "movements": {
+     "open": {
+      "allowed_functions": [
+       "Q"
+      ],
+      "allowed_operators": [
+       "ECHO",
+       "DEVELOP",
+       "CONTRADICT",
+       "BRIDGE"
+      ],
+      "guards": [],
+      "advance_after": null,
+      "advance_on": [
+       "Q"
+      ],
+      "next": null
+     }
+    },
+    "terminal_movements": [],
+    "empty_offer_behavior": "blocked_with_explanation"
+   },
+   "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+   "entry_version": "RX1@9013e3e18fb9",
+   "movement": "open",
+   "counter": 1,
+   "counters": {
+    "open": 1
+   },
+   "status": "exited",
+   "blocked": null
+  },
+  "H": [
+   {
+    "encounter_index": 0,
+    "version_id": "RX1@9013e3e18fb9",
+    "page_id": "RX1",
+    "via": "start",
+    "event_seq": 0,
+    "from_version": null,
+    "bond_version_id": null,
+    "request_id": null,
+    "cause": null,
+    "previous_encounter_index": null
+   },
+   {
+    "encounter_index": 1,
+    "version_id": "RX3@6fb19fb9535d",
+    "page_id": "RX3",
+    "via": "Q",
+    "event_seq": 2,
+    "from_version": "RX1@9013e3e18fb9",
+    "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+    "request_id": "req_muhpf3hp_3_u91aamn1",
+    "cause": null,
+    "previous_encounter_index": null
+   },
+   {
+    "encounter_index": 2,
+    "version_id": "RX1@9013e3e18fb9",
+    "page_id": "RX1",
+    "via": "manual",
+    "event_seq": 4,
+    "from_version": "RX3@6fb19fb9535d",
+    "bond_version_id": null,
+    "request_id": "req_muhpf3n0_4_rkghwm1p",
+    "cause": "page_list",
+    "previous_encounter_index": 0,
+    "return_index_distance": 2,
+    "intervening_encounters": 1
+   }
+  ],
+  "c": {
+   "RX1@9013e3e18fb9": 2,
+   "RX3@6fb19fb9535d": 1
+  },
+  "ell": {
+   "RX1@9013e3e18fb9": 2,
+   "RX3@6fb19fb9535d": 1
+  },
+  "u": [],
+  "r": 4,
+  "paused": false,
+  "field_id": "recurrence-demo",
+  "requests": {
+   "req_muhpf3hp_3_u91aamn1": {
+    "kind": "action",
+    "fingerprint": "732a998343159c17320bd50f0bc118af5c0fb00fad4ae3ab05e3f49974215110",
+    "event_seq": 2,
+    "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+    "to_version": "RX3@6fb19fb9535d",
+    "to_page": "RX3",
+    "revision_after": 2,
+    "encounter_index": 1
+   },
+   "req_muhpf3n0_4_rkghwm1p": {
+    "kind": "relocation",
+    "fingerprint": "2f10e99afacc60bafafc3f3333553e16d91e31f0d34371c11c4ffdcfeb66af05",
+    "event_seq": 4,
+    "bond_version_id": null,
+    "cause": "page_list",
+    "to_version": "RX1@9013e3e18fb9",
+    "to_page": "RX1",
+    "revision_after": 3,
+    "encounter_index": 2
+   },
+   "req_muhpf3o6_5_23chgk72": {
+    "kind": "lifecycle",
+    "action": "exit",
+    "fingerprint": "0a7eded49e1606a42120633229a2f12807af855f543a9d0323e7d67061da86ab",
+    "event_seq": 5,
+    "revision_after": 4,
+    "outcome": "exited"
+   }
+  },
+  "offer_sets": {},
+  "last_seq": 5
+ },
+ "versions": {
+  "RX1@9013e3e18fb9": {
+   "page_id": "RX1",
+   "text": "The lamp waits in the window.\n\nSynthetic demonstration — The starting room.\n\nTake two paths into rooms you have not visited, then return here. The same lamp will be waiting; your recorded route will be different.",
+   "sha256": "9013e3e18fb9145f995acb59b8c97912e33c44e2935c4f5681e8087493b24ddf",
+   "retained": true
+  },
+  "RX3@6fb19fb9535d": {
+   "page_id": "RX3",
+   "text": "A small lamp shines beside the garden gate.\n\nSynthetic demonstration — The garden.\n\nThe window is still visible behind you. In an ordinary journey you could return now. In the recurrence demonstration, visit one more new room first.",
+   "sha256": "6fb19fb9535d8025d99c13860c92a5f967c7ec3e83c796b8346e39e101e9ca71",
+   "retained": true
+  },
+  "RX5@70c726eb9ba5": {
+   "page_id": "RX5",
+   "text": "A lamp is reflected in the water.\n\nSynthetic demonstration — The pool.\n\nYou can see the starting window in the reflection. After two outward arrivals, the return to that exact room becomes available.",
+   "sha256": "70c726eb9ba5fc7cd85ba0e452e5a33e28dbd6008635ef78b1a11e7c27c2aa9e",
+   "retained": true
+  },
+  "RX7@cb01ce8b6def": {
+   "page_id": "RX7",
+   "text": "A shaded lamp lights a narrow stair.\n\nSynthetic demonstration — The stair.\n\nThis is another outward choice. A room already visited cannot count as a new room; the journey remembers each arrival in order.",
+   "sha256": "cb01ce8b6def4ba44f57f39a11b6e38270edda66d9da93b1348ec5a15c0286ee",
+   "retained": true
+  }
+ },
+ "score_snapshots": {
+  "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083": {
+   "schema_version": 1,
+   "score_id": "neutral",
+   "score_version": 1,
+   "entry_version": null,
+   "initial_movement": "open",
+   "global_actions": [
+    "pause",
+    "resume",
+    "end_journey",
+    "exit"
+   ],
+   "relocation": {
+    "permitted": true,
+    "advances": false
+   },
+   "evidence": "assessed",
+   "movements": {
+    "open": {
+     "allowed_functions": [
+      "Q"
+     ],
+     "allowed_operators": [
+      "ECHO",
+      "DEVELOP",
+      "CONTRADICT",
+      "BRIDGE"
+     ],
+     "guards": [],
+     "advance_after": null,
+     "advance_on": [
+      "Q"
+     ],
+     "next": null
+    }
+   },
+   "terminal_movements": [],
+   "empty_offer_behavior": "blocked_with_explanation"
+  }
+ },
+ "dspy_used": false,
+ "replay": {
+  "session_id": "s_e27973795a9a",
+  "provider_calls": 0,
+  "state_replay": {
+   "check": "state_replay",
+   "session_id": "s_e27973795a9a",
+   "events": 6,
+   "per_event_mismatches": [],
+   "final_equal": true,
+   "final_revision": 4,
+   "encounters": 3,
+   "compatibility": [],
+   "ok": true
+  },
+  "decision_replay": {
+   "check": "decision_replay",
+   "session_id": "s_e27973795a9a",
+   "offer_sets": 2,
+   "results": [
+    {
+     "offer_set_id": "offers_6e98f57f0de498c1308d",
+     "seq": 1,
+     "compatibility": "retained_score_inputs",
+     "available": true,
+     "ok": true,
+     "differences": [],
+     "stored": [
+      "bond_7ba1b5c133b3b186c19e",
+      "bond_caf4154172b1f3c1b480",
+      "bond_9fe26ef38ce709a0d625"
+     ],
+     "recomputed": [
+      "bond_7ba1b5c133b3b186c19e",
+      "bond_caf4154172b1f3c1b480",
+      "bond_9fe26ef38ce709a0d625"
+     ],
+     "reasons_equal": true,
+     "blocked_equal": true
+    },
+    {
+     "offer_set_id": "offers_5091f259c490782805e1",
+     "seq": 3,
+     "compatibility": "retained_score_inputs",
+     "available": true,
+     "ok": true,
+     "differences": [],
+     "stored": [
+      "bond_620f5ae143a4b2296e4d",
+      "bond_41a8539d4be8ab4a8a62",
+      "bond_be7f29003664b46eb14b"
+     ],
+     "recomputed": [
+      "bond_620f5ae143a4b2296e4d",
+      "bond_41a8539d4be8ab4a8a62",
+      "bond_be7f29003664b46eb14b"
+     ],
+     "reasons_equal": true,
+     "blocked_equal": true
+    }
+   ],
+   "drift": [],
+   "available": true,
+   "ok": true
+  },
+  "ok": true
+ },
+ "state_trace": [
+  {
+   "seq": 0,
+   "event": "session_started",
+   "state": {
+    "session_id": "s_e27973795a9a",
+    "v": "RX1@9013e3e18fb9",
+    "page": "RX1",
+    "z": {
+     "score_id": "neutral",
+     "score_version": 1,
+     "config": {
+      "schema_version": 1,
+      "score_id": "neutral",
+      "score_version": 1,
+      "entry_version": null,
+      "initial_movement": "open",
+      "global_actions": [
+       "pause",
+       "resume",
+       "end_journey",
+       "exit"
+      ],
+      "relocation": {
+       "permitted": true,
+       "advances": false
+      },
+      "evidence": "assessed",
+      "movements": {
+       "open": {
+        "allowed_functions": [
+         "Q"
+        ],
+        "allowed_operators": [
+         "ECHO",
+         "DEVELOP",
+         "CONTRADICT",
+         "BRIDGE"
+        ],
+        "guards": [],
+        "advance_after": null,
+        "advance_on": [
+         "Q"
+        ],
+        "next": null
+       }
+      },
+      "terminal_movements": [],
+      "empty_offer_behavior": "blocked_with_explanation"
+     },
+     "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "entry_version": "RX1@9013e3e18fb9",
+     "movement": "open",
+     "counter": 0,
+     "counters": {
+      "open": 0
+     },
+     "status": "active",
+     "blocked": null
+    },
+    "H": [
+     {
+      "encounter_index": 0,
+      "version_id": "RX1@9013e3e18fb9",
+      "page_id": "RX1",
+      "via": "start",
+      "event_seq": 0,
+      "from_version": null,
+      "bond_version_id": null,
+      "request_id": null,
+      "cause": null,
+      "previous_encounter_index": null
+     }
+    ],
+    "c": {
+     "RX1@9013e3e18fb9": 1
+    },
+    "ell": {
+     "RX1@9013e3e18fb9": 0
+    },
+    "u": [],
+    "r": 1,
+    "paused": false,
+    "field_id": "recurrence-demo",
+    "requests": {},
+    "offer_sets": {},
+    "last_seq": 0
+   }
+  },
+  {
+   "seq": 1,
+   "event": "offer_set_created",
+   "state": {
+    "session_id": "s_e27973795a9a",
+    "v": "RX1@9013e3e18fb9",
+    "page": "RX1",
+    "z": {
+     "score_id": "neutral",
+     "score_version": 1,
+     "config": {
+      "schema_version": 1,
+      "score_id": "neutral",
+      "score_version": 1,
+      "entry_version": null,
+      "initial_movement": "open",
+      "global_actions": [
+       "pause",
+       "resume",
+       "end_journey",
+       "exit"
+      ],
+      "relocation": {
+       "permitted": true,
+       "advances": false
+      },
+      "evidence": "assessed",
+      "movements": {
+       "open": {
+        "allowed_functions": [
+         "Q"
+        ],
+        "allowed_operators": [
+         "ECHO",
+         "DEVELOP",
+         "CONTRADICT",
+         "BRIDGE"
+        ],
+        "guards": [],
+        "advance_after": null,
+        "advance_on": [
+         "Q"
+        ],
+        "next": null
+       }
+      },
+      "terminal_movements": [],
+      "empty_offer_behavior": "blocked_with_explanation"
+     },
+     "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "entry_version": "RX1@9013e3e18fb9",
+     "movement": "open",
+     "counter": 0,
+     "counters": {
+      "open": 0
+     },
+     "status": "active",
+     "blocked": null
+    },
+    "H": [
+     {
+      "encounter_index": 0,
+      "version_id": "RX1@9013e3e18fb9",
+      "page_id": "RX1",
+      "via": "start",
+      "event_seq": 0,
+      "from_version": null,
+      "bond_version_id": null,
+      "request_id": null,
+      "cause": null,
+      "previous_encounter_index": null
+     }
+    ],
+    "c": {
+     "RX1@9013e3e18fb9": 1
+    },
+    "ell": {
+     "RX1@9013e3e18fb9": 0
+    },
+    "u": [],
+    "r": 1,
+    "paused": false,
+    "field_id": "recurrence-demo",
+    "requests": {},
+    "offer_sets": {
+     "offers_6e98f57f0de498c1308d": {
+      "revision": 1,
+      "source_version": "RX1@9013e3e18fb9",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "bond_version_ids": [
+       "bond_7ba1b5c133b3b186c19e",
+       "bond_caf4154172b1f3c1b480",
+       "bond_9fe26ef38ce709a0d625"
+      ]
+     }
+    },
+    "last_seq": 1
+   }
+  },
+  {
+   "seq": 2,
+   "event": "action_committed",
+   "state": {
+    "session_id": "s_e27973795a9a",
+    "v": "RX3@6fb19fb9535d",
+    "page": "RX3",
+    "z": {
+     "score_id": "neutral",
+     "score_version": 1,
+     "config": {
+      "schema_version": 1,
+      "score_id": "neutral",
+      "score_version": 1,
+      "entry_version": null,
+      "initial_movement": "open",
+      "global_actions": [
+       "pause",
+       "resume",
+       "end_journey",
+       "exit"
+      ],
+      "relocation": {
+       "permitted": true,
+       "advances": false
+      },
+      "evidence": "assessed",
+      "movements": {
+       "open": {
+        "allowed_functions": [
+         "Q"
+        ],
+        "allowed_operators": [
+         "ECHO",
+         "DEVELOP",
+         "CONTRADICT",
+         "BRIDGE"
+        ],
+        "guards": [],
+        "advance_after": null,
+        "advance_on": [
+         "Q"
+        ],
+        "next": null
+       }
+      },
+      "terminal_movements": [],
+      "empty_offer_behavior": "blocked_with_explanation"
+     },
+     "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "entry_version": "RX1@9013e3e18fb9",
+     "movement": "open",
+     "counter": 1,
+     "counters": {
+      "open": 1
+     },
+     "status": "active",
+     "blocked": null
+    },
+    "H": [
+     {
+      "encounter_index": 0,
+      "version_id": "RX1@9013e3e18fb9",
+      "page_id": "RX1",
+      "via": "start",
+      "event_seq": 0,
+      "from_version": null,
+      "bond_version_id": null,
+      "request_id": null,
+      "cause": null,
+      "previous_encounter_index": null
+     },
+     {
+      "encounter_index": 1,
+      "version_id": "RX3@6fb19fb9535d",
+      "page_id": "RX3",
+      "via": "Q",
+      "event_seq": 2,
+      "from_version": "RX1@9013e3e18fb9",
+      "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+      "request_id": "req_muhpf3hp_3_u91aamn1",
+      "cause": null,
+      "previous_encounter_index": null
+     }
+    ],
+    "c": {
+     "RX1@9013e3e18fb9": 1,
+     "RX3@6fb19fb9535d": 1
+    },
+    "ell": {
+     "RX1@9013e3e18fb9": 0,
+     "RX3@6fb19fb9535d": 1
+    },
+    "u": [],
+    "r": 2,
+    "paused": false,
+    "field_id": "recurrence-demo",
+    "requests": {
+     "req_muhpf3hp_3_u91aamn1": {
+      "kind": "action",
+      "fingerprint": "732a998343159c17320bd50f0bc118af5c0fb00fad4ae3ab05e3f49974215110",
+      "event_seq": 2,
+      "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+      "to_version": "RX3@6fb19fb9535d",
+      "to_page": "RX3",
+      "revision_after": 2,
+      "encounter_index": 1
+     }
+    },
+    "offer_sets": {},
+    "last_seq": 2
+   }
+  },
+  {
+   "seq": 3,
+   "event": "offer_set_created",
+   "state": {
+    "session_id": "s_e27973795a9a",
+    "v": "RX3@6fb19fb9535d",
+    "page": "RX3",
+    "z": {
+     "score_id": "neutral",
+     "score_version": 1,
+     "config": {
+      "schema_version": 1,
+      "score_id": "neutral",
+      "score_version": 1,
+      "entry_version": null,
+      "initial_movement": "open",
+      "global_actions": [
+       "pause",
+       "resume",
+       "end_journey",
+       "exit"
+      ],
+      "relocation": {
+       "permitted": true,
+       "advances": false
+      },
+      "evidence": "assessed",
+      "movements": {
+       "open": {
+        "allowed_functions": [
+         "Q"
+        ],
+        "allowed_operators": [
+         "ECHO",
+         "DEVELOP",
+         "CONTRADICT",
+         "BRIDGE"
+        ],
+        "guards": [],
+        "advance_after": null,
+        "advance_on": [
+         "Q"
+        ],
+        "next": null
+       }
+      },
+      "terminal_movements": [],
+      "empty_offer_behavior": "blocked_with_explanation"
+     },
+     "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "entry_version": "RX1@9013e3e18fb9",
+     "movement": "open",
+     "counter": 1,
+     "counters": {
+      "open": 1
+     },
+     "status": "active",
+     "blocked": null
+    },
+    "H": [
+     {
+      "encounter_index": 0,
+      "version_id": "RX1@9013e3e18fb9",
+      "page_id": "RX1",
+      "via": "start",
+      "event_seq": 0,
+      "from_version": null,
+      "bond_version_id": null,
+      "request_id": null,
+      "cause": null,
+      "previous_encounter_index": null
+     },
+     {
+      "encounter_index": 1,
+      "version_id": "RX3@6fb19fb9535d",
+      "page_id": "RX3",
+      "via": "Q",
+      "event_seq": 2,
+      "from_version": "RX1@9013e3e18fb9",
+      "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+      "request_id": "req_muhpf3hp_3_u91aamn1",
+      "cause": null,
+      "previous_encounter_index": null
+     }
+    ],
+    "c": {
+     "RX1@9013e3e18fb9": 1,
+     "RX3@6fb19fb9535d": 1
+    },
+    "ell": {
+     "RX1@9013e3e18fb9": 0,
+     "RX3@6fb19fb9535d": 1
+    },
+    "u": [],
+    "r": 2,
+    "paused": false,
+    "field_id": "recurrence-demo",
+    "requests": {
+     "req_muhpf3hp_3_u91aamn1": {
+      "kind": "action",
+      "fingerprint": "732a998343159c17320bd50f0bc118af5c0fb00fad4ae3ab05e3f49974215110",
+      "event_seq": 2,
+      "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+      "to_version": "RX3@6fb19fb9535d",
+      "to_page": "RX3",
+      "revision_after": 2,
+      "encounter_index": 1
+     }
+    },
+    "offer_sets": {
+     "offers_5091f259c490782805e1": {
+      "revision": 2,
+      "source_version": "RX3@6fb19fb9535d",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "bond_version_ids": [
+       "bond_620f5ae143a4b2296e4d",
+       "bond_41a8539d4be8ab4a8a62",
+       "bond_be7f29003664b46eb14b"
+      ]
+     }
+    },
+    "last_seq": 3
+   }
+  },
+  {
+   "seq": 4,
+   "event": "relocation_committed",
+   "state": {
+    "session_id": "s_e27973795a9a",
+    "v": "RX1@9013e3e18fb9",
+    "page": "RX1",
+    "z": {
+     "score_id": "neutral",
+     "score_version": 1,
+     "config": {
+      "schema_version": 1,
+      "score_id": "neutral",
+      "score_version": 1,
+      "entry_version": null,
+      "initial_movement": "open",
+      "global_actions": [
+       "pause",
+       "resume",
+       "end_journey",
+       "exit"
+      ],
+      "relocation": {
+       "permitted": true,
+       "advances": false
+      },
+      "evidence": "assessed",
+      "movements": {
+       "open": {
+        "allowed_functions": [
+         "Q"
+        ],
+        "allowed_operators": [
+         "ECHO",
+         "DEVELOP",
+         "CONTRADICT",
+         "BRIDGE"
+        ],
+        "guards": [],
+        "advance_after": null,
+        "advance_on": [
+         "Q"
+        ],
+        "next": null
+       }
+      },
+      "terminal_movements": [],
+      "empty_offer_behavior": "blocked_with_explanation"
+     },
+     "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "entry_version": "RX1@9013e3e18fb9",
+     "movement": "open",
+     "counter": 1,
+     "counters": {
+      "open": 1
+     },
+     "status": "active",
+     "blocked": null
+    },
+    "H": [
+     {
+      "encounter_index": 0,
+      "version_id": "RX1@9013e3e18fb9",
+      "page_id": "RX1",
+      "via": "start",
+      "event_seq": 0,
+      "from_version": null,
+      "bond_version_id": null,
+      "request_id": null,
+      "cause": null,
+      "previous_encounter_index": null
+     },
+     {
+      "encounter_index": 1,
+      "version_id": "RX3@6fb19fb9535d",
+      "page_id": "RX3",
+      "via": "Q",
+      "event_seq": 2,
+      "from_version": "RX1@9013e3e18fb9",
+      "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+      "request_id": "req_muhpf3hp_3_u91aamn1",
+      "cause": null,
+      "previous_encounter_index": null
+     },
+     {
+      "encounter_index": 2,
+      "version_id": "RX1@9013e3e18fb9",
+      "page_id": "RX1",
+      "via": "manual",
+      "event_seq": 4,
+      "from_version": "RX3@6fb19fb9535d",
+      "bond_version_id": null,
+      "request_id": "req_muhpf3n0_4_rkghwm1p",
+      "cause": "page_list",
+      "previous_encounter_index": 0,
+      "return_index_distance": 2,
+      "intervening_encounters": 1
+     }
+    ],
+    "c": {
+     "RX1@9013e3e18fb9": 2,
+     "RX3@6fb19fb9535d": 1
+    },
+    "ell": {
+     "RX1@9013e3e18fb9": 2,
+     "RX3@6fb19fb9535d": 1
+    },
+    "u": [],
+    "r": 3,
+    "paused": false,
+    "field_id": "recurrence-demo",
+    "requests": {
+     "req_muhpf3hp_3_u91aamn1": {
+      "kind": "action",
+      "fingerprint": "732a998343159c17320bd50f0bc118af5c0fb00fad4ae3ab05e3f49974215110",
+      "event_seq": 2,
+      "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+      "to_version": "RX3@6fb19fb9535d",
+      "to_page": "RX3",
+      "revision_after": 2,
+      "encounter_index": 1
+     },
+     "req_muhpf3n0_4_rkghwm1p": {
+      "kind": "relocation",
+      "fingerprint": "2f10e99afacc60bafafc3f3333553e16d91e31f0d34371c11c4ffdcfeb66af05",
+      "event_seq": 4,
+      "bond_version_id": null,
+      "cause": "page_list",
+      "to_version": "RX1@9013e3e18fb9",
+      "to_page": "RX1",
+      "revision_after": 3,
+      "encounter_index": 2
+     }
+    },
+    "offer_sets": {},
+    "last_seq": 4
+   }
+  },
+  {
+   "seq": 5,
+   "event": "performance_ended",
+   "state": {
+    "session_id": "s_e27973795a9a",
+    "v": "RX1@9013e3e18fb9",
+    "page": "RX1",
+    "z": {
+     "score_id": "neutral",
+     "score_version": 1,
+     "config": {
+      "schema_version": 1,
+      "score_id": "neutral",
+      "score_version": 1,
+      "entry_version": null,
+      "initial_movement": "open",
+      "global_actions": [
+       "pause",
+       "resume",
+       "end_journey",
+       "exit"
+      ],
+      "relocation": {
+       "permitted": true,
+       "advances": false
+      },
+      "evidence": "assessed",
+      "movements": {
+       "open": {
+        "allowed_functions": [
+         "Q"
+        ],
+        "allowed_operators": [
+         "ECHO",
+         "DEVELOP",
+         "CONTRADICT",
+         "BRIDGE"
+        ],
+        "guards": [],
+        "advance_after": null,
+        "advance_on": [
+         "Q"
+        ],
+        "next": null
+       }
+      },
+      "terminal_movements": [],
+      "empty_offer_behavior": "blocked_with_explanation"
+     },
+     "config_sha256": "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083",
+     "entry_version": "RX1@9013e3e18fb9",
+     "movement": "open",
+     "counter": 1,
+     "counters": {
+      "open": 1
+     },
+     "status": "exited",
+     "blocked": null
+    },
+    "H": [
+     {
+      "encounter_index": 0,
+      "version_id": "RX1@9013e3e18fb9",
+      "page_id": "RX1",
+      "via": "start",
+      "event_seq": 0,
+      "from_version": null,
+      "bond_version_id": null,
+      "request_id": null,
+      "cause": null,
+      "previous_encounter_index": null
+     },
+     {
+      "encounter_index": 1,
+      "version_id": "RX3@6fb19fb9535d",
+      "page_id": "RX3",
+      "via": "Q",
+      "event_seq": 2,
+      "from_version": "RX1@9013e3e18fb9",
+      "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+      "request_id": "req_muhpf3hp_3_u91aamn1",
+      "cause": null,
+      "previous_encounter_index": null
+     },
+     {
+      "encounter_index": 2,
+      "version_id": "RX1@9013e3e18fb9",
+      "page_id": "RX1",
+      "via": "manual",
+      "event_seq": 4,
+      "from_version": "RX3@6fb19fb9535d",
+      "bond_version_id": null,
+      "request_id": "req_muhpf3n0_4_rkghwm1p",
+      "cause": "page_list",
+      "previous_encounter_index": 0,
+      "return_index_distance": 2,
+      "intervening_encounters": 1
+     }
+    ],
+    "c": {
+     "RX1@9013e3e18fb9": 2,
+     "RX3@6fb19fb9535d": 1
+    },
+    "ell": {
+     "RX1@9013e3e18fb9": 2,
+     "RX3@6fb19fb9535d": 1
+    },
+    "u": [],
+    "r": 4,
+    "paused": false,
+    "field_id": "recurrence-demo",
+    "requests": {
+     "req_muhpf3hp_3_u91aamn1": {
+      "kind": "action",
+      "fingerprint": "732a998343159c17320bd50f0bc118af5c0fb00fad4ae3ab05e3f49974215110",
+      "event_seq": 2,
+      "bond_version_id": "bond_7ba1b5c133b3b186c19e",
+      "to_version": "RX3@6fb19fb9535d",
+      "to_page": "RX3",
+      "revision_after": 2,
+      "encounter_index": 1
+     },
+     "req_muhpf3n0_4_rkghwm1p": {
+      "kind": "relocation",
+      "fingerprint": "2f10e99afacc60bafafc3f3333553e16d91e31f0d34371c11c4ffdcfeb66af05",
+      "event_seq": 4,
+      "bond_version_id": null,
+      "cause": "page_list",
+      "to_version": "RX1@9013e3e18fb9",
+      "to_page": "RX1",
+      "revision_after": 3,
+      "encounter_index": 2
+     },
+     "req_muhpf3o6_5_23chgk72": {
+      "kind": "lifecycle",
+      "action": "exit",
+      "fingerprint": "0a7eded49e1606a42120633229a2f12807af855f543a9d0323e7d67061da86ab",
+      "event_seq": 5,
+      "revision_after": 4,
+      "outcome": "exited"
+     }
+    },
+    "offer_sets": {},
+    "last_seq": 5
+   }
+  }
+ ],
+ "version_manifest": {
+  "event_schema": "core-event/1",
+  "score_contract": "score/1",
+  "reducer_version": "core-score-reducer/1",
+  "resolver_versions": [
+   "score-resolver/1"
+  ],
+  "score_config_sha256": [
+   "ac28f3f93be4886666733a20bf92fc10a03630354d2ebb4bee24b310b6291083"
+  ],
+  "options_policy_versions": [
+   "recurrence-fixture-options-v1"
+  ],
+  "atlas_config_ids": [
+   "recurrence-material/1"
+  ],
+  "provider_calls": 0
+ }
+}

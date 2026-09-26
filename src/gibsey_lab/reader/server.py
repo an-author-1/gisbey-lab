@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import inspect
 import json
 import mimetypes
 import subprocess
@@ -54,7 +55,7 @@ from .. import reader_context, relational_operators, saved_runs, session_log, st
 from ..config import load_config
 from ..context import CaseError
 from ..core import core as core_module
-from ..core import identity, journal, projectors, reducer
+from ..core import fixtures, identity, journal, projectors, reducer
 from ..core.core import CoreError
 from ..corpus import REPO_ROOT
 from ..fields import FieldError
@@ -122,10 +123,10 @@ def _default_offer_dispatch_factory():
     )
 
 
-def _default_options_provider(field, page_id: str, operator: str, *, policy: str, mode: str) -> dict:
+def _default_options_provider(field, page_id: str, operator: str, *, policy: str, mode: str, **limits) -> dict:
     from ..memory.operator_options import operator_options  # lazy: the selection worker's module
 
-    return operator_options(field, page_id, operator, policy=policy, mode=mode)
+    return operator_options(field, page_id, operator, policy=policy, mode=mode, **limits)
 
 
 def _default_options_refiner(option_set: dict, field, events: list[dict], **kwargs) -> dict:
@@ -297,6 +298,8 @@ def _field_manifest_hashes(field) -> dict[str, str]:
 
 
 def _load_field(field_id: str):
+    if field_id == fixtures.FIELD_ID:
+        return fixtures.demo_field()
     try:
         return fields_module.load_field(field_id)
     except FieldError as e:
@@ -681,16 +684,26 @@ class ReaderCore(core_module.Core):
         return _STATE_CACHE.state(self.core_dir, session_id, events)
 
 
+def _core_candidates(field, page_id: str, operator: str, policy: str) -> dict:
+    params = inspect.signature(OPTIONS_PROVIDER).parameters
+    accepts_limits = "max_supported" in params or any(param.kind == inspect.Parameter.VAR_KEYWORD for param in params.values())
+    limits = {"max_supported": len(field.manifest), "min_shown": len(field.manifest)} if accepts_limits else {}
+    result = OPTIONS_PROVIDER(field, page_id, operator, policy=fields_module.INCLUDE_ADJACENT, mode=OPTIONS_MODE, **limits)
+    return {**result, "max_supported": 5, "min_shown": 3}
+
+
 def _core(field=None) -> core_module.Core:
     """A Core over CORE_DIR. Offers come from the same options provider the ranked lists use
     (never a dispatch); after every commit the legacy stores under DATA_DIR / SESSION_LOG_PATH
     are mirrored so the existing panels keep working. Stateless: the journal is re-read on
     every call, so a new instance per request is a restart-equivalent."""
     field = field if field is not None else _load_field(fields_module.DEFAULT_FIELD)
+    synthetic = field.id == fixtures.FIELD_ID
     return ReaderCore(
         core_dir=Path(CORE_DIR), field=field,
-        options_provider=lambda f, page_id, operator, policy: OPTIONS_PROVIDER(f, page_id, operator, policy=policy, mode=OPTIONS_MODE),
-        projectors=[projectors.mirror_to_legacy_stores(Path(DATA_DIR), Path(SESSION_LOG_PATH), field=field)],
+        options_provider=fixtures.fixture_options if synthetic else lambda f, page_id, operator, policy: OPTIONS_PROVIDER(f, page_id, operator, policy=policy, mode=OPTIONS_MODE),
+        candidate_provider=fixtures.fixture_options if synthetic else _core_candidates,
+        projectors=[] if synthetic else [projectors.mirror_to_legacy_stores(Path(DATA_DIR), Path(SESSION_LOG_PATH), field=field)],
     )
 
 
@@ -707,7 +720,23 @@ def _core_for_session(session_id: str | None) -> core_module.Core:
     """The Core for an existing session, over the field the session was started in."""
     events = _session_events(session_id)
     field_id = events[0].get("field_id") if events else None
-    return _core(_load_field(field_id) if field_id in fields_module.KNOWN_FIELDS else None)
+    return _core(_load_field(field_id) if field_id in (*fields_module.KNOWN_FIELDS, fixtures.FIELD_ID) else None)
+
+
+def _check_research_navigation(body: dict) -> None:
+    session_id = body.get("session_id")
+    if session_id:
+        core = _core_for_session(session_id)
+        try:
+            core.check_relocation(session_id)
+        except CoreError as error:
+            raise _core_error(error) from error
+        if core.field.id == fixtures.FIELD_ID:
+            raise ApiError("Research follows are unavailable in the synthetic demonstration. Use the offered choices or leave the demonstration.",
+                           status=409, payload={"code": "demo_research_unavailable"})
+    if body.get("field") == fixtures.FIELD_ID or any(str(body.get(key) or "").startswith("RX") for key in ("source", "from_page", "page", "destination_id")):
+        raise ApiError("Research actions are unavailable in the synthetic demonstration. Leave it to return to the literary corpus.",
+                       status=409, payload={"code": "demo_research_unavailable"})
 
 
 def _core_error(e: CoreError) -> ApiError:
@@ -742,6 +771,8 @@ def _session_view(core: core_module.Core, session_id: str, **extra) -> dict:
     view["encounter_count"] = len(view["encounters"])
     view["last_arrival"] = _arrival(view["encounters"][-1] if view["encounters"] else None)
     view["field"] = core.field.id
+    view["score"] = view["state"].get("z")
+    view["synthetic"] = core.field.id == fixtures.FIELD_ID
     # The offer sets resolved at the current revision, in creation order (a reload can show
     # the last one again with a plain re-resolve, which creates nothing).
     view["current_offer_sets"] = [{"offer_set_id": k, **v} for k, v in view["state"]["offer_sets"].items()]
@@ -788,9 +819,19 @@ def _core_options_view(offer_set: dict, field) -> dict:
     view["state"] = view.get("options_state")
     described = {"state": view["state"], "counts": view.get("counts"), "options": view.get("bonds"),
                  "operator": view.get("operator"), "page_id": view.get("source_page"), "policy": view.get("policy")}
-    view["message"] = outcomes.describe_option_set(described)
+    view["message"] = offer_set.get("blocked") or outcomes.describe_option_set(described)
+    if not isinstance(view["message"], str):
+        view["message"] = view["message"].get("reason") or view["message"].get("message") or "No choice satisfies this part of the demonstration. You may pause, end, or leave."
     view["ordering_line"] = outcomes.describe_ordering(described)
-    view["evidence_note"] = ("decision evidence (model distribution) — no textual evidence span recorded")
+    if field.id == fixtures.FIELD_ID:
+        if not offer_set.get("blocked"):
+            count = len(view.get("bonds") or [])
+            view["message"] = f"{count} synthetic choice{'s' if count != 1 else ''} available for this part of the demonstration."
+        view["ordering_basis"] = "synthetic_declared_relationships"
+        view["ordering_line"] = "Declared synthetic relationships, filtered by this demonstration's rules and your earlier visits. No model assessment."
+    view["evidence_note"] = ("Declared synthetic relationships; no model assessment or authored textual evidence."
+                             if field.id == fixtures.FIELD_ID else
+                             "decision evidence (model distribution) — no textual evidence span recorded")
     return view
 
 
@@ -834,6 +875,7 @@ class Handlers:
         """The ranked destinations for one operator from the saved atlas. NEVER dispatches.
         Persists the option set once (idempotent by its content-hash id) and logs a passive
         `operator_options_shown` event, which is not an encounter and changes no memory."""
+        _check_research_navigation({key: values[0] for key, values in query.items() if values})
         field, page_id, operator, policy = Handlers._options_request(query, from_query=True)
         mode = query.get("mode", [OPTIONS_MODE])[0]
         if mode not in ("live", "mock"):
@@ -859,6 +901,7 @@ class Handlers:
 
     @staticmethod
     def post_refine_options(body: dict) -> dict:
+        _check_research_navigation(body)
         """Re-order a displayed option list using the reading history. The third (and last)
         endpoint that may dispatch. It never removes an option; anything short of a valid
         answer for every displayed option keeps the base order and says so. Every outcome
@@ -977,6 +1020,7 @@ class Handlers:
 
     @staticmethod
     def post_follow_option(body: dict) -> dict:
+        _check_research_navigation(body)
         """Follow one row of a persisted ranked option list: same validation as
         follow-offer, then propose -> accept -> follow as three separate records. Supported
         and exploratory options follow identically; the tier is recorded as the atlas's
@@ -1077,7 +1121,8 @@ class Handlers:
     def get_pages(query: dict) -> dict:
         field_id = query.get("field", [fields_module.DEFAULT_FIELD])[0]
         field = _load_field(field_id)
-        return {"field": field.id, "label": field.label, "pages": field.all_ids(), "groups": field.grouped_ids()}
+        groups = [{"prefix": "RX", "title": "Synthetic recurrence demonstration", "pages": field.all_ids()}] if field.id == fixtures.FIELD_ID else field.grouped_ids()
+        return {"field": field.id, "label": field.label, "pages": field.all_ids(), "groups": groups}
 
     @staticmethod
     def get_page(query: dict) -> dict:
@@ -1089,9 +1134,22 @@ class Handlers:
         if page_id not in field.manifest:
             raise ApiError(f"page {page_id!r} not in field {field.id!r}", status=404)
         page = field.manifest[page_id]
+        page_text, page_sha = page.text, page.sha256
+        session_id = query.get("session_id", [None])[0]
+        if session_id:
+            events = _session_events(session_id)
+            current = reducer.reduce(events)
+            retained = _retained_content(events).get(current.v)
+            if current.field_id == field.id and current.page == page_id and retained:
+                page_text, page_sha = retained["text"], retained["sha256"]
         neighbors = field.neighbors_of(page_id)
+        if field.id == fixtures.FIELD_ID:
+            pages = field.all_ids()
+            index = pages.index(page_id)
+            neighbors = {"previous": pages[index - 1] if index else None,
+                         "next": pages[index + 1] if index + 1 < len(pages) else None}
         return {
-            "field": field.id, "id": page.id, "title": _title_of(page.id), "text": page.text, "sha256": page.sha256,
+            "field": field.id, "id": page.id, "title": _title_of(page.id), "text": page_text, "sha256": page_sha,
             "previous_id": neighbors["previous"], "next_id": neighbors["next"],
         }
 
@@ -1099,6 +1157,7 @@ class Handlers:
     def get_saved_result(query: dict) -> dict:
         """Read-only lookup of a matching recorded run. Appends one passive
         `operator_result` session event (as it always has); never dispatches."""
+        _check_research_navigation({key: values[0] for key, values in query.items() if values})
         field_id = query.get("field", [fields_module.DEFAULT_FIELD])[0]
         source_id = query.get("source", [None])[0]
         operator = query.get("operator", [None])[0]
@@ -1167,6 +1226,7 @@ class Handlers:
 
     @staticmethod
     def post_request_selection(body: dict) -> dict:
+        _check_research_navigation(body)
         field_id = body.get("field", fields_module.DEFAULT_FIELD)
         source_id = body.get("source")
         operator = body.get("operator")
@@ -1270,6 +1330,7 @@ class Handlers:
 
     @staticmethod
     def post_offers(body: dict) -> dict:
+        _check_research_navigation(body)
         """One offer hand for the page the reader is on. The only other endpoint that may
         dispatch provider work; a contextual cache miss is assessed inside this request."""
         field_id = body.get("field", fields_module.DEFAULT_FIELD)
@@ -1508,6 +1569,7 @@ class Handlers:
 
     @staticmethod
     def post_follow(body: dict) -> dict:
+        _check_research_navigation(body)
         """Follow an already-accepted bond. Same guard as accept-and-follow: `from_page` is
         REQUIRED and must be the bond's source and the reader's last logged page; both
         endpoint versions and eligibility are validated; the traversal is idempotent per
@@ -1569,6 +1631,7 @@ class Handlers:
 
     @staticmethod
     def post_accept_and_follow(body: dict) -> dict:
+        _check_research_navigation(body)
         """Convenience action combining propose -> accept -> follow. Each step is still
         recorded through the same, separate state.py functions and files as if invoked
         individually -- this is one button, not one merged record. Validated first; a
@@ -1604,6 +1667,7 @@ class Handlers:
 
     @staticmethod
     def post_follow_offer(body: dict) -> dict:
+        _check_research_navigation(body)
         """Follow one card of a persisted offer hand: validate, then propose -> accept ->
         follow as three separate records. The bond carries both endpoint hashes and the
         offer_set_id. Idempotent per follow_token."""
@@ -1785,6 +1849,11 @@ class Handlers:
                 if known and not new:
                     core = _core_for_session(session_id)
                     return _session_view(core, session_id, started=False, resumed=True)
+                if known and _core_for_session(session_id).field.id == fixtures.FIELD_ID:
+                    raise ApiError("Leave the demonstration before starting another journey.", status=409,
+                                   payload={"code": "demo_exit_required"})
+                if body.get("field") == fixtures.FIELD_ID:
+                    raise ApiError("Start synthetic material using the demonstration controls.", status=400)
                 field = _load_field(body.get("field") or fields_module.DEFAULT_FIELD)
                 page_id = body.get("page") or _reader_last_page(field)
                 if page_id not in field.manifest:
@@ -1808,6 +1877,39 @@ class Handlers:
             return _session_view(_core_for_session(session_id), session_id, started=False, resumed=True)
         except CoreError as e:
             raise _core_error(e) from e
+
+    @staticmethod
+    def post_core_demo(body: dict) -> dict:
+        mode = body.get("mode")
+        if mode not in ("neutral", "recurrence"):
+            raise ApiError("Choose the neutral or recurrence demonstration.")
+        with _CORE_LOCK:
+            previous = body.get("session_id")
+            if previous and _session_events(previous):
+                prior_core = _core_for_session(previous)
+                if prior_core.field.id == fixtures.FIELD_ID:
+                    raise ApiError("Leave this demonstration before starting another.", status=409,
+                                   payload={"code": "demo_exit_required"})
+            try:
+                core = _core(fixtures.demo_field())
+                started = core.start_session("RX1", score_config=fixtures.recurrence_score() if mode == "recurrence" else None)
+                return _session_view(core, started["session_id"], started=True, resumed=False)
+            except CoreError as error:
+                raise _core_error(error) from error
+
+    @staticmethod
+    def post_core_lifecycle(body: dict) -> dict:
+        required = ("session_id", "action", "expected_revision", "request_id")
+        if any(body.get(key) is None for key in required):
+            raise ApiError("Lifecycle actions require session_id, action, expected_revision and request_id.")
+        with _CORE_LOCK:
+            try:
+                core = _core_for_session(body["session_id"])
+                core.lifecycle(body["session_id"], action=body["action"], expected_revision=body["expected_revision"],
+                               request_id=body["request_id"], resume_session_id=body.get("resume_session_id"))
+                return _session_view(core, body["session_id"])
+            except CoreError as error:
+                raise _core_error(error) from error
 
     @staticmethod
     def post_core_options(body: dict) -> dict:
@@ -1834,6 +1936,7 @@ class Handlers:
         view = _core_options_view(offer_set, core.field)
         view["session_id"] = session_id
         view["current_revision"] = state_now.r
+        view["score"] = copy.deepcopy(state_now.z)
         view["position"] = _position_advisory(core.field.id, state_now.page)
         return view
 
@@ -1966,11 +2069,26 @@ class Handlers:
         if not events:
             raise ApiError(f"no such session: {session_id}", status=404, payload={"code": "unknown_session"})
         field_id = events[0].get("field_id")
-        field = _load_field(field_id if field_id in fields_module.KNOWN_FIELDS else fields_module.DEFAULT_FIELD)
+        field = _load_field(field_id if field_id in (*fields_module.KNOWN_FIELDS, fixtures.FIELD_ID) else fields_module.DEFAULT_FIELD)
         return _journey(session_id, events, field)
 
 
-def _prose(field, page_id: str, version_id: str) -> dict:
+def _retained_content(events: list[dict]) -> dict:
+    versions = {}
+    for event in events:
+        versions.update(event.get("retained_content") or {})
+    return versions
+
+
+def _prose(field, page_id: str, version_id: str, retained_content: dict | None = None) -> dict:
+    retained = (retained_content or {}).get(version_id)
+    if retained:
+        current = field.manifest.get(page_id)
+        matches = current is not None and identity.version_id(page_id, current.sha256) == version_id
+        note = "Exact text retained by this journey."
+        if not matches:
+            note = f"{version_id} is no longer the current text of {page_id}. {note}"
+        return {**retained, "current": matches, "title": _title_of(page_id), "note": note}
     page = field.manifest.get(page_id)
     if page is None:
         return {"text": None, "current": False, "note": f"{page_id} is not in field {field.id}; nothing is shown"}
@@ -1996,11 +2114,15 @@ def _encounter_kind(event_kind: str, event: dict) -> str:
 
 
 def _journey(session_id: str, events: list[dict], field) -> dict:
+    evidence_note = ("Declared synthetic relationships; no model assessment or authored textual evidence."
+                     if field.id == fixtures.FIELD_ID else
+                     "decision evidence (model distribution) — no textual evidence span recorded")
     offer_sets: dict[str, dict] = {}
     rejections: list[dict] = []
     encounters: list[dict] = []
     before = reducer.State()
     atlas_config_ids: set[str] = set()
+    retained_content = _retained_content(events)
     for event in events:
         kind = event.get("event")
         after = reducer.apply(before, event)
@@ -2017,8 +2139,9 @@ def _journey(session_id: str, events: list[dict], field) -> dict:
             version_id = entry["version_id"]
             is_return = entry.get("previous_encounter_index") is not None
             record = {
-                **entry, "at": event.get("at"), "prose": _prose(field, entry["page_id"], version_id),
+                **entry, "at": event.get("at"), "prose": _prose(field, entry["page_id"], version_id, retained_content),
                 "revision_after": after.r, "encounter_count_after": len(after.H),
+                "score_before": copy.deepcopy(before.z), "score_after": copy.deepcopy(after.z),
                 "count_for_version_after": after.c.get(version_id), "is_return": is_return,
                 "kind": _encounter_kind(kind, event), "kind_id": ENCOUNTER_KIND_ID[kind],
                 "return_marker": (f"return to an earlier version: index distance {entry.get('return_index_distance')}, "
@@ -2045,8 +2168,9 @@ def _journey(session_id: str, events: list[dict], field) -> dict:
                 bonds = []
                 for bond in offer.get("bonds") or []:
                     bonds.append({**bond, "selected": bond.get("bond_version_id") == event.get("bond_version_id"),
-                                  "evidence_note": "decision evidence (model distribution) — no textual evidence span recorded"})
+                                  "evidence_note": evidence_note})
                 record["action"] = {
+                    "evidence_note": evidence_note,
                     "request_id": event.get("request_id"), "bond_version_id": event.get("bond_version_id"),
                     "operator": event.get("operator"), "wording": event.get("wording"), "tier": event.get("tier"),
                     "operator_fit": event.get("operator_fit"), "assessment_id": event.get("assessment_id"),
@@ -2058,6 +2182,7 @@ def _journey(session_id: str, events: list[dict], field) -> dict:
                         "atlas_config_id": offer.get("atlas_config_id"), "options_policy_version": offer.get("options_policy_version"),
                         "options_state": offer.get("options_state"), "counts": offer.get("counts"),
                         "exclusions": offer.get("exclusions"), "event_seq": offer.get("seq"), "at": offer.get("at"),
+                        "decisions": offer.get("decisions"), "score_config_sha256": offer.get("score_config_sha256"),
                         "bonds": bonds,
                     },
                     "offer_set_missing": not offer,
@@ -2072,7 +2197,11 @@ def _journey(session_id: str, events: list[dict], field) -> dict:
         "encounter_count": len(final.H), "event_count": len(events), "last_seq": final.last_seq,
         "started_at": events[0].get("at"), "last_event_at": events[-1].get("at"),
         "encounters": encounters, "rejections": rejections, "state": final.canonical(),
-        "evidence_note": "decision evidence (model distribution) — no textual evidence span recorded",
+        "score": copy.deepcopy(final.z), "synthetic": field.id == fixtures.FIELD_ID,
+        "offer_sets": list(offer_sets.values()),
+        "lifecycle_events": [event for event in events if event.get("event") not in
+                             ("session_started", "offer_set_created", "action_committed", "relocation_committed", "action_rejected")],
+        "evidence_note": evidence_note,
         "clock_note": "wall time is the journal's recorded `at`; encounter order is the arrival index; neither is synthetic timing",
     }
 
@@ -2094,6 +2223,8 @@ GET_ROUTES = {
     "/api/core/journey": Handlers.get_core_journey,
 }
 POST_ROUTES = {
+    "/api/core/demo": Handlers.post_core_demo,
+    "/api/core/lifecycle": Handlers.post_core_lifecycle,
     "/api/core/session": Handlers.post_core_session,
     "/api/core/options": Handlers.post_core_options,
     "/api/core/execute": Handlers.post_core_execute,

@@ -461,7 +461,7 @@ def test_journey_marks_a_return_with_index_distance_and_intervening_count(isolat
     assert last["action"]["state_before"]["count_for_version"] == 1 and last["action"]["state_after"]["count_for_version"] == 2
 
 
-def test_journey_says_so_when_a_version_is_no_longer_current(isolated, monkeypatch):
+def test_journey_retains_exact_prose_when_a_version_is_no_longer_current(isolated, monkeypatch):
     session_id, offers, bond, _ = _followed(isolated)
     changed = dict(FIELD.manifest)
     page = changed["P1"]
@@ -471,7 +471,7 @@ def test_journey_says_so_when_a_version_is_no_longer_current(isolated, monkeypat
     monkeypatch.setattr(reader_server, "_load_field", lambda _fid: fake)
     journey = Handlers.get_core_journey({"session_id": [session_id]})
     start = journey["encounters"][0]
-    assert start["prose"]["current"] is False and start["prose"]["text"] is None
+    assert start["prose"]["current"] is False and start["prose"]["text"] == page.text
     assert "no longer the current text of P1" in start["prose"]["note"]
     assert journey["encounters"][1]["prose"]["current"] is True
 

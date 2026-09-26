@@ -1,5 +1,10 @@
 # Core v0.3, session 1: contracts and file ownership
 
+Session 3 additions are specified in `notes/core-v03-session3.md` (score/1,
+score-resolver/1, retained score/content/candidate inputs, performance endings,
+provider-disabled replay and explicit legacy compatibility). The contracts below
+remain the Session 1/2 baseline; old journals keep their original neutral state shape.
+
 Governing document: `Gibsey_Core_v0.3_Weekend_Plan.md`. This note maps its contracts onto
 the real checkout for the first session (persistent-Q slice + analysis contracts). It is
 lead-owned; workers code against it. Nothing here calls a model.

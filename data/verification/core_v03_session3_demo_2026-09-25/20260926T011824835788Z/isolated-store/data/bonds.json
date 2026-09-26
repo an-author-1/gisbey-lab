@@ -1,0 +1,35 @@
+{
+  "bond_248987c718f4b6934a8a": {
+    "bond_id": "bond_248987c718f4b6934a8a",
+    "proposal_id": null,
+    "kind": "core",
+    "source_id": "P1",
+    "active_id": null,
+    "target_id": "P5",
+    "target_text": "As such, I do suppose that there is a fourth and other unspoken option. \n\nThis fourth option likely refers to a set of individuals, of both human and non-human origin, whom I suspect may, in fact, be The Author of these very pages. Many of these suspects are, very unfortunately, the characters that make up the theme park whose Entrance Way you are about to approach—if you haven't already—thus complicating even further one's ability to locate the identity of any such suspects as either The Author or an author of these tales. \n\nThese suspects may be an author, such as myself, or they could also very well be the other characters which precede me, such as London Fox, Glyph Marrow, Philip Bafflemint, Jacklyn Variance, Oren Progresso, the Original Natalie Weissman, the animatronic reality show star Princhetta, the chatbot Cop‑E‑Right, the recently cloned version of Natalie Weissman, the shape‑shifter Arieol Owlist, Jack Parlance, Manny Valentinas, Shamrock Stillman, the podcaster Todd Fishbone, or even The Author themselves, or an additional unspoken character hidden either among or between them.",
+    "field": "full-41",
+    "policy": null,
+    "operator": "DEVELOP",
+    "relation_labels": null,
+    "run_dir": null,
+    "offer_set_id": "offers_77f978dd330ddc32286e",
+    "tier": "supported",
+    "operator_fit": {
+      "dimension": "development",
+      "score": 2.75,
+      "score_norm": 0.9166666666666666,
+      "confidence": 0.75,
+      "nearest_level": 3
+    },
+    "source_version": "P1@c8adbba7f4ed",
+    "destination_version": "P5@23fc2364ab4a",
+    "source_sha256": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+    "destination_sha256": "23fc2364ab4ab9333e9873f4f73d6f6ee41f49e4157213bd9ae73fb5ef6bf74f",
+    "wording": "As such, I do suppose that there is a fourth and other unspoken option.",
+    "request_id": "req_muhpaxse_1_6gebm28t",
+    "session_id": "s_d5d2099648ac",
+    "core_event_seq": 2,
+    "assessment_id": "as-cc43d39d632a4ff7823ba3ba4dda9cbb",
+    "created_at": "2026-09-26T01:18:25.943271+00:00"
+  }
+}

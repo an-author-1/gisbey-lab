@@ -1,0 +1,6304 @@
+{
+  "kind": "neutral_ordering_parity_diagnostic_not_a_simulation",
+  "provider_calls": 0,
+  "ok": true,
+  "comparisons": 328,
+  "sources": 41,
+  "operators": [
+    "ECHO",
+    "DEVELOP",
+    "CONTRADICT",
+    "BRIDGE"
+  ],
+  "policies": [
+    "discovery",
+    "include-adjacent"
+  ],
+  "failures": [],
+  "results": [
+    {
+      "source_version": "F1@5f8c0218fd16",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F9",
+        "F8",
+        "F5",
+        "F7",
+        "F6"
+      ],
+      "actual": [
+        "F9",
+        "F8",
+        "F5",
+        "F7",
+        "F6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F1@5f8c0218fd16",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F9",
+        "F8",
+        "F5",
+        "F7",
+        "F6"
+      ],
+      "actual": [
+        "F9",
+        "F8",
+        "F5",
+        "F7",
+        "F6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F1@5f8c0218fd16",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "F9",
+        "F5",
+        "F12",
+        "F8"
+      ],
+      "actual": [
+        "P1",
+        "F9",
+        "F5",
+        "F12",
+        "F8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F1@5f8c0218fd16",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "F9",
+        "F5",
+        "F12",
+        "F8"
+      ],
+      "actual": [
+        "P1",
+        "F9",
+        "F5",
+        "F12",
+        "F8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F1@5f8c0218fd16",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "PR1",
+        "F5"
+      ],
+      "actual": [
+        "P1",
+        "PR1",
+        "F5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F1@5f8c0218fd16",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "PR1",
+        "F5"
+      ],
+      "actual": [
+        "P1",
+        "PR1",
+        "F5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F1@5f8c0218fd16",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF14",
+        "LF8",
+        "LF7",
+        "P7"
+      ],
+      "actual": [
+        "LF11",
+        "LF14",
+        "LF8",
+        "LF7",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F1@5f8c0218fd16",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF14",
+        "LF8",
+        "LF7",
+        "P7"
+      ],
+      "actual": [
+        "LF11",
+        "LF14",
+        "LF8",
+        "LF7",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F2@585b18f04f0e",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F10",
+        "F4",
+        "LF15",
+        "F8",
+        "F5"
+      ],
+      "actual": [
+        "F10",
+        "F4",
+        "LF15",
+        "F8",
+        "F5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F2@585b18f04f0e",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F10",
+        "F4",
+        "LF15",
+        "F8",
+        "F3"
+      ],
+      "actual": [
+        "F10",
+        "F4",
+        "LF15",
+        "F8",
+        "F3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F2@585b18f04f0e",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "F4",
+        "P1",
+        "F5",
+        "P7",
+        "P3"
+      ],
+      "actual": [
+        "F4",
+        "P1",
+        "F5",
+        "P7",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F2@585b18f04f0e",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "F4",
+        "F3",
+        "P1",
+        "F5",
+        "P7"
+      ],
+      "actual": [
+        "F4",
+        "F3",
+        "P1",
+        "F5",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F2@585b18f04f0e",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "PR1",
+        "P6"
+      ],
+      "actual": [
+        "P1",
+        "PR1",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F2@585b18f04f0e",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "PR1",
+        "P6"
+      ],
+      "actual": [
+        "P1",
+        "PR1",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F2@585b18f04f0e",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF8",
+        "LF7",
+        "LF9",
+        "LF15",
+        "P7"
+      ],
+      "actual": [
+        "LF8",
+        "LF7",
+        "LF9",
+        "LF15",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F2@585b18f04f0e",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF8",
+        "LF7",
+        "LF9",
+        "LF15",
+        "P7"
+      ],
+      "actual": [
+        "LF8",
+        "LF7",
+        "LF9",
+        "LF15",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F3@f71ff254e1cd",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F9",
+        "F10",
+        "F1",
+        "F6",
+        "F11"
+      ],
+      "actual": [
+        "F9",
+        "F10",
+        "F1",
+        "F6",
+        "F11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F3@f71ff254e1cd",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F2",
+        "F4",
+        "F9",
+        "F10",
+        "F1"
+      ],
+      "actual": [
+        "F2",
+        "F4",
+        "F9",
+        "F10",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F3@f71ff254e1cd",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "F8",
+        "PR3",
+        "F7",
+        "P3",
+        "F12"
+      ],
+      "actual": [
+        "F8",
+        "PR3",
+        "F7",
+        "P3",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F3@f71ff254e1cd",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "F4",
+        "F8",
+        "F2",
+        "PR3",
+        "F7"
+      ],
+      "actual": [
+        "F4",
+        "F8",
+        "F2",
+        "PR3",
+        "F7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F3@f71ff254e1cd",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "F8",
+        "LF3"
+      ],
+      "actual": [
+        "PR1",
+        "F8",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F3@f71ff254e1cd",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "F8",
+        "LF3"
+      ],
+      "actual": [
+        "PR1",
+        "F8",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F3@f71ff254e1cd",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "LF11",
+        "LF7",
+        "LF8",
+        "LF10"
+      ],
+      "actual": [
+        "LF14",
+        "LF11",
+        "LF7",
+        "LF8",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F3@f71ff254e1cd",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "LF11",
+        "LF7",
+        "LF8",
+        "LF10"
+      ],
+      "actual": [
+        "LF14",
+        "LF11",
+        "LF7",
+        "LF8",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F4@8ecba52f52c2",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F2",
+        "F6",
+        "F1",
+        "P1",
+        "P2"
+      ],
+      "actual": [
+        "F2",
+        "F6",
+        "F1",
+        "P1",
+        "P2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F4@8ecba52f52c2",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F2",
+        "F3",
+        "F5",
+        "F6",
+        "F1"
+      ],
+      "actual": [
+        "F2",
+        "F3",
+        "F5",
+        "F6",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F4@8ecba52f52c2",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "F6",
+        "F2"
+      ],
+      "actual": [
+        "P1",
+        "F6",
+        "F2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F4@8ecba52f52c2",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "F6",
+        "F3",
+        "F2"
+      ],
+      "actual": [
+        "P1",
+        "F6",
+        "F3",
+        "F2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F4@8ecba52f52c2",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "P1",
+        "LF15"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "LF15"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F4@8ecba52f52c2",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "P1",
+        "LF15"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "LF15"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F4@8ecba52f52c2",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF16",
+        "LF11",
+        "LF14",
+        "LF6",
+        "LF15"
+      ],
+      "actual": [
+        "LF16",
+        "LF11",
+        "LF14",
+        "LF6",
+        "LF15"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F4@8ecba52f52c2",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF16",
+        "LF11",
+        "LF14",
+        "LF6",
+        "LF15"
+      ],
+      "actual": [
+        "LF16",
+        "LF11",
+        "LF14",
+        "LF6",
+        "LF15"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F5@7c5bde18887b",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F11",
+        "F7",
+        "P5",
+        "F1",
+        "PR5"
+      ],
+      "actual": [
+        "F11",
+        "F7",
+        "P5",
+        "F1",
+        "PR5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F5@7c5bde18887b",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F11",
+        "F7",
+        "F4",
+        "P5",
+        "F6"
+      ],
+      "actual": [
+        "F11",
+        "F7",
+        "F4",
+        "P5",
+        "F6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F5@7c5bde18887b",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "F7",
+        "P1",
+        "F8",
+        "F11",
+        "F2"
+      ],
+      "actual": [
+        "F7",
+        "P1",
+        "F8",
+        "F11",
+        "F2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F5@7c5bde18887b",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "F7",
+        "F4",
+        "P1",
+        "F8",
+        "F11"
+      ],
+      "actual": [
+        "F7",
+        "F4",
+        "P1",
+        "F8",
+        "F11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F5@7c5bde18887b",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "F8",
+        "P6"
+      ],
+      "actual": [
+        "P1",
+        "F8",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F5@7c5bde18887b",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "F8",
+        "P6"
+      ],
+      "actual": [
+        "P1",
+        "F8",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F5@7c5bde18887b",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "F12",
+        "LF6",
+        "LF11",
+        "P1"
+      ],
+      "actual": [
+        "LF7",
+        "F12",
+        "LF6",
+        "LF11",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F5@7c5bde18887b",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF7",
+        "F12",
+        "LF6",
+        "LF11",
+        "P1"
+      ],
+      "actual": [
+        "LF7",
+        "F12",
+        "LF6",
+        "LF11",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F6@bd6525417aaf",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F2",
+        "F4",
+        "P5",
+        "F10",
+        "F3"
+      ],
+      "actual": [
+        "F2",
+        "F4",
+        "P5",
+        "F10",
+        "F3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F6@bd6525417aaf",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F2",
+        "F4",
+        "F5",
+        "P5",
+        "F7"
+      ],
+      "actual": [
+        "F2",
+        "F4",
+        "F5",
+        "P5",
+        "F7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F6@bd6525417aaf",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P3",
+        "F4",
+        "P5",
+        "F2",
+        "LF6"
+      ],
+      "actual": [
+        "P3",
+        "F4",
+        "P5",
+        "F2",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F6@bd6525417aaf",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P3",
+        "F4",
+        "P5",
+        "F7",
+        "F2"
+      ],
+      "actual": [
+        "P3",
+        "F4",
+        "P5",
+        "F7",
+        "F2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F6@bd6525417aaf",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "P1",
+        "LF3"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F6@bd6525417aaf",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "P1",
+        "LF3"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F6@bd6525417aaf",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF8",
+        "LF7",
+        "P6",
+        "LF6"
+      ],
+      "actual": [
+        "LF11",
+        "LF8",
+        "LF7",
+        "P6",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F6@bd6525417aaf",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF8",
+        "LF7",
+        "P6",
+        "LF6"
+      ],
+      "actual": [
+        "LF11",
+        "LF8",
+        "LF7",
+        "P6",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F7@c96f98c9a49b",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F5",
+        "F9",
+        "F1",
+        "F3",
+        "F2"
+      ],
+      "actual": [
+        "F5",
+        "F9",
+        "F1",
+        "F3",
+        "F2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F7@c96f98c9a49b",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F5",
+        "F9",
+        "F6",
+        "F1",
+        "F3"
+      ],
+      "actual": [
+        "F5",
+        "F9",
+        "F6",
+        "F1",
+        "F3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F7@c96f98c9a49b",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "F5",
+        "F9",
+        "F1"
+      ],
+      "actual": [
+        "F5",
+        "F9",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F7@c96f98c9a49b",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "F8",
+        "F5",
+        "F6",
+        "F9"
+      ],
+      "actual": [
+        "F8",
+        "F5",
+        "F6",
+        "F9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F7@c96f98c9a49b",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P6",
+        "F9",
+        "PR1"
+      ],
+      "actual": [
+        "P6",
+        "F9",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F7@c96f98c9a49b",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "F8",
+        "P6",
+        "F9"
+      ],
+      "actual": [
+        "F8",
+        "P6",
+        "F9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F7@c96f98c9a49b",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "F12",
+        "P2",
+        "P6"
+      ],
+      "actual": [
+        "F12",
+        "P2",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F7@c96f98c9a49b",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "F12",
+        "P2",
+        "P6"
+      ],
+      "actual": [
+        "F12",
+        "P2",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F8@efda98e00c42",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F1",
+        "F10",
+        "P6",
+        "F6",
+        "F11"
+      ],
+      "actual": [
+        "F1",
+        "F10",
+        "P6",
+        "F6",
+        "F11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F8@efda98e00c42",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F1",
+        "F10",
+        "P6",
+        "F6",
+        "F11"
+      ],
+      "actual": [
+        "F1",
+        "F10",
+        "P6",
+        "F6",
+        "F11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F8@efda98e00c42",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "F5",
+        "F1",
+        "P6",
+        "F4",
+        "F6"
+      ],
+      "actual": [
+        "F5",
+        "F1",
+        "P6",
+        "F4",
+        "F6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F8@efda98e00c42",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "F7",
+        "F5",
+        "F1",
+        "P6",
+        "F4"
+      ],
+      "actual": [
+        "F7",
+        "F5",
+        "F1",
+        "P6",
+        "F4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F8@efda98e00c42",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "F1",
+        "PR1"
+      ],
+      "actual": [
+        "P1",
+        "F1",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F8@efda98e00c42",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "F1",
+        "F7"
+      ],
+      "actual": [
+        "P1",
+        "F1",
+        "F7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F8@efda98e00c42",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "P7",
+        "P6",
+        "LF14",
+        "PR5",
+        "P8"
+      ],
+      "actual": [
+        "P7",
+        "P6",
+        "LF14",
+        "PR5",
+        "P8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F8@efda98e00c42",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "P7",
+        "P6",
+        "LF14",
+        "PR5",
+        "P8"
+      ],
+      "actual": [
+        "P7",
+        "P6",
+        "LF14",
+        "PR5",
+        "P8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F9@b6f600115a90",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F1",
+        "PR3",
+        "F3",
+        "LF9",
+        "F7"
+      ],
+      "actual": [
+        "F1",
+        "PR3",
+        "F3",
+        "LF9",
+        "F7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F9@b6f600115a90",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F10",
+        "F1",
+        "PR3",
+        "F3",
+        "LF9"
+      ],
+      "actual": [
+        "F10",
+        "F1",
+        "PR3",
+        "F3",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F9@b6f600115a90",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "F12",
+        "F5",
+        "F7",
+        "LF9",
+        "PR3"
+      ],
+      "actual": [
+        "F12",
+        "F5",
+        "F7",
+        "LF9",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F9@b6f600115a90",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "F12",
+        "F8",
+        "F5",
+        "F7",
+        "LF9"
+      ],
+      "actual": [
+        "F12",
+        "F8",
+        "F5",
+        "F7",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F9@b6f600115a90",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "PR1",
+        "P6"
+      ],
+      "actual": [
+        "P1",
+        "PR1",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F9@b6f600115a90",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "F8",
+        "PR1"
+      ],
+      "actual": [
+        "P1",
+        "F8",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F9@b6f600115a90",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "LF11",
+        "LF10",
+        "LF8",
+        "LF6"
+      ],
+      "actual": [
+        "LF7",
+        "LF11",
+        "LF10",
+        "LF8",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F9@b6f600115a90",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF7",
+        "LF11",
+        "LF10",
+        "LF8",
+        "LF6"
+      ],
+      "actual": [
+        "LF7",
+        "LF11",
+        "LF10",
+        "LF8",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F10@785b5280ac55",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F2",
+        "PR3",
+        "F12",
+        "F6",
+        "F8"
+      ],
+      "actual": [
+        "F2",
+        "PR3",
+        "F12",
+        "F6",
+        "F8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F10@785b5280ac55",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F11",
+        "F9",
+        "F2",
+        "PR3",
+        "F12"
+      ],
+      "actual": [
+        "F11",
+        "F9",
+        "F2",
+        "PR3",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F10@785b5280ac55",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "F12",
+        "PR3",
+        "F1",
+        "F5",
+        "F4"
+      ],
+      "actual": [
+        "F12",
+        "PR3",
+        "F1",
+        "F5",
+        "F4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F10@785b5280ac55",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "F12",
+        "F9",
+        "PR3",
+        "F11",
+        "F1"
+      ],
+      "actual": [
+        "F12",
+        "F9",
+        "PR3",
+        "F11",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F10@785b5280ac55",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "P1",
+        "LF4"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "LF4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F10@785b5280ac55",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "P1",
+        "LF4"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "LF4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F10@785b5280ac55",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF6",
+        "LF11"
+      ],
+      "actual": [
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF6",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F10@785b5280ac55",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF6",
+        "LF11"
+      ],
+      "actual": [
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF6",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F11@5729f5fec994",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P5",
+        "F3",
+        "P1",
+        "F5",
+        "F8"
+      ],
+      "actual": [
+        "P5",
+        "F3",
+        "P1",
+        "F5",
+        "F8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F11@5729f5fec994",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F10",
+        "P5",
+        "F3",
+        "P1",
+        "F5"
+      ],
+      "actual": [
+        "F10",
+        "P5",
+        "F3",
+        "P1",
+        "F5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F11@5729f5fec994",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "P5",
+        "F5",
+        "P2",
+        "F3"
+      ],
+      "actual": [
+        "P1",
+        "P5",
+        "F5",
+        "P2",
+        "F3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F11@5729f5fec994",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "P5",
+        "F5",
+        "F10",
+        "P2"
+      ],
+      "actual": [
+        "P1",
+        "P5",
+        "F5",
+        "F10",
+        "P2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F11@5729f5fec994",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "P2",
+        "PR1"
+      ],
+      "actual": [
+        "P1",
+        "P2",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F11@5729f5fec994",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "P2",
+        "PR1"
+      ],
+      "actual": [
+        "P1",
+        "P2",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F11@5729f5fec994",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF6",
+        "LF11"
+      ],
+      "actual": [
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF6",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F11@5729f5fec994",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF6",
+        "LF11"
+      ],
+      "actual": [
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF6",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F12@cb4d77c11adb",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P8",
+        "PR4",
+        "PR1",
+        "PR3",
+        "LF9"
+      ],
+      "actual": [
+        "P8",
+        "PR4",
+        "PR1",
+        "PR3",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F12@cb4d77c11adb",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "P8",
+        "PR4",
+        "PR1",
+        "PR3",
+        "LF9"
+      ],
+      "actual": [
+        "P8",
+        "PR4",
+        "PR1",
+        "PR3",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F12@cb4d77c11adb",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "PR3",
+        "PR1",
+        "LF11",
+        "PR4",
+        "PR2"
+      ],
+      "actual": [
+        "PR3",
+        "PR1",
+        "LF11",
+        "PR4",
+        "PR2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F12@cb4d77c11adb",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR3",
+        "PR1",
+        "LF11",
+        "PR4",
+        "PR2"
+      ],
+      "actual": [
+        "PR3",
+        "PR1",
+        "LF11",
+        "PR4",
+        "PR2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F12@cb4d77c11adb",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "LF4",
+        "PR4"
+      ],
+      "actual": [
+        "LF14",
+        "LF4",
+        "PR4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F12@cb4d77c11adb",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "LF4",
+        "PR4"
+      ],
+      "actual": [
+        "LF14",
+        "LF4",
+        "PR4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F12@cb4d77c11adb",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF12"
+      ],
+      "actual": [
+        "LF11",
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "F12@cb4d77c11adb",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF12"
+      ],
+      "actual": [
+        "LF11",
+        "LF7",
+        "LF10",
+        "LF8",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF1@494010550cfd",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF9",
+        "LF6",
+        "LF16",
+        "LF11",
+        "LF7"
+      ],
+      "actual": [
+        "LF9",
+        "LF6",
+        "LF16",
+        "LF11",
+        "LF7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF1@494010550cfd",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF9",
+        "LF6",
+        "LF16",
+        "LF2",
+        "LF11"
+      ],
+      "actual": [
+        "LF9",
+        "LF6",
+        "LF16",
+        "LF2",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF1@494010550cfd",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF13",
+        "LF11",
+        "LF14",
+        "LF16",
+        "LF8"
+      ],
+      "actual": [
+        "LF13",
+        "LF11",
+        "LF14",
+        "LF16",
+        "LF8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF1@494010550cfd",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF13",
+        "LF11",
+        "LF14",
+        "LF2",
+        "LF16"
+      ],
+      "actual": [
+        "LF13",
+        "LF11",
+        "LF14",
+        "LF2",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF1@494010550cfd",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "PR1",
+        "LF16"
+      ],
+      "actual": [
+        "LF14",
+        "PR1",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF1@494010550cfd",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "PR1",
+        "LF16"
+      ],
+      "actual": [
+        "LF14",
+        "PR1",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF1@494010550cfd",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "PR3",
+        "PR1"
+      ],
+      "actual": [
+        "LF14",
+        "PR3",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF1@494010550cfd",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "PR3",
+        "PR1"
+      ],
+      "actual": [
+        "LF14",
+        "PR3",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF2@1e9b6908d1bb",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF10",
+        "LF11",
+        "LF13",
+        "LF9"
+      ],
+      "actual": [
+        "LF10",
+        "LF11",
+        "LF13",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF2@1e9b6908d1bb",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF1",
+        "LF10",
+        "LF11",
+        "LF13",
+        "LF3"
+      ],
+      "actual": [
+        "LF1",
+        "LF10",
+        "LF11",
+        "LF13",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF2@1e9b6908d1bb",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF13",
+        "LF12",
+        "LF11",
+        "LF16",
+        "LF14"
+      ],
+      "actual": [
+        "LF13",
+        "LF12",
+        "LF11",
+        "LF16",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF2@1e9b6908d1bb",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF13",
+        "LF12",
+        "LF11",
+        "LF16",
+        "LF14"
+      ],
+      "actual": [
+        "LF13",
+        "LF12",
+        "LF11",
+        "LF16",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF2@1e9b6908d1bb",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF13",
+        "LF5",
+        "LF12"
+      ],
+      "actual": [
+        "LF13",
+        "LF5",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF2@1e9b6908d1bb",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF13",
+        "LF5",
+        "LF12"
+      ],
+      "actual": [
+        "LF13",
+        "LF5",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF2@1e9b6908d1bb",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF15",
+        "LF14",
+        "PR2",
+        "PR1"
+      ],
+      "actual": [
+        "LF15",
+        "LF14",
+        "PR2",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF2@1e9b6908d1bb",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF15",
+        "LF14",
+        "PR2",
+        "PR1"
+      ],
+      "actual": [
+        "LF15",
+        "LF14",
+        "PR2",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF3@6c8dee41659b",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "LF6",
+        "LF10",
+        "LF13",
+        "LF5"
+      ],
+      "actual": [
+        "LF7",
+        "LF6",
+        "LF10",
+        "LF13",
+        "LF5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF3@6c8dee41659b",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF7",
+        "LF6",
+        "LF10",
+        "LF13",
+        "LF5"
+      ],
+      "actual": [
+        "LF7",
+        "LF6",
+        "LF10",
+        "LF13",
+        "LF5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF3@6c8dee41659b",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF6",
+        "LF11",
+        "LF10",
+        "LF8",
+        "LF16"
+      ],
+      "actual": [
+        "LF6",
+        "LF11",
+        "LF10",
+        "LF8",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF3@6c8dee41659b",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF6",
+        "LF11",
+        "LF10",
+        "LF8",
+        "LF16"
+      ],
+      "actual": [
+        "LF6",
+        "LF11",
+        "LF10",
+        "LF8",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF3@6c8dee41659b",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF10",
+        "LF13",
+        "LF14",
+        "LF16",
+        "LF11"
+      ],
+      "actual": [
+        "LF10",
+        "LF13",
+        "LF14",
+        "LF16",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF3@6c8dee41659b",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF10",
+        "LF13",
+        "LF14",
+        "LF16",
+        "LF11"
+      ],
+      "actual": [
+        "LF10",
+        "LF13",
+        "LF14",
+        "LF16",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF3@6c8dee41659b",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "P3",
+        "PR3",
+        "PR1",
+        "F9"
+      ],
+      "actual": [
+        "LF14",
+        "P3",
+        "PR3",
+        "PR1",
+        "F9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF3@6c8dee41659b",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "P3",
+        "PR3",
+        "PR1",
+        "F9"
+      ],
+      "actual": [
+        "LF14",
+        "P3",
+        "PR3",
+        "PR1",
+        "F9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF4@0811064ce766",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF10",
+        "P3",
+        "LF16"
+      ],
+      "actual": [
+        "LF10",
+        "P3",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF4@0811064ce766",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF3",
+        "LF10",
+        "LF5"
+      ],
+      "actual": [
+        "LF3",
+        "LF10",
+        "LF5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF4@0811064ce766",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF6",
+        "LF10",
+        "LF11",
+        "LF14",
+        "LF16"
+      ],
+      "actual": [
+        "LF6",
+        "LF10",
+        "LF11",
+        "LF14",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF4@0811064ce766",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF3",
+        "LF5",
+        "LF6",
+        "LF10",
+        "LF11"
+      ],
+      "actual": [
+        "LF3",
+        "LF5",
+        "LF6",
+        "LF10",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF4@0811064ce766",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF6",
+        "LF10",
+        "LF16"
+      ],
+      "actual": [
+        "LF6",
+        "LF10",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF4@0811064ce766",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF6",
+        "LF10",
+        "LF16"
+      ],
+      "actual": [
+        "LF6",
+        "LF10",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF4@0811064ce766",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "P3",
+        "PR3",
+        "F6",
+        "PR2"
+      ],
+      "actual": [
+        "LF14",
+        "P3",
+        "PR3",
+        "F6",
+        "PR2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF4@0811064ce766",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "P3",
+        "PR3",
+        "F6",
+        "PR2"
+      ],
+      "actual": [
+        "LF14",
+        "P3",
+        "PR3",
+        "F6",
+        "PR2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF5@934fffc832df",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF3",
+        "LF13",
+        "LF7",
+        "LF10",
+        "LF16"
+      ],
+      "actual": [
+        "LF3",
+        "LF13",
+        "LF7",
+        "LF10",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF5@934fffc832df",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF6",
+        "LF3",
+        "LF13",
+        "LF7",
+        "LF10"
+      ],
+      "actual": [
+        "LF6",
+        "LF3",
+        "LF13",
+        "LF7",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF5@934fffc832df",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF3",
+        "LF16",
+        "LF11",
+        "LF13",
+        "LF12"
+      ],
+      "actual": [
+        "LF3",
+        "LF16",
+        "LF11",
+        "LF13",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF5@934fffc832df",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF6",
+        "LF3",
+        "LF16",
+        "LF11",
+        "LF13"
+      ],
+      "actual": [
+        "LF6",
+        "LF3",
+        "LF16",
+        "LF11",
+        "LF13"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF5@934fffc832df",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF13",
+        "LF16",
+        "LF2"
+      ],
+      "actual": [
+        "LF13",
+        "LF16",
+        "LF2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF5@934fffc832df",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF13",
+        "LF16",
+        "LF2"
+      ],
+      "actual": [
+        "LF13",
+        "LF16",
+        "LF2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF5@934fffc832df",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "P4",
+        "P6",
+        "P7",
+        "PR3"
+      ],
+      "actual": [
+        "LF14",
+        "P4",
+        "P6",
+        "P7",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF5@934fffc832df",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "P4",
+        "LF4",
+        "P6",
+        "P7"
+      ],
+      "actual": [
+        "LF14",
+        "P4",
+        "LF4",
+        "P6",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF6@7eb9b361c6ed",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF1",
+        "LF9",
+        "P2",
+        "P3",
+        "LF3"
+      ],
+      "actual": [
+        "LF1",
+        "LF9",
+        "P2",
+        "P3",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF6@7eb9b361c6ed",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF1",
+        "LF7",
+        "LF9",
+        "P2",
+        "P3"
+      ],
+      "actual": [
+        "LF1",
+        "LF7",
+        "LF9",
+        "P2",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF6@7eb9b361c6ed",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P3",
+        "LF11",
+        "LF16",
+        "P2",
+        "LF13"
+      ],
+      "actual": [
+        "P3",
+        "LF11",
+        "LF16",
+        "P2",
+        "LF13"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF6@7eb9b361c6ed",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P3",
+        "LF11",
+        "LF16",
+        "P2",
+        "LF7"
+      ],
+      "actual": [
+        "P3",
+        "LF11",
+        "LF16",
+        "P2",
+        "LF7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF6@7eb9b361c6ed",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "LF4",
+        "P1"
+      ],
+      "actual": [
+        "PR1",
+        "LF4",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF6@7eb9b361c6ed",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "LF4",
+        "P1"
+      ],
+      "actual": [
+        "PR1",
+        "LF4",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF6@7eb9b361c6ed",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "P2",
+        "PR3",
+        "P1",
+        "LF14",
+        "PR2"
+      ],
+      "actual": [
+        "P2",
+        "PR3",
+        "P1",
+        "LF14",
+        "PR2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF6@7eb9b361c6ed",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "P2",
+        "PR3",
+        "P1",
+        "LF14",
+        "PR2"
+      ],
+      "actual": [
+        "P2",
+        "PR3",
+        "P1",
+        "LF14",
+        "PR2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF7@63eff9b43a8b",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "PR2",
+        "LF16",
+        "LF3",
+        "LF13"
+      ],
+      "actual": [
+        "LF11",
+        "PR2",
+        "LF16",
+        "LF3",
+        "LF13"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF7@63eff9b43a8b",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF6",
+        "LF11",
+        "PR2",
+        "LF16",
+        "LF3"
+      ],
+      "actual": [
+        "LF6",
+        "LF11",
+        "PR2",
+        "LF16",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF7@63eff9b43a8b",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF16",
+        "PR3",
+        "LF3",
+        "LF14"
+      ],
+      "actual": [
+        "LF11",
+        "LF16",
+        "PR3",
+        "LF3",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF7@63eff9b43a8b",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF6",
+        "LF16",
+        "PR3",
+        "LF3"
+      ],
+      "actual": [
+        "LF11",
+        "LF6",
+        "LF16",
+        "PR3",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF7@63eff9b43a8b",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "P1",
+        "LF14"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF7@63eff9b43a8b",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "P1",
+        "LF14"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF7@63eff9b43a8b",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "PR3",
+        "PR2",
+        "F9",
+        "F12"
+      ],
+      "actual": [
+        "LF14",
+        "PR3",
+        "PR2",
+        "F9",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF7@63eff9b43a8b",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "PR3",
+        "PR2",
+        "F9",
+        "F12"
+      ],
+      "actual": [
+        "LF14",
+        "PR3",
+        "PR2",
+        "F9",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF8@84e4c794adcf",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P8",
+        "LF10",
+        "LF6",
+        "PR5",
+        "F12"
+      ],
+      "actual": [
+        "P8",
+        "LF10",
+        "LF6",
+        "PR5",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF8@84e4c794adcf",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF9",
+        "P8",
+        "LF10",
+        "LF6",
+        "PR5"
+      ],
+      "actual": [
+        "LF9",
+        "P8",
+        "LF10",
+        "LF6",
+        "PR5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF8@84e4c794adcf",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF10",
+        "P3",
+        "LF3",
+        "LF6"
+      ],
+      "actual": [
+        "LF11",
+        "LF10",
+        "P3",
+        "LF3",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF8@84e4c794adcf",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF9",
+        "LF10",
+        "P3",
+        "LF3"
+      ],
+      "actual": [
+        "LF11",
+        "LF9",
+        "LF10",
+        "P3",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF8@84e4c794adcf",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "P3",
+        "LF3"
+      ],
+      "actual": [
+        "PR1",
+        "P3",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF8@84e4c794adcf",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "P3",
+        "LF3"
+      ],
+      "actual": [
+        "PR1",
+        "P3",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF8@84e4c794adcf",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "P3",
+        "PR2",
+        "LF3",
+        "P2",
+        "P1"
+      ],
+      "actual": [
+        "P3",
+        "PR2",
+        "LF3",
+        "P2",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF8@84e4c794adcf",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "P3",
+        "PR2",
+        "LF3",
+        "P2",
+        "P1"
+      ],
+      "actual": [
+        "P3",
+        "PR2",
+        "LF3",
+        "P2",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF9@0f039d820dc8",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF1",
+        "LF6",
+        "P8",
+        "P6",
+        "LF11"
+      ],
+      "actual": [
+        "LF1",
+        "LF6",
+        "P8",
+        "P6",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF9@0f039d820dc8",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF1",
+        "LF8",
+        "LF6",
+        "P8",
+        "P6"
+      ],
+      "actual": [
+        "LF1",
+        "LF8",
+        "LF6",
+        "P8",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF9@0f039d820dc8",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF14",
+        "LF16",
+        "PR3",
+        "P6"
+      ],
+      "actual": [
+        "LF11",
+        "LF14",
+        "LF16",
+        "PR3",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF9@0f039d820dc8",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF8",
+        "LF14",
+        "LF16",
+        "PR3"
+      ],
+      "actual": [
+        "LF11",
+        "LF8",
+        "LF14",
+        "LF16",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF9@0f039d820dc8",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF16",
+        "LF3",
+        "LF4"
+      ],
+      "actual": [
+        "LF16",
+        "LF3",
+        "LF4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF9@0f039d820dc8",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF16",
+        "LF3",
+        "LF4"
+      ],
+      "actual": [
+        "LF16",
+        "LF3",
+        "LF4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF9@0f039d820dc8",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "P6",
+        "LF3",
+        "F9",
+        "PR3"
+      ],
+      "actual": [
+        "LF14",
+        "P6",
+        "LF3",
+        "F9",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF9@0f039d820dc8",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "P6",
+        "LF3",
+        "F9",
+        "PR3"
+      ],
+      "actual": [
+        "LF14",
+        "P6",
+        "LF3",
+        "F9",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF10@caba8ef0d750",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF16",
+        "LF7",
+        "LF3",
+        "PR1",
+        "LF13"
+      ],
+      "actual": [
+        "LF16",
+        "LF7",
+        "LF3",
+        "PR1",
+        "LF13"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF10@caba8ef0d750",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF16",
+        "LF7",
+        "LF3",
+        "PR1"
+      ],
+      "actual": [
+        "LF11",
+        "LF16",
+        "LF7",
+        "LF3",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF10@caba8ef0d750",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P3",
+        "LF14",
+        "LF16",
+        "LF15",
+        "LF13"
+      ],
+      "actual": [
+        "P3",
+        "LF14",
+        "LF16",
+        "LF15",
+        "LF13"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF10@caba8ef0d750",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "P3",
+        "LF14",
+        "LF16",
+        "LF15"
+      ],
+      "actual": [
+        "LF11",
+        "P3",
+        "LF14",
+        "LF16",
+        "LF15"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF10@caba8ef0d750",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF3",
+        "LF4",
+        "LF1"
+      ],
+      "actual": [
+        "LF3",
+        "LF4",
+        "LF1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF10@caba8ef0d750",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF3",
+        "LF4",
+        "LF1"
+      ],
+      "actual": [
+        "LF3",
+        "LF4",
+        "LF1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF10@caba8ef0d750",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "PR3",
+        "PR2",
+        "LF15",
+        "LF3",
+        "F12"
+      ],
+      "actual": [
+        "PR3",
+        "PR2",
+        "LF15",
+        "LF3",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF10@caba8ef0d750",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR3",
+        "PR2",
+        "LF15",
+        "LF3",
+        "F12"
+      ],
+      "actual": [
+        "PR3",
+        "PR2",
+        "LF15",
+        "LF3",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF11@8f3786aa9e7e",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "PR5",
+        "PR3",
+        "LF16",
+        "P6"
+      ],
+      "actual": [
+        "LF14",
+        "PR5",
+        "PR3",
+        "LF16",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF11@8f3786aa9e7e",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "PR5",
+        "PR3",
+        "LF16",
+        "P6"
+      ],
+      "actual": [
+        "LF14",
+        "PR5",
+        "PR3",
+        "LF16",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF11@8f3786aa9e7e",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF16",
+        "PR3",
+        "LF14",
+        "LF15",
+        "F12"
+      ],
+      "actual": [
+        "LF16",
+        "PR3",
+        "LF14",
+        "LF15",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF11@8f3786aa9e7e",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF16",
+        "PR3",
+        "LF14",
+        "LF15",
+        "F12"
+      ],
+      "actual": [
+        "LF16",
+        "PR3",
+        "LF14",
+        "LF15",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF11@8f3786aa9e7e",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P3",
+        "LF4",
+        "P8"
+      ],
+      "actual": [
+        "P3",
+        "LF4",
+        "P8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF11@8f3786aa9e7e",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P3",
+        "LF4",
+        "P8"
+      ],
+      "actual": [
+        "P3",
+        "LF4",
+        "P8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF11@8f3786aa9e7e",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "P8",
+        "P6",
+        "F1",
+        "LF15",
+        "F12"
+      ],
+      "actual": [
+        "P8",
+        "P6",
+        "F1",
+        "LF15",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF11@8f3786aa9e7e",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "P8",
+        "P6",
+        "F1",
+        "LF15",
+        "F12"
+      ],
+      "actual": [
+        "P8",
+        "P6",
+        "F1",
+        "LF15",
+        "F12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF12@e910ea182147",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF16",
+        "LF2",
+        "LF14",
+        "PR3"
+      ],
+      "actual": [
+        "LF16",
+        "LF2",
+        "LF14",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF12@e910ea182147",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF16",
+        "LF2",
+        "LF11",
+        "LF14",
+        "PR3"
+      ],
+      "actual": [
+        "LF16",
+        "LF2",
+        "LF11",
+        "LF14",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF12@e910ea182147",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF16",
+        "LF14",
+        "LF5",
+        "PR3",
+        "LF6"
+      ],
+      "actual": [
+        "LF16",
+        "LF14",
+        "LF5",
+        "PR3",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF12@e910ea182147",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF16",
+        "LF14",
+        "LF11",
+        "LF5",
+        "PR3"
+      ],
+      "actual": [
+        "LF16",
+        "LF14",
+        "LF11",
+        "LF5",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF12@e910ea182147",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF2",
+        "LF1",
+        "P3"
+      ],
+      "actual": [
+        "LF2",
+        "LF1",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF12@e910ea182147",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF2",
+        "LF1",
+        "P3"
+      ],
+      "actual": [
+        "LF2",
+        "LF1",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF12@e910ea182147",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "PR3",
+        "LF3",
+        "F12",
+        "LF15"
+      ],
+      "actual": [
+        "LF14",
+        "PR3",
+        "LF3",
+        "F12",
+        "LF15"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF12@e910ea182147",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "PR3",
+        "LF3",
+        "F12",
+        "LF15"
+      ],
+      "actual": [
+        "LF14",
+        "PR3",
+        "LF3",
+        "F12",
+        "LF15"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF13@4cacb46235a9",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "LF16",
+        "LF11",
+        "LF1",
+        "LF5"
+      ],
+      "actual": [
+        "LF7",
+        "LF16",
+        "LF11",
+        "LF1",
+        "LF5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF13@4cacb46235a9",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF7",
+        "LF16",
+        "LF11",
+        "LF1",
+        "LF5"
+      ],
+      "actual": [
+        "LF7",
+        "LF16",
+        "LF11",
+        "LF1",
+        "LF5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF13@4cacb46235a9",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF16",
+        "LF5",
+        "LF10",
+        "LF3"
+      ],
+      "actual": [
+        "LF11",
+        "LF16",
+        "LF5",
+        "LF10",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF13@4cacb46235a9",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF16",
+        "LF14",
+        "LF5",
+        "LF10"
+      ],
+      "actual": [
+        "LF11",
+        "LF16",
+        "LF14",
+        "LF5",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF13@4cacb46235a9",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF3",
+        "LF1",
+        "P3"
+      ],
+      "actual": [
+        "LF3",
+        "LF1",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF13@4cacb46235a9",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF3",
+        "LF1",
+        "P3"
+      ],
+      "actual": [
+        "LF3",
+        "LF1",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF13@4cacb46235a9",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF3",
+        "LF15",
+        "P3",
+        "P8",
+        "PR3"
+      ],
+      "actual": [
+        "LF3",
+        "LF15",
+        "P3",
+        "P8",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF13@4cacb46235a9",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF3",
+        "LF15",
+        "P3",
+        "P8",
+        "PR3"
+      ],
+      "actual": [
+        "LF3",
+        "LF15",
+        "P3",
+        "P8",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF14@7761643ceca9",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "PR4",
+        "P6",
+        "PR3",
+        "PR2"
+      ],
+      "actual": [
+        "LF11",
+        "PR4",
+        "P6",
+        "PR3",
+        "PR2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF14@7761643ceca9",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "PR4",
+        "P6",
+        "LF15",
+        "PR3"
+      ],
+      "actual": [
+        "LF11",
+        "PR4",
+        "P6",
+        "LF15",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF14@7761643ceca9",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "PR3",
+        "LF16",
+        "LF10",
+        "PR4"
+      ],
+      "actual": [
+        "LF11",
+        "PR3",
+        "LF16",
+        "LF10",
+        "PR4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF14@7761643ceca9",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "PR3",
+        "LF16",
+        "LF10",
+        "PR4"
+      ],
+      "actual": [
+        "LF11",
+        "PR3",
+        "LF16",
+        "LF10",
+        "PR4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF14@7761643ceca9",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF1",
+        "PR4",
+        "LF3"
+      ],
+      "actual": [
+        "LF1",
+        "PR4",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF14@7761643ceca9",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF1",
+        "PR4",
+        "LF3"
+      ],
+      "actual": [
+        "LF1",
+        "PR4",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF14@7761643ceca9",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF1",
+        "LF7",
+        "P2",
+        "LF8"
+      ],
+      "actual": [
+        "LF11",
+        "LF1",
+        "LF7",
+        "P2",
+        "LF8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF14@7761643ceca9",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF1",
+        "LF7",
+        "P2",
+        "LF8"
+      ],
+      "actual": [
+        "LF11",
+        "LF1",
+        "LF7",
+        "P2",
+        "LF8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF15@8ea07c802632",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P2",
+        "LF13",
+        "LF2",
+        "LF11",
+        "F2"
+      ],
+      "actual": [
+        "P2",
+        "LF13",
+        "LF2",
+        "LF11",
+        "F2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF15@8ea07c802632",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF16",
+        "P2",
+        "LF13",
+        "LF14",
+        "LF2"
+      ],
+      "actual": [
+        "LF16",
+        "P2",
+        "LF13",
+        "LF14",
+        "LF2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF15@8ea07c802632",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "PR3",
+        "LF13",
+        "P2",
+        "LF10"
+      ],
+      "actual": [
+        "LF11",
+        "PR3",
+        "LF13",
+        "P2",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF15@8ea07c802632",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF16",
+        "PR3",
+        "LF13",
+        "P2"
+      ],
+      "actual": [
+        "LF11",
+        "LF16",
+        "PR3",
+        "LF13",
+        "P2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF15@8ea07c802632",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "LF1",
+        "LF3"
+      ],
+      "actual": [
+        "PR1",
+        "LF1",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF15@8ea07c802632",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "LF1",
+        "LF3"
+      ],
+      "actual": [
+        "PR1",
+        "LF1",
+        "LF3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF15@8ea07c802632",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "P7",
+        "PR5",
+        "LF13",
+        "LF1"
+      ],
+      "actual": [
+        "LF11",
+        "P7",
+        "PR5",
+        "LF13",
+        "LF1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF15@8ea07c802632",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "P7",
+        "PR5",
+        "LF13",
+        "LF1"
+      ],
+      "actual": [
+        "LF11",
+        "P7",
+        "PR5",
+        "LF13",
+        "LF1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF16@38b65964bc16",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "LF1",
+        "LF11",
+        "LF10",
+        "LF12"
+      ],
+      "actual": [
+        "LF14",
+        "LF1",
+        "LF11",
+        "LF10",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF16@38b65964bc16",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF15",
+        "LF14",
+        "LF1",
+        "LF11",
+        "LF10"
+      ],
+      "actual": [
+        "LF15",
+        "LF14",
+        "LF1",
+        "LF11",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF16@38b65964bc16",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF14",
+        "PR3",
+        "LF6",
+        "LF10"
+      ],
+      "actual": [
+        "LF11",
+        "LF14",
+        "PR3",
+        "LF6",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF16@38b65964bc16",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF15",
+        "LF14",
+        "PR3",
+        "LF6"
+      ],
+      "actual": [
+        "LF11",
+        "LF15",
+        "LF14",
+        "PR3",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF16@38b65964bc16",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF1",
+        "LF3",
+        "LF4"
+      ],
+      "actual": [
+        "LF1",
+        "LF3",
+        "LF4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF16@38b65964bc16",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF1",
+        "LF3",
+        "LF4"
+      ],
+      "actual": [
+        "LF1",
+        "LF3",
+        "LF4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF16@38b65964bc16",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "F4",
+        "F12",
+        "PR2",
+        "F1"
+      ],
+      "actual": [
+        "LF14",
+        "F4",
+        "F12",
+        "PR2",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "LF16@38b65964bc16",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "F4",
+        "F12",
+        "PR2",
+        "F1"
+      ],
+      "actual": [
+        "LF14",
+        "F4",
+        "F12",
+        "PR2",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P1@c8adbba7f4ed",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P5",
+        "F5",
+        "PR5",
+        "F11",
+        "P4"
+      ],
+      "actual": [
+        "P5",
+        "F5",
+        "PR5",
+        "F11",
+        "P4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P1@c8adbba7f4ed",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "P5",
+        "P2",
+        "F5",
+        "PR5",
+        "F11"
+      ],
+      "actual": [
+        "P5",
+        "P2",
+        "F5",
+        "PR5",
+        "F11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P1@c8adbba7f4ed",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P5",
+        "F11",
+        "LF6",
+        "F5",
+        "P8"
+      ],
+      "actual": [
+        "P5",
+        "F11",
+        "LF6",
+        "F5",
+        "P8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P1@c8adbba7f4ed",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P5",
+        "F11",
+        "LF6",
+        "F5",
+        "P2"
+      ],
+      "actual": [
+        "P5",
+        "F11",
+        "LF6",
+        "F5",
+        "P2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P1@c8adbba7f4ed",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "F11",
+        "PR1",
+        "PR3"
+      ],
+      "actual": [
+        "F11",
+        "PR1",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P1@c8adbba7f4ed",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "F11",
+        "PR1",
+        "PR3"
+      ],
+      "actual": [
+        "F11",
+        "PR1",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P1@c8adbba7f4ed",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF6",
+        "LF11",
+        "LF8",
+        "LF7",
+        "PR3"
+      ],
+      "actual": [
+        "LF6",
+        "LF11",
+        "LF8",
+        "LF7",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P1@c8adbba7f4ed",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF6",
+        "LF11",
+        "LF8",
+        "LF7",
+        "PR3"
+      ],
+      "actual": [
+        "LF6",
+        "LF11",
+        "LF8",
+        "LF7",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P2@920055a32772",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P5",
+        "LF15",
+        "LF6",
+        "F4",
+        "LF7"
+      ],
+      "actual": [
+        "P5",
+        "LF15",
+        "LF6",
+        "F4",
+        "LF7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P2@920055a32772",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "P3",
+        "P5",
+        "LF15",
+        "P1",
+        "LF6"
+      ],
+      "actual": [
+        "P3",
+        "P5",
+        "LF15",
+        "P1",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P2@920055a32772",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF15",
+        "LF6",
+        "LF14",
+        "P5",
+        "LF7"
+      ],
+      "actual": [
+        "LF15",
+        "LF6",
+        "LF14",
+        "P5",
+        "LF7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P2@920055a32772",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P3",
+        "LF15",
+        "LF6",
+        "LF14",
+        "P5"
+      ],
+      "actual": [
+        "P3",
+        "LF15",
+        "LF6",
+        "LF14",
+        "P5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P2@920055a32772",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "F11",
+        "PR4"
+      ],
+      "actual": [
+        "PR1",
+        "F11",
+        "PR4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P2@920055a32772",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "F11",
+        "P1"
+      ],
+      "actual": [
+        "PR1",
+        "F11",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P2@920055a32772",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "LF6",
+        "LF8",
+        "LF11",
+        "P7"
+      ],
+      "actual": [
+        "LF7",
+        "LF6",
+        "LF8",
+        "LF11",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P2@920055a32772",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF7",
+        "LF6",
+        "LF8",
+        "LF11",
+        "P7"
+      ],
+      "actual": [
+        "LF7",
+        "LF6",
+        "LF8",
+        "LF11",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P3@caebdc6f6a36",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P5",
+        "LF6",
+        "LF10"
+      ],
+      "actual": [
+        "P5",
+        "LF6",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P3@caebdc6f6a36",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "P2",
+        "P5",
+        "LF6",
+        "P4",
+        "LF10"
+      ],
+      "actual": [
+        "P2",
+        "P5",
+        "LF6",
+        "P4",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P3@caebdc6f6a36",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF6",
+        "LF11",
+        "PR3",
+        "LF10",
+        "LF14"
+      ],
+      "actual": [
+        "LF6",
+        "LF11",
+        "PR3",
+        "LF10",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P3@caebdc6f6a36",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P2",
+        "LF6",
+        "LF11",
+        "PR3",
+        "LF10"
+      ],
+      "actual": [
+        "P2",
+        "LF6",
+        "LF11",
+        "PR3",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P3@caebdc6f6a36",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF3",
+        "LF14",
+        "LF4"
+      ],
+      "actual": [
+        "LF3",
+        "LF14",
+        "LF4"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P3@caebdc6f6a36",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P2",
+        "LF3",
+        "LF14"
+      ],
+      "actual": [
+        "P2",
+        "LF3",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P3@caebdc6f6a36",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF10",
+        "LF6",
+        "LF8",
+        "LF7"
+      ],
+      "actual": [
+        "LF11",
+        "LF10",
+        "LF6",
+        "LF8",
+        "LF7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P3@caebdc6f6a36",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF10",
+        "LF6",
+        "LF8",
+        "LF7"
+      ],
+      "actual": [
+        "LF11",
+        "LF10",
+        "LF6",
+        "LF8",
+        "LF7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P4@4b4695d3df25",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P8",
+        "F12",
+        "LF9"
+      ],
+      "actual": [
+        "P8",
+        "F12",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P4@4b4695d3df25",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "P8",
+        "F12",
+        "LF9"
+      ],
+      "actual": [
+        "P8",
+        "F12",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P4@4b4695d3df25",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "P8",
+        "LF9"
+      ],
+      "actual": [
+        "P1",
+        "P8",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P4@4b4695d3df25",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "P8",
+        "LF9"
+      ],
+      "actual": [
+        "P1",
+        "P8",
+        "LF9"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P4@4b4695d3df25",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "P1",
+        "LF11"
+      ],
+      "actual": [
+        "LF14",
+        "P1",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P4@4b4695d3df25",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "P1",
+        "LF11"
+      ],
+      "actual": [
+        "LF14",
+        "P1",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P4@4b4695d3df25",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "P7",
+        "P8",
+        "P6",
+        "LF14",
+        "LF6"
+      ],
+      "actual": [
+        "P7",
+        "P8",
+        "P6",
+        "LF14",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P4@4b4695d3df25",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "P7",
+        "P8",
+        "P6",
+        "LF14",
+        "LF6"
+      ],
+      "actual": [
+        "P7",
+        "P8",
+        "P6",
+        "LF14",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P5@23fc2364ab4a",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "P2",
+        "F6",
+        "F5",
+        "F11"
+      ],
+      "actual": [
+        "P1",
+        "P2",
+        "F6",
+        "F5",
+        "F11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P5@23fc2364ab4a",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "P2",
+        "P6",
+        "F6",
+        "F5"
+      ],
+      "actual": [
+        "P1",
+        "P2",
+        "P6",
+        "F6",
+        "F5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P5@23fc2364ab4a",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "LF14",
+        "PR3",
+        "F11",
+        "F5"
+      ],
+      "actual": [
+        "P1",
+        "LF14",
+        "PR3",
+        "F11",
+        "F5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P5@23fc2364ab4a",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "LF14",
+        "PR3",
+        "F11",
+        "F5"
+      ],
+      "actual": [
+        "P1",
+        "LF14",
+        "PR3",
+        "F11",
+        "F5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P5@23fc2364ab4a",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "P1",
+        "P8"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "P8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P5@23fc2364ab4a",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "P1",
+        "P6"
+      ],
+      "actual": [
+        "PR1",
+        "P1",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P5@23fc2364ab4a",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF8",
+        "LF11",
+        "LF7",
+        "LF10",
+        "LF6"
+      ],
+      "actual": [
+        "LF8",
+        "LF11",
+        "LF7",
+        "LF10",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P5@23fc2364ab4a",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF8",
+        "LF11",
+        "LF7",
+        "LF10",
+        "LF6"
+      ],
+      "actual": [
+        "LF8",
+        "LF11",
+        "LF7",
+        "LF10",
+        "LF6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P6@441fc9e6c294",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "PR4",
+        "P8",
+        "F8",
+        "F10",
+        "F6"
+      ],
+      "actual": [
+        "PR4",
+        "P8",
+        "F8",
+        "F10",
+        "F6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P6@441fc9e6c294",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR4",
+        "P8",
+        "F8",
+        "F10",
+        "P7"
+      ],
+      "actual": [
+        "PR4",
+        "P8",
+        "F8",
+        "F10",
+        "P7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P6@441fc9e6c294",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "PR3",
+        "F12",
+        "PR4",
+        "PR1",
+        "LF11"
+      ],
+      "actual": [
+        "PR3",
+        "F12",
+        "PR4",
+        "PR1",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P6@441fc9e6c294",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR3",
+        "P5",
+        "F12",
+        "PR4",
+        "PR1"
+      ],
+      "actual": [
+        "PR3",
+        "P5",
+        "F12",
+        "PR4",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P6@441fc9e6c294",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "F1",
+        "LF14",
+        "PR3"
+      ],
+      "actual": [
+        "F1",
+        "LF14",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P6@441fc9e6c294",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "F1",
+        "LF14",
+        "PR3"
+      ],
+      "actual": [
+        "F1",
+        "LF14",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P6@441fc9e6c294",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF10",
+        "PR3",
+        "LF15",
+        "LF14"
+      ],
+      "actual": [
+        "LF11",
+        "LF10",
+        "PR3",
+        "LF15",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P6@441fc9e6c294",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF10",
+        "PR3",
+        "LF15",
+        "LF14"
+      ],
+      "actual": [
+        "LF11",
+        "LF10",
+        "PR3",
+        "LF15",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P7@783140233be6",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "PR5",
+        "F3"
+      ],
+      "actual": [
+        "LF7",
+        "PR5",
+        "F3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P7@783140233be6",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "P6",
+        "LF7",
+        "PR5"
+      ],
+      "actual": [
+        "P6",
+        "LF7",
+        "PR5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P7@783140233be6",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "LF15",
+        "P1",
+        "P3"
+      ],
+      "actual": [
+        "LF15",
+        "P1",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P7@783140233be6",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P6",
+        "LF15",
+        "P1"
+      ],
+      "actual": [
+        "P6",
+        "LF15",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P7@783140233be6",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "LF13",
+        "P1"
+      ],
+      "actual": [
+        "PR1",
+        "LF13",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P7@783140233be6",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "LF13",
+        "P1"
+      ],
+      "actual": [
+        "PR1",
+        "LF13",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P7@783140233be6",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "P4",
+        "PR3",
+        "LF11",
+        "LF13",
+        "LF7"
+      ],
+      "actual": [
+        "P4",
+        "PR3",
+        "LF11",
+        "LF13",
+        "LF7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P7@783140233be6",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "P4",
+        "PR3",
+        "LF11",
+        "LF13",
+        "LF7"
+      ],
+      "actual": [
+        "P4",
+        "PR3",
+        "LF11",
+        "LF13",
+        "LF7"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P8@af6c1a9a22f3",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F12",
+        "P5",
+        "LF9",
+        "P6",
+        "P1"
+      ],
+      "actual": [
+        "F12",
+        "P5",
+        "LF9",
+        "P6",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P8@af6c1a9a22f3",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F12",
+        "P5",
+        "LF9",
+        "P6",
+        "P1"
+      ],
+      "actual": [
+        "F12",
+        "P5",
+        "LF9",
+        "P6",
+        "P1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P8@af6c1a9a22f3",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "F12",
+        "LF11",
+        "P6",
+        "LF14"
+      ],
+      "actual": [
+        "P1",
+        "F12",
+        "LF11",
+        "P6",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P8@af6c1a9a22f3",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "F12",
+        "LF11",
+        "P6",
+        "LF14"
+      ],
+      "actual": [
+        "P1",
+        "F12",
+        "LF11",
+        "P6",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P8@af6c1a9a22f3",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "P1",
+        "PR1"
+      ],
+      "actual": [
+        "LF11",
+        "P1",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P8@af6c1a9a22f3",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "P1",
+        "PR1"
+      ],
+      "actual": [
+        "LF11",
+        "P1",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P8@af6c1a9a22f3",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "PR3",
+        "P4",
+        "LF14",
+        "PR5"
+      ],
+      "actual": [
+        "LF11",
+        "PR3",
+        "P4",
+        "LF14",
+        "PR5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "P8@af6c1a9a22f3",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "PR3",
+        "P4",
+        "LF14",
+        "PR5"
+      ],
+      "actual": [
+        "LF11",
+        "PR3",
+        "P4",
+        "LF14",
+        "PR5"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR1@991c874b661b",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "PR3",
+        "PR4",
+        "F12",
+        "P6",
+        "LF14"
+      ],
+      "actual": [
+        "PR3",
+        "PR4",
+        "F12",
+        "P6",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR1@991c874b661b",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR2",
+        "PR3",
+        "PR4",
+        "F12",
+        "P6"
+      ],
+      "actual": [
+        "PR2",
+        "PR3",
+        "PR4",
+        "F12",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR1@991c874b661b",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "PR3",
+        "PR4",
+        "F12",
+        "LF14",
+        "LF11"
+      ],
+      "actual": [
+        "PR3",
+        "PR4",
+        "F12",
+        "LF14",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR1@991c874b661b",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR3",
+        "PR2",
+        "PR4",
+        "F12",
+        "LF14"
+      ],
+      "actual": [
+        "PR3",
+        "PR2",
+        "PR4",
+        "F12",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR1@991c874b661b",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "LF8",
+        "F11"
+      ],
+      "actual": [
+        "P1",
+        "LF8",
+        "F11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR1@991c874b661b",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "LF8",
+        "F11"
+      ],
+      "actual": [
+        "P1",
+        "LF8",
+        "F11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR1@991c874b661b",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF10",
+        "LF7",
+        "LF8",
+        "LF12"
+      ],
+      "actual": [
+        "LF11",
+        "LF10",
+        "LF7",
+        "LF8",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR1@991c874b661b",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF10",
+        "LF7",
+        "LF8",
+        "LF12"
+      ],
+      "actual": [
+        "LF11",
+        "LF10",
+        "LF7",
+        "LF8",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR2@e5bcf35ec9a0",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "PR4",
+        "F12",
+        "P6",
+        "LF7",
+        "LF14"
+      ],
+      "actual": [
+        "PR4",
+        "F12",
+        "P6",
+        "LF7",
+        "LF14"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR2@e5bcf35ec9a0",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR3",
+        "PR4",
+        "PR1",
+        "F12",
+        "P6"
+      ],
+      "actual": [
+        "PR3",
+        "PR4",
+        "PR1",
+        "F12",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR2@e5bcf35ec9a0",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "PR4",
+        "F12",
+        "LF11",
+        "LF14",
+        "P6"
+      ],
+      "actual": [
+        "PR4",
+        "F12",
+        "LF11",
+        "LF14",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR2@e5bcf35ec9a0",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR3",
+        "PR4",
+        "PR1",
+        "F12",
+        "LF11"
+      ],
+      "actual": [
+        "PR3",
+        "PR4",
+        "PR1",
+        "F12",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR2@e5bcf35ec9a0",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF3",
+        "P1",
+        "P3"
+      ],
+      "actual": [
+        "LF3",
+        "P1",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR2@e5bcf35ec9a0",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF3",
+        "P1",
+        "P3"
+      ],
+      "actual": [
+        "LF3",
+        "P1",
+        "P3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR2@e5bcf35ec9a0",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF7",
+        "LF8",
+        "LF11",
+        "LF10",
+        "LF16"
+      ],
+      "actual": [
+        "LF7",
+        "LF8",
+        "LF11",
+        "LF10",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR2@e5bcf35ec9a0",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF7",
+        "LF8",
+        "LF11",
+        "LF10",
+        "LF16"
+      ],
+      "actual": [
+        "LF7",
+        "LF8",
+        "LF11",
+        "LF10",
+        "LF16"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR3@cd4dd6796a8d",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F12",
+        "PR1",
+        "P6",
+        "PR5",
+        "F10"
+      ],
+      "actual": [
+        "F12",
+        "PR1",
+        "P6",
+        "PR5",
+        "F10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR3@cd4dd6796a8d",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR4",
+        "F12",
+        "PR1",
+        "PR2",
+        "P6"
+      ],
+      "actual": [
+        "PR4",
+        "F12",
+        "PR1",
+        "PR2",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR3@cd4dd6796a8d",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "F12",
+        "LF11",
+        "LF14",
+        "LF15"
+      ],
+      "actual": [
+        "PR1",
+        "F12",
+        "LF11",
+        "LF14",
+        "LF15"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR3@cd4dd6796a8d",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR1",
+        "PR4",
+        "F12",
+        "PR2",
+        "LF11"
+      ],
+      "actual": [
+        "PR1",
+        "PR4",
+        "F12",
+        "PR2",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR3@cd4dd6796a8d",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "LF14",
+        "PR1"
+      ],
+      "actual": [
+        "P1",
+        "LF14",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR3@cd4dd6796a8d",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "LF14",
+        "PR1"
+      ],
+      "actual": [
+        "P1",
+        "LF14",
+        "PR1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR3@cd4dd6796a8d",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "LF7",
+        "LF10",
+        "P8",
+        "LF12"
+      ],
+      "actual": [
+        "LF11",
+        "LF7",
+        "LF10",
+        "P8",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR3@cd4dd6796a8d",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "LF7",
+        "LF10",
+        "P8",
+        "LF12"
+      ],
+      "actual": [
+        "LF11",
+        "LF7",
+        "LF10",
+        "P8",
+        "LF12"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR4@189ba56ef3fe",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "F12",
+        "PR1",
+        "P6",
+        "PR2",
+        "LF11"
+      ],
+      "actual": [
+        "F12",
+        "PR1",
+        "P6",
+        "PR2",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR4@189ba56ef3fe",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "F12",
+        "PR3",
+        "PR1",
+        "P6",
+        "PR2"
+      ],
+      "actual": [
+        "F12",
+        "PR3",
+        "PR1",
+        "P6",
+        "PR2"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR4@189ba56ef3fe",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "PR1",
+        "F12",
+        "PR2",
+        "LF11",
+        "P6"
+      ],
+      "actual": [
+        "PR1",
+        "F12",
+        "PR2",
+        "LF11",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR4@189ba56ef3fe",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR3",
+        "PR1",
+        "F12",
+        "PR2",
+        "LF11"
+      ],
+      "actual": [
+        "PR3",
+        "PR1",
+        "F12",
+        "PR2",
+        "LF11"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR4@189ba56ef3fe",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "LF14",
+        "LF15",
+        "LF1"
+      ],
+      "actual": [
+        "LF14",
+        "LF15",
+        "LF1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR4@189ba56ef3fe",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF14",
+        "LF15",
+        "LF1"
+      ],
+      "actual": [
+        "LF14",
+        "LF15",
+        "LF1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR4@189ba56ef3fe",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "F9",
+        "LF7",
+        "LF12",
+        "LF10"
+      ],
+      "actual": [
+        "LF11",
+        "F9",
+        "LF7",
+        "LF12",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR4@189ba56ef3fe",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "F9",
+        "LF7",
+        "LF12",
+        "LF10"
+      ],
+      "actual": [
+        "LF11",
+        "F9",
+        "LF7",
+        "LF12",
+        "LF10"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR5@6ad6a8b18bb4",
+      "operator": "ECHO",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "F11",
+        "PR3",
+        "F5",
+        "F1"
+      ],
+      "actual": [
+        "LF11",
+        "F11",
+        "PR3",
+        "F5",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR5@6ad6a8b18bb4",
+      "operator": "ECHO",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "F11",
+        "PR3",
+        "F5",
+        "F1"
+      ],
+      "actual": [
+        "LF11",
+        "F11",
+        "PR3",
+        "F5",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR5@6ad6a8b18bb4",
+      "operator": "DEVELOP",
+      "policy": "discovery",
+      "expected": [
+        "PR3",
+        "PR2",
+        "LF11",
+        "LF8",
+        "F1"
+      ],
+      "actual": [
+        "PR3",
+        "PR2",
+        "LF11",
+        "LF8",
+        "F1"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR5@6ad6a8b18bb4",
+      "operator": "DEVELOP",
+      "policy": "include-adjacent",
+      "expected": [
+        "PR3",
+        "PR2",
+        "PR4",
+        "LF11",
+        "LF8"
+      ],
+      "actual": [
+        "PR3",
+        "PR2",
+        "PR4",
+        "LF11",
+        "LF8"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR5@6ad6a8b18bb4",
+      "operator": "CONTRADICT",
+      "policy": "discovery",
+      "expected": [
+        "P1",
+        "PR1",
+        "PR3"
+      ],
+      "actual": [
+        "P1",
+        "PR1",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR5@6ad6a8b18bb4",
+      "operator": "CONTRADICT",
+      "policy": "include-adjacent",
+      "expected": [
+        "P1",
+        "PR1",
+        "PR3"
+      ],
+      "actual": [
+        "P1",
+        "PR1",
+        "PR3"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR5@6ad6a8b18bb4",
+      "operator": "BRIDGE",
+      "policy": "discovery",
+      "expected": [
+        "LF11",
+        "P1",
+        "P7",
+        "LF8",
+        "P6"
+      ],
+      "actual": [
+        "LF11",
+        "P1",
+        "P7",
+        "LF8",
+        "P6"
+      ],
+      "equal": true
+    },
+    {
+      "source_version": "PR5@6ad6a8b18bb4",
+      "operator": "BRIDGE",
+      "policy": "include-adjacent",
+      "expected": [
+        "LF11",
+        "P1",
+        "P7",
+        "LF8",
+        "P6"
+      ],
+      "actual": [
+        "LF11",
+        "P1",
+        "P7",
+        "LF8",
+        "P6"
+      ],
+      "equal": true
+    }
+  ],
+  "snapshot": {
+    "atlas_config": {
+      "schema": "atlas-config/1",
+      "mode": "live",
+      "frozen": true,
+      "field": "full-41",
+      "rubric_version": "atlas-rubric-v2",
+      "rubric_sha256": "a1a93f0176f7d456ace427bec5432c7952d348d6e12f571e74ef408d046485a9",
+      "dimensions": [
+        "direct_q_fit",
+        "echo",
+        "development",
+        "contradiction",
+        "bridge_relation",
+        "redundancy",
+        "missing_context"
+      ],
+      "state_layout": {
+        "source_page": [
+          "text"
+        ],
+        "destination_page": [
+          "text"
+        ]
+      },
+      "requested_model": "jev-1.13.0",
+      "pinned_returned_model": "jev-1.13.0",
+      "config_id": "cfg-5a7766c6c2012139e7bab61f",
+      "frozen_at": "2026-09-20T19:10:53Z",
+      "note": "Frozen 2026-09-20 after the 8-pair pilot and one bridge-only rubric revision (v1->v2). See notes/atlas-pilot-calibration.md."
+    },
+    "records_in_store": 0,
+    "assessment_file_sha256": "9ab6ebac92bfcf5fb1bca7af3069e2c757046c23f12961cad66b32d6392e30bc",
+    "profile_snapshot_sha256": "2fd6006a768529ff107a6df40500efa9025511cc3319c4c48301036a90e3419e",
+    "content_versions": {
+      "F1": "F1@5f8c0218fd16",
+      "F2": "F2@585b18f04f0e",
+      "F3": "F3@f71ff254e1cd",
+      "F4": "F4@8ecba52f52c2",
+      "F5": "F5@7c5bde18887b",
+      "F6": "F6@bd6525417aaf",
+      "F7": "F7@c96f98c9a49b",
+      "F8": "F8@efda98e00c42",
+      "F9": "F9@b6f600115a90",
+      "F10": "F10@785b5280ac55",
+      "F11": "F11@5729f5fec994",
+      "F12": "F12@cb4d77c11adb",
+      "LF1": "LF1@494010550cfd",
+      "LF2": "LF2@1e9b6908d1bb",
+      "LF3": "LF3@6c8dee41659b",
+      "LF4": "LF4@0811064ce766",
+      "LF5": "LF5@934fffc832df",
+      "LF6": "LF6@7eb9b361c6ed",
+      "LF7": "LF7@63eff9b43a8b",
+      "LF8": "LF8@84e4c794adcf",
+      "LF9": "LF9@0f039d820dc8",
+      "LF10": "LF10@caba8ef0d750",
+      "LF11": "LF11@8f3786aa9e7e",
+      "LF12": "LF12@e910ea182147",
+      "LF13": "LF13@4cacb46235a9",
+      "LF14": "LF14@7761643ceca9",
+      "LF15": "LF15@8ea07c802632",
+      "LF16": "LF16@38b65964bc16",
+      "P1": "P1@c8adbba7f4ed",
+      "P2": "P2@920055a32772",
+      "P3": "P3@caebdc6f6a36",
+      "P4": "P4@4b4695d3df25",
+      "P5": "P5@23fc2364ab4a",
+      "P6": "P6@441fc9e6c294",
+      "P7": "P7@783140233be6",
+      "P8": "P8@af6c1a9a22f3",
+      "PR1": "PR1@991c874b661b",
+      "PR2": "PR2@e5bcf35ec9a0",
+      "PR3": "PR3@cd4dd6796a8d",
+      "PR4": "PR4@189ba56ef3fe",
+      "PR5": "PR5@6ad6a8b18bb4"
+    },
+    "resolver_version": "score-resolver/1",
+    "score_contract": "score/1",
+    "neutral_config": {
+      "schema_version": 1,
+      "score_id": "neutral",
+      "score_version": 1,
+      "entry_version": null,
+      "initial_movement": "open",
+      "global_actions": [
+        "pause",
+        "resume",
+        "end_journey",
+        "exit"
+      ],
+      "relocation": {
+        "permitted": true,
+        "advances": false
+      },
+      "evidence": "assessed",
+      "movements": {
+        "open": {
+          "allowed_functions": [
+            "Q"
+          ],
+          "allowed_operators": [
+            "ECHO",
+            "DEVELOP",
+            "CONTRADICT",
+            "BRIDGE"
+          ],
+          "guards": [],
+          "advance_after": null,
+          "advance_on": [
+            "Q"
+          ],
+          "next": null
+        }
+      },
+      "terminal_movements": [],
+      "empty_offer_behavior": "blocked_with_explanation"
+    }
+  },
+  "code_references": [
+    "src/gibsey_lab/core/core.py:Core._frozen_candidates",
+    "src/gibsey_lab/core/resolver.py:resolve",
+    "src/gibsey_lab/memory/operator_options.py:operator_options"
+  ]
+}

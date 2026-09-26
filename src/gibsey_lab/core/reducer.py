@@ -5,7 +5,7 @@ and a future simulator, which is the point of keeping it here.
 
 State S_t = (v, z, H, c, ell, u, r):
     v    active exact content version (version_id) and its page
-    z    score identity/movement -- fixed to the neutral placeholder this session
+    z    pinned score configuration, movement, counters and performance outcome
     H    ordered encounters: one entry per committed arrival; a return is another entry
     c    encounter counts per exact version
     ell  last encounter index per exact version (index into H)
@@ -26,7 +26,10 @@ from __future__ import annotations
 import copy
 from dataclasses import dataclass, field
 
+from . import identity, scores
+
 NEUTRAL_SCORE = {"score_id": "neutral", "score_version": 1, "movement": "open"}
+VERSION = "core-score-reducer/1"
 
 
 @dataclass
@@ -110,10 +113,20 @@ def _apply_in_place(s: State, event: dict) -> State:
             raise ReduceError("session already started")
         s.session_id = event["session_id"]
         s.field_id = event.get("field_id")
+        if event.get("score_contract") is not None or "score_snapshot" in event:
+            if event.get("score_contract") != scores.CONTRACT or not event.get("score_snapshot"):
+                raise ReduceError("missing or unsupported required score snapshot")
+            if identity._digest(event["score_snapshot"]) != event.get("score_config_sha256"):
+                raise ReduceError("score snapshot fingerprint mismatch")
+            s.z = scores.initial(event["score_snapshot"], event["version_id"])
         _bump(s)
         _arrive(s, version_id=event["version_id"], page_id=event["page_id"], via=event.get("via", "start"),
                 event_seq=seq, bond_version_id=None, from_version=None, request_id=None)
     elif kind == "offer_set_created":
+        if "config" in s.z:
+            if event.get("score_config_sha256") != s.z["config_sha256"]:
+                raise ReduceError("offer score snapshot mismatch")
+            s.z = scores.availability(s.z, event.get("blocked"))
         s.offer_sets[event["offer_set_id"]] = {
             "revision": event["revision"], "source_version": event["source_version"], "operator": event.get("operator"),
             "policy": event.get("policy"), "bond_version_ids": list(event.get("bond_version_ids") or []),
@@ -125,6 +138,11 @@ def _apply_in_place(s: State, event: dict) -> State:
             raise ReduceError("session is paused")
         if event["from_version"] != s.v:
             raise ReduceError(f"action from {event['from_version']} but active version is {s.v}")
+        if "config" in s.z:
+            checks = scores.evaluate(s, {"destination_version": event["to_version"], "operator": event["operator"]})
+            if any(not check["allowed"] for check in checks):
+                raise ReduceError("committed action violates its score")
+            s.z = scores.progress(s, "Q")
         _bump(s)
         _arrive(s, version_id=event["to_version"], page_id=event["to_page"], via="Q",
                 event_seq=seq, bond_version_id=event["bond_version_id"], from_version=event["from_version"],
@@ -143,6 +161,9 @@ def _apply_in_place(s: State, event: dict) -> State:
             raise ReduceError(f"relocation from {event['from_version']} but active version is {s.v}")
         if event.get("bond_version_id") is not None or event.get("operator") is not None:
             raise ReduceError("a relocation carries no bond and no operator")
+        if any(not check["allowed"] for check in scores.evaluate(s, {}, "relocation")):
+            raise ReduceError("committed relocation violates its score")
+        s.z = scores.progress(s, "relocation")
         _bump(s)
         _arrive(s, version_id=event["to_version"], page_id=event["to_page"], via="manual",
                 event_seq=seq, bond_version_id=None, from_version=event["from_version"],
@@ -155,17 +176,39 @@ def _apply_in_place(s: State, event: dict) -> State:
     elif kind == "action_rejected":
         pass  # recorded, never applied
     elif kind == "paused":
+        if "config" in s.z and ("pause" not in s.z["config"]["global_actions"] or s.z["status"] in scores.TERMINAL_STATUSES):
+            raise ReduceError("score does not permit pausing this performance")
         s.paused = True
         _bump(s)
     elif kind == "resumed":
+        if "config" in s.z and ("resume" not in s.z["config"]["global_actions"] or s.z["status"] in scores.TERMINAL_STATUSES):
+            raise ReduceError("score does not permit resuming this performance")
         s.paused = False
         _bump(s)
+    elif kind == "performance_ended":
+        if "config" not in s.z:
+            raise ReduceError("legacy sessions have no performance lifecycle")
+        action = event["action"]
+        if action not in ("end_journey", "exit") or action not in s.z["config"]["global_actions"]:
+            raise ReduceError("invalid performance ending")
+        if event.get("prior_outcome") != s.z["status"]:
+            raise ReduceError("performance ending has the wrong prior outcome")
+        if s.z["status"] not in scores.TERMINAL_STATUSES:
+            s.z = {**s.z, "status": "ended_by_reader" if action == "end_journey" else "exited", "blocked": None}
+        s.paused = False
+        _bump(s)
+        s.requests[event["request_id"]] = {
+            "kind": "lifecycle", "action": action, "fingerprint": event["fingerprint"], "event_seq": seq,
+            "revision_after": s.r, "outcome": s.z["status"],
+        }
     elif kind == "presented":
         pass
     else:
         raise ReduceError(f"unknown event: {kind!r}")
 
     declared = event.get("revision_after")
+    if "score_after" in event and event["score_after"] != s.z:
+        raise ReduceError(f"event {seq} score progress differs from recorded checkpoint")
     if declared is not None and declared != s.r:
         raise ReduceError(f"event {seq} declares revision_after={declared} but reduction gives {s.r}")
     return s

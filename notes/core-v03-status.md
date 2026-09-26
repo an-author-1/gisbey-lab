@@ -1,5 +1,8 @@
 # Core v0.3 — session 1 status (2026-09-25)
 
+Latest continuation: **Session 3 executable scores** is documented separately in
+`notes/core-v03-session3.md`; the Session 1/2 reports below remain historical records.
+
 For a fresh Claude Code session. Read with `notes/core-v03-contracts.md` (contracts,
 ownership) and `notes/core-v03-baseline-audit.md` (what was observed before any change).
 Governing plan: `Gibsey_Core_v0.3_Weekend_Plan.md`. **The weekend milestone is not

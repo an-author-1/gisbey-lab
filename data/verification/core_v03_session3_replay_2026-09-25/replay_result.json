@@ -1,0 +1,643 @@
+{
+  "scope": "API and replay evidence; no browser observations",
+  "network_disabled": true,
+  "provider_calls": 0,
+  "legacy_bundles": {
+    "data/verification/core_v03_demo_2026-09-25/journey_s_0103376737a9.json": {
+      "session_id": "s_0103376737a9",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "s_0103376737a9",
+        "events": 3,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 2,
+        "encounters": 2,
+        "compatibility": [
+          "legacy_action_request_kind_defaults",
+          "legacy_encounter_cause_defaults"
+        ],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "s_0103376737a9",
+        "offer_sets": 1,
+        "results": [
+          {
+            "offer_set_id": "offers_78f41848a4401d2987e4",
+            "seq": 1,
+            "ok": true,
+            "available": true,
+            "compatibility": "legacy_supplied_atlas",
+            "atlas_config_equal": true,
+            "stored": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_ba0aa01b2e7d90106a75"
+            ],
+            "recomputed": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_ba0aa01b2e7d90106a75"
+            ],
+            "policy_version": {
+              "stored": "operator-options-v1",
+              "now": "operator-options-v1"
+            }
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "legacy_encountered_versions",
+        "versions_required": 2,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "legacy-neutral",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true,
+      "compatibility_note": "Legacy decision reconstruction used the explicitly supplied local atlas; the historical bundle alone does not contain these candidate inputs."
+    },
+    "data/verification/core_v03_session2_demo_2026-09-25/journey_s_10169fa2df45.json": {
+      "session_id": "s_10169fa2df45",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "s_10169fa2df45",
+        "events": 14,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 11,
+        "encounters": 11,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "s_10169fa2df45",
+        "offer_sets": 2,
+        "results": [
+          {
+            "offer_set_id": "offers_7e661ed7c25270ffa1a8",
+            "seq": 1,
+            "ok": true,
+            "available": true,
+            "compatibility": "legacy_supplied_atlas",
+            "atlas_config_equal": true,
+            "stored": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_ba0aa01b2e7d90106a75"
+            ],
+            "recomputed": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_ba0aa01b2e7d90106a75"
+            ],
+            "policy_version": {
+              "stored": "operator-options-v1",
+              "now": "operator-options-v1"
+            }
+          },
+          {
+            "offer_set_id": "offers_775d395ce3a823b7c1ce",
+            "seq": 9,
+            "ok": true,
+            "available": true,
+            "compatibility": "legacy_supplied_atlas",
+            "atlas_config_equal": true,
+            "stored": [
+              "bond_3816e9936db411d1e126",
+              "bond_530cb56968f35835eb1c",
+              "bond_9523f43582c2da250843",
+              "bond_30b8cb9cbd09930cdded",
+              "bond_ad4dd39b3a11e05ad12d"
+            ],
+            "recomputed": [
+              "bond_3816e9936db411d1e126",
+              "bond_530cb56968f35835eb1c",
+              "bond_9523f43582c2da250843",
+              "bond_30b8cb9cbd09930cdded",
+              "bond_ad4dd39b3a11e05ad12d"
+            ],
+            "policy_version": {
+              "stored": "operator-options-v1",
+              "now": "operator-options-v1"
+            }
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "legacy_encountered_versions",
+        "versions_required": 4,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "legacy-neutral",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true,
+      "compatibility_note": "Legacy decision reconstruction used the explicitly supplied local atlas; the historical bundle alone does not contain these candidate inputs."
+    }
+  },
+  "historical_journals": {
+    "s_8e87959b8046": {
+      "session_id": "s_8e87959b8046",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "s_8e87959b8046",
+        "events": 1,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 1,
+        "encounters": 1,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "s_8e87959b8046",
+        "offer_sets": 0,
+        "results": [],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "ok": true
+    },
+    "s_d09a7820e595": {
+      "session_id": "s_d09a7820e595",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "s_d09a7820e595",
+        "events": 11,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 6,
+        "encounters": 6,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "s_d09a7820e595",
+        "offer_sets": 5,
+        "results": [
+          {
+            "offer_set_id": "offers_abf650a48b147bff7df7",
+            "seq": 1,
+            "ok": true,
+            "available": true,
+            "compatibility": "legacy_supplied_atlas",
+            "atlas_config_equal": true,
+            "stored": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_ba0aa01b2e7d90106a75"
+            ],
+            "recomputed": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_ba0aa01b2e7d90106a75"
+            ],
+            "policy_version": {
+              "stored": "operator-options-v1",
+              "now": "operator-options-v1"
+            }
+          },
+          {
+            "offer_set_id": "offers_45e02312ec6cf333cad3",
+            "seq": 2,
+            "ok": true,
+            "available": true,
+            "compatibility": "legacy_supplied_atlas",
+            "atlas_config_equal": true,
+            "stored": [
+              "bond_148f476a7e04d5717135",
+              "bond_17800d225a199910dd64",
+              "bond_574cd998df35539c8d43"
+            ],
+            "recomputed": [
+              "bond_148f476a7e04d5717135",
+              "bond_17800d225a199910dd64",
+              "bond_574cd998df35539c8d43"
+            ],
+            "policy_version": {
+              "stored": "operator-options-v1",
+              "now": "operator-options-v1"
+            }
+          },
+          {
+            "offer_set_id": "offers_9efbdcc3d849a170797b",
+            "seq": 3,
+            "ok": true,
+            "available": true,
+            "compatibility": "legacy_supplied_atlas",
+            "atlas_config_equal": true,
+            "stored": [
+              "bond_7ca5d9a4ccc696cb18f0",
+              "bond_6688ca71d8f94eac720d",
+              "bond_98efc4cabcc46436009e",
+              "bond_1878f859d4cb542bdc52",
+              "bond_6ecb8e48324eb3601612"
+            ],
+            "recomputed": [
+              "bond_7ca5d9a4ccc696cb18f0",
+              "bond_6688ca71d8f94eac720d",
+              "bond_98efc4cabcc46436009e",
+              "bond_1878f859d4cb542bdc52",
+              "bond_6ecb8e48324eb3601612"
+            ],
+            "policy_version": {
+              "stored": "operator-options-v1",
+              "now": "operator-options-v1"
+            }
+          },
+          {
+            "offer_set_id": "offers_d77d880e8a4d28f3312e",
+            "seq": 5,
+            "ok": true,
+            "available": true,
+            "compatibility": "legacy_supplied_atlas",
+            "atlas_config_equal": true,
+            "stored": [
+              "bond_8c98eb6809871cdfd9f5",
+              "bond_ff92ac53688b46e6f9b3",
+              "bond_9cab0a31e0d1970489a9",
+              "bond_d2a9e046c8e10d2b96d0",
+              "bond_e99540157ffcfa34df73"
+            ],
+            "recomputed": [
+              "bond_8c98eb6809871cdfd9f5",
+              "bond_ff92ac53688b46e6f9b3",
+              "bond_9cab0a31e0d1970489a9",
+              "bond_d2a9e046c8e10d2b96d0",
+              "bond_e99540157ffcfa34df73"
+            ],
+            "policy_version": {
+              "stored": "operator-options-v1",
+              "now": "operator-options-v1"
+            }
+          },
+          {
+            "offer_set_id": "offers_f81d4d1a96f31e8d1ff6",
+            "seq": 9,
+            "ok": true,
+            "available": true,
+            "compatibility": "legacy_supplied_atlas",
+            "atlas_config_equal": true,
+            "stored": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_2c7e588ca26b140ce312"
+            ],
+            "recomputed": [
+              "bond_248987c718f4b6934a8a",
+              "bond_94472bf793e11dc9a39f",
+              "bond_0d477b5cf0cc7e7ae172",
+              "bond_49fe4bc49af66e9f32f6",
+              "bond_2c7e588ca26b140ce312"
+            ],
+            "policy_version": {
+              "stored": "operator-options-v1",
+              "now": "operator-options-v1"
+            }
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "ok": true
+    }
+  },
+  "new_bundles": {
+    "journey_session3_recurrence_replay.json": {
+      "session_id": "session3_recurrence_replay",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "session3_recurrence_replay",
+        "events": 10,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 6,
+        "encounters": 4,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "session3_recurrence_replay",
+        "offer_sets": 4,
+        "results": [
+          {
+            "offer_set_id": "offers_075cfc9c63d00124f1e0",
+            "seq": 1,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [],
+            "recomputed": [],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_9dbe792e9b96f21d3c32",
+            "seq": 4,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "recomputed": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_014ec78caae524766ce8",
+            "seq": 6,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "recomputed": [
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_b386278604674bca90fc",
+            "seq": 8,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7baf87692de74130c351"
+            ],
+            "recomputed": [
+              "bond_7baf87692de74130c351"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "all_frozen_candidates",
+        "versions_required": 4,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "score/1",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true
+    },
+    "journey_session3_neutral_replay.json": {
+      "session_id": "session3_neutral_replay",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "session3_neutral_replay",
+        "events": 5,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 3,
+        "encounters": 3,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "session3_neutral_replay",
+        "offer_sets": 2,
+        "results": [
+          {
+            "offer_set_id": "offers_4b526dd735840a5ed5ce",
+            "seq": 1,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "recomputed": [
+              "bond_7ba1b5c133b3b186c19e",
+              "bond_caf4154172b1f3c1b480",
+              "bond_9fe26ef38ce709a0d625"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          },
+          {
+            "offer_set_id": "offers_b5f597d2a69a22905d66",
+            "seq": 3,
+            "compatibility": "retained_score_inputs",
+            "available": true,
+            "ok": true,
+            "differences": [],
+            "stored": [
+              "bond_620f5ae143a4b2296e4d",
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "recomputed": [
+              "bond_620f5ae143a4b2296e4d",
+              "bond_41a8539d4be8ab4a8a62",
+              "bond_be7f29003664b46eb14b"
+            ],
+            "reasons_equal": true,
+            "blocked_equal": true
+          }
+        ],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "all_frozen_candidates",
+        "versions_required": 4,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "score/1",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true
+    },
+    "journey_session3_end_journey_replay.json": {
+      "session_id": "session3_end_journey_replay",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "session3_end_journey_replay",
+        "events": 2,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 2,
+        "encounters": 1,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "session3_end_journey_replay",
+        "offer_sets": 0,
+        "results": [],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "all_frozen_candidates",
+        "versions_required": 1,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "score/1",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true
+    },
+    "journey_session3_exit_replay.json": {
+      "session_id": "session3_exit_replay",
+      "provider_calls": 0,
+      "state_replay": {
+        "check": "state_replay",
+        "session_id": "session3_exit_replay",
+        "events": 2,
+        "per_event_mismatches": [],
+        "final_equal": true,
+        "final_revision": 2,
+        "encounters": 1,
+        "compatibility": [],
+        "ok": true
+      },
+      "decision_replay": {
+        "check": "decision_replay",
+        "session_id": "session3_exit_replay",
+        "offer_sets": 0,
+        "results": [],
+        "drift": [],
+        "available": true,
+        "ok": true
+      },
+      "retained_content": {
+        "check": "retained_content",
+        "scope": "all_frozen_candidates",
+        "versions_required": 1,
+        "errors": [],
+        "ok": true
+      },
+      "score_bundle": {
+        "check": "score_bundle",
+        "compatibility": "score/1",
+        "errors": [],
+        "ok": true
+      },
+      "ok": true
+    }
+  },
+  "return_guard": {
+    "candidate_id": "bond_7baf87692de74130c351",
+    "bond_version_id": "bond_7baf87692de74130c351",
+    "destination_page": "RX1",
+    "score_id": "recurrence_fixture",
+    "score_version": 1,
+    "score_config_sha256": "e8478ebef44467b6fa2f537edec2e182de5b5de6b4a5962fbe7125dbf4405ad4",
+    "rule_id": "recurrence_fixture@1/return/min_intervening_encounters",
+    "code": "return_spacing_satisfied",
+    "allowed": true,
+    "encounter_refs": [
+      {
+        "encounter_index": 0,
+        "event_seq": 0,
+        "version_id": "RX1@9013e3e18fb9"
+      }
+    ],
+    "values": {
+      "target_version": "RX1@9013e3e18fb9",
+      "candidate_arrival_index": 3,
+      "previous_encounter_index": 0,
+      "return_index_distance": 3,
+      "intervening_encounters": 2,
+      "minimum": 2
+    }
+  },
+  "historical_files_unchanged": true,
+  "historical_sha256": {
+    "data/core/sessions/s_8e87959b8046/events.jsonl": "288117497a774b2fafc2d9f398d5bd211b309aadf6c54541c937d9081e273b32",
+    "data/core/sessions/s_d09a7820e595/events.jsonl": "75958fab2b9be93f9f496345a4a0d2a6519f30f8eef17087cb5d6bf37a50f479",
+    "data/verification/core_v03_demo_2026-09-25/journey_s_0103376737a9.json": "92fc7e206f372f347f4fb9e7c52f71b27b8616d38c2280b43cd437a2d7538252",
+    "data/verification/core_v03_session2_demo_2026-09-25/journey_s_10169fa2df45.json": "ee206aa6128a28e570e1a2c2c77b4003df5bcef38566ddd06c8551c7527bbe49"
+  },
+  "ok": true
+}
