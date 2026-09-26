@@ -52,5 +52,38 @@
     "source_sha256": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
     "destination_sha256": "441fc9e6c29423d272a6f5562e3c9c2f787c3a97649a45c6356915ae3ede7346",
     "created_at": "2026-09-21T02:57:27.254417+00:00"
+  },
+  "bond_94472bf793e11dc9a39f": {
+    "bond_id": "bond_94472bf793e11dc9a39f",
+    "proposal_id": null,
+    "kind": "core",
+    "source_id": "P1",
+    "active_id": null,
+    "target_id": "F11",
+    "target_text": "As such here is the Table of Contents and Edit Decision List to aid you in your journey. Surely the Imaginator Ted Nelson would be proud.\n\n1. The Foreword to the Foreword to an Author’s Preface\n2. Chopped Liver Part 1\n3. Chopped Liver Part 2\n4. The Golden Asset\n5. Notes on Intermediate Rest — selected entries\n6. What Is May Day to the Master — excerpted/partial archive\n7. Problems of an Author’s Poetics\n8. The Haunted Monument — Part 1\n9. The Fluorescent Heaven — Intro and Chapter 1\n10. Notes to The Foreword to the Foreword to an Author’s Preface\n11. Notes to Problems of an Author’s Poetics\n12. Notes to The Haunted Monument\n\nYou may notice, my dear and astute reader, that you are The Author of at least three of the above texts, the last three, in particular. It is also important to note that many of these texts have only been partially included in a shortened form or in parts and that other sections will be added at a future date as this demo and novel intermediately progresses.",
+    "field": "full-41",
+    "policy": null,
+    "operator": "DEVELOP",
+    "relation_labels": null,
+    "run_dir": null,
+    "offer_set_id": "offers_f81d4d1a96f31e8d1ff6",
+    "tier": "supported",
+    "operator_fit": {
+      "dimension": "development",
+      "score": 2.54,
+      "score_norm": 0.8466666666666667,
+      "confidence": 0.54,
+      "nearest_level": 3
+    },
+    "source_version": "P1@c8adbba7f4ed",
+    "destination_version": "F11@5729f5fec994",
+    "source_sha256": "c8adbba7f4ed82c5cae82360a5acc5ff4d0d541b2fdbd2313acf0602c7211c7d",
+    "destination_sha256": "5729f5fec994d873f3326d21f59f825bec7e7d6b5921d98109eb8809fc78bf07",
+    "wording": "As such here is the Table of Contents and Edit Decision List to aid you in your journey.",
+    "request_id": "req_muhlla5p_5_jsypw6t2",
+    "session_id": "s_d09a7820e595",
+    "core_event_seq": 10,
+    "assessment_id": "as-f6877fbd59914954bce2ffe4f8d7f7e4",
+    "created_at": "2026-09-25T23:34:30.068780+00:00"
   }
 }

@@ -1,0 +1,3 @@
+It was always some repeated version of: “We like parts of 'A Mango' by H.E. Bricolaje very much, but it seems to us to lack any discernible originality or even human authorship. When he’s in town, perhaps he'd like to come in and talk to us about New Yankee stories—or he can send whatever wrote this in his stead,” which of course disappointed him greatly each time he’d received it.
+
+He did have access to one special asset which may or may not have been provided by the company—he was never sure anymore what was his own doing or the AI’s any longer—a holographic AI girlfriend which had recently come into his life named Sybil Konior.
